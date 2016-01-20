@@ -50,23 +50,23 @@ Now browse to the app at `http://localhost:8000/`.
 Adapted from https://scotch.io/tutorials/angularjs-best-practices-directory-structure.
 
 ```
-app/                        // all of the source files for the application
-  shared/                   // acts as reusable components or partials of our site (such as headers/sidebars)
-  components/               // each component is treated as a "mini" Angular app
+app/                          // all of the source files for the application
+  shared/                     // acts as reusable components or partials of our site (such as headers/sidebars)
+  components/                 // each component is treated as a "mini" Angular app
     home/
-      homeController.js     // controller for the "mini" app
-      homeView.html         // view for the "mini" app
-    app.js
-assets/
-    img/                    // Images and icons for your app
-    css/                    // All styles and style related files
-    js/                     // JavaScript files written for your app that are not for angular
-    libs/                   // Where we're going to store the bower components
-index.html
-karma.conf.js               // config file for running unit tests with Karma
-e2e-tests/                  // end-to-end tests
-  protractor-conf.js        // Protractor config file
-  scenarios.js              // end-to-end scenarios to be run by Protractor
+      homeController.js       // controller for the "mini" app
+      homeView.html           // view for the "mini" app
+  assets/
+      img/                    // Images and icons for your app
+      css/                    // All styles and style related files
+      js/                     // JavaScript files written for your app that are not for angular
+      libs/                   // Where we're going to store the bower components
+  app.js
+  index.html
+karma.conf.js                 // config file for running unit tests with Karma
+e2e-tests/                    // end-to-end tests
+  protractor-conf.js          // Protractor config file
+  scenarios.js                // end-to-end scenarios to be run by Protractor
 ```
 
 ## Testing
