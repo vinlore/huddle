@@ -10,12 +10,12 @@ angular.module('cms', [
 .config(function($routeProvider, $locationProvider) {
   $routeProvider
 
-  .when('/home', {
+  .when('/', {
   	templateUrl: 'components/home/homeView.html',
   	controller: 'homeController'
   })
 
-  .otherwise({redirectTo: '/home'});
+  .otherwise({redirectTo: '/'});
 
   $locationProvider.html5Mode(true);
 });
