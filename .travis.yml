@@ -6,7 +6,7 @@ node_js:
 before_install:
  - sudo apt-get update
  - sudo apt-get install curl php5-cli git
- - curl -sS https://getcomposer.org/installer | php -- --install-dir=bin --filename=composer
+ - curl -sS https://getcomposer.org/installer | sudo -H php -- --install-dir=/usr/local/bin --filename=composer
 
 install:
   - npm start
