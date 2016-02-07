@@ -1,6 +1,6 @@
 # CS319 Team Se7en - Huddle
-# A conference Management System for managing and organizing local and international Gobind Sarvar conferences.
-
+A conference Management System for managing and organizing local and international Gobind Sarvar conferences.
+- - - -
 Readme adapted from https://github.com/angular/angular-seed.
 
 ### Prerequisites
