@@ -1,7 +1,12 @@
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
 logs/*
 !.gitkeep
 node_modules/
-libs/
+public/assets/libs/
 tmp
 .DS_Store
 .idea

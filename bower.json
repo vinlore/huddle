@@ -1,7 +1,7 @@
 {
-  "name": "ConferenceManagementSystem",
+  "name": "Huddle",
   "version": "0.0.1",
-  "description": "For managing and organizing international Gobind Sarvar conferences.",
+  "description": "Conference Management System for managing and organizing local and international Gobind Sarvar conferences.",
   "license": "MIT",
   "private": true,
   "dependencies": {

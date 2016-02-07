@@ -1,29 +1,32 @@
-# CS319 Team Se7en - Conference Management System
+# CS319 Team Se7en - Huddle
+# A conference Management System for managing and organizing local and international Gobind Sarvar conferences.
 
 Readme adapted from https://github.com/angular/angular-seed.
 
 ### Prerequisites
 
-You must have node.js and its package manager (npm) installed. You can get them from [http://nodejs.org/](http://nodejs.org/).
+You must have PHP, node.js and composer installed. You can get them from [https://www.apachefriends.org/index.html](XAMPP), [http://nodejs.org/](Node.js), and [https://getcomposer.org/](Composer).
 
 ### Install Dependencies
 
-We have two kinds of dependencies in this project: tools and angular framework code. The tools help us manage and test the application.
+We have 3 kinds of dependencies in this project: laravel, tools and angular framework code. The tools help us manage and test the application.
 
+* We get the laravel depencies via `composer`.
 * We get the tools we depend upon via `npm`, the [node package manager][npm].
 * We get the angular code via `bower`, a [client-side (front-end) code package manager][bower].
 
-We have preconfigured `npm` to automatically run `bower` so we can simply do:
+We have preconfigured `npm` to automatically run `bower` and `composer` so we can simply do:
 
 ```
 npm install
 ```
 
-Behind the scenes this will also call `bower install`.  You should find that you have two new
+Behind the scenes this will also call `bower install` and `composer install --prefer-dist`.  You should find that you have two new
 folders in your project.
 
 * `node_modules` - contains the npm packages for the tools we need
-* `assets/libs` - contains the angular framework files (bower components)
+* `vendor` - contains the required Laravel packages
+* `public/assets/libs` - contains the angular framework files (bower components)
 
 `npm install` may give errors while installing `protractor` due to it installing its optional dependency `node-gyp` which requires python, it's okay to ignore it. Instead, you may use `npm install --no-optional` to not display these errors.
 
@@ -35,12 +38,13 @@ We have preconfigured the project with a simple development web server. The simp
 npm start
 ```
 
-This will automatically run `npm install --no-optional` and `bower install`. 
+This will automatically run `npm install --no-optional`, `bower install`, and `composer install --prefer-dist` to install any dependencies.
+Followed by `php artisan serve` to launch the development server.
 
 To avoid any installations you can also start the server with:
 
 ```
-npm run launch
+php artisan serve
 ```
 
 Now browse to the app at `http://localhost:8000/`.
@@ -50,23 +54,25 @@ Now browse to the app at `http://localhost:8000/`.
 Adapted from https://scotch.io/tutorials/angularjs-best-practices-directory-structure.
 
 ```
-app/                          // all of the source files for the application
-  shared/                     // acts as reusable components or partials of our site (such as headers/sidebars)
-  components/                 // each component is treated as a "mini" Angular app
+app/ 						// backend laravel api folder
+  routes.php                    // where we register the routes of the application
+public/                     // frontend angularjs application folder
+  shared/                       // acts as reusable components or partials of our site (such as headers/sidebars)
+  components/                   // each component is treated as a "mini" Angular app
     home/
-      homeController.js       // controller for the "mini" app
-      homeView.html           // view for the "mini" app
+      homeController.js         	// controller for the "mini" app
+      homeView.html             	// view for the "mini" app
   assets/
-      img/                    // Images and icons for your app
-      css/                    // All styles and style related files
-      js/                     // JavaScript files written for your app that are not for angular
-      libs/                   // Where we're going to store the bower components
-  app.js
-  index.html
-karma.conf.js                 // config file for running unit tests with Karma
-e2e-tests/                    // end-to-end tests
-  protractor-conf.js          // Protractor config file
-  scenarios.js                // end-to-end scenarios to be run by Protractor
+      img/                      	// images and icons for your app
+      css/                      	// all styles and style related files
+      js/                       	// javaScript files written for your app that are not for angular
+      libs/                     	// Where we're going to store the bower components
+  app.js 
+  index.php 					// index.html of the angularjs app
+node_modules/               // all the node modules
+tests/ 						// test folder
+  karma.conf.js                 // config file for running unit tests with Karma
+vendor/                     // core of the Laravel application
 ```
 
 ## Testing
