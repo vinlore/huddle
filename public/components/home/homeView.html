@@ -1,22 +1,3 @@
-<nav class="nav nav-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a href="/" class="navbar-brand">Huddle</a>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="">Admin</a></li>
-                <li><a href="">Manage Accounts</a></li>
-                <li><a href="">Requests</a></li>
-                <li><a href="">Activity Log</a></li>
-                <li><a href="">Profile</a></li>
-                <div class="navbar-form navbar-right">
-                    <button class="btn btn-danger">Log in</button>
-                </div>
-            </ul>
-        </div>
-    </div>
-</nav>
 <div id="public-view">
     <div class="jumbotron">
         <div class="container">
@@ -28,7 +9,7 @@
         <h1>Upcoming Conferences</h1>
         <hr>
         <div class="row">
-            <div class="col-xs-4" ng-repeat="con in conferences">
+            <div class="col-md-4" ng-repeat="con in conferences">
                 <div class="card card-inverse">
                     <img src="{{con.image}}" class="card-img">
                     <div class="card-img-overlay">
