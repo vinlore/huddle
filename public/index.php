@@ -11,6 +11,8 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="assets/libs/bootstrap-css-only/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="components/home/home.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>

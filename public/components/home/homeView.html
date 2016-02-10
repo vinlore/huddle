@@ -1,2 +1,43 @@
-<h1>{{hello}}</h1>
-<a class="btn btn-success" href="/admin">Admin <span class="glyphicon glyphicon-menu-right"></span></a>
+<nav class="nav nav-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">Huddle</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="">Admin</a></li>
+                <li><a href="">Manage Accounts</a></li>
+                <li><a href="">Requests</a></li>
+                <li><a href="">Activity Log</a></li>
+                <li><a href="">Profile</a></li>
+                <div class="navbar-form navbar-right">
+                    <button class="btn btn-danger">Log in</button>
+                </div>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="public-view">
+    <div class="jumbotron">
+        <div class="container">
+            <h3 class="text-center">We are Gobind Sarvar, developing "Today's Learner... Tomorrow's Guide"</h3>
+            <h4 class="text-center">A non-for-profit spiritual learning instiutute with Location across Canada, USA, UK, France, India...</h4>
+        </div>
+    </div>
+    <div class="container" id="home-conferences">
+        <h1>Upcoming Conferences</h1>
+        <hr>
+        <div class="row">
+            <div class="col-xs-4" ng-repeat="con in conferences">
+                <div class="card card-inverse">
+                    <img src="{{con.image}}" class="card-img">
+                    <div class="card-img-overlay">
+                        <h3 class="card-title">{{con.name}}</h3>
+                        <h4 class="card-subtitle">{{con.location}}</h4>
+                        <h4 class="card-subtitle">{{con.date}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
