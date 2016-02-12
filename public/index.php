@@ -1,36 +1,48 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="cms" class="no-js">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Huddle</title>
-  <base href="/"> <!-- Gets rid of /#/ in URL -->
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/libs/bootstrap-css-only/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/app.css">
-  <link rel="stylesheet" href="components/home/home.css">
-
-  <!-- LIBRARIES -->
-  <script src="assets/libs/angular/angular.min.js"></script>
-  <script src="assets/libs/angular-route/angular-route.min.js"></script>
-  <script src="assets/libs/angular-animate/angular-animate.min.js"></script>
-  <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-
-  <!-- CONTROLLERS -->
-  <script src="components/home/homeController.js"></script>
-  <script src="components/admin/adminController.js"></script>
-
-  <!-- APP.JS -->
-  <script src="app.js"></script>
-</head>
-
-<body>
-  <div ng-include="'shared/header.html'"></div>
-  <div ng-view></div>
-</body>
-
-</html>
+<?php
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @author   Taylor Otwell <taylorotwell@gmail.com>
+ */
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader for
+| our application. We just need to utilize it! We'll simply require it
+| into the script here so that we don't have to worry about manual
+| loading any of our classes later on. It feels nice to relax.
+|
+ */
+require __DIR__ . '/../bootstrap/autoload.php';
+/*
+|--------------------------------------------------------------------------
+| Turn On The Lights
+|--------------------------------------------------------------------------
+|
+| We need to illuminate PHP development, so let us turn on the lights.
+| This bootstraps the framework and gets it ready for use, then it
+| will load up this application so that we can run it and send
+| the responses back to the browser and delight our users.
+|
+ */
+$app = require_once __DIR__ . '/../bootstrap/app.php';
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+ */
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+$response = $kernel->handle(
+	$request = Illuminate\Http\Request::capture()
+);
+$response->send();
+$kernel->terminate($request, $response);
