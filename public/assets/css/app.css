@@ -171,3 +171,8 @@
 .navbar-right {
   margin-right: 0px !important;
 }
+
+.btn-half-block {
+  display: block;
+  width: 50%;
+}
