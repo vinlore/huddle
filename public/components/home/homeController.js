@@ -1,7 +1,5 @@
 angular.module('homeCtrl', [])
 .controller('homeController', function($scope) {
-
-    $scope.isCollapsed = true;
 	
 	$scope.conferences = null;
 
