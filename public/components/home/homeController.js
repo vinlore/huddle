@@ -3,7 +3,9 @@ angular.module('homeCtrl', [])
 
     $scope.isCollapsed = true;
 	
-	$scope.conferences = [
+	$scope.conferences = null;
+
+    $scope.pastConferences = [
         {
             name: "India Conference",
             location: "India",
@@ -22,6 +24,6 @@ angular.module('homeCtrl', [])
             date: "Feb 22, 2016",
             image: "assets/img/world-flag.gif"
         }
-    ]
+    ];
 
 })

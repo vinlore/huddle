@@ -9,7 +9,22 @@
         <h1>Upcoming Conferences</h1>
         <hr>
         <div class="row">
-            <div class="col-md-4" ng-repeat="con in conferences">
+            <div class="col-sm-4" ng-if="conferences" ng-repeat="con in conferences">
+                <div class="card card-inverse">
+                    <img src="{{con.image}}" class="card-img">
+                    <div class="card-img-overlay">
+                        <h3 class="card-title">{{con.name}}</h3>
+                        <h4 class="card-subtitle">{{con.location}}</h4>
+                        <h4 class="card-subtitle">{{con.date}}</h4>
+                    </div>
+                </div>
+            </div>
+            <h4 id="upcoming" ng-if="!conferences">No upcoming conferences. Sign up for notifications about new conferences <a href="">here</a>.</h4>
+        </div>
+        <h1>Past Conferences</h1>
+        <hr>
+        <div class="row">
+            <div class="col-sm-4" ng-repeat="con in pastConferences">
                 <div class="card card-inverse">
                     <img src="{{con.image}}" class="card-img">
                     <div class="card-img-overlay">
