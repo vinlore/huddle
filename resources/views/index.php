@@ -22,6 +22,7 @@
   <!-- CONTROLLERS -->
   <script src="components/home/homeController.js"></script>
   <script src="components/admin/adminController.js"></script>
+  <script src="components/userReg/userRegController.js"></script>
 
   <!-- APP.JS -->
   <script src="app.js"></script>

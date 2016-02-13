@@ -5,7 +5,8 @@ angular.module('cms', [
   'ui.bootstrap',
   'ngAnimate',
   'homeCtrl',
-  'adminCtrl'
+  'adminCtrl',
+  'userRegCtrl'
 ])
 
 .config(function($routeProvider, $locationProvider) {
@@ -19,6 +20,11 @@ angular.module('cms', [
   .when('/admin', {
     templateUrl: 'components/admin/adminView.html',
     controller: 'adminController'
+  })
+
+  .when('/register', {
+    templateUrl: 'components/userReg/userRegView.html',
+    controller: 'userRegController'
   })
 
   .otherwise({redirectTo: '/'});
