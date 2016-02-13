@@ -29,7 +29,7 @@
 
 <body>
   <div ng-include="'shared/header.html'"></div>
-  <div ng-view></div>
+  <div class="has-header" ng-view></div>
 </body>
 
 </html>
