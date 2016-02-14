@@ -7,25 +7,32 @@ angular.module('cms', [
   'ngAnimate',
   'homeCtrl',
   'adminCtrl',
-  'userRegCtrl'
+  'userRegCtrl',
+  'conferenceCtrl',
+  'conferenceService'
 ])
 
 .config(function($routeProvider, $locationProvider) {
   $routeProvider
 
-  .when('/', {
+  .when ( '/', {
   	templateUrl: 'components/home/homeView.html',
   	controller: 'homeController'
   })
 
-  .when('/admin', {
+  .when ( '/admin', {
     templateUrl: 'components/admin/adminView.html',
     controller: 'adminController'
   })
 
-  .when('/register', {
+  .when ( '/register', {
     templateUrl: 'components/userReg/userRegView.html',
     controller: 'userRegController'
+  })
+
+  .when ( '/conference-:conferenceId', {
+    templateUrl: 'components/conference/conferenceView.html',
+    controller: 'conferenceController'
   })
 
   .otherwise({redirectTo: '/'});

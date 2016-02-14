@@ -1,7 +1,7 @@
-angular.module('homeCtrl', [])
-.controller('homeController', function($scope) {
+angular.module ( 'homeCtrl', [] )
+.controller ( 'homeController', function ( $scope, Conference ) {
 	
-	$scope.conferences = null;
+	$scope.conferences = Conference.all();
 
     $scope.pastConferences = [
         {

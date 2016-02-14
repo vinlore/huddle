@@ -1,0 +1,58 @@
+[
+    {
+        "conferenceId": 123,
+        "name": "India Conference",
+        "country": "India",
+        "description": "Description",
+        "city": "New Delhi",
+        "startDate": "Feb 13, 2016",
+        "endDate": "Feb 20, 2016",
+        "arrivalTransport": true,
+        "departTransport": false,
+        "address": "District Centre, Saket, New Delhi, Delhi 110017, India",
+        "inventoryId": 123,
+        "accommodationId": 123
+    },
+    {
+        "conferenceId": 234,
+        "name": "Canada Conference",
+        "country": "Canada",
+        "description": "Description",
+        "city": "Surrey",
+        "startDate": "Feb 20, 2016",
+        "endDate": "Feb 27, 2016",
+        "arrivalTransport": false,
+        "departTransport": true,
+        "address": "325 Bay St, Toronto, ON M5H 4G3",
+        "inventoryId": 234,
+        "accommodationId": 234  
+    },
+    {
+        "conferenceId": 987,
+        "name": "France Conference",
+        "country": "France",
+        "description": "Description",
+        "city": "Paris",
+        "startDate": "Feb 15, 2016",
+        "endDate": "Feb 22, 2016",
+        "arrivalTransport": false,
+        "departTransport": false,
+        "address": "10 Avenue d'Iéna, 75116 Paris, France",
+        "inventoryId": 121,
+        "accommodationId": 100  
+    },
+    {
+        "conferenceId": 1,
+        "name": "India Conference",
+        "country": "India",
+        "description": "Description",
+        "city": "New Delhi",
+        "startDate": "Feb 13, 2015",
+        "endDate": "Feb 20, 2015",
+        "arrivalTransport": true,
+        "departTransport": false,
+        "address": "District Centre, Saket, New Delhi, Delhi 110017, India",
+        "inventoryId": 2,
+        "accommodationId": 3
+    }
+]

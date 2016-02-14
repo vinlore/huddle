@@ -24,6 +24,10 @@
   <script src="components/home/homeController.js"></script>
   <script src="components/admin/adminController.js"></script>
   <script src="components/userReg/userRegController.js"></script>
+  <script src="components/conference/conferenceController.js"></script>
+
+  <!-- SERVICES -->
+  <script src="assets/js/conferenceService.js"></script>
 
   <!-- APP.JS -->
   <script src="app.js"></script>
