@@ -2,6 +2,7 @@
 
 angular.module('cms', [
   'ngRoute',
+  'ngResource',
   'ui.bootstrap',
   'ngAnimate',
   'homeCtrl',
