@@ -9,7 +9,8 @@ angular.module('cms', [
   'adminCtrl',
   'userRegCtrl',
   'conferenceCtrl',
-  'conferenceService'
+  'conferenceService',
+  'mapService'
 ])
 
 .config(function($routeProvider, $locationProvider) {

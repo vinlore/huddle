@@ -28,6 +28,7 @@
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
+  <script src="assets/js/mapService.js"></script>
 
   <!-- APP.JS -->
   <script src="app.js"></script>

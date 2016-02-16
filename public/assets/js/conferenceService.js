@@ -1,16 +1,15 @@
-angular.module ( 'conferenceService', [] )
-.factory ( 'Conference', function ( $resource ) {
+angular.module( 'conferenceService', [] )
+.factory( 'Conference', function ( $resource ) {
     
     return {
 
         all : function () {
-            return $resource ( 'mockdata/conferences.json' ).query();
+            return $resource( 'mockdata/conferences.json' ).query();
         },
 
-        get :  function (cid) {
-            return $resource ( 'mockdata/conferences.json' ).query()[0];
+        get : function (cid) {
+            return $resource( '/api/conferences/:cid', {cid: cid});
         }
-
     }
 
 })

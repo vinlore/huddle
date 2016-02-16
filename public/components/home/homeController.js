@@ -1,7 +1,14 @@
 angular.module ( 'homeCtrl', [] )
-.controller ( 'homeController', function ( $scope, Conference ) {
+.controller ( 'homeController', function ( $scope, Conference, Gmap ) {
 	
 	$scope.conferences = Conference.all();
+    console.log($scope.conferences);
+
+    // Creates Google Static Maps API URL using conference object using mapService:Gmap
+    $scope.getMap = function(conference) {
+        var location = conference.city + ", " + conference.country;
+        return Gmap(location, "400x250", 10, []);
+    }
 
     $scope.pastConferences = [
         {

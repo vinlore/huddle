@@ -11,7 +11,7 @@
         <div class="row">
             <a class="col-sm-4" ng-if="conferences" href="/conference-{{con.conferenceId}}" ng-repeat="con in conferences">
                 <div class="card card-inverse">
-                    <img src="{{'assets/img/canada-flag.gif'}}" class="card-img">
+                    <img ng-src="{{getMap(con)}}" class="card-img">
                     <div class="card-img-overlay">
                         <h3 class="card-title">{{con.name}}</h3>
                         <h4 class="card-subtitle">{{con.city}}, {{con.country}}</h4>
@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-sm-4" ng-repeat="con in pastConferences">
                 <div class="card card-inverse">
-                    <img src="{{con.image}}" class="card-img">
+                    <img ng-src="{{getMap(con)}}" class="card-img">
                     <div class="card-img-overlay">
                         <h3 class="card-title">{{con.name}}</h3>
                         <h4 class="card-subtitle">{{con.location}}</h4>
