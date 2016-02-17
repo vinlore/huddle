@@ -1,37 +1,22 @@
 #home-conferences img {
-    width: 100%;
-    max-height: 300px;
+  width: 100%;
+  max-height: 300px;
 }
 
-#home-conferences
-.card-title,
-.card-subtitle {
-    margin-top: 0px !important;
-    color: white !important;
-    text-shadow: 1px 1px 2px black !important;
-    margin-bottom: 10px;
+#home .jumbotron {
+  background: url("/assets/img/gobindsarvar.jpg");
+  background-size: cover;
 }
 
-#public-view
-.jumbotron {
-    color: white;
-    text-shadow: 1px 1px 2px black !important;
-    background: url("/assets/img/gobindsarvar.jpg");
-    background-size: cover;
-    height: 350px;
-    box-shadow: 0px 1px 2px black;
+#home .jumbotron .container {
+  top: 150px;
+  position: relative;
 }
 
-#public-view
-.jumbotron .container {
-    top: 150px;
-    position: relative;
+#home hr {
+  margin-top: 0px;
 }
 
-#publilc-view hr {
-    margin-top: 0px;
-}
-
-#public-view #upcoming {
-    margin-left: 15px;
+#home #upcoming {
+  margin-left: 15px;
 }
