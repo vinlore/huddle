@@ -1,0 +1,8 @@
+#conference .jumbo-container h1,
+#conference .jumbo-container h3 {
+  width: 70%;
+}
+
+#conference hr {
+  margin-top: 0px;
+}
