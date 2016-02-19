@@ -1,0 +1,9 @@
+#login #button-container {
+    display: flex;
+    align-items: center;
+    flex-flow: column nowrap;
+}
+
+#login #button-container .btn:first-child {
+    margin-bottom: 10px;
+}

@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="stylesheet" href="components/home/home.css">
   <link rel="stylesheet" href="components/conference/conference.css">
+  <link rel="stylesheet" href="components/login/login.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -27,10 +28,14 @@
   <script src="components/admin/adminController.js"></script>
   <script src="components/userReg/userRegController.js"></script>
   <script src="components/conference/conferenceController.js"></script>
+  <script src="components/login/loginController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
   <script src="assets/js/mapService.js"></script>
+
+  <!-- DIRECTIVES -->
+  <script src="assets/js/customDirectives.js"></script>
 
   <!-- APP.JS -->
   <script src="app.js"></script>

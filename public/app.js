@@ -9,9 +9,11 @@ angular.module('cms', [
   'adminCtrl',
   'userRegCtrl',
   'conferenceCtrl',
+  'loginCtrl',
   'conferenceService',
   'mapService',
-  'satellizer'
+  'satellizer',
+  'customDirs'
 ])
 
 .config(function($routeProvider, $locationProvider, $authProvider) {
@@ -20,6 +22,11 @@ angular.module('cms', [
   .when ( '/', {
   	templateUrl: 'components/home/homeView.html',
   	controller: 'homeController'
+  })
+
+  .when ( '/login', {
+    templateUrl: 'components/login/loginView.html',
+    controller: 'loginController'
   })
 
   .when ( '/admin', {
