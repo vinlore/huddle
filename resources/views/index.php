@@ -20,6 +20,7 @@
   <script src="assets/libs/angular-animate/angular-animate.min.js"></script>
   <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script src="assets/libs/angular-resource/angular-resource.min.js"></script>
+  <script src="assets/libs/satellizer/satellizer.min.js"></script>
 
   <!-- CONTROLLERS -->
   <script src="components/home/homeController.js"></script>

@@ -10,10 +10,11 @@ angular.module('cms', [
   'userRegCtrl',
   'conferenceCtrl',
   'conferenceService',
-  'mapService'
+  'mapService',
+  'satellizer'
 ])
 
-.config(function($routeProvider, $locationProvider) {
+.config(function($routeProvider, $locationProvider, $authProvider) {
   $routeProvider
 
   .when ( '/', {
