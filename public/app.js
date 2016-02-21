@@ -11,9 +11,11 @@ angular.module('cms', [
   'conferenceCtrl',
   'loginCtrl',
   'conferenceService',
+  'eventService',
   'mapService',
   'satellizer',
-  'customDirs'
+  'customDirs',
+  'customFilters'
 ])
 
 .config(function($routeProvider, $locationProvider, $authProvider) {

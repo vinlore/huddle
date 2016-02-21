@@ -32,10 +32,14 @@
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
+  <script src="assets/js/eventService.js"></script>
   <script src="assets/js/mapService.js"></script>
 
   <!-- DIRECTIVES -->
   <script src="assets/js/customDirectives.js"></script>
+
+  <!-- FILTERS -->
+  <script src="assets/js/customFilters.js"></script>
 
   <!-- APP.JS -->
   <script src="app.js"></script>

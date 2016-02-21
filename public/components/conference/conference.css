@@ -6,3 +6,12 @@
 #conference hr {
   margin-top: 0px;
 }
+
+.input-dates .input-group:last-child {
+    margin-left: 10px;
+}
+
+#events-container img {
+    width: 100%;
+    max-height: 300px;
+}

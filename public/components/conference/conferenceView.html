@@ -1,12 +1,29 @@
 <div id="conference">
     <div class="jumbotron">
         <div class="jumbo-container">
-            <h1>{{conference.name}}</h1>
-            <h3>{{conference.city}}, {{conference.country}}</h3>
-            <h3>{{conference.startDate}} to {{conference.endDate}}</h3>
-            <h3>{{conference.description}}</h3>
-            <button type="button" class="btn btn-primary edit">
+            <input type="text" class="input-xxlg" ng-model="conference.name" ng-readonly="isDisabled">
+            <input type="text" class="input-xlg" ng-model="conference.city" ng-readonly="isDisabled">
+            <input type="text" class="input-xlg" ng-model="conference.country" ng-readonly="isDisabled">
+            <div class="input-dates">
+                <div class="input-group">
+                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.startDate" is-open="calendar.isOpen1" ng-readonly="isDisabled">
+                    <span class="input-group-btn" ng-hide="isDisabled">
+                        <button type="button" class="btn btn-link" ng-click="calendar.isOpen1 = !calendar.isOpen1"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div> to
+                <div class="input-group">
+                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.endDate" is-open="calendar.isOpen2" ng-readonly="isDisabled">
+                    <span class="input-group-btn" ng-hide="isDisabled">
+                        <button type="button" class="btn btn-link" ng-click="calendar.isOpen2 = !calendar.isOpen2"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+            <input type="text" class="input-xlg" ng-model="conference.description" ng-readonly="isDisabled">
+            <button type="button" class="btn btn-primary btn-lg edit-btn" ng-click="isDisabled = false" ng-show="isDisabled">
                 <span class="glyphicon glyphicon-edit"></span> Edit
+            </button>
+            <button type="button" class="btn btn-info btn-lg edit-btn" ng-click="updateConference()" ng-hide="isDisabled">
+                <span class="glyphicon glyphicon-ok"></span> Save Changes
             </button>
             <button type="button" class="btn btn-success btn-lg attendance">
                 <span class="glyphicon glyphicon-ok"></span> Attend
@@ -21,7 +38,7 @@
             </button>
         </div>
     </div>
-    <div class="container">
+    <div class="container" id="events-container">
         <h1>Events</h1>
         <hr>
         <div class="row">
@@ -31,7 +48,7 @@
                     <div class="card-img-overlay">
                         <h3 class="card-title">{{event.name}}</h3>
                         <h4 class="card-subtitle">{{event.address}}</h4>
-                        <h4 class="card-subtitle">{{event.startTime}} to {{event.endTime}}</h4>
+                        <h4 class="card-subtitle">{{event.startTime | time}} to {{event.endTime | time}}</h4>
                         <h4 class="card-subtitle">{{event.speaker}}</h4>
                     </div>
                 </div>
