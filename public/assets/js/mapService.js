@@ -15,7 +15,7 @@ angular.module('mapService', [])
         var parameters = p1 + p2 + p3;
         var m;
         for ( m = 0; m < markers.length; m++ ) {
-            parameters += "&markers=color:" + m.color + "%7Clabel:" + m.label + m.location;
+            parameters += "&markers=color:" + markers[m].color + "%7Clabel:" + markers[m].label + "%7C" + markers[m].location;
         }
         return base_url + parameters + "&format=jpg";
 
