@@ -10,7 +10,7 @@
                     <span class="input-group-btn" ng-hide="isDisabled">
                         <button type="button" class="btn btn-link" ng-click="calendar.isOpen1 = !calendar.isOpen1"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
-                </div> to
+                </div>&nbsp to &nbsp
                 <div class="input-group">
                     <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.endDate" is-open="calendar.isOpen2" ng-readonly="isDisabled">
                     <span class="input-group-btn" ng-hide="isDisabled">
@@ -19,16 +19,21 @@
                 </div>
             </div>
             <input type="text" class="input-xlg" ng-model="conference.description" ng-readonly="isDisabled">
-            <button type="button" class="btn btn-primary btn-lg edit-btn" ng-click="isDisabled = false" ng-show="isDisabled">
+            <button type="button" class="btn btn-primary edit-btn" ng-click="editConference()" ng-show="isDisabled">
                 <span class="glyphicon glyphicon-edit"></span> Edit
             </button>
-            <button type="button" class="btn btn-info btn-lg edit-btn" ng-click="updateConference()" ng-hide="isDisabled">
+            <div class="button-container edit-btn">
+            <button type="button" class="btn btn-success" ng-click="updateConference()" ng-hide="isDisabled">
                 <span class="glyphicon glyphicon-ok"></span> Save Changes
             </button>
-            <button type="button" class="btn btn-success btn-lg attendance">
+            <button type="button" class="btn btn-danger" ng-click="resetConference()" ng-hide="isDisabled">
+                <span class="glyphicon glyphicon-remove"></span> Cancel
+            </button>
+            </div>
+            <button type="button" class="btn btn-info btn-lg attendance">
                 <span class="glyphicon glyphicon-ok"></span> Attend
             </button>
-            <button type="button" class="btn btn-success btn-lg attendance">
+            <button type="button" class="btn btn-info btn-lg attendance">
                 <span class="attending">
                     <span class="glyphicon glyphicon-ok"></span> Attending
                 </span>

@@ -15,6 +15,7 @@ angular.module ( 'conferenceCtrl', [] )
         "inventoryId": 123,
         "accommodationId": 123
     };
+    var conferenceBackup = {};
 
     $scope.events = Events.all();
 
@@ -25,8 +26,20 @@ angular.module ( 'conferenceCtrl', [] )
 
     $scope.isDisabled = true;
 
+    // Makes conference fields editable and creates a 'backup' of the conference data
+    $scope.editConference = function () {
+        $scope.isDisabled = false;
+        angular.extend(conferenceBackup, $scope.conference);
+    }
+
     // Saves any conference changes to server
     $scope.updateConference = function () {
+        $scope.isDisabled = true;
+    };
+
+    // Restores from conference backup if changes do not want to be saved to server
+    $scope.resetConference = function () {
+        $scope.conference = conferenceBackup;
         $scope.isDisabled = true;
     }
 
