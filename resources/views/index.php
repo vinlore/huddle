@@ -11,6 +11,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="assets/libs/bootstrap-css-only/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="components/home/home.css">
   <link rel="stylesheet" href="components/conference/conference.css">
   <link rel="stylesheet" href="components/login/login.css">
