@@ -1,45 +1,67 @@
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .input-xxlg {
-    font-size: 63px !important;
-    height: 70px !important;
+    font-size: 40px !important;
+    height: 45px !important;
+    width: 100% !important;
+    text-align: center;
+  }
+  .input-xlg {
+    font-size: 18px !important;
+    height: 33px !important;
+  }
+  .textarea-xlg {
+    font-size: 18px !important;
+  }
+  .input-dates {
+    font-size: 18px !important;
+    width: 100% !important;
+    justify-content: center;
+  }
+  .input-group {
+    max-width: 140px !important;
+  }
+  .jumbotron input[type="custom-date"] {
+    width: 115px !important;
+  }
+  .jumbo-container {
+    display: flex !important;
+    flex-flow: column wrap !important;
+    align-items: center !important;
+  }
+  .jumbotron {
+    height: 350px !important;
   }
 }
 
 /* Bootswatch Paper theme input */
-.jumbotron input[type="text"] {
+.jumbotron input[type="text"],
+.jumbotron textarea,
+.jumbotron input[type="custom-date"] {
   border: medium none;
   padding: 0px;
   border-radius: 0px;
-  box-shadow: 0px -1px 0px #DDD inset;
   text-shadow: 1px 1px 2px black !important;
   background-color: transparent;
   background-image: none;
   width: 70%;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-  -webkit-box-shadow: inset 0 -2px 0 #2196f3;
-  box-shadow: inset 0 -2px 0 #2196f3;
+  -webkit-box-shadow: inset 0 -1px 0 #ffffff;
+  box-shadow: inset 0 -1px 0 #ffffff;
+  resize: none;
 }
 
 .jumbotron input[type="custom-date"] {
-  border: medium none;
-  padding: 0px;
-  border-radius: 0px;
-  box-shadow: 0px -1px 0px #DDD inset;
-  text-shadow: 1px 1px 2px black !important;
-  background-color: transparent;
-  background-image: none;
-  width: 150px !important;
-  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-  -webkit-box-shadow: inset 0 -2px 0 #2196f3;
-  box-shadow: inset 0 -2px 0 #2196f3;
-  color: white;
+  color: white !important;
+  width: 150px;
 }
 
-.jumbotron input:read-only {
+.jumbotron input:read-only,
+.jumbotron textarea:read-only {
   box-shadow: none;
 }
 
-.jumbotron input:-moz-read-only {
+.jumbotron input:-moz-read-only,
+.jumbotron textarea:-moz-read-only {
   box-shadow: none;
 }
 
@@ -47,22 +69,26 @@
   width: 70%;
   font-size: 24px;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   align-items: center;
 }
 
 .input-dates .input-group {
-  max-width: 190px;
+  max-width: 180px;
 }
 
 .input-xxlg {
-  font-size: 36px;
-  height: 43px;
+  font-size: 60px;
+  height: 70px;
 }
 
 .input-xlg {
   font-size: 24px;
   height: 40px;
+}
+
+.textarea-xlg {
+  font-size: 24px;
 }
 
 .has-header {
@@ -265,7 +291,7 @@
 }
 
 .jumbo-container {
-  padding-left: 30px;
+  padding-left: 15px;
   padding-right: 15px;
   margin-left: auto;
   margin-right: auto;
@@ -273,32 +299,32 @@
   position: relative;
 }
 
-.jumbo-container .attendance {
+.jumbotron .attendance {
   position: absolute;
   right: 15px;
   bottom: 0px;
   min-width: 150px;
 }
 
-.jumbo-container .attendance:hover {
+.jumbotron .attendance:hover {
   color: #FFF;
   background-color: #D9534F;
   border-color: #D43F3A;
 }
 
-.jumbo-container .leave {
+.jumbotron .leave {
   display: none;
 }
 
-.jumbo-container .attendance:hover .attending {
+.jumbotron .attendance:hover .attending {
   display: none;
 }
 
-.jumbo-container .attendance:hover .leave {
+.jumbotron .attendance:hover .leave {
   display: inline;
 }
 
-.jumbo-container .edit-btn {
+.jumbotron .edit-btn {
   position: absolute;
   right: 15px;
   top: 0px;
