@@ -14,9 +14,6 @@
 /**
  * HOME PAGE
  */
-Route::get('/', function () {
-	return View::make('index');
-});
 
 // Laravel welcome page for demonstration
 Route::get('welcome', function () {
@@ -24,18 +21,30 @@ Route::get('welcome', function () {
 });
 
 /**
+ * DEV - TESTING PAGES
+ */
+ 	//Authenticaiton and Login
+Route::post('auth', 'authenticate_user_controller@authenticate_user');
+Route::get('login', function(){
+	return View::make('login');
+});
+	//Registration page
+Route::post('create', 'create_user_controller@create_user');
+Route::get('register', function() {
+	return View::make('register');
+});
+
+/**
  * API ROUTES
  */
-Route::group(['prefix' => 'api'], function () {
-	// example from one page comment app
+	//Security for all url with /api
+	Route::group(['middleware' => ['authToken'],'prefix' => 'api'], function () {
+		Route::get('tok', function() {
+		  return "Protected resource";
+		});
+	});
 
-	// since we will be using this just for CRUD, we won't need create and edit
-	// Angular will handle both of those forms
-	// this ensures that a user can't access api/create or api/edit when there's nothing there
-	Route::resource('comments', 'CommentController', // URL at /api/comments
-		['only' => array('index', 'store', 'destroy')]);
 
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +56,3 @@ Route::group(['prefix' => 'api'], function () {
 | kernel and includes session state, CSRF protection, and more.
 |
  */
-
-Route::group(['middleware' => ['web']], function () {
-	//
-});

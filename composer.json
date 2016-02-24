@@ -6,7 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"
+        "laravel/framework": "5.2.*",
+        "cartalyst/sentinel": "2.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -14,6 +15,7 @@
         "phpunit/phpunit": "~4.0",
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*"
+
     },
     "autoload": {
         "classmap": [
