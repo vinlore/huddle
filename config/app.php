@@ -151,6 +151,7 @@ return [
         /*
          * Application Service Providers...
          */
+        'Cartalyst\Sentinel\Laravel\SentinelServiceProvider',
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
@@ -170,6 +171,10 @@ return [
     */
 
     'aliases' => [
+        'Activation' => 'Cartalyst\Sentinel\Laravel\Facades\Activation',
+        'Reminder'   => 'Cartalyst\Sentinel\Laravel\Facades\Reminder',
+        'Sentinel'   => 'Cartalyst\Sentinel\Laravel\Facades\Sentinel',
+
 
         'App'       => Illuminate\Support\Facades\App::class,
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,
