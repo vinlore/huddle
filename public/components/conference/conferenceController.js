@@ -17,6 +17,18 @@ angular.module ( 'conferenceCtrl', [] )
     };
     var conferenceBackup = {};
 
+    $scope.inventory = [
+        {
+            name: "Water"
+        },
+        {
+            name: "Toothbrush"
+        },
+        {
+            name: "Towel"
+        }
+    ]
+
     $scope.events = Events.all();
 
     $scope.calendar = {
