@@ -6,23 +6,19 @@ class verification_controller extends Controller{
         DEV TEST - VERIFICATION
     */
     function verification_code_check(){
-        var_dump("Able to load the page");
         $code = $_GET['verify'];
+        $userID = $_GET['id'];
 
-        var_dump("activation :".$code);
-        $userID = \DB::table('users')
-                        ->where('activationCode',$code)
-                        ->pluck('id');
-        $userID = $userID[0];
-        var_dump("Plucked matching User ID:".$userID);
-        if($userID == NULL)
-        {
-            //TODO: redirect to fail to verify
+        $user = \Sentinel::findById($userID);
+        if(\Activation::complete($user,$code)){
+
+            //TODO -
+            //Activation was Succesfull
+            var_dump("Success");
         }else{
-            $sentinelUsers = \Sentinel::findById($userID);
-            var_dump("Able to find User");
-            $activation = \Activation::create($sentinelUsers);
-            var_dump("Able to activate User");
+            //TODO -
+            //IT was no found/ Not complete
+            var_dump("Not Successful");
         }
     }
 }

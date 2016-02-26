@@ -19,30 +19,18 @@ class create_user_controller extends Controller {
     		'last_name' => $lastName,
     	);
         try{
+            //Register User to Database
             $user = \Sentinel::register($credential);
-            $checkID = \DB::table('users')->where('email',$email)->pluck('id');
-            $checkID = $checkID[0];
-            var_dump("User Exists: ".$checkID);
-            if($checkID == NULL)
-            {
-                var_dump("Something went wrong with the registration");
-                //TODO When registering user fails
-            }else{
-                    var_dump("This user id: ".$checkID);
-                    var_dump("This is the email: ".$email);
-                    \DB::table('users')->where('id',$checkID)
-                                        ->where('email',$email)
-                                        ->update(["activationCode" => $activationCode]);
-                    var_dump("Able to Update Activation code");
-                //TODO Sending email
-                /*Mail::raw('Text to e-mail', function($message)
-                {
-                    $message->from('evilpranks@gmail.com', 'Laravel');
 
-                    $message->to('m4rtin.t@gmail.com');
-                });
-                */
-            }
+            //Check if User has been saved to DB
+            $activateUser = \Sentinel::findById($user->id);
+
+            //Put User on Activate Table
+            $activation = \Activation::create($activateUser);
+
+            var_dump($activation->code);
+            //Send Email to User with Activation code
+
             return \Response::json($user->toArray());
         }catch(Exception $e)
         {
