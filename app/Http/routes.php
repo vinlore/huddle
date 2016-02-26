@@ -36,10 +36,42 @@ Route::get ('register', function() {
 
 Route::get('verif', 'verification_controller@verification_code_check');
 
-Route::get('roleDev', function(){
-	$role = Sentinel::findRoleById(6);
+Route::get('createRole', function(){
+	//Creating roles - Called Admin
+	$role = Sentinel::getRoleRepository()->createModel()->create([
+    'name' => 'Admin',
+    'slug' => 'Admin',]);
 	var_dump($role);
 });
+
+Route::get('assignRole', function(){
+
+	$user = Sentinel::findById(50);
+	$role = Sentinel::findRoleByName('Admin');
+	$role->users()->attach($user);
+	var_dump($role);
+});
+
+Route::get('removeRole', function(){
+
+	$user = Sentinel::findById(50);
+	$role = Sentinel::findRoleByName('Admin');
+	$role->users()->detach($user);
+	var_dump($role);
+});
+
+Route::get('addRolePermission', function(){
+	$role = Sentinel::findRoleById(1);
+
+	$role->permissions = [
+    	'event.update' => true,
+    	'event.view' => false,
+	];
+
+	$role->save();
+	var_dump($role);
+});
+
 /**
  * API ROUTES
  */
