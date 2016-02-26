@@ -10,40 +10,48 @@ angular.module('cms', [
   'userRegCtrl',
   'conferenceCtrl',
   'loginCtrl',
+  'createConferenceCtrl',
   'conferenceService',
   'eventService',
   'mapService',
+  'countryService',
   'satellizer',
   'customDirs',
-  'customFilters'
+  'customFilters',
+  'google.places'
 ])
 
 .config(function($routeProvider, $locationProvider, $authProvider) {
   $routeProvider
 
-  .when ( '/', {
+  .when( '/', {
   	templateUrl: 'components/home/homeView.html',
   	controller: 'homeController'
   })
 
-  .when ( '/login', {
+  .when( '/login', {
     templateUrl: 'components/login/loginView.html',
     controller: 'loginController'
   })
 
-  .when ( '/admin', {
+  .when( '/admin', {
     templateUrl: 'components/admin/adminView.html',
     controller: 'adminController'
   })
 
-  .when ( '/register', {
+  .when( '/register', {
     templateUrl: 'components/userReg/userRegView.html',
     controller: 'userRegController'
   })
 
-  .when ( '/conference-:conferenceId', {
+  .when( '/conference-:conferenceId', {
     templateUrl: 'components/conference/conferenceView.html',
     controller: 'conferenceController'
+  })
+
+  .when( '/create-conference', {
+    templateUrl: 'components/createConference/createConferenceView.html',
+    controller: 'createConferenceController'
   })
 
   .otherwise({redirectTo: '/'});

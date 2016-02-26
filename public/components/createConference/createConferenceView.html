@@ -1,0 +1,82 @@
+<div id="create-conference">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="text-center">Create New Conference</h1>
+        </div>
+        <div class="col-sm-6">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="name" ng-model="conference.name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="country" class="col-sm-3 control-label">Country</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="country" ng-model="conference.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="city" class="col-sm-3 control-label">City</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="city" ng-model="conference.city" g-places-autocomplete options="citiesOnly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="col-sm-3 control-label">Address</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="address" ng-model="conference.address" g-places-autocomplete options="addressOnly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="start-date" class="col-sm-3 control-label">Start Date</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="start-date" ng-model="conference.startDate" uib-datepicker-popup="MMM dd, yyyy" is-open="calendar.isOpen1">
+                            <span class="input-group-btn">
+                                <button class="btn btn-link" ng-click="calendar.isOpen1 = !calendar.isOpen1">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="end-date" class="col-sm-3 control-label">End Date</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="end-date" ng-model="conference.endDate" uib-datepicker-popup="MMM dd, yyyy" is-open="calendar.isOpen2">
+                            <span class="input-group-btn">
+                                <button class="btn btn-link" ng-click="calendar.isOpen2 = !calendar.isOpen2">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="col-sm-3 control-label">Description</label>
+                    <div class="col-sm-9">
+                        <textarea rows="5" type="text" class="form-control" ng-model="conference.description" maxlength="300"></textarea>
+                        <span class="help-block">Max 300 characters</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <label>
+                    <input type="checkbox" ng-model="isInventory"> Inventory
+                </label>
+                <ul class="list-group" ng-show="isInventory">
+                    <li class="list-group-item">
+                        <input type="text" ng-model="item.name">
+                        <input type="number" ng-model="item.number">
+                        <button class="btn btn-link"><i class="glyphicon glyphicon-plus"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
