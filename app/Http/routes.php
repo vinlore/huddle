@@ -24,16 +24,22 @@ Route::get('welcome', function () {
  * DEV - TESTING PAGES
  */
  	//Authenticaiton and Login
-Route::post('auth', 'authenticate_user_controller@authenticate_user');
-Route::get('login', function(){
+Route::post ('auth', 'authenticate_user_controller@authenticate_user');
+Route::get ('login', function(){
 	return View::make('login');
 });
 	//Registration page
-Route::post('create', 'create_user_controller@create_user');
-Route::get('register', function() {
+Route::post ('create', 'create_user_controller@create_user');
+Route::get ('register', function() {
 	return View::make('register');
 });
 
+Route::get('verif', 'verification_controller@verification_code_check');
+
+Route::get('roleDev', function(){
+	$role = Sentinel::findRoleById(6);
+	var_dump($role);
+});
 /**
  * API ROUTES
  */
