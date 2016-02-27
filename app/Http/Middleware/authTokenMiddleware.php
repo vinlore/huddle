@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Middleware;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 use Closure;
-
 class authTokenMiddleware
 {
     /**
@@ -17,12 +17,11 @@ class authTokenMiddleware
     {
 
         	$payload = $request->header('X-Auth-Token');
-            var_dump($payload);
+            //var_dump($payload);
 
-        	$user =  \DB::table('users')->where('api_token',$payload)->first();//$userModel->where('api_token',$payload)->first();
-
+        	$user =  \DB::table('users')->where('api_token',$payload)->first();
         		 if(!$payload || !$user) {
-
+                //if(!$user = \Sentinel::check()){
         			 $response = \Response::json([
         				 'error' => true,
         				 'message' => 'Not authenticated',

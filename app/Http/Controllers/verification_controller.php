@@ -14,11 +14,11 @@ class verification_controller extends Controller{
 
             //TODO -
             //Activation was Succesfull
-            var_dump("Success");
+            return redirect('success');
         }else{
             //TODO -
             //IT was no found/ Not complete
-            var_dump("Not Successful");
+            return redirect('fail');
         }
     }
 }

@@ -34,10 +34,34 @@ Route::get ('register', function() {
 	return View::make('register');
 });
 
+	//Sucess or Fail Page
+Route::get('success', function(){
+		return "Success";
+});
+Route::get('fail', function(){
+	return "Fail";
+});
+
+	//Checking the output
+Route::get('checkUser', function(){
+	if ($user = Sentinel::check())
+{
+    // User is logged in and assigned to the `$user` variable.
+	var_dump($user);
+}
+else
+{
+    // User is not logged in
+	var_dump($user);
+}
+
+});
+
+	//Activate the Account
 Route::get('verif', 'verification_controller@verification_code_check');
 
-Route::get('createRole', function(){
 	//Creating roles - Called Admin
+Route::get('createRole', function(){
 	$role = Sentinel::getRoleRepository()->createModel()->create([
     'name' => 'Admin',
     'slug' => 'Admin',]);
