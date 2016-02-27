@@ -1,8 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-
 class authenticate_user_controller extends Controller {
     /*
         DEV TEST - CREATE USER
@@ -19,6 +17,7 @@ class authenticate_user_controller extends Controller {
         try{
             //Check if User Exists within Database
             if(!$user = \Sentinel::findByCredentials(['login' => $email])){
+                //TODO - This User does not exist
                 return "User Does not Exist";
             }
 
