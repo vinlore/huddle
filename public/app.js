@@ -54,6 +54,11 @@ angular.module('cms', [
     controller: 'createConferenceController'
   })
 
+  .when( '/profile', {
+    templateUrl: 'components/profile/profileView.html',
+    controller: 'profileViewController'
+  })
+
   .otherwise({redirectTo: '/'});
 
   $locationProvider.html5Mode(true);
