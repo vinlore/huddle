@@ -1,6 +1,6 @@
 angular.module ( 'userRegCtrl', [] )
 .controller ( 'userRegController', function ( $scope ) {
-    
+
     $scope.user = {
         "Username": null,
         "Password": null,

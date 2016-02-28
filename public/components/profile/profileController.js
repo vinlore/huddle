@@ -22,6 +22,6 @@ angular.module ( 'profileCtrl', [] )
 
   $scope.submit = function () {
 
-  }
+  };
 
 });
