@@ -12,6 +12,7 @@ angular.module('cms', [
   'loginCtrl',
   'createConferenceCtrl',
   'profileCtrl',
+  'activityCtrl',
   'conferenceService',
   'eventService',
   'mapService',
@@ -58,6 +59,11 @@ angular.module('cms', [
   .when( '/profile', {
     templateUrl: 'components/profile/profileView.html',
     controller: 'profileViewController'
+  })
+
+  .when( '/logs', {
+    templateUrl: 'components/activityLog/activityLogView.html',
+    controller: 'activityLogController'
   })
 
   .otherwise({redirectTo: '/'});
