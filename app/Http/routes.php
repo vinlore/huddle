@@ -121,9 +121,111 @@ Route::get('addRolePermission', function(){
 	//Security for all url with /api
 	Route::group(['middleware' => ['authToken'],'prefix' => 'api'], function () {
 		//Development Purposes
-		Route::get('tok', function() {
+		Route::get('tok' , function() {
 		  return "Protected resource";
 		});
+
+		/*
+		* 	Conference API
+		*/
+
+		//Return list of conferences
+		Route::get('conferences' , 'Conference_Controller@get_conferences');
+
+		//Returns a conference
+		Route::get('conferences' , 'Conference_Controller@get_conference');
+
+		//Delete a conference
+		Route::delete('conferences' , 'Conference_Controller@delete_conference');
+
+		//Creates a conference
+		Route::post('conferences' ,  'Conference_Controller@create_conference');
+
+		//Updates a conference
+		Route::put('conferences' , 'Conference_Controller@update_conference');
+
+		//Return list of attendees
+		Route::get('conferences/attendees' , 'Conference_Controller@get_attendees');
+
+		//Add an attendee
+		Route::post('conferences/attendees' , 'Conference_Controller@add_attendee');
+
+		//Delete an attendee
+		Route::delete('conferences/attendees' , 'Conference_Controller@delete_attendee');
+
+		//Update attendee
+		Route::put('conferences/attendees' , 'Conference_Controller@update_attendee');
+
+		//Returns list of accommodations
+		Route::get('conferences/accommodations' , 'Conference_Controller@get_accommodations');
+
+		//Adds accommodations
+		Route::post('conferences/accommodations' , 'Conference_Controller@add_accommodation');
+
+		//Delete accommodation
+		Route::delete('conferences/accommodations' , 'Conference_Controller@delete_accommodation');
+
+		//Update accommodation
+		Route::put('conferences/accommodations' , 'Conference_Controller@update_accommodation');
+
+		//Returns list of inventory items
+		Route::get('conferences/inventory' , 'Conference_Controller@get_inventory');
+
+		//Add item to inventory
+		Route::post('conferences/inventory' , 'Conference_Controller@add_item');
+
+		//Delete item from inventory
+		Route::delete('conferences/inventory' , 'Conference_Controller@delete_item');
+
+		//Update item from inventory
+		Route::put('conferences/inventory' , 'Conference_Controller@update_item');
+
+		/*
+		*	Event API
+		*/
+
+		//Returns a list of events
+		Route::get('conferences/events' , 'Event_Controller@get_events');
+
+		//Returns an events
+		Route::get('conferences/event' , 'Event_Controller@get_event');
+
+		//Deletes an event
+		Route::delete('conferences/events' , 'Event_Controller@delete_event');
+
+		//Create an events
+		Route::post('conferences/events' , 'Event_Controller@create_event');
+
+		//Update an event
+		Route::put('conferences/events' , 'Event_Controller@update_event');
+
+		//Return List of attendees
+		Route::get('conferences/events/attendees' , 'Event_Controller@get_attendees');
+
+		//Add attendee to event
+		Route::post('conferences/events/attendee' , 'Event_Controller@add_attendee');
+
+		//delete attendee from event
+		Route::delete('conferences/events/attendees' , 'Event_Controller@delete_attendee');
+
+		/*
+		*	Profile API
+		*/
+
+		//Returns a user Profile
+		Route::get('users/profile' , 'Profile_Controller@get_profile');
+
+		//Update profile
+		Route::put('users/profile' , 'Profile_Controller@update_profile');
+
+		//Update permissions
+		Route::post('permissions' , 'Profile_Controller@update_permissions');
+
+		//Delete users
+		Route::delete('users' , 'Profile_Controller@delete_user');
+
+		//Deactivate users
+		Route::put('users' , 'Profile_Controller@deactivate_user');
 
 
 	});
