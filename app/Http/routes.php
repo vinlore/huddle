@@ -21,18 +21,31 @@ Route::get('welcome', function () {
 });
 
 /**
- * DEV - TESTING PAGES
+ * Account - Login System
  */
  	//Authenticaiton and Login
-Route::post ('auth', 'authenticate_user_controller@authenticate_user');
+Route::post ('auth', 'Authenticate_Controller@user_authentication');
 Route::get ('login', function(){
 	return View::make('login');
 });
 	//Registration page
-Route::post ('create', 'create_user_controller@create_user');
+Route::post ('create', 'Authenticate_Controller@user_registration');
 Route::get ('register', function() {
 	return View::make('register');
 });
+
+	//Activate the Account
+Route::get('activation', 'Authenticate_Controller@user_activation');
+
+	//Log Out
+Route::post('logout', function(){
+	$api_token = $_POST['api_token'];
+	DB::table('users')->where('api_token', $api_token)->update('api_token','');
+});
+
+/*
+ * DEV - TESTING PAGES
+ */
 
 	//Sucess or Fail Page
 Route::get('success', function(){
@@ -42,23 +55,6 @@ Route::get('fail', function(){
 	return "Fail";
 });
 
-	//Checking the output
-Route::get('checkUser', function(){
-	if ($user = Sentinel::check())
-{
-    // User is logged in and assigned to the `$user` variable.
-	var_dump($user);
-}
-else
-{
-    // User is not logged in
-	var_dump($user);
-}
-
-});
-
-	//Activate the Account
-Route::get('verif', 'verification_controller@verification_code_check');
 
 	//Creating roles - Called Admin
 Route::get('createRole', function(){
@@ -99,22 +95,23 @@ Route::get('addRolePermission', function(){
 /**
  * API ROUTES
  */
+
+ /*
+ |--------------------------------------------------------------------------
+ | Application Routes
+ |--------------------------------------------------------------------------
+ |
+ | This route group applies the "web" middleware group to every route
+ | it contains. The "web" middleware group is defined in your HTTP
+ | kernel and includes session state, CSRF protection, and more.
+ |
+  */
 	//Security for all url with /api
 	Route::group(['middleware' => ['authToken'],'prefix' => 'api'], function () {
+		//Development Purposes
 		Route::get('tok', function() {
 		  return "Protected resource";
 		});
+
+
 	});
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| This route group applies the "web" middleware group to every route
-| it contains. The "web" middleware group is defined in your HTTP
-| kernel and includes session state, CSRF protection, and more.
-|
- */
