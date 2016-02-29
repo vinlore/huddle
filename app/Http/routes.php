@@ -41,6 +41,18 @@ Route::get('activation', 'Authenticate_Controller@user_activation');
 Route::post('logout', function(){
 	$api_token = $_POST['api_token'];
 	DB::table('users')->where('api_token', $api_token)->update('api_token','');
+	return "{'success' : true}";
+});
+	//Password reset
+Route::get('passwordreset',function(){
+	$reminder_code = $_POST['reminder_code'];
+	$new_password = $_POST['new_pass'];
+	$user = Sentinel::findById(1);
+	if ($reminder = Reminder::complete($user, $reminder_code, $new_password)){
+		return "{'sucess' : true}";
+	}else{
+	    return "{'success' : true, 'error' : { 'code' : 'Apollo', 'message' : 'Problem occured trying to reset password'}}";
+	}
 });
 
 /*

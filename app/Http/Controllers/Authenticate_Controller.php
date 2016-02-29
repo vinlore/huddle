@@ -22,7 +22,7 @@ class Authenticate_Controller extends Controller {
         //Check If Email Has Correct Regex
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             //TODO - IF Email is not match proper email regex
-            return "{'success' : false, 'error':{ 'code' : 1, 'message' : 'Email does not match regex'}";
+            return "{'success' : false, 'error':{ 'code' : 'Aphrodite', 'message' : 'Email does not match regex'}}";
         }
 
         //Check If Password is correctly set
@@ -30,7 +30,7 @@ class Authenticate_Controller extends Controller {
             !preg_match("#[0-9]+#", $password) ||
             !preg_match("#[a-zA-Z]+#", $password)){
             //TODO - IF Password is incorrectly set
-            return "{'success' : false, 'error':{ 'code' : 2, 'message' : 'Password incorrectly set'}";
+            return "{'success' : false, 'error':{ 'code' : 'Aporia', 'message' : 'Password incorrectly set'}}";
         }
 
         try{
@@ -39,7 +39,7 @@ class Authenticate_Controller extends Controller {
             $checkUserExist = \Sentinel::findByCredentials(['login' => $email]);
             if($checkUserExist){
                 //TODO - The Email ALready Exists.
-                return "{'success' : false, 'error':{ 'code' : 3, 'message' : 'Email already exists'}";
+                return "{'success' : false, 'error':{ 'code' : 'Ares', 'message' : 'Email already exists'}}";
             }
 
             //Register User to Database
@@ -49,7 +49,7 @@ class Authenticate_Controller extends Controller {
             $checkUserExist = \Sentinel::findByCredentials(['login' => $email]);
             if(!$checkUserExist){
                 //TODO - Check if User has been saved into DB
-                return "{'success' : false, 'error':{ 'code' : 4, 'message' : 'User unable to save to Database'}";
+                return "{'success' : false, 'error':{ 'code' : 'Artemis', 'message' : 'User unable to save to Database'}}";
             }
 
             //Put User on Activate Table
@@ -61,7 +61,7 @@ class Authenticate_Controller extends Controller {
             if(!$activationCheck){
                 \DB::table('users')->where('id',$checkUserExist->id)->delete();
                 //TODO - User not saved into activation table - Redo the registration
-                return "{'success' : false, 'error':{ 'code' : 5, 'message' : 'User not saved into activation table'}";
+                return "{'success' : false, 'error':{ 'code' : 'Atlas', 'message' : 'User not saved into activation table'}}";
             }
             //TODO - Send Email to User with Activation code
 
@@ -87,7 +87,7 @@ class Authenticate_Controller extends Controller {
         }else{
             //TODO -
             //IT was no found/ Not complete
-            return "{'success' : false, 'error':{ 'code' : 1, 'message' : 'Activation not complete'}";
+            return "{'success' : false, 'error':{ 'code' : 'Athena', 'message' : 'Activation not complete'}}";
         }
     }
 
@@ -107,13 +107,13 @@ class Authenticate_Controller extends Controller {
             //Check if User Exists within Database
             if(!$user = \Sentinel::findByCredentials(['login' => $email])){
                 //TODO - This User does not exist
-                return "{'success' : false, 'error':{ 'code' : 1, 'message' : 'User Does Not Exist'}";
+                return "{'success' : false, 'error':{ 'code' : 'Aura', 'message' : 'User Does Not Exist'}}";
             }
 
             //Authenicate Users login and password
             if(!$user = \Sentinel::authenticateAndRemember($credential,true)){
                 //TODO - What happens if login information is incorrect
-                return "{'success' : false, 'error' : { 'code' : 3, 'message' : 'Login Information Incorrect'}";
+                return "{'success' : false, 'error' : { 'code' : 'Adikia', 'message' : 'Login Information Incorrect'}}";
             }
 
             //generate login token
@@ -126,9 +126,9 @@ class Authenticate_Controller extends Controller {
             //Generate JSON to return
             return \Response::json(array('token' => $token, 'user' => $user->toArray()));
         }catch(\Cartalyst\Sentinel\Checkpoints\ThrottlingException $e){
-            return "{'success' : false, 'error' : { 'code' : 4, 'message' : 'Too many login attempts'}}";
+            return "{'success' : false, 'error' : { 'code' : 'Acratopotes', 'message' : 'Too many login attempts'}}";
         }catch(\Cartalyst\Sentinel\Checkpoints\NotActivatedException $e){
-            return "{'success' : false, 'error' : { 'code' : 2, 'message' : 'Activation not complete'}";
+            return "{'success' : false, 'error' : { 'code' : 'Adephagia', 'message' : 'Activation not complete'}}";
         }catch(Exception $e)
         {
             App::abort(404,$e->getMessage());
