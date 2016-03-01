@@ -1,0 +1,49 @@
+@media (max-width: 768px) {
+    #cc-accommodations #acc-name-col {
+        width: 100% !important;
+    }
+    #cc-accommodations #acc-name-col {
+        margin-bottom: 5px !important;
+    } 
+}
+
+#create-conference .dropdown-menu[uib-typeahead-popup] {
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+#create-conference .name-col {
+    width: 60%;
+}
+
+#create-conference .num-col {
+    width: 15%;
+    text-align: center;
+}
+
+#cc-inventory .form-control,
+#cc-rooms .form-control {
+    display: unset;
+}
+
+#cc-inventory .btn,
+#cc-accommodations .btn {
+    padding: 6px 6px;
+}
+
+#cc-inventory .padding-top-5:first-child {
+    padding-top: 0px;
+}
+
+#cc-accommodations hr {
+    margin-bottom: 5px !important;
+}
+
+#cc-accommodations .padding-top-5:first-child {
+    padding-top: 0px;
+}
+
+#cc-rooms {
+    padding-top: 5px;
+}

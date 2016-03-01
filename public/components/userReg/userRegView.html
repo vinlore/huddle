@@ -1,0 +1,41 @@
+<div class="container has-header" id="user-registration">
+    <h1 class="text-center">User Registration</h1>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-2 control-label">Username</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="inputUser" ng-model="user.Username">
+            </div>
+            <p ng-if="!user.Username" class="form-control-static text-danger">* Required</p>
+        </div>
+        <div class="form-group">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-2 control-label">Password</label>
+            <div class="col-sm-4">
+                <input type="password" class="form-control" id="inputUser" ng-model="user.Password">
+            </div>
+            <p ng-if="!user.Password" class="form-control-static text-danger">* Required</p>
+        </div>
+        <div class="form-group">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-2 control-label">Confirm Password</label>
+            <div class="col-sm-4">
+                <input type="password" class="form-control" id="inputUser" ng-model="user['Confirm Password']">
+            </div>
+            <p ng-if="!user['Confirm Password']" class="form-control-static text-danger">* Required</p>
+            <p ng-if="user.Password != user['Confirm Password'] && user['Confirm Password']" class="form-control-static text-danger">* Passwords do not match</p>
+        </div>
+        <div class="form-group" ng-if="$index > 2 && $index < 10" ng-repeat="(label, value) in user track by $index">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-2 control-label">{{label}}</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="inputUser" ng-model="user[label]">
+            </div>
+            <p ng-if="requiredField($index)" class="form-control-static text-danger">* Required</p>
+        </div>
+        <div class="form-group" ng-if="$index > 9" ng-repeat="(label, value) in user track by $index">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-2 control-label">{{label}}</label>
+            <div class="col-sm-4">
+                <input type="tel" class="form-control" id="inputUser" ng-model="user[label]">
+            </div>
+        </div>
+    <form>
+    <button class="btn btn-half-block btn-success center-block" ng-click="register()">Sign Up</button>
+</div>

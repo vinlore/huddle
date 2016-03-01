@@ -10,3 +10,10 @@ before_install:
 
 install:
   - npm install
+
+notifications:
+  slack: 
+   on_success: never
+   on_failure: always
+   rooms:
+    - o111:wOdZh9RyHDVyaQhhx9UUf8QU

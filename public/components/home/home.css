@@ -1,0 +1,18 @@
+#home-conferences img {
+  width: 100%;
+  max-height: 300px;
+}
+
+#home .jumbotron {
+  background: url("/assets/img/gobindsarvar.jpg");
+  background-size: cover;
+}
+
+#home .jumbotron .container {
+  top: 150px;
+  position: relative;
+}
+
+#home hr {
+  margin-top: 0px;
+}

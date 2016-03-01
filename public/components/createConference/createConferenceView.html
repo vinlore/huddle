@@ -1,0 +1,142 @@
+<div id="create-conference">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="text-center">Create New Conference</h1>
+        </div>
+        <div class="col-lg-6">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="name" ng-model="conference.name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="country" class="col-sm-3 control-label">Country</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="country" ng-model="conference.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="city" class="col-sm-3 control-label">City</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="city" ng-model="conference.city" g-places-autocomplete options="citiesOnly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="col-sm-3 control-label">Address</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="address" ng-model="conference.address" g-places-autocomplete>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="start-date" class="col-sm-3 control-label">Start Date</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="start-date" ng-model="conference.startDate" uib-datepicker-popup="MMM dd, yyyy" is-open="calendar.isOpen1">
+                            <span class="input-group-btn">
+                                <button class="btn btn-link" ng-click="calendar.isOpen1 = !calendar.isOpen1">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="end-date" class="col-sm-3 control-label">End Date</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="end-date" ng-model="conference.endDate" uib-datepicker-popup="MMM dd, yyyy" is-open="calendar.isOpen2">
+                            <span class="input-group-btn">
+                                <button class="btn btn-link" ng-click="calendar.isOpen2 = !calendar.isOpen2">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="col-sm-3 control-label">Description</label>
+                    <div class="col-sm-9">
+                        <textarea rows="5" type="text" class="form-control" ng-model="conference.description" maxlength="300"></textarea>
+                        <span class="help-block">Max 300 characters</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-6">
+            <div class="row" id="cc-inventory">
+                <label>
+                    <input type="checkbox" ng-model="isInventory"> Inventory
+                </label>
+                <div class="panel panel-default" ng-if="isInventory">
+                    <div class="panel-body form-inline">
+                        <div ng-repeat="item in items track by $index" class="padding-top-5">
+                            <input type="text" class="form-control name-col" ng-model="item.name" placeholder="Item">
+                            <input type="text" class="form-control num-col" ng-model="item.num" placeholder="#">
+                            <button class="btn btn-link" ng-click="addItem()" ng-if="$index==items.length-1"><i class="glyphicon glyphicon-plus"></i></button>
+                            <button class="btn btn-link" ng-click="removeItem($index)" ng-if="items.length!=1 || $index!=0"><i class="glyphicon glyphicon-minus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="cc-accommodations">
+                <label>
+                    <input type="checkbox" ng-model="isAccommodations"> Accommodations
+                </label>
+                <div class="panel panel-default" ng-if="isAccommodations">
+                    <div class="panel-body form-inline">
+                        <div ng-repeat="accomm in accommodations" ng-init="parentIndex = $index" class="padding-top-5">
+                            <div>
+                                <input type="text" class="form-control name-col" id="acc-name-col" ng-model="accommodation.name" placeholder="Name">
+                                <input type="text" class="form-control" ng-model="accommodation.address" placeholder="Address" g-places-autocomplete>
+                                <button class="btn btn-link" ng-click="removeAccommodation($index)" ng-if="accommodations.length!=1 || $index!=0"><i class="glyphicon glyphicon-minus"></i></button>
+                            </div>
+                            <div id="cc-rooms">
+                                <div ng-repeat="room in accomm.rooms track by $index" class="padding-top-5">
+                                    <input type="text" class="form-control name-col" ng-model="room.name" placeholder="Room">
+                                    <input type="text" class="form-control num-col" ng-model="room.capacity" placeholder="#">
+                                    <button class="btn btn-link" ng-click="addRoom(parentIndex)" ng-if="$index==accomm.rooms.length-1"><i class="glyphicon glyphicon-plus"></i></button>
+                                    <button class="btn btn-link" ng-click="removeRoom(parentIndex, $index)" ng-if="accomm.rooms.length!=1 || $index!=0"><i class="glyphicon glyphicon-minus"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            <button class="btn btn-link" ng-click="addAccommodation()" ng-if="$index==accommodations.length-1"><i class="glyphicon glyphicon-plus"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="cc-arrTransport">
+                <label>
+                    <input type="checkbox" ng-model="isArrival"> Arrival Transportation
+                </label>
+                <div class="panel panel-default" ng-if="isArrival">
+                    <div class="panel-body form-inline">
+                        <div ng-repeat="vehicle in arrTransport track by $index" class="padding-top-5">
+                            <input type="text" class="form-control name-col" ng-model="vehicle.name" placeholder="Type">
+                            <input type="text" class="form-control num-col" ng-model="vehicle.num" placeholder="#">
+                            <button class="btn btn-link" ng-click="addArrival()" ng-if="$index==arrTransport.length-1"><i class="glyphicon glyphicon-plus"></i></button>
+                            <button class="btn btn-link" ng-click="removeArrival($index)" ng-if="arrTransport.length!=1 || $index!=0"><i class="glyphicon glyphicon-minus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="cc-depTransport">
+                <label>
+                    <input type="checkbox" ng-model="isDeparture"> Departure Transportation
+                </label>
+                <div class="panel panel-default" ng-if="isDeparture">
+                    <div class="panel-body form-inline">
+                        <div ng-repeat="vehicle in depTransport track by $index" class="padding-top-5">
+                            <input type="text" class="form-control name-col" ng-model="vehicle.name" placeholder="Type">
+                            <input type="text" class="form-control num-col" ng-model="vehicle.num" placeholder="#">
+                            <button class="btn btn-link" ng-click="addDeparture()" ng-if="$index==depTransport.length-1"><i class="glyphicon glyphicon-plus"></i></button>
+                            <button class="btn btn-link" ng-click="removeDeparture($index)" ng-if="depTransport.length!=1 || $index!=0"><i class="glyphicon glyphicon-minus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <button class="btn btn-lg btn-success center-block" ng-click="submit()">Create Request</button>
+</div>

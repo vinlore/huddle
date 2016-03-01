@@ -1,0 +1,44 @@
+[
+    {
+        "eventId": 1,
+        "name": "Event1",
+        "date": "Feb 16,2016",
+        "startTime": "12",
+        "endTime": "14",
+        "facilitator": "Ted",
+        "ageLimit": 0,
+        "genderLimit": null,
+        "transportation": false,
+        "attendeeCount": 12,
+        "capacity": 30,
+        "address": "Janpath Lane, Connaught Place"
+    },
+    {
+        "eventId": 2,
+        "name": "Event2",
+        "date": "Feb 16,2016",
+        "startTime": "14",
+        "endTime": "16",
+        "facilitator": "Bob",
+        "ageLimit": 18,
+        "genderLimit": "M",
+        "transportation": false,
+        "attendeeCount": 25,
+        "capacity": 30,
+        "address": "No.1, Mansingh Road, Near Khan Market, India Gate"
+    },
+    {
+        "eventId": 3,
+        "name": "Event3",
+        "date": "Feb 16,2016",
+        "startTime": "16",
+        "endTime": "18",
+        "facilitator": "Mary",
+        "ageLimit": 0,
+        "genderLimit": null,
+        "transportation": true,
+        "attendeeCount": 15,
+        "capacity": 20,
+        "address": "2719, Bank Street, Adjacent to RC Jewelers, Behind Karol Bagh Police Station, Karol Bagh"
+    }
+]
