@@ -25,6 +25,13 @@ class Profile_Controller extends Controller {
 
     //Deactivate user
     function deactivate_user () {
+        $user = Sentinel::findById($_PUT['id']);
+
+        if(\Activation::remove($user);){
+            return "{ 'success' : true }";
+        }else{
+            return "{ 'success' : false , 'error' : { 'code' : 'Paeon', 'message' : 'User activation record not found'}}";
+        }
 
     }
 }

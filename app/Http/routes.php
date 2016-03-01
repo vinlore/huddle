@@ -45,29 +45,22 @@ Route::post('logout', function(){
 });
 	//Password reset
 Route::get('passwordreset',function(){
-	$reminder_code = $_POST['reminder_code'];
-	$new_password = $_POST['new_pass'];
-	$user = Sentinel::findById(1);
+	$reminder_code = $_GET['reminder_code'];
+	$new_password = $_GET['new_pass'];
+	$user = Sentinel::findById(5);
+	//return Reminder::create($user);
+
 	if ($reminder = Reminder::complete($user, $reminder_code, $new_password)){
 		return "{'sucess' : true}";
 	}else{
 	    return "{'success' : true, 'error' : { 'code' : 'Apollo', 'message' : 'Problem occured trying to reset password'}}";
 	}
+	
 });
 
 /*
  * DEV - TESTING PAGES
  */
-
-	//Sucess or Fail Page
-Route::get('success', function(){
-		return "Success";
-});
-Route::get('fail', function(){
-	return "Fail";
-});
-
-
 	//Creating roles - Called Admin
 Route::get('createRole', function(){
 	$role = Sentinel::getRoleRepository()->createModel()->create([
