@@ -24,8 +24,8 @@ Route::get('welcome', function () {
  * Account - Login System
  */
  	//Authenticaiton and Login
-Route::post ('auth', 'Authenticate_Controller@user_authentication');
-Route::get ('login', function(){
+Route::post ('api/auth', 'Authenticate_Controller@user_authentication');
+Route::get ('api/login', function(){
 	return View::make('login');
 });
 	//Registration page
@@ -55,7 +55,7 @@ Route::get('passwordreset',function(){
 	}else{
 	    return "{'success' : true, 'error' : { 'code' : 'Apollo', 'message' : 'Problem occured trying to reset password'}}";
 	}
-	
+
 });
 
 /*
