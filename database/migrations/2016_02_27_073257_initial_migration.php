@@ -38,9 +38,12 @@ class InitialMigration extends Migration
 
         Schema::create('rooms', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->integer('accommodation_id')->index('accommodation_id');
             $table->integer('room_no');
             $table->integer('guest_count')->default(0);
             $table->integer('capacity');
+
+            $table->foreign('accommodation_id', 'rooms_ibfk_1')->references('id')->on('accommodations')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 
             $table->timestamps();
         });
@@ -83,6 +86,7 @@ class InitialMigration extends Migration
 
         Schema::create('events', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->integer('conference_id')->index('conference_id');
             $table->string('name');
             $table->string('facilitator');
             $table->date('date');
@@ -93,6 +97,8 @@ class InitialMigration extends Migration
             $table->integer('attendee_count')->default(0);
             $table->integer('capacity');
             $table->string('transportation')->nullable();
+
+            $table->foreign('conference_id', 'events_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 
             $table->timestamps();
         });
@@ -110,17 +116,6 @@ class InitialMigration extends Migration
             $table->timestamps();
         });
 
-        Schema::create('accommodation_rooms', function (Blueprint $table) {
-            $table->integer('accommodation_id');
-            $table->integer('room_id')->index('room_id');
-            $table->primary(['accommodation_id','room_id']);
-
-            $table->foreign('accommodation_id', 'accommodation_rooms_ibfk_1')->references('id')->on('accommodations')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('room_id', 'accommodation_rooms_ibfk_2')->references('id')->on('rooms')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-
-            $table->timestamps();
-        });
-
         Schema::create('conference_accommodations', function (Blueprint $table) {
             $table->integer('conference_id');
             $table->integer('accommodation_id')->index('accommodation_id');
@@ -128,17 +123,6 @@ class InitialMigration extends Migration
 
             $table->foreign('conference_id', 'conference_accommodations_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
             $table->foreign('accommodation_id', 'conference_accommodations_ibfk_2')->references('id')->on('accommodations')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-
-            $table->timestamps();
-        });
-
-        Schema::create('conference_events', function (Blueprint $table) {
-            $table->integer('conference_id');
-            $table->integer('event_id')->index('event_id');
-            $table->primary(['conference_id','event_id']);
-
-            $table->foreign('conference_id', 'conference_events_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('event_id', 'conference_events_ibfk_2')->references('id')->on('events')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 
             $table->timestamps();
         });
@@ -239,23 +223,21 @@ class InitialMigration extends Migration
      */
     public function down()
     {
-        Schema::drop('profiles');
-        Schema::drop('accommodations');
-        Schema::drop('rooms');
-        Schema::drop('inventories');
-        Schema::drop('items');
-        Schema::drop('conferences');
-        Schema::drop('events');
-
-        Schema::drop('user_profiles');
-        Schema::drop('accommodation_rooms');
-        Schema::drop('conference_accommodations');
-        Schema::drop('conference_events');
-        Schema::drop('user_manages_conferences');
-        Schema::drop('user_manages_events');
-        Schema::drop('user_manages_inventories');
-        Schema::drop('profile_attends_conferences');
-        Schema::drop('profile_attends_events');
         Schema::drop('profile_stays_in_rooms');
+        Schema::drop('profile_attends_events');
+        Schema::drop('profile_attends_conferences');
+        Schema::drop('user_manages_inventories');
+        Schema::drop('user_manages_events');
+        Schema::drop('user_manages_conferences');
+        Schema::drop('conference_accommodations');
+        Schema::drop('user_profiles');
+
+        Schema::drop('events');
+        Schema::drop('conferences');
+        Schema::drop('items');
+        Schema::drop('inventories');
+        Schema::drop('rooms');
+        Schema::drop('accommodations');
+        Schema::drop('profiles');
     }
 }
