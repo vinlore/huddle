@@ -1,14 +1,12 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use App\User;
-use App\Attendee;
+use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder {
-
+class DatabaseSeeder extends Seeder
+{
     public function run()
     {
+        Eloquent::unguard();
     }
-
 }
