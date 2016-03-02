@@ -100,11 +100,11 @@ Route::get('addRolePermission', function(){
 
 Route::get('email', function () {
 	Mail::send('email',['name' => 'nada'] , function($message)
-{
+	{
 
     $message->to('gabrielahernandez@hotmail.ca')->subject('YEEZUS FOR PREZ');
 
-});
+	});
 });
 
 /**

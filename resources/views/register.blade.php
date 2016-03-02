@@ -42,6 +42,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <form method="post" action="create">
+                            <p>UserName</p>
+                            <input name="username" type="text">
                             <p>Email</p>
                             <input name="email" type="text">
                             <p>Password</p>
