@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-class Authenticate_Controller extends Controller {
+class AuthenticateController extends Controller {
 
     /*
      * User Creation
