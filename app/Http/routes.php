@@ -97,6 +97,15 @@ Route::get('addRolePermission', function(){
 	var_dump($role);
 });
 
+Route::get('email', function () {
+	Mail::send('email',['name' => 'nada'] , function($message)
+{
+
+    $message->to('gabrielahernandez@hotmail.ca')->subject('YEEZUS FOR PREZ');
+
+});
+});
+
 /**
  * API ROUTES
  */
