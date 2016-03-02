@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-class Profile_Controller extends Controller {
+class ProfileController extends Controller {
 
     //Returns user profile
     function get_profile () {

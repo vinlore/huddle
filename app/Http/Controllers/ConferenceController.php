@@ -1,11 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
-class Conference_Controller extends Controller {
+class ConferenceController extends Controller {
 
     //Returns list of conferences
     function get_conferences (){
-
+        echo ('hello');
     }
 
     //Returns a conference
@@ -87,7 +87,7 @@ class Conference_Controller extends Controller {
 
     //update item from inventory list
     function update_item () {
-        
+
     }
 }
 

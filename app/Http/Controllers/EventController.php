@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-class Conference_Controller extends Controller {
+class ConferenceController extends Controller {
 
     //Returns list of events
     function get_events () {
