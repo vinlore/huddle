@@ -61,6 +61,7 @@ Route::get('api/passwordreset',function(){
 /*
  * DEV - TESTING PAGES
  */
+
 	//Creating roles - Called Admin
 Route::get('createRole', function(){
 	$role = Sentinel::getRoleRepository()->createModel()->create([
