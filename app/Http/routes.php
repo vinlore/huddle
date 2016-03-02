@@ -29,22 +29,22 @@ Route::get ('api/login', function(){
 	return View::make('login');
 });
 	//Registration page
-Route::post ('create', 'Authenticate_Controller@user_registration');
-Route::get ('register', function() {
+Route::post ('api/create', 'Authenticate_Controller@user_registration');
+Route::get ('api/register', function() {
 	return View::make('register');
 });
 
 	//Activate the Account
-Route::get('activation', 'Authenticate_Controller@user_activation');
+Route::get('api/activation', 'Authenticate_Controller@user_activation');
 
 	//Log Out
-Route::post('logout', function(){
+Route::post('api/logout', function(){
 	$api_token = $_POST['api_token'];
 	DB::table('users')->where('api_token', $api_token)->update('api_token','');
 	return "{'success' : true}";
 });
 	//Password reset
-Route::get('passwordreset',function(){
+Route::get('api/passwordreset',function(){
 	$reminder_code = $_GET['reminder_code'];
 	$new_password = $_GET['new_pass'];
 	$user = Sentinel::findById(5);
