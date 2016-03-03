@@ -11,6 +11,8 @@ angular.module('cms', [
   'conferenceCtrl',
   'loginCtrl',
   'createConferenceCtrl',
+  'profileCtrl',
+  'activityCtrl',
   'conferenceService',
   'eventService',
   'mapService',
@@ -52,6 +54,16 @@ angular.module('cms', [
   .when( '/create-conference', {
     templateUrl: 'components/createConference/createConferenceView.html',
     controller: 'createConferenceController'
+  })
+
+  .when( '/profile', {
+    templateUrl: 'components/profile/profileView.html',
+    controller: 'profileViewController'
+  })
+
+  .when( '/logs', {
+    templateUrl: 'components/activityLog/activityLogView.html',
+    controller: 'activityLogController'
   })
 
   .otherwise({redirectTo: '/'});

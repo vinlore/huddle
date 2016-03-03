@@ -35,6 +35,8 @@
   <script src="components/conference/conferenceController.js"></script>
   <script src="components/login/loginController.js"></script>
   <script src="components/createConference/createConferenceController.js"></script>
+  <script src="components/profile/profileController.js"></script>
+  <script src="components/activityLog/activityLogController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
