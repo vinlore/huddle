@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class AuthenticateController extends Controller
 {
 
@@ -109,13 +111,15 @@ class AuthenticateController extends Controller
     /*
     *   Authenticate the User when logging in
     */
-    function user_authentication(){
+    function user_authentication(Request $request){
 
-        $username = $_POST['username'];
-        $password = $_POST ['password'];
+        /*$username = $_POST['username'];
+        $password = $_POST['password'];*/
+        $username = $request->username;
+        $password = $request->password;
 
         $credential = array(
-            'username'     => $username,
+            'username'  => $username,
             'password'  => $password,
         );
         try{
@@ -148,5 +152,14 @@ class AuthenticateController extends Controller
         {
             App::abort(404,$e->getMessage());
         }
+    }
+
+    /*
+    *   User logout
+    */
+    function logout(Request $request) {
+        $api_token = $request->token;
+        \DB::table('users')->where('api_token', $api_token)->update(['api_token' => '']);
+        return \Response::json(array('success' => true));
     }
 }

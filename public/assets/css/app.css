@@ -294,6 +294,11 @@
   width: 40%;
 }
 
+.btn-sm-block {
+  display: block;
+  width: 30%;
+}
+
 .jumbo-container {
   padding-left: 15px;
   padding-right: 15px;

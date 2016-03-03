@@ -38,11 +38,7 @@ Route::get ('api/register', function() {
 Route::get('api/activation', 'AuthenticateController@user_activation');
 
 	//Log Out
-Route::post('api/logout', function(){
-	$api_token = $_POST['api_token'];
-	DB::table('users')->where('api_token', $api_token)->update('api_token','');
-	return "{'success' : true}";
-});
+Route::post('api/logout', 'AuthenticateController@logout');
 	//Password reset
 Route::get('api/passwordreset',function(){
 	$reminder_code = $_GET['reminder_code'];
