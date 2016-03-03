@@ -20,6 +20,10 @@ angular.module ( 'profileCtrl', [] )
 
   };
 
+  $scope.loadUserName = function () {
+      return "Test Username"
+  }
+
   $scope.submit = function () {
 
   };

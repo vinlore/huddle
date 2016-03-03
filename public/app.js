@@ -56,7 +56,12 @@ angular.module('cms', [
     .when( '/login', {
     templateUrl: 'components/login/loginView.html',
     controller: 'loginController'
-    })
+  })
+
+    /*.when( '/login', {
+    templateUrl: 'components/profile/profileView.html',
+    controller: 'profileController'
+  })*/
 
     .when( '/admin', {
     templateUrl: 'components/admin/adminView.html',
@@ -80,7 +85,7 @@ angular.module('cms', [
 
     .when( '/profile', {
     templateUrl: 'components/profile/profileView.html',
-    controller: 'profileViewController'
+    controller: 'profileController'
     })
 
     .when( '/logs', {

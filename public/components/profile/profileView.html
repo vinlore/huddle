@@ -1,9 +1,10 @@
 <div id="profile">
-  <h2 class="text-center">Stuff About my profile</h2>
   <div class="row">
+      <h1 class = "text-center"> {{loadUserName()}}</h1>
       <div class="col-sm-6">
-            <h3 class="text-center">Profile</h3>
+            <h3 class="text-center">Profile Details</h3>
             <button class="btn btn-half-block btn-success center-block" ng-click="saveChanges()">Save Changes</button>
+
       </div>
       <div class="col-sm-6">
 
@@ -15,7 +16,7 @@
               <div class="form-group row">
                 <label for="inputUser" class="col-sm-2 form-control-label">Old Password</label>
                 <div class="col-sm-6">
-                  <input type="password" class="form-control" id="inputUser" placeholder="Old Password">
+                  <input type="password" class="form-control" id="inputUser" placeholder="Old Password" ng-model="user.Password">
                 </div>
               </div>
 
@@ -23,7 +24,7 @@
               <div class="form-group row">
                 <label for="inputUser" class="col-sm-2 form-control-label">New Password</label>
                 <div class="col-sm-6">
-                  <input type="password" class="form-control" id="inputUser" placeholder="New Password">
+                  <input type="password" class="form-control" id="inputUser" placeholder="New Password" ng-model="user.Password">
                 </div>
               </div>
 
