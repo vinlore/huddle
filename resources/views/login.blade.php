@@ -42,8 +42,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <form method="post" action="auth">
-                            <p>Email</p>
-                            <input name="email" type="text">
+                            <p>Username</p>
+                            <input name="username" type="text">
                             <p>Password</p>
                             <input name="password" type="text">
 
