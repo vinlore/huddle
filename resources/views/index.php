@@ -43,6 +43,7 @@
   <script src="assets/js/eventService.js"></script>
   <script src="assets/js/mapService.js"></script>
   <script src="assets/js/countryService.js"></script>
+  <script src="assets/js/apiService.js"></script>
 
   <!-- DIRECTIVES -->
   <script src="assets/js/customDirectives.js"></script>

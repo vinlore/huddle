@@ -13,6 +13,7 @@ angular.module('cms', [
   'createConferenceCtrl',
   'profileCtrl',
   'activityCtrl',
+  'apiService',
   'conferenceService',
   'eventService',
   'mapService',
