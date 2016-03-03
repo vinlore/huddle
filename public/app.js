@@ -1,73 +1,94 @@
 'use strict';
 
 angular.module('cms', [
-  'ngRoute',
-  'ngResource',
-  'ui.bootstrap',
-  'ngAnimate',
-  'homeCtrl',
-  'adminCtrl',
-  'userRegCtrl',
-  'conferenceCtrl',
-  'loginCtrl',
-  'createConferenceCtrl',
-  'profileCtrl',
-  'activityCtrl',
-  'apiService',
-  'conferenceService',
-  'eventService',
-  'mapService',
-  'countryService',
-  'satellizer',
-  'customDirs',
-  'customFilters',
-  'google.places'
+    'ngRoute',
+    'ngResource',
+    'ui.bootstrap',
+    'ngAnimate',
+    'homeCtrl',
+    'adminCtrl',
+    'userRegCtrl',
+    'conferenceCtrl',
+    'loginCtrl',
+    'createConferenceCtrl',
+    'profileCtrl',
+    'activityCtrl',
+    'apiService',
+    'conferenceService',
+    'eventService',
+    'mapService',
+    'countryService',
+    'satellizer',
+    'customDirs',
+    'customFilters',
+    'google.places'
 ])
 
-.config(function($routeProvider, $locationProvider, $authProvider) {
-  $routeProvider
+.run( function( $rootScope, $auth, Logout ) {
+    $rootScope.auth = $auth.isAuthenticated();
 
-  .when( '/', {
-  	templateUrl: 'components/home/homeView.html',
-  	controller: 'homeController'
-  })
+    // Logout function
+    $rootScope.logout = function() {
+        Logout.save( $auth.getToken() )
+            .$promise.then( function( response ) {  // OK
+                if ( response.success ) {   // If logout on server was successful
+                    console.log("Logging out...");
+                    $auth.logout().then( function( result ) {   // If logout on front-end was successful
+                        $rootScope.auth = $auth.isAuthenticated();
+                    });
+                }
+            }, function( response ) {   // API call failed
+                console.log("An error occurred while logging in.");
+            })
+    };
+})
 
-  .when( '/login', {
+.config( function( $routeProvider, $locationProvider, $authProvider ) {
+    $authProvider.loginUrl = '/api/auth';
+
+    $routeProvider
+
+    .when( '/', {
+    templateUrl: 'components/home/homeView.html',
+    controller: 'homeController'
+    })
+
+    .when( '/login', {
     templateUrl: 'components/login/loginView.html',
     controller: 'loginController'
-  })
+    })
 
-  .when( '/admin', {
+    .when( '/admin', {
     templateUrl: 'components/admin/adminView.html',
     controller: 'adminController'
-  })
+    })
 
-  .when( '/register', {
+    .when( '/register', {
     templateUrl: 'components/userReg/userRegView.html',
     controller: 'userRegController'
-  })
+    })
 
-  .when( '/conference-:conferenceId', {
+    .when( '/conference-:conferenceId', {
     templateUrl: 'components/conference/conferenceView.html',
     controller: 'conferenceController'
-  })
+    })
 
-  .when( '/create-conference', {
+    .when( '/create-conference', {
     templateUrl: 'components/createConference/createConferenceView.html',
     controller: 'createConferenceController'
-  })
+    })
 
-  .when( '/profile', {
+    .when( '/profile', {
     templateUrl: 'components/profile/profileView.html',
     controller: 'profileViewController'
-  })
+    })
 
-  .when( '/logs', {
+    .when( '/logs', {
     templateUrl: 'components/activityLog/activityLogView.html',
     controller: 'activityLogController'
-  })
+    })
 
-  .otherwise({redirectTo: '/'});
+    .otherwise({redirectTo: '/'});
 
-  $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
 });

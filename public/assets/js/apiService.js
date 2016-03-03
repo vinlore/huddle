@@ -4,12 +4,12 @@ angular.module( 'apiService', [] )
     return $resource( '/api/register' );
 })
 
-.factory( 'Profile', function( $resource ) {
-    return $resource( '/api/user/:userId/profile/:profileId', {userId: '@uid', profileId: '@pid'} );
+.factory( 'Logout', function( $resource ) {
+    return $resource( '/api/logout' );
 })
 
-.factory( 'Register' , function( $resource ) {
-    return $resource( '/api/register' );
+.factory( 'Profile', function( $resource ) {
+    return $resource( '/api/user/:userId/profile/:profileId', {userId: '@uid', profileId: '@pid'} );
 })
 
 /*.factory( 'Conferences', function( $resource ) {
