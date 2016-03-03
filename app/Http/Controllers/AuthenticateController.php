@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Http\Controllers;
 
-class AuthenticateController extends Controller {
+class AuthenticateController extends Controller
+{
 
     /*
      * User Creation
@@ -16,11 +18,11 @@ class AuthenticateController extends Controller {
 
         $credential = array(
             'username' => $username,
-    		'email'     => $email,
-    		'password'  => $password,
-    		'first_name' => $firstName,
-    		'last_name' => $lastName,
-    	);
+            'email'     => $email,
+            'password'  => $password,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+        );
 
         //Check If username is correctly set
         if((strlen($username) < 4) ||
@@ -148,7 +150,3 @@ class AuthenticateController extends Controller {
         }
     }
 }
-
-
-
-?>

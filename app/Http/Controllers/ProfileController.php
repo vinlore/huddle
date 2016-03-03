@@ -1,38 +1,40 @@
 <?php
+
 namespace App\Http\Controllers;
 
-class ProfileController extends Controller {
+class ProfileController extends Controller
+{
+    // -------------------------------------------------------------------------
+    // PROFILE
+    // -------------------------------------------------------------------------
 
-    //Returns user profile
-    function get_profile () {
+    function getProfile() {}
 
-    }
+    function createProfile() {}
 
-    //Update Profile
-    function update_profile () {
+    function updateProfile() {}
 
-    }
+    function deleteProfile() {}
 
-    //Update permissions
-    function update_permissions () {
+    // -------------------------------------------------------------------------
+    // USER
+    // -------------------------------------------------------------------------
 
-    }
+    function updatePermissions() {}
 
-    //Delete user
-    function delete_user () {
+    function deleteUser() {}
 
-    }
-
-    //Deactivate user
-    function deactivate_user () {
+    /**
+     * Deactivates a user.
+     */
+    function deactivateUser()
+    {
         $user = Sentinel::findById($_PUT['id']);
 
-        if(\Activation::remove($user);){
+        if (\Activation::remove($user)) {
             return "{ 'success' : true }";
-        }else{
+        } else {
             return "{ 'success' : false , 'error' : { 'code' : 'Paeon', 'message' : 'User activation record not found'}}";
         }
-
     }
 }
-?>

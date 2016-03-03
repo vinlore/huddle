@@ -1,48 +1,32 @@
 <?php
+
 namespace App\Http\Controllers;
 
-class ConferenceController extends Controller {
+class ConferenceController extends Controller
+{
+    // -------------------------------------------------------------------------
+    // EVENT
+    // -------------------------------------------------------------------------
 
-    //Returns list of events
-    function get_events () {
+    function getEvent() {}
 
-    }
+    function getEvent() {}
 
-    //Return an event
-    function get_event () {
+    function createEvent() {}
 
-    }
+    function updateEvent() {}
 
-    //Delete an event
-    function delete_event () {
+    function deleteEvent() {}
 
-    }
+    // -------------------------------------------------------------------------
+    // ATTENDEE
+    // -------------------------------------------------------------------------
 
-    //Create an event
-    function create_event () {
+    function getAttendees() {}
 
-    }
+    function createAttendee() {}
 
-    //Update an event
-    function update_event () {
+    function updateAttendee() {}
 
-    }
-
-    //Returns list of attendees
-    function get_attendees () {
-
-    }
-
-    //Add an attendee to event
-    function add_attendee () {
-
-    }
-
-    //Delete attendee from event
-    function delete_attendee () {
-
-    }
-
+    function deleteAttendee() {}
 }
-
-?>
