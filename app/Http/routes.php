@@ -57,6 +57,10 @@ Route::get('api/passwordreset',function(){
 /*
  * DEV - TESTING PAGES
  */
+ //DDOS protection ['middleware' => 'throttle{requests/ minute}']
+ Route::get('api/ddos', ['middleware' => 'throttle:10,1', function() {
+     return "Hello!";
+ }]);
 
 	//Creating roles - Called Admin
 Route::get('createRole', function(){
