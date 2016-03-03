@@ -1,5 +1,5 @@
 angular.module( 'loginCtrl', [] )
-.controller( 'loginController', function ( $scope, $auth, $location ) {
+.controller( 'loginController', function( $scope, $auth, $location, $rootScope ) {
 
     $scope.invalid = false;
 
@@ -8,12 +8,13 @@ angular.module( 'loginCtrl', [] )
         password: null
     };
 
-    $scope.login = function () {
-        $auth.login( $scope.user ).then( function ( response ) {
+    $scope.login = function() {
+        $auth.login( $scope.user ).then( function( response ) {
             console.log( response );
+            $rootScope.auth = $auth.isAuthenticated;
             $scope.invalid = false;
             $location.path('/');
-        }).catch( function ( response ) {
+        }).catch( function( response ) {
             console.log( response );
             $scope.invalid = true;
         })

@@ -1,4 +1,4 @@
-# CS319 Team Se7en - Huddle
+# CS319 Team Se7en - Huddle [![Build Status](https://travis-ci.com/vinlore/huddle.svg?token=zB8c5qdNPFZStxQrWSux&branch=master)](https://travis-ci.com/vinlore/huddle)
 A conference Management System for managing and organizing local and international Gobind Sarvar conferences.
 - - - -
 Readme adapted from https://github.com/angular/angular-seed.

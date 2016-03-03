@@ -1,7 +1,7 @@
 <div id="login" class="container has-header">
     <h1 class="text-center">Login</h1>
     <h4 class="text-center text-danger" ng-visible="invalid">Incorrect login. Please try again.</h4>
-    <form class="form-horizontal">
+    <form class="form-horizontal" ng-submit="login()">
         <div class="form-group">
             <label for="inputLogin" class="col-sm-2 col-sm-offset-2 control-label">Username</label>
             <div class="col-sm-4">
@@ -14,9 +14,9 @@
                 <input type="password" class="form-control" id="inputLogin" ng-model="user.password">
             </div>
         </div>
+        <div id="button-container">
+            <button on-click="login()" type="submit" class="btn btn-lg btn-sm-block btn-success">Login</button>
+            <a href="/register" type="button" class="btn btn-lg btn-sm-block btn-info">Register</a>
+        </div>
     </form>
-    <div id="button-container">
-        <a href="/register" type="button" class="btn btn-lg btn-half-block btn-info">Register</a>
-        <a ng-click="login()" type="submit" class="btn btn-lg btn-half-block btn-success">Login</a>
-    </div>
 </div>

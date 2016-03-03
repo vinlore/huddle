@@ -10,13 +10,13 @@
         </div>
         <div class="navbar-collapse" uib-collapse="isCollapsed">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/admin">Admin</a></li>
-                <li><a href="/accounts">Manage Accounts</a></li>
-                <li><a href="/requests">Requests</a></li>
-                <li><a href="/logs">Activity Log</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <a href="/login" type="button" ng-if="true" class="btn btn-danger navbar-btn">Log in</a>
-                <a type="button" ng-if="" class="btn btn-danger navbar-btn">Log out</a>
+                <li><a href="/admin" ng-if="auth">Admin</a></li>
+                <li><a href="/accounts" ng-if="auth">Manage Accounts</a></li>
+                <li><a href="/requests" ng-if="auth">Requests</a></li>
+                <li><a href="/logs" ng-if="auth">Activity Log</a></li>
+                <li><a href="/profile" ng-if="auth">Profile</a></li>
+                <a href="/login" type="button" ng-if="!auth" class="btn btn-danger navbar-btn">Log in</a>
+                <a type="button" ng-if="auth" class="btn btn-danger navbar-btn" ng-click="logout()">Log out</a>
             </ul>
         </div>
     </div>
