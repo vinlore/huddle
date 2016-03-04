@@ -15,8 +15,9 @@
   <link rel="stylesheet" href="components/home/home.css">
   <link rel="stylesheet" href="components/conference/conference.css">
   <link rel="stylesheet" href="components/login/login.css">
-  <link rel="stylesheet" href="assets/libs/angular-google-places-autocomplete/src/autocomplete.css">
+  <link rel="stylesheet" href="assets/libs/angular-google-places-autocomplete/dist/autocomplete.min.css">
   <link rel="stylesheet" href="components/createConference/createConference.css">
+  <link rel="stylesheet" href="components/userReg/userReg.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -25,7 +26,7 @@
   <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script src="assets/libs/angular-resource/angular-resource.min.js"></script>
   <script src="assets/libs/satellizer/satellizer.min.js"></script>
-  <script src="assets/libs/angular-google-places-autocomplete/src/autocomplete.js"></script>
+  <script src="assets/libs/angular-google-places-autocomplete/dist/autocomplete.min.js"></script>
   <script src="assets/js/google-places-api.js"></script>
 
   <!-- CONTROLLERS -->
