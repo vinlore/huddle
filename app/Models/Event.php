@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
+    // Each event has many transportation options.
+    public function transportation()
+    {
+        return $this->belongsToMany('App\Models\Vehicle', 'event_vehicles');
+    }
+
     // Each event belongs to one conference.
     public function conference()
     {
