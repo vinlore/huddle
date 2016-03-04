@@ -58,11 +58,6 @@ angular.module('cms', [
     controller: 'loginController'
   })
 
-    /*.when( '/login', {
-    templateUrl: 'components/profile/profileView.html',
-    controller: 'profileController'
-  })*/
-
     .when( '/admin', {
     templateUrl: 'components/admin/adminView.html',
     controller: 'adminController'

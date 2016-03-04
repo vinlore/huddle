@@ -1,37 +1,101 @@
 <div id="profile">
-  <div class="row">
-      <h1 class = "text-center"> {{loadUserName()}}</h1>
+  <div class="well">
+    <div class="row">
+      <h1 class = "text-center">Hi {{getUserInfo()}}</h1>
       <div class="col-sm-6">
-            <h3 class="text-center">Profile Details</h3>
-            <button class="btn btn-half-block btn-success center-block" ng-click="saveChanges()">Save Changes</button>
+        <h3 class="text-center">Profile Details</h3>
+        <!-- Profile change from -->
+        <form role="form" class="form-horizontal" ng-submit="saveChanges()">
+          <div class="form-group row">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">First Name: </label>
+            <div class="col-sm-6 col-sm-offset-2">
+              <input class="form-control" id="inputUser" placeholder="First Name" ng-model="user.FirstName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Middle Name: </label>
+            <div class="col-sm-6 col-sm-offset-2">
+              <input class="form-control" id="inputUser" placeholder="Middle Name" ng-model="user.MiddleName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Last Name: </label>
+            <div class="col-sm-6 col-sm-offset-2">
+              <input class="form-control" id="inputUser" placeholder="Last Name" ng-model="user.LastName">
+            </div>
+          </div>
+          <div class="form-group row dropdown">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Gender: </label>
+            <div class="col-sm-6 col-sm-offset-2">
+              <select class="form-control" ng-model="user.Gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Country: </label>
+            <div class="col-sm-6 col-sm-offset-2">
+              <input class="form-control" id="inputUser" placeholder="Enter Country" ng-model="user.Country">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">City: </label>
+            <div class="col-sm-6 col-sm-offset-2">
+              <input class="form-control" id="inputUser" placeholder="Enter City" ng-model="user.City">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Home Phone: </label>
+            <div class="col-sm-6 col-sm-offset-2">
+              <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.HomePhone: ">
+            </div>
+            <span class="glyphicon glyphicon-phone-alt">
+            </div>
+            <div class="form-group row">
+              <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Other Phone: </label>
+              <div class="col-sm-6 col-sm-offset-2">
+                <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.OtherPhone: ">
+              </div>
+              <span class="glyphicon glyphicon-phone">
+              </div>
 
-      </div>
-      <div class="col-sm-6">
+              <div class="form-group row">
+                <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Email: </label>
+                <div class="col-sm-6 col-sm-offset-2">
+                  <input class="form-control" id="inputUser" placeholder="Enter Email" ng-model="user.Email">
+                </div>
+                <span class="glyphicon glyphicon-envelope"></span>
+              </div>
+              <button type="submit" class="btn btn-half-block btn-success center-block">Save Changes</button>
+            </form>
+          </div>
 
+          <div class="col-sm-6">
             <h3 class="text-center">Password Change</h3>
             <!-- Password Change Form -->
             <form class="form-horizontal" ng-submit="submit()">
 
               <!-- Old password -->
               <div class="form-group row">
-                <label for="inputUser" class="col-sm-2 form-control-label">Old Password</label>
-                <div class="col-sm-6">
-                  <input type="password" class="form-control" id="inputUser" placeholder="Old Password" ng-model="user.Password">
+                <label for="inputUser" class="col-sm-4 form-control-label">Old Password</label>
+                <div class="col-sm-4">
+                  <input type="password" class="form-control" id="inputUser" placeholder="Enter Old Password" ng-model="user.OldPassword">
                 </div>
               </div>
 
               <!-- New Password -->
               <div class="form-group row">
-                <label for="inputUser" class="col-sm-2 form-control-label">New Password</label>
-                <div class="col-sm-6">
-                  <input type="password" class="form-control" id="inputUser" placeholder="New Password" ng-model="user.Password">
+                <label for="inputUser" class="col-sm-4 form-control-label">New Password</label>
+                <div class="col-sm-4">
+                  <input type="password" class="form-control" id="inputUser" placeholder="Enter New Password" ng-model="user.NewPassword">
                 </div>
               </div>
 
               <!-- Confirm Password -->
               <div class="form-group row">
-                <label for="inputUser" class="col-sm-2 form-control-label">Confirm Password</label>
-                <div class="col-sm-6">
+                <label for="inputUser" class="col-sm-4 form-control-label">Confirm Password</label>
+                <div class="col-sm-4">
                   <input type="password" class="form-control" id="inputUser" placeholder="Confirm Password">
                 </div>
               </div>
@@ -40,8 +104,9 @@
               <div class="form-group">
                 <button type="submit" class="btn btn-half-block btn-success center-block">Submit</button>
               </div>
-
             </form>
+          </div>
+
+        </div>
       </div>
-  </div>
-</div>
+    </div>
