@@ -1,2 +1,90 @@
-<h1>Conferences</h1>
-<h3 ng-repeat="c in conferences">{{c}}</h3>
+<div id="admin">
+	<div class="container">
+		<div class="row margin-top-25">
+			<div class="col-sm-12">
+				<div class="pull-right">
+					<button class="btn btn-success" ng-click="vm.logNewTime()">
+						<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+						Create Conference
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container" id="admin-conferences">
+		<div class="row margin-top-25" ng-repeat="c in conferences">
+			<div class="panel-group">
+				<div class="panel panel-info">
+					<div class="panel-heading" ng-click="isCollapsed = !isCollapsed">
+						<div class="row">
+							<div class="col-md-7">
+								<p class="con_text">{{c.name}}</p>
+								<p class="con_text">{{c.address}}</p>
+								<p class="con_text">{{c.startDate}} - {{c.endDate}}</p>
+							</div>
+							<div class="col-md-5">
+								<div class="pull-right">
+									<p>
+										<button class="btn btn-sm btn-danger">
+											<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+										</button>
+									</p>
+									<p>
+										<button class="btn btn-sm btn-default">
+											<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+											Inventory
+										</button>
+										<button class="btn btn-sm btn-default">
+											<span class="glyphicon glyphicon-road" aria-hidden="true"></span>
+											Transportation
+										</button>
+										<button class="btn btn-sm btn-default">
+											<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+											Attendees
+										</button>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body"  uib-collapse="!isCollapsed">
+						<div ng-if="c.events.length">
+							<div class="events" ng-repeat="e in c.events">
+								<div class="row">
+									<div class="col-sm-7">
+										<p class="event_text">{{e.name}}</p>
+										<p class="event_text">{{e.address}}</p>
+										<p class="event_text">{{e.startDateTime}} - {{e.endDateTime}}</p>
+									</div>
+									<div class="col-sm-5">
+										<div class="pull-right">
+											<p>
+												<button class="btn btn-sm btn-danger">
+													<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+												</button>
+											</p>
+											<p>
+												<button class="btn btn-sm btn-default">
+													<span class="glyphicon glyphicon-road" aria-hidden="true"></span>
+													Transportation
+												</button>
+												<button class="btn btn-sm btn-default">
+													<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+													Attendees
+												</button>
+											</p>
+										</div>
+									</div>
+								</div>
+								<hr ng-show="!$last">
+							</div>
+						</div>
+						<dif ng-if="!c.events.length">
+							<p class="event_text">No events scheduled yet!</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

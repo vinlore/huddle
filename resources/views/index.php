@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="components/home/home.css">
+  <link rel="stylesheet" href="components/admin/admin.css">
   <link rel="stylesheet" href="components/conference/conference.css">
   <link rel="stylesheet" href="components/login/login.css">
   <link rel="stylesheet" href="assets/libs/angular-google-places-autocomplete/dist/autocomplete.min.css">

@@ -1,0 +1,15 @@
+.margin-top-25  {
+	margin-top: 25px;
+}
+
+.con_text {
+	font-size: 150%;
+}
+
+.event_text {
+	font-size: 100%;
+}
+
+.panel-heading {
+    cursor: pointer;
+}
