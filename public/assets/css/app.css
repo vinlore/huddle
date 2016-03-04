@@ -104,8 +104,7 @@
   display: block;
   margin-bottom: .75rem;
   background-color: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: .25rem;
+  box-shadow: 0 3px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
 }
 
 .card-block {
@@ -216,6 +215,10 @@
   border-color: #d9534f;
 }
 
+.card-inverse {
+  background-color: #1976D2;
+}
+
 .card-inverse .card-header,
 .card-inverse .card-footer {
   border-bottom: 1px solid rgba(255, 255, 255, .2);
@@ -275,10 +278,12 @@
 }
 
 .jumbotron {
+  margin-top: 0px;
   color: white;
   text-shadow: 1px 1px 2px black !important;
-  height: 400px;
+  height: 600px;
   box-shadow: 0px 1px 2px black;
+  overflow: hidden;
 }
 
 .jumbotron h1 {
@@ -302,10 +307,18 @@
 .jumbo-container {
   padding-left: 15px;
   padding-right: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  height: 100%;
-  position: relative;
+  margin-top: 80px; /* header + jumbotron */
+  height: 500px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.jumbo-image {
+  width: 100%;
+  transform: translateY(-20%);
 }
 
 .jumbotron .attendance {
@@ -346,4 +359,8 @@
 .form-flex {
   display: flex;
   justify-content: flex-start;
+}
+
+.image-error {
+  display: none !important;
 }

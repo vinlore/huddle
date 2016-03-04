@@ -1,5 +1,6 @@
 <div id="conference">
     <div class="jumbotron">
+        <img class="jumbo-image" ng-src="assets/img/{{conference.country}}/big/{{3 | randomize}}.jpg">
         <div class="jumbo-container">
             <input type="text" class="input-xxlg" ng-model="conference.name" ng-readonly="isDisabled">
             <div class="input-dates">

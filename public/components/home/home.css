@@ -1,6 +1,19 @@
-#home-conferences img {
+@media (min-width: 768px) {
+    #home-conferences img {
+        transform: translateX(-20%);
+    }
+}
+
+@media (max-width: 768px) {
+    #home-conferences img {
+        width: 100%;
+    }
+}
+
+#home-conferences .card-inverse {
+  overflow: hidden;
   width: 100%;
-  max-height: 300px;
+  height: 250px;
 }
 
 #home .jumbotron {
