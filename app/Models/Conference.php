@@ -18,15 +18,12 @@ class Conference extends Model
         return $this->belongsToMany('App\Models\Accommodation');
     }
 
-<<<<<<< HEAD
-=======
     // Each conference has many transportation options.
     public function transportation()
     {
         return $this->belongsToMany('App\Models\Vehicle', 'conference_vehicles');
     }
 
->>>>>>> 4a088ee9cf28f236ba4119d2446e1b3b89e4e540
     // Each conference has many events.
     public function events()
     {
