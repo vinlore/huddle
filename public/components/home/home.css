@@ -16,9 +16,8 @@
   height: 250px;
 }
 
-#home .jumbotron {
-  background: url("/assets/img/gobindsarvar.jpg");
-  background-size: cover;
+#home .banner {
+  background-image: url("/assets/img/overlay.png"), url("/assets/img/gobindsarvar.jpg");
 }
 
 #home .jumbotron .container {

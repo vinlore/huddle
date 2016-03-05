@@ -1,3 +1,22 @@
+/* Displays with width smaller than 1280px */
+@media (max-width: 1280px) {
+  .banner {
+    background-attachment: scroll !important;
+    padding:; 10em 0 18em 0 !important;
+  }
+  .body-container {
+    width: 70em !important;
+  }
+}
+
+/* Displays with width smaller than 1080px */
+@media (max-width: 1080px) { 
+  .body-container {
+    width: 90% !important;
+  }
+}
+
+/* Displays with width smaller than 768px */
 @media (max-width: 768px) {
   .input-xxlg {
     font-size: 40px !important;
@@ -31,10 +50,50 @@
   .jumbotron {
     height: 350px !important;
   }
+  .banner {
+    padding: 5em 1em 4em 1em !important;
+    background-attachment: scroll !important;
+    width: 100% !important;
+  }
+  .body-container {
+    padding: 0 !important;
+    margin-top: 0 !important;
+    width: 100% !important;
+  }
 }
 
 .padding-top-5 {
   padding-top: 5px;
+}
+
+.banner {
+  background-color: #666;
+  background-position: top left, center center;
+  background-repeat: repeat, no-repeat;
+  background-size: auto, cover;
+  background-attachment: scroll, fixed;
+  color: #fff;
+  text-shadow: 1px 1px 2px black;
+  text-align: center;
+  padding: 12em 0 20em 0;
+}
+
+.body-container {
+  margin-top: -14em;
+  padding: 4em 0;
+  width: 80em;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.body-container .box {
+  background-color: white;
+  box-shadow: 0 2px 2px 0 #e5e5e5;
+  padding: 4em;
+  margin: 0 0 2em 0;
+  width: 100%;
+  border-radius: 3px;
 }
 
 /* Bootswatch Paper theme input */
