@@ -29,4 +29,13 @@ class Profile extends Model
     {
         return $this->belongsToMany('App\Models\Room', 'profile_stays_in_rooms');
     }
+<<<<<<< HEAD
+=======
+
+    // Each profile is transported by many vehicles.
+    public function vehicles()
+    {
+        return $this->belongsToMany('App\Models\Room', 'profile_stays_in_rooms');
+    }
+>>>>>>> 4a088ee9cf28f236ba4119d2446e1b3b89e4e540
 }

@@ -122,7 +122,7 @@ Route::get('email', function () {
  |
   */
 	//Security for all url with /api
-	Route::group(['middleware' => ['authToken'],'prefix' => 'api'], function () {
+	Route::group(['middleware' => ['authToken','throttle:50,1'],'prefix' => 'api'], function () {
 		//Development Purposes
 		Route::get('tok' , function() {
 		  return "Protected resource";
