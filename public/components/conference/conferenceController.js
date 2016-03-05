@@ -1,5 +1,5 @@
 angular.module ( 'conferenceCtrl', [] )
-.controller ( 'conferenceController', function ( $scope, Conference, Gmap, Events ) {
+.controller ( 'conferenceController', function ( $scope, $filter, Conference, Gmap, Events ) {
     
     $scope.conference = {
         "conferenceId": 123,
@@ -16,6 +16,8 @@ angular.module ( 'conferenceCtrl', [] )
         "accommodationId": 123
     };
     var conferenceBackup = {};
+
+    $scope.background = {'background-image': 'url(assets/img/overlay.png), url(assets/img/' + $scope.conference.country + '/big/' + $filter('randomize')(3) + '.jpg)'};
 
     $scope.inventory = [
         {

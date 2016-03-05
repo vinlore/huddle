@@ -1,6 +1,5 @@
 <div id="conference">
-    <div class="jumbotron">
-        <img class="jumbo-image" ng-src="assets/img/{{conference.country}}/big/{{3 | randomize}}.jpg">
+    <div class="banner" ng-style="{{background}}">
         <div class="jumbo-container">
             <input type="text" class="input-xxlg" ng-model="conference.name" ng-readonly="isDisabled">
             <div class="input-dates">
@@ -20,7 +19,11 @@
             <input type="text" class="input-xlg" ng-model="conference.city" ng-readonly="isDisabled">
             <input type="text" class="input-xlg" ng-model="conference.country" ng-readonly="isDisabled">
             <textarea type="text" class="textarea-xlg" ng-model="conference.description" ng-readonly="isDisabled" rows="3" wrap="soft"></textarea>
-            <div class="hidden-xs edit-btn">
+        </div>
+    </div>
+    <div class="body-container" id="events-container">
+        <div class="box">
+            <div class="btn-container">
                 <button type="button" class="btn btn-primary" ng-click="editConference()" ng-show="isDisabled">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </button>
@@ -33,84 +36,69 @@
                     </button>
                 </div>
             </div>
-            <button type="button" class="btn btn-info attendance">
-                <span class="glyphicon glyphicon-ok"></span> Attend
-            </button>
-            <button type="button" class="btn btn-info attendance">
-                <span class="attending">
-                    <span class="glyphicon glyphicon-ok"></span> Attending
-                </span>
-                <span class="leave">
-                    <span class="glyphicon glyphicon-remove"></span> Leave
-                </span>
-            </button>
-        </div>
-    </div>
-    <div class="container" id="events-container">
-        <div class="visible-xs pull-right">
-            <button type="button" class="btn btn-primary" ng-click="editConference()" ng-show="isDisabled">
-                <span class="glyphicon glyphicon-edit"></span> Edit
-            </button>
-            <div ng-hide="isDisabled">
-                <button type="button" class="btn btn-success" ng-click="updateConference()">
-                    <span class="glyphicon glyphicon-ok"></span> Save Changes
+            <div class="page-header">
+                <h1>Events</h1>
+                <button type="button" class="btn btn-info attendance">
+                    <span class="glyphicon glyphicon-ok"></span> Attend
                 </button>
-                <button type="button" class="btn btn-danger" ng-click="resetConference()">
-                    <span class="glyphicon glyphicon-remove"></span> Cancel
+                <button type="button" class="btn btn-info attendance">
+                    <span class="attending">
+                        <span class="glyphicon glyphicon-ok"></span> Attending
+                    </span>
+                    <span class="leave">
+                        <span class="glyphicon glyphicon-remove"></span> Leave
+                    </span>
                 </button>
             </div>
-        </div>
-        <h1>Events</h1>
-        <hr>
-        <div class="row">
-            <div class="col-sm-4" ng-if="events" ng-repeat="event in events">
-                <a href="/event-{{event.eventId}}">
-                    <div class="card card-inverse">
-                        <img ng-src="{{getMap(event)}}" class="card-img">
-                        <div class="card-img-overlay">
-                            <h3 class="card-title">{{event.name}}</h3>
-                            <h4 class="card-subtitle">{{event.address}}</h4>
-                            <h4 class="card-subtitle">{{event.startTime | time}} to {{event.endTime | time}}</h4>
-                            <h4 class="card-subtitle">{{event.facilitator}}</h4>
+            <div class="row">
+                <div class="col-sm-4" ng-if="events" ng-repeat="event in events">
+                    <a href="/event-{{event.eventId}}">
+                        <div class="card card-inverse">
+                            <img ng-src="assets/img/{{conference.country}}-flag.gif" class="card-img">
+                            <div class="card-img-overlay">
+                                <h3 class="card-title">{{event.name}}</h3>
+                                <h4 class="card-subtitle">{{event.address}}</h4>
+                                <h4 class="card-subtitle">{{event.startTime | time}} to {{event.endTime | time}}</h4>
+                                <h4 class="card-subtitle">{{event.facilitator}}</h4>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+                <h4 class="upcoming" ng-if="!events">No events have been registered yet. Sign up for notifications about events for this conference <a href="">here</a>.</h4>
             </div>
-            <h4 class="upcoming" ng-if="!events">No events have been registered yet. Sign up for notifications about events for this conference <a href="">here</a>.</h4>
-        </div>
-        <h1>Services</h1>
-        <hr>
-        <div class="row">
-            <div class="col-sm-3" ng-if="inventory">
-                <h4>Supplies</h4>
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="item in inventory">{{item.name}}</li>
-                </ul>
-            </div>
-            <div class="col-sm-3" ng-if="accommodations">
-                <h4>Accommodations</h4>
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="accom in accommodations">
-                        <span class="badge">{{accom.capacity}}</span>
-                        {{accom.name}}
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3" ng-if="arrTransport">
-                <h4>Arrival Transportation</h4>
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="type in arrTransport">
-                        {{type.name}}
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3" ng-if="depTransport">
-                <h4>Departure Transportation</h4>
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="type in depTransport">
-                        {{type.name}}
-                    </li>
-                </ul>
+            <h1>Services</h1>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3" ng-if="inventory">
+                    <h4>Supplies</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="item in inventory">{{item.name}}</li>
+                    </ul>
+                </div>
+                <div class="col-sm-3" ng-if="accommodations">
+                    <h4>Accommodations</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="accom in accommodations">
+                            <span class="badge">{{accom.capacity}}</span> {{accom.name}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3" ng-if="arrTransport">
+                    <h4>Arrival Transportation</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="type in arrTransport">
+                            {{type.name}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3" ng-if="depTransport">
+                    <h4>Departure Transportation</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="type in depTransport">
+                            {{type.name}}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

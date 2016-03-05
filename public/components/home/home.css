@@ -20,9 +20,8 @@
   background-image: url("/assets/img/overlay.png"), url("/assets/img/gobindsarvar.jpg");
 }
 
-#home .jumbotron .container {
-  top: 150px;
-  position: relative;
+#home .card-inverse {
+  background-size: cover;
 }
 
 #home hr {

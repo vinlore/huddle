@@ -12,8 +12,7 @@
         <div class="row">
             <div class="col-sm-4" ng-if="conferences" ng-repeat="con in conferences">
                 <a href="/conference-{{con.conferenceId}}">
-                    <div class="card card-inverse">
-                        <img ng-src="assets/img/{{con.country}}/small/{{3 | randomize}}.jpg" err-src class="card-img">
+                    <div class="card card-inverse" ng-style="{'background-image': 'url(assets/img/{{con.country}}/small/{{3 | randomize}}.jpg)'}">
                         <div class="card-img-overlay">
                             <h3 class="card-title">{{con.name}}</h3>
                             <h4 class="card-subtitle">{{con.country}}</h4>

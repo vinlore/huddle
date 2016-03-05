@@ -2,7 +2,7 @@
 @media (max-width: 1280px) {
   .banner {
     background-attachment: scroll !important;
-    padding:; 10em 0 18em 0 !important;
+    padding: 10em 0 18em 0 !important;
   }
   .body-container {
     width: 70em !important;
@@ -14,41 +14,59 @@
   .body-container {
     width: 90% !important;
   }
+  .input-xxlg {
+    font-size: 50px !important;
+    height: 60px !important;
+    width: 100% !important;
+  }
+  .input-xlg {
+    font-size: 22px !important;
+    height: 40px !important;
+    width: 100% !important;
+  }
+  .jumbo-container .input-group {
+    max-width: 135px !important;
+  }
+  .jumbo-container input[type="custom-date"] {
+    width: 130px !important;
+  }
+  .textarea-xlg {
+    font-size: 22px !important;
+    width: 100% !important;
+  }
+  .input-dates {
+    font-size: 22px !important;
+  }
 }
 
 /* Displays with width smaller than 768px */
 @media (max-width: 768px) {
+  h1 {
+    font-size: 30px !important;
+  }
   .input-xxlg {
-    font-size: 40px !important;
-    height: 45px !important;
+    font-size: 45px !important;
+    height: 55px !important;
     width: 100% !important;
-    text-align: center;
   }
   .input-xlg {
     font-size: 18px !important;
-    height: 33px !important;
+    height: 30px !important;
+    width: 100% !important;
   }
   .textarea-xlg {
     font-size: 18px !important;
+    width: 100% !important;
   }
   .input-dates {
     font-size: 18px !important;
     width: 100% !important;
-    justify-content: center;
   }
-  .jumbotron .input-group {
-    max-width: 140px !important;
+  .jumbo-container .input-group {
+    max-width: 115px !important;
   }
-  .jumbotron input[type="custom-date"] {
-    width: 115px !important;
-  }
-  .jumbo-container {
-    display: flex !important;
-    flex-flow: column wrap !important;
-    align-items: center !important;
-  }
-  .jumbotron {
-    height: 350px !important;
+  .jumbo-container input[type="custom-date"] {
+    width: 110px !important;
   }
   .banner {
     padding: 5em 1em 4em 1em !important;
@@ -59,6 +77,58 @@
     padding: 0 !important;
     margin-top: 0 !important;
     width: 100% !important;
+  }
+}
+
+/* Displays with width smaller than 480px */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 25px !important;
+  }
+  .input-xxlg {
+    font-size: 30px !important;
+    height: 40px !important;
+    width: 100% !important;
+  }
+  .input-xlg {
+    font-size: 15px !important;
+    height: 30px !important;
+    width: 100% !important;
+  }
+  .textarea-xlg {
+    font-size: 15px !important;
+    width: 100% !important;
+  }
+  .input-dates {
+    font-size: 15px !important;
+    width: 100% !important;
+    height: 30px !important;
+  }
+  .jumbo-container .input-group {
+    max-width: 90px !important;
+  }
+  .jumbo-container input[type="custom-date"] {
+    width: 90px !important;
+    height: 25px !important;
+  }
+  .banner {
+    padding: 5em 1em 4em 1em !important;
+    background-attachment: scroll !important;
+    width: 100% !important;
+  }
+  .jumbo-container {
+    padding: 1em !important;
+  }
+  .body-container {
+    padding: 0 !important;
+    margin-top: 0 !important;
+    width: 100% !important;
+  }
+  .input-group {
+    width: 110px !important;
+  }
+  .box {
+    padding: 1em !important;
   }
 }
 
@@ -75,7 +145,7 @@
   color: #fff;
   text-shadow: 1px 1px 2px black;
   text-align: center;
-  padding: 12em 0 20em 0;
+  padding: 10em 0 20em 0;
 }
 
 .body-container {
@@ -84,7 +154,6 @@
   width: 80em;
   margin-left: auto;
   margin-right: auto;
-
 }
 
 .body-container .box {
@@ -97,39 +166,38 @@
 }
 
 /* Bootswatch Paper theme input */
-.jumbotron input[type="text"],
-.jumbotron textarea,
-.jumbotron input[type="custom-date"] {
+.jumbo-container input[type="text"],
+.jumbo-container textarea,
+.jumbo-container input[type="custom-date"] {
   border: medium none;
   padding: 0px;
   border-radius: 0px;
   text-shadow: 1px 1px 2px black !important;
   background-color: transparent;
   background-image: none;
-  width: 70%;
+  width: 100%;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
   -webkit-box-shadow: inset 0 -1px 0 #ffffff;
   box-shadow: inset 0 -1px 0 #ffffff;
   resize: none;
 }
 
-.jumbotron input[type="custom-date"] {
+.jumbo-container input[type="custom-date"] {
   color: white !important;
   width: 150px;
 }
 
-.jumbotron input:read-only,
-.jumbotron textarea:read-only {
+.jumbo-container input:read-only,
+.jumbo-container textarea:read-only {
   box-shadow: none;
 }
 
-.jumbotron input:-moz-read-only,
-.jumbotron textarea:-moz-read-only {
+.jumbo-container input:-moz-read-only,
+.jumbo-container textarea:-moz-read-only {
   box-shadow: none;
 }
 
 .input-dates {
-  width: 70%;
   font-size: 24px;
   display: flex;
   flex-flow: row nowrap;
@@ -364,51 +432,43 @@
 }
 
 .jumbo-container {
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-top: 80px; /* header + jumbotron */
-  height: 500px;
+  text-align: left;
+  position: relative;
+  padding: 4em;
+}
+
+.btn-container {
+  position: relative;
+}
+
+.attendance {
   position: absolute;
   top: 0;
-  bottom: 0;
-  left: 0;
   right: 0;
+  min-width: 130px;
 }
 
-.jumbo-image {
-  width: 100%;
-  transform: translateY(-20%);
-}
-
-.jumbotron .attendance {
-  position: absolute;
-  right: 15px;
-  bottom: 0px;
-  min-width: 150px;
-}
-
-.jumbotron .attendance:hover {
+.attendance:hover {
   color: #FFF;
   background-color: #D9534F;
   border-color: #D43F3A;
 }
 
-.jumbotron .leave {
+.leave {
   display: none;
 }
 
-.jumbotron .attendance:hover .attending {
+.attendance:hover .attending {
   display: none;
 }
 
-.jumbotron .attendance:hover .leave {
+.attendance:hover .leave {
   display: inline;
 }
 
-.jumbotron .edit-btn {
+.btn-container .edit-btn {
   position: absolute;
-  right: 15px;
-  top: 0px;
+  left: 0;
 }
 
 .upcoming {
