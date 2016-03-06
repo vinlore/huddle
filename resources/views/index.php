@@ -39,6 +39,8 @@
   <script src="components/createConference/createConferenceController.js"></script>
   <script src="components/profile/profileController.js"></script>
   <script src="components/activityLog/activityLogController.js"></script>
+  <script src="shared/header/headerController.js"></script>
+  <script src="shared/popupPrompt/popupPromptController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
@@ -58,8 +60,8 @@
 </head>
 
 <body>
-  <div ng-include="'shared/header.html'"></div>
-  <div class="has-header" ng-view></div>
+  <div ng-include="'shared/header/header.html'" ng-controller="headerController"></div>
+  <div class="has-header" ng-view autoscroll></div>
 </body>
 
 </html>

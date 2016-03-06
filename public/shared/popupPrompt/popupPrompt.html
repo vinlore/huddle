@@ -1,0 +1,10 @@
+<div class="modal-header" ng-if="content.title">
+	<h4 class="modal-title">{{content.title}}</h4>
+</div>
+<div class="modal-body">
+	<p>{{content.body}}</p>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" type="button" ng-click="ok()">Yes</button>
+	<button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+</div>

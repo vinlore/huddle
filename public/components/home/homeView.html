@@ -1,18 +1,18 @@
 <div id="home">
-    <div class="jumbotron">
+    <div class="banner">
         <div class="container">
-            <h3 class="text-center">We are Gobind Sarvar, developing "Today's Learner... Tomorrow's Guide"</h3>
-            <h4 class="text-center">A non-for-profit spiritual learning instiutute with Location across Canada, USA, UK, France, India...</h4>
+            <h3>We are Gobind Sarvar, developing "Today's Learner... Tomorrow's Guide"</h3>
+            <h4>A non-for-profit spiritual learning instiutute with Location across Canada, USA, UK, France, India...</h4>
         </div>
     </div>
-    <div class="container" id="home-conferences">
+    <div class="body-container" id="home-conferences">
+        <div class="box">
         <h1>Upcoming Conferences</h1>
         <hr>
         <div class="row">
             <div class="col-sm-4" ng-if="conferences" ng-repeat="con in conferences">
                 <a href="/conference-{{con.conferenceId}}">
-                    <div class="card card-inverse">
-                        <img ng-src="assets/img/{{con.country}}/small/{{3 | randomize}}.jpg" err-src class="card-img">
+                    <div class="card card-inverse" ng-style="{'background-image': 'url(assets/img/{{con.country}}/small/{{3 | randomize}}.jpg)'}">
                         <div class="card-img-overlay">
                             <h3 class="card-title">{{con.name}}</h3>
                             <h4 class="card-subtitle">{{con.country}}</h4>
@@ -38,6 +38,7 @@
                     </div>
                 </a>
             </div>
+        </div>
         </div>
     </div>
 </div>
