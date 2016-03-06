@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User as User;
+use App\Models\Profile as Profile;
 
 class AuthenticateController extends Controller
 {
@@ -10,21 +12,29 @@ class AuthenticateController extends Controller
     /*
      * User Creation
      */
-    function user_registration(){
+    function user_registration(Request $request){
 
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST ['password'];
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
+        $username = $request->username;
+        $email = $request->email;
+        $password = $request->password;
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $middleName = "test";
+        $age = "99";
+        $country = "can can";
+        $city = "van van";
+        $homePhone = "7865123256";
+        $birthdate = "something";
+        $gender = 'gender';
 
-        $credential = array(
+        $user_credential = array(
             'username' => $username,
             'email'     => $email,
             'password'  => $password,
             'first_name' => $firstName,
             'last_name' => $lastName,
         );
+
 
         //Check If username is correctly set
         if((strlen($username) < 4) ||
@@ -65,7 +75,7 @@ class AuthenticateController extends Controller
 
         try{
             //Register User to Database
-            \Sentinel::register($credential,true);
+            \Sentinel::register($user_credential,true);
 
             //Check if User has been saved to DB
              $checkUserExist = \Sentinel::findByCredentials(['login' => $username]);
@@ -81,6 +91,23 @@ class AuthenticateController extends Controller
                     $message->to($email)->subject('You have been registered, Welcome!');
                 });
             }
+
+            //Create and link a profile to user
+            $user_id = $checkUserExist->id;
+
+            $profile = new Profile;
+            $profile->user_id =  $user_id;
+            $profile->email = $email;
+            $profile->first_name = $firstName;
+            $profile->middle_name = $middleName;
+            $profile->last_name = $lastName;
+            $profile->city = $city;
+            $profile->country = $country;
+            $profile->birthday = $birthdate;
+            $profile->gender = $gender;
+            $profile->is_owner = 1;
+            //TODO: add validation
+            $profile->save();
 
             //Registration Successful - TODO - Go to Sucess page
             return \Response::json($checkUserExist->toArray());
