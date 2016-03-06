@@ -1,5 +1,5 @@
 angular.module( 'headerCtrl', [] )
-.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, Logout ) {
+.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, Logout ) {
 
     var logout = function () {
         Logout.save( $auth.getToken() )
@@ -9,6 +9,7 @@ angular.module( 'headerCtrl', [] )
                     console.log( "Logging out..." );
                     $auth.logout().then( function ( result ) { // If logout on front-end was successful
                         $rootScope.auth = $auth.isAuthenticated();
+                        $location.path('/');
                     });
                 }
             }, function ( response ) { // API call failed

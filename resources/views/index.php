@@ -61,7 +61,7 @@
 
 <body>
   <div ng-include="'shared/header/header.html'" ng-controller="headerController"></div>
-  <div class="has-header" ng-view></div>
+  <div class="has-header" ng-view autoscroll></div>
 </body>
 
 </html>

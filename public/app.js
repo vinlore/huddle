@@ -71,7 +71,10 @@ angular.module('cms', [
 
     .when( '/create-conference', {
         templateUrl: 'components/createConference/createConferenceView.html',
-        controller: 'createConferenceController'
+        controller: 'createConferenceController',
+        resolve: {
+            loginRequired: loginRequired
+        }
     })
 
     .when( '/profile', {
