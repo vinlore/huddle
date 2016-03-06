@@ -5,6 +5,7 @@ angular.module('cms', [
     'ngResource',
     'ui.bootstrap',
     'ngAnimate',
+    'headerCtrl',
     'homeCtrl',
     'adminCtrl',
     'userRegCtrl',
@@ -21,26 +22,12 @@ angular.module('cms', [
     'satellizer',
     'customDirs',
     'customFilters',
-    'google.places'
+    'google.places',
+    'popupPromptCtrl'
 ])
 
-.run( function( $rootScope, $auth, Logout ) {
+.run( function( $rootScope, $auth ) {
     $rootScope.auth = $auth.isAuthenticated();
-
-    // Logout function
-    $rootScope.logout = function() {
-        Logout.save( $auth.getToken() )
-            .$promise.then( function( response ) {  // OK
-                if ( response.success ) {   // If logout on server was successful
-                    console.log("Logging out...");
-                    $auth.logout().then( function( result ) {   // If logout on front-end was successful
-                        $rootScope.auth = $auth.isAuthenticated();
-                    });
-                }
-            }, function( response ) {   // API call failed
-                console.log("An error occurred while logging in.");
-            })
-    };
 })
 
 .config( function( $routeProvider, $locationProvider, $authProvider ) {
@@ -49,46 +36,78 @@ angular.module('cms', [
     $routeProvider
 
     .when( '/', {
-    templateUrl: 'components/home/homeView.html',
-    controller: 'homeController'
+        templateUrl: 'components/home/homeView.html',
+        controller: 'homeController'
     })
 
     .when( '/login', {
-    templateUrl: 'components/login/loginView.html',
-    controller: 'loginController'
-  })
+        templateUrl: 'components/login/loginView.html',
+        controller: 'loginController',
+        resolve: {
+            skipIfLoggedIn: skipIfLoggedIn
+        }
+    })
 
     .when( '/admin', {
-    templateUrl: 'components/admin/adminView.html',
-    controller: 'adminController'
+        templateUrl: 'components/admin/adminView.html',
+        controller: 'adminController',
+        resolve: {
+            loginRequired: loginRequired
+        }
     })
 
     .when( '/register', {
-    templateUrl: 'components/userReg/userRegView.html',
-    controller: 'userRegController'
+        templateUrl: 'components/userReg/userRegView.html',
+        controller: 'userRegController',
+        resolve: {
+            skipIfLoggedIn: skipIfLoggedIn
+        }
     })
 
     .when( '/conference-:conferenceId', {
-    templateUrl: 'components/conference/conferenceView.html',
-    controller: 'conferenceController'
+        templateUrl: 'components/conference/conferenceView.html',
+        controller: 'conferenceController'
     })
 
     .when( '/create-conference', {
-    templateUrl: 'components/createConference/createConferenceView.html',
-    controller: 'createConferenceController'
+        templateUrl: 'components/createConference/createConferenceView.html',
+        controller: 'createConferenceController'
     })
 
     .when( '/profile', {
-    templateUrl: 'components/profile/profileView.html',
-    controller: 'profileController'
+        templateUrl: 'components/profile/profileView.html',
+        controller: 'profileController',
+        resolve: {
+            loginRequired: loginRequired
+        }
     })
 
     .when( '/logs', {
-    templateUrl: 'components/activityLog/activityLogView.html',
-    controller: 'activityLogController'
+        templateUrl: 'components/activityLog/activityLogView.html',
+        controller: 'activityLogController'
     })
 
     .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode(true);
+
+    function skipIfLoggedIn( $q, $auth, $location ) {
+        var deferred = $q.defer();
+        if ( $auth.isAuthenticated() ) {
+            $location.path('/');
+        } else {
+            deferred.resolve();
+        }
+        return deferred.promise;
+    }
+
+    function loginRequired( $q, $auth, $location ) {
+        var deferred = $q.defer();
+        if ( $auth.isAuthenticated() ) {
+            deferred.resolve();
+        } else {
+            $location.path('/login');
+        }
+        return deferred.promise;
+    }
 });
