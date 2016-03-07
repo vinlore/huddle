@@ -16,17 +16,6 @@ angular.module('signupConfCtrl',[])
       Email: null,
       HomePhone: null,
       OtherPhone: null,
-      FamilyMembers : [
-        {
-          FirstName: null,
-          MiddleName: null,
-          LastName: null,
-          Birthdate: null,
-          Gender: null,
-          Country: null,
-          City: null,
-        }
-      ]
   };
 
   $scope.emergencyContact = {
@@ -47,15 +36,42 @@ angular.module('signupConfCtrl',[])
       description: null
   }
 
-  $scope.addFamilyMember = function () {
-    var member = {
-
+  $scope.familymembers = [
+    {
+      id : 'member1',
+      FirstName: null,
+      MiddleName: null,
+      LastName: null,
+      Birthdate: null,
+      Gender: null,
+      Country: null,
+      City: null,
     }
-    user.FamilyMembers.push(member);
+  ]
+
+  $scope.choices = [{id: 'choice1'}, {id: 'choice2'}];
+
+  $scope.addNewChoice = function() {
+    var newItemNo = $scope.choices.length+1;
+    $scope.choices.push({'id':'choice'+newItemNo});
+  }
+
+  $scope.removeChoice = function() {
+    var lastItem = $scope.choices.length-1;
+    $scope.choices.splice(lastItem);
+  }
+
+  $scope.addFamilyMember = function () {
+    var newFamMem = $scope.familymembers.length + 1;
+    $scope.familymembers.push({'id':'member'+newFamMem});
+  }
+
+  $scope.removeFamilyMember = function (index) {
+    $scope.familymembers.splice(index, 1);
   }
 
   $scope.submitRequest = function () {
 
-  };
+  }
 
 })

@@ -1,127 +1,128 @@
 <div id="signupConf" class="container has-header">
-  <div class="row">
-    <h1 class = "text-center">Sign Up for {{conference.name}}</h1>
+    <div class="row">
+        <h1 class="text-center">Sign Up for {{conference.name}}</h1>
 
-    <div class="col-sm-6">
-      <h3 class="text-center">Profile </h3>
-      <!-- Profile change from -->
-      <form role="form" class="form-horizontal">
-        <div class="form-group">
-          <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">First Name: </label>
-          <div class="col-sm-6 col-sm-offset-2">
-            <input class="form-control" id="inputUser" placeholder="First Name" ng-model="user.FirstName">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Middle Name: </label>
-          <div class="col-sm-6 col-sm-offset-2">
-            <input class="form-control" id="inputUser" placeholder="Middle Name" ng-model="user.MiddleName">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Last Name: </label>
-          <div class="col-sm-6 col-sm-offset-2">
-            <input class="form-control" id="inputUser" placeholder="Last Name" ng-model="user.LastName">
-          </div>
-        </div>
+        <div class="col-sm-6">
+            <h3 class="text-center">Profile </h3>
+            <!-- Profile -->
+            <form role="form" class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">First Name: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="First Name" ng-model="user.FirstName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Middle Name: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Middle Name" ng-model="user.MiddleName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Last Name: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Last Name" ng-model="user.LastName">
+                    </div>
+                </div>
 
-        <div class="form-group">
-          <label for="regBirthdate" class="col-sm-2 col-sm-offset-1 form-control-label">Birthdate</label>
-          <div class="col-sm-6 col-sm-offset-2">
-            <div class="input-group">
-              <input type="text" class="form-control" ng-model="user.Birthdate" uib-datepicker-popup="MMM d, yyyy" is-open="calendar.isOpen" placeholder="Jan 1, 2016">
-              <span class="input-group-btn">
+                <div class="form-group">
+                    <label for="regBirthdate" class="col-sm-2 col-sm-offset-1 form-control-label">Birthdate</label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="user.Birthdate" uib-datepicker-popup="MMM d, yyyy" is-open="calendar.isOpen" placeholder="Jan 1, 2016">
+                            <span class="input-group-btn">
                 <button class="btn btn-link" type="button" ng-click="calendar.isOpen = !calendar.isOpen">
                   <i class="glyphicon glyphicon-calendar"></i>
                 </button>
               </span>
-            </div>
-          </div>
-        </div>
+                        </div>
+                    </div>
+                </div>
 
 
-        <div class="form-group dropdown">
-          <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Gender: </label>
-          <div class="col-sm-6 col-sm-offset-2">
-            <select class="form-control" ng-model="user.Gender">
+                <div class="form-group dropdown">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Gender: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <select class="form-control" ng-model="user.Gender">
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
-          </div>
-        </div>
+                    </div>
+                </div>
 
-        <div class="form-group">
-          <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Country: </label>
-          <div class="col-sm-6 col-sm-offset-2">
-            <input class="form-control" id="inputUser" placeholder="Enter Country" ng-model="user.Country">
-          </div>
-        </div>
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Country: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Enter Country" ng-model="user.Country">
+                    </div>
+                </div>
 
-        <div class="form-group">
-          <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">City: </label>
-          <div class="col-sm-6 col-sm-offset-2">
-            <input class="form-control" id="inputUser" placeholder="Enter City" ng-model="user.City">
-          </div>
-        </div>
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">City: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Enter City" ng-model="user.City">
+                    </div>
+                </div>
 
-        <div class="form-group">
-          <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Home Phone: </label>
-          <div class="col-sm-6 col-sm-offset-2">
-            <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.HomePhone: ">
-          </div>
-          <span class="glyphicon glyphicon-phone-alt">
-          </div>
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Home Phone: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.HomePhone">
+                    </div>
+                    <span class="glyphicon glyphicon-phone-alt">
+                </div>
+
           <div class="form-group">
             <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Other Phone: </label>
             <div class="col-sm-6 col-sm-offset-2">
-              <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.OtherPhone: ">
+              <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.OtherPhone">
             </div>
             <span class="glyphicon glyphicon-phone">
-            </div>
+          </div>
 
-            <div class="form-group">
+          <div class="form-group">
               <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Email: </label>
               <div class="col-sm-6 col-sm-offset-2">
                 <input class="form-control" id="inputUser" placeholder="Enter Email" ng-model="user.Email">
               </div>
               <span class="glyphicon glyphicon-envelope"></span>
-            </div>
-          </form>
+                </div>
+            </form>
         </div>
 
         <div class="col-sm-6">
-          <h3 class="text-center">Emergency Contact</h3>
+            <h3 class="text-center">Emergency Contact</h3>
 
-          <!-- Emergency Contact Form -->
-          <form class="form-horizontal">
+            <!-- Emergency Contact Form -->
+            <form class="form-horizontal">
 
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">First Name: </label>
-              <div class="col-sm-6 col-sm-offset-2">
-                <input class="form-control" id="inputUser" placeholder="First Name" ng-model="emergencyContact.FirstName">
-              </div>
-            </div>
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">First Name: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="First Name" ng-model="emergencyContact.FirstName">
+                    </div>
+                </div>
 
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Middle Name: </label>
-              <div class="col-sm-6 col-sm-offset-2">
-                <input class="form-control" id="inputUser" placeholder="Middle Name" ng-model="emergencyContact.MiddleName">
-              </div>
-            </div>
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Middle Name: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Middle Name" ng-model="emergencyContact.MiddleName">
+                    </div>
+                </div>
 
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Last Name: </label>
-              <div class="col-sm-6 col-sm-offset-2">
-                <input class="form-control" id="inputUser" placeholder="Last Name" ng-model="emergencyContact.LastName">
-              </div>
-            </div>
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Last Name: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Last Name" ng-model="emergencyContact.LastName">
+                    </div>
+                </div>
 
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Phone: </label>
-              <div class="col-sm-6 col-sm-offset-2">
-                <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="emergencyContact.Phone: ">
-              </div>
-              <span class="glyphicon glyphicon-phone">
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Phone: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="emergencyContact.Phone">
+                    </div>
+                    <span class="glyphicon glyphicon-phone">
               </div>
 
               <div class="form-group">
@@ -130,19 +131,54 @@
                   <input class="form-control" id="inputUser" placeholder="Enter Email" ng-model="emergencyContact.Email">
                 </div>
                 <span class="glyphicon glyphicon-envelope"></span>
-              </div>
-          </form>
+                </div>
+            </form>
 
         </div>
-      </div>
-
-      <div>
-        <h2> Family Members </h2>
-      </div>
-
-      <div>
-        <h2> Transportation Info </h2>
-      </div>
-
-      <button type="submit" class="btn btn-half-block btn-success center-block">Submit Request</button>
     </div>
+
+    <div class="col-sm-12">
+        <h3>Add Family Members</h3>
+
+        <!-- <fieldset  data-ng-repeat="choice in choices">
+      <select>
+         <option>Mobile</option>
+         <option>Office</option>
+         <option>Home</option>
+      </select>
+      <input type="text" ng-model="choice.name" name="" placeholder="Enter mobile number">
+      <button class="remove" ng-click="removeChoice($index)">-</button>
+   </fieldset>
+
+   <button class="addfields" ng-click="addNewChoice()">Add fields</button> -->
+        <fieldset data-ng-repeat="family in familymembers">
+            <label for="inputUser">First Name: </label>
+            <input type="text" id="inputUser" placeholder="First Name:" ng-model="family.FirstName">
+
+            <label for="inputUser">Middle Name: </label>
+            <input type="text" id="inputUser" placeholder="Middle Name:" ng-model="family.MiddleName">
+
+            <label for="inputUser">Last Name: </label>
+            <input type="text" id="inputUser" placeholder="Last Name:" ng-model="family.LastName">
+
+            <label for="inputUser">Birthdate: </label>
+            <input type="text" id="inputUser" placeholder="Birthdate" ng-model="family.Birthdate">
+
+
+            <label for="inputUser">Country: </label>
+            <input type="text" id="inputUser" placeholder="Country" ng-model="family.Country">
+
+            <label for="inputUser">City: </label>
+            <input type="text" id="inputUser" placeholder="City" ng-model="family.City">
+
+            <button class="remove" ng-click="removeFamilyMember($index)">-</button>
+        </fieldset>
+        <button class="addfields" ng-click="addFamilyMember()">Add Family Member</button>
+    </div>
+
+    <div>
+        <h3> Transportation Info </h3>
+    </div>
+
+    <button type="submit" class="btn btn-half-block btn-success center-block">Submit Request</button>
+</div>
