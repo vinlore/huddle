@@ -11,3 +11,11 @@ angular.module( 'customFilters', [] )
         };
     };
 })
+
+.filter( 'randomize', function() {
+    return function( input, scope ) {
+        if ( input != null && input > 0 ) {
+            return Math.floor( (Math.random() * input ) + 1 );
+        }
+    }
+})

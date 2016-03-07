@@ -1,0 +1,55 @@
+<div id="manage-accounts">
+    <div class="container">
+        <div class="page-header">
+            <h1>Manage Accounts</h1>
+        </div>
+        <button type="button" class="btn btn-link" ng-click="reset()">RESET</button>
+        <select name="conferenceSelect" class="form-control" ng-options="index as con.name for (index, con) in conferences" ng-model="selectedConference" ng-change="changeConference()"></select>
+        <select name="eventSelect" class="form-control" ng-options="event.eventId as event.name for event in events" ng-model="selectedEvent" ng-change="changeEvent()"></select>
+        <input type="search" class="form-control" placeholder="Search for Account" ng-model="search">
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th ng-hide="conferenceSpecific">Admin</th>
+                    <th ng-hide="conferenceSpecific">Conference Manager</th>
+                    <th ng-show="conferenceSpecific">Conference</th>
+                    <th ng-show="conferenceSpecific && !eventSpecific">Event Manager</th>
+                    <th ng-show="eventSpecific" colspan="3">Event</th>
+                </tr>
+            </thead>
+            <tr ng-repeat="acc in accounts">
+                <td>{{acc.username}}</td>
+                <td>{{acc.firstName}}</td>
+                <td>{{acc.lastName}}</td>
+                <td ng-hide="conferenceSpecific">
+                	<input type="checkbox" ng-model="acc.permissions.admin">
+                </td>
+                <td ng-hide="conferenceSpecific">
+					<input type="checkbox" ng-model="acc.permissions.conference">
+                </td>
+                <td ng-show="conferenceSpecific">
+                    <div class="btn-group">
+                        <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceEdit"><i class="glyphicon glyphicon-pencil"></i></label>
+                        <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceAccommodations"><i class="glyphicon glyphicon-home"></i></label>
+                        <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceTransport"><i class="glyphicon glyphicon-road"></i></label>
+                        <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceInventory"><i class="glyphicon glyphicon-briefcase"></i></label>
+                        <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceAttendee"><i class="glyphicon glyphicon-user"></i></label>
+                    </div>
+                </td>
+                <td ng-hide="!conferenceSpecific || eventSpecific">
+                	<input type="checkbox" ng-model="acc.permissions.event">
+                </td>
+                <td ng-show="eventSpecific">
+                    <div class="btn-group">
+                        <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.eventEdit"><i class="glyphicon glyphicon-pencil"></i></label>
+                        <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.eventTransport"><i class="glyphicon glyphicon-road"></i></label>
+                        <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.eventAttendee"><i class="glyphicon glyphicon-user"></i></label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
