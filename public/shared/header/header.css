@@ -14,8 +14,12 @@
 	font-size: 25px;
 }
 
-#login-btn {
+#sigin-btn {
     position: absolute;
     right: 0;
     margin-right: 10px;
+}
+
+#signout-btn:hover {
+    background-color: #FF1111;
 }

@@ -1,5 +1,11 @@
 angular.module( 'headerCtrl', [] )
-.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, Logout ) {
+.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout ) {
+
+    $scope.isCollapsed = true;
+
+    $scope.showCollapsed = function () {
+        $scope.isCollapsed = !$scope.isCollapsed;
+    }
 
     var logout = function () {
         Logout.save( $auth.getToken() )

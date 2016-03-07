@@ -1,13 +1,13 @@
-<nav class="navbar navbar-default navbar-fixed-top" ng-init="isCollapsed = true">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" ng-hide="!auth">
+            <button class="navbar-toggle" ng-click="showCollapsed()" ng-hide="!auth">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
             <a href="/" class="navbar-brand">Huddle</a>
-            <a href="/login" type="button" class="navbar-btn btn btn-danger" ng-if="!auth" id="login-btn">Log in</a>
+            <a href="/login" type="button" class="navbar-btn btn btn-danger" ng-if="!auth" id="signin-btn">Sign in</a>
         </div>
         <div class="navbar-collapse" uib-collapse="isCollapsed" ng-hide="!auth">
             <ul class="nav navbar-nav navbar-right">
@@ -16,8 +16,7 @@
                 <li><a href="/requests" ng-if="auth">Requests</a></li>
                 <li><a href="/logs" ng-if="auth">Activity Log</a></li>
                 <li><a href="/profile" ng-if="auth">Profile</a></li>
-                <li><a type="button" ng-if="auth && !isCollapsed" href="" ng-click="logout()"><strong>Log out</strong></a></li>
-                <a type="button" ng-if="auth && isCollapsed" class="btn btn-danger navbar-btn" ng-click="logout()">Log out</a>
+                <li><a ng-if="auth" href="" ng-click="logout()" id="signout-btn">Sign Out <i class="glyphicon glyphicon-off"></i></a></li>
             </ul>
         </div>
     </div>
