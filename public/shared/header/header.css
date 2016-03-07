@@ -13,3 +13,8 @@
 .navbar-brand {
 	font-size: 25px;
 }
+
+#login-btn {
+    float: right;
+    margin-right: 10px;
+}

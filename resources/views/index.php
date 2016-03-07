@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="assets/libs/angular-google-places-autocomplete/dist/autocomplete.min.css">
   <link rel="stylesheet" href="components/createConference/createConference.css">
   <link rel="stylesheet" href="components/userReg/userReg.css">
+  <link rel="stylesheet" href="shared/header/header.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
