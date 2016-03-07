@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="shared/header/header.css">
   <link rel="stylesheet" href="components/profile/profile.css">
   <link rel="stylesheet" href="components/signupConference/signupConference.css">
+  <link rel="stylesheet" href="components/signupEvent/signupEvent.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -46,6 +47,7 @@
   <script src="shared/popupPrompt/popupPromptController.js"></script>
   <script src="components/manageAccounts/manageAccountsController.js"></script>
   <script src="components/signupConference/signupConferenceController.js"></script>
+  <script src="components/signupEvent/signupEventController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>

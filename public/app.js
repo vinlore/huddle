@@ -25,7 +25,8 @@ angular.module('cms', [
     'customFilters',
     'google.places',
     'popupPromptCtrl',
-    'signupConfCtrl'
+    'signupConfCtrl',
+    'signupEventCtrl'
 ])
 
 .run( function( $rootScope, $auth ) {
@@ -82,6 +83,14 @@ angular.module('cms', [
     .when('/signup-conference', {
         templateUrl: 'components/signupConference/signupConferenceView.html',
         controller: 'signupConferenceController',
+        resolve: {
+          loginRequired: loginRequired
+        }
+    })
+
+    .when('/signup-event', {
+        templateUrl: 'components/signupEvent/signupEventView.html',
+        controller: 'signupEventController',
         resolve: {
           loginRequired: loginRequired
         }
