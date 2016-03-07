@@ -1,6 +1,6 @@
 <div id="signupConf" class="container has-header">
-    <div class="row">
-        <h1 class="text-center">Sign Up for {{conference.name}}</h1>
+    <div class="well row">
+        <h1 class="text-center">Sign Up for the {{conference.name}}</h1>
 
         <div class="col-sm-6">
             <h3 class="text-center">Profile </h3>
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="regBirthdate" class="col-sm-2 col-sm-offset-1 form-control-label">Birthdate</label>
+                    <label for="signupBirthdate" class="col-sm-2 col-sm-offset-1 form-control-label">Birthdate</label>
                     <div class="col-sm-6 col-sm-offset-2">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="user.Birthdate" uib-datepicker-popup="MMM d, yyyy"
@@ -139,80 +139,91 @@
     </div>
 
     <!-- Addition of multiple family members -->
-    <div>
-        <h3>Add Family Members</h3>
-        <fieldset data-ng-repeat="family in familymembers">
+    <div class="well row">
+        <div class="col-sm-12">
+            <h2>Family Members</h2>
+            <fieldset data-ng-repeat="family in familymembers">
 
-            <div>
-                <div class="col-sm-2 form-group">
-                    <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="First Name"
-                        ng-model="family.FirstName">
+                <div>
+                    <div class="col-sm-2 form-group">
+                        <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="First Name"
+                            ng-model="family.FirstName">
+                    </div>
+
+                    <div class="col-sm-2 form-group">
+                        <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Middle Name"
+                            ng-model="family.MiddleName">
+                    </div>
+
+                    <div class="col-sm-2 form-group">
+                        <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="Last Name"
+                            ng-model="family.LastName">
+                    </div>
+
+                    <div class="col-sm-1 form-group">
+                        <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Age"
+                            ng-model="family.Age">
+                    </div>
+
+                    <div class="col-sm-2 form-group">
+                        <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Country"
+                            ng-model="family.Country">
+                    </div>
+
+                    <div class="col-sm-2 form-group">
+                        <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="City"
+                            ng-model="family.City">
+                    </div>
+
+                    <div class="col-sm-1 form-group">
+                        <button class="btn btn-danger btn-md" ng-click="removeFamilyMember($index)">Remove</button>
+                    </div>
                 </div>
 
-                <div class="col-sm-2 form-group">
-                    <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Middle Name"
-                        ng-model="family.MiddleName">
-                </div>
-
-                <div class="col-sm-2 form-group">
-                    <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="Last Name"
-                        ng-model="family.LastName">
-                </div>
-
-                <div class="col-sm-1 form-group">
-                    <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Age"
-                        ng-model="family.Age">
-                </div>
-
-                <div class="col-sm-2 form-group">
-                    <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Country"
-                        ng-model="family.Country">
-                </div>
-
-                <div class="col-sm-2 form-group">
-                    <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="City"
-                        ng-model="family.City">
-                </div>
-
-                <div class="col-sm-1 form-group">
-                    <button class="btn btn-danger btn-md" ng-click="removeFamilyMember($index)">Remove</button>
-                </div>
-            </div>
-
-        </fieldset>
-        <button class="btn btn-primary btn-md" ng-click="addFamilyMember()">Add Member</button>
+            </fieldset>
+            <button class="btn btn-primary btn-md" ng-click="addFamilyMember()">Add Member</button>
+        </div>
     </div>
 
-    <div class="row">
-
+    <!-- Transportation -->
+    <div class="well row">
+        <h2>Transportation Information</h2>
         <div class="col-sm-6">
             <h3 class="text-center">Arrival Information</h3>
-            <!-- Profile -->
-            <form role="form" class="form-horizontal">
+
+            <form class="form-horizontal">
+
                 <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">First Name: </label>
-                    <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="First Name" ng-model="user.FirstName">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Ride Required: </label>
+
+                    <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+                        <label><input type="radio" ng-model="arrival.RideRequired" ng-value="Yes">Yes</label>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Middle Name: </label>
-                    <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="Middle Name" ng-model="user.MiddleName">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Last Name: </label>
-                    <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="Last Name" ng-model="user.LastName">
+
+                    <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+                        <label><input type="radio" ng-model="arrival.RideRequired" value="No">No</label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="regBirthdate" class="col-sm-2 col-sm-offset-1 form-control-label">Birthdate</label>
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Airline #: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Airline #" ng-model="arrival.AirlineNumber">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Airport: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input class="form-control" id="inputUser" placeholder="Airport" ng-model="arrival.Airport">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="departureDate" class="col-sm-2 col-sm-offset-1 form-control-label">Arrival Date</label>
                     <div class="col-sm-6 col-sm-offset-2">
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-model="user.Birthdate" uib-datepicker-popup="MMM d, yyyy"
+                            <input type="text" class="form-control" ng-model="arrival.ArrivalDate" uib-datepicker-popup="MMM d, yyyy"
                                 is-open="calendar.isOpen" placeholder="Jan 1, 2016">
                             <span class="input-group-btn">
                 <button class="btn btn-link" type="button" ng-click="calendar.isOpen = !calendar.isOpen">
@@ -223,101 +234,99 @@
                     </div>
                 </div>
 
-
-                <div class="form-group dropdown">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Gender: </label>
-                    <div class="col-sm-6 col-sm-offset-2">
-                        <select class="form-control" ng-model="user.Gender">
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-                    </div>
-                </div>
-
                 <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Country: </label>
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Arrival Time: </label>
                     <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="Enter Country" ng-model="user.Country">
+                        <input type="time" class="form-control" id="inputUser" placeholder="Arrival Time"
+                            ng-model="arrival.ArrivalTime">
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">City: </label>
-                    <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="Enter City" ng-model="user.City">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Home Phone: </label>
-                    <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.HomePhone">
-                    </div>
-                    <span class="glyphicon glyphicon-phone-alt">
-                </div>
-
-          <div class="form-group">
-            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Other Phone: </label>
-            <div class="col-sm-6 col-sm-offset-2">
-              <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.OtherPhone">
-            </div>
-            <span class="glyphicon glyphicon-phone">
-          </div>
-
-          <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Email: </label>
-              <div class="col-sm-6 col-sm-offset-2">
-                <input class="form-control" id="inputUser" placeholder="Enter Email" ng-model="user.Email">
-              </div>
-              <span class="glyphicon glyphicon-envelope"></span>
                 </div>
             </form>
+
         </div>
 
         <div class="col-sm-6">
             <h3 class="text-center">Departure Information</h3>
 
-            <!-- Emergency Contact Form -->
             <form class="form-horizontal">
 
                 <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">First Name: </label>
-                    <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="First Name" ng-model="emergencyContact.FirstName">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Ride Required: </label>
+                    <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+                        <label><input type="radio" ng-model="departure.RideRequired" ng-value="Yes">Yes</label>
+                    </div>
+
+                    <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+                        <label><input type="radio" ng-model="departure.RideRequired" value="No">No</label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Middle Name: </label>
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Airline #: </label>
                     <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="Middle Name" ng-model="emergencyContact.MiddleName">
+                        <input class="form-control" id="inputUser" placeholder="Airline #" ng-model="departure.AirlineNumber">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Last Name: </label>
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Airport: </label>
                     <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="Last Name" ng-model="emergencyContact.LastName">
+                        <input class="form-control" id="inputUser" placeholder="Airport" ng-model="departure.Airport">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Phone: </label>
+                    <label for="departureDate" class="col-sm-2 col-sm-offset-1 form-control-label">Departure Date</label>
                     <div class="col-sm-6 col-sm-offset-2">
-                        <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="emergencyContact.Phone">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="arrival.ArrivalDate" uib-datepicker-popup="MMM d, yyyy"
+                                is-open="calendar.isOpen" placeholder="Jan 1, 2016">
+                            <span class="input-group-btn">
+                <button class="btn btn-link" type="button" ng-click="calendar.isOpen = !calendar.isOpen">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+                        </div>
                     </div>
-                    <span class="glyphicon glyphicon-phone">
-              </div>
-
-              <div class="form-group">
-                <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Email: </label>
-                <div class="col-sm-6 col-sm-offset-2">
-                  <input class="form-control" id="inputUser" placeholder="Enter Email" ng-model="emergencyContact.Email">
                 </div>
-                <span class="glyphicon glyphicon-envelope"></span>
+
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Departure Time: </label>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <input type="time" class="form-control" id="inputUser" placeholder="Arrival Time"
+                            ng-model="departure.ArrivalTime">
+                    </div>
                 </div>
             </form>
+        </div>
+    </div>
 
+    <div class="well row">
+        <h2>Accommodation and Medical Information</h2>
+        <div class="col-sm-6">
+            <h3 class="text-center">Accommodation</h3>
+            <div class="form-group">
+                <div class="radio col-sm-offset-4 form-control-label">
+                    <label><input type="radio" ng-model="accommodation.type" ng-value="Hotel">Hotel</label>
+                </div>
+
+                <div class="radio col-sm-offset-4 form-control-label">
+                    <label><input type="radio" ng-model="accommodation.type" value="House">House</label>
+                </div>
+
+                <div class="radio col-sm-offset-4 form-control-label">
+                    <label><input type="radio" ng-model="accommodation.type" value="None">None Required</label>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-6">
+            <h3 class="text-center">Medical Conditions</h3>
+            <div class="form-group">
+                <textarea class="form-control" rows="3" id="comment" placeholder="Condition(s) and any special requests"
+                    ng-model="medical.Condition"></textarea>
+            </div>
         </div>
     </div>
 
