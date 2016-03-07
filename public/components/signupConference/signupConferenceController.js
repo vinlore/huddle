@@ -42,7 +42,7 @@ angular.module('signupConfCtrl',[])
       FirstName: null,
       MiddleName: null,
       LastName: null,
-      Birthdate: null,
+      Age: null,
       Gender: null,
       Country: null,
       City: null,

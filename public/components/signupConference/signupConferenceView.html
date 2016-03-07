@@ -137,31 +137,42 @@
         </div>
     </div>
 
-    <div class="col-sm-12">
+    <div >
         <h3>Add Family Members</h3>
         <fieldset data-ng-repeat="family in familymembers">
-            <label for="inputUser">First Name: </label>
-            <input type="text" id="inputUser" placeholder="First Name:" ng-model="family.FirstName">
 
-            <label for="inputUser">Middle Name: </label>
-            <input type="text" id="inputUser" placeholder="Middle Name:" ng-model="family.MiddleName">
+        <div>
+          <div class="col-sm-2 form-group">
+            <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="First Name" ng-model="family.FirstName">
+          </div>
 
-            <label for="inputUser">Last Name: </label>
-            <input type="text" id="inputUser" placeholder="Last Name:" ng-model="family.LastName">
+          <div class="col-sm-2 form-group">
+            <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Middle Name" ng-model="family.MiddleName">
+          </div>
 
-            <label for="inputUser">Birthdate: </label>
-            <input type="text" id="inputUser" placeholder="Birthdate" ng-model="family.Birthdate">
+          <div class="col-sm-2 form-group">
+            <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="Last Name" ng-model="family.LastName">
+          </div>
 
+          <div class="col-sm-1 form-group">
+            <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Age" ng-model="family.Age">
+          </div>
 
-            <label for="inputUser">Country: </label>
-            <input type="text" id="inputUser" placeholder="Country" ng-model="family.Country">
+          <div class="col-sm-2 form-group">
+            <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Country" ng-model="family.Country">
+          </div>
 
-            <label for="inputUser">City: </label>
-            <input type="text" id="inputUser" placeholder="City" ng-model="family.City">
+          <div class="col-sm-2 form-group">
+            <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="City" ng-model="family.City">
+          </div>
 
-            <button class="remove" ng-click="removeFamilyMember($index)">-</button>
+          <div class="col-sm-1 form-group">
+            <button class="btn btn-danger btn-md" ng-click="removeFamilyMember($index)">Remove</button>
+          </div>
+        </div>
+
         </fieldset>
-        <button class="addfields" ng-click="addFamilyMember()">Add Family Member</button>
+        <button class="btn btn-primary btn-md" ng-click="addFamilyMember()">Add Member</button>
     </div>
 
     <div>
