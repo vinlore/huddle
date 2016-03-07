@@ -117,9 +117,21 @@ class AuthenticateController extends Controller
             //      required: first_name, last_name, birthdate, gender
             $profile->save();
 
-            //Registration Successful - TODO - Go to Sucess page
+            // Login
+            if(!$user = \Sentinel::authenticateAndRemember($user_credential,true)){
+                return \Response::json(array(
+                    'status' => 'error'
+                ));
+            }
+
+            $token = bcrypt($user);
+            $user->api_token = $token;
+
+            \DB::table('users')->where('username',$username)->update(['api_token' => $token]);
+
             return \Response::json(array(
-                'status' => 'success'
+                'status' => 'success',
+                'token' => $token
             ));
         }catch(Exception $e){
             App::abort(404,$e->getMessage());

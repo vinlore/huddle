@@ -1,0 +1,33 @@
+.margin-top-25  {
+	margin-top: 25px;
+}
+
+.margin-top-50  {
+	margin-top: 50px;
+}
+
+.margin-right-25  {
+	margin-right: 25px;
+}
+
+.con_title {
+    font-size: 150%;
+}
+
+.event_text {
+	font-size: 100%;
+}
+
+#admin-conferences .panel-title a {
+    text-decoration: none !important;
+}
+
+#admin-conferences h2,
+#admin-conferences h3 {
+    margin-top: 15px;
+}
+
+#admin .events hr {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
