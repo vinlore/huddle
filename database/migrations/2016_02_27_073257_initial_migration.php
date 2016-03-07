@@ -17,14 +17,14 @@ class InitialMigration extends Migration
             $table->integer('id', true);
             $table->integer('user_id')->unsigned()->index('user_id');
             $table->boolean('is_owner');
-            $table->string('email');
-            $table->string('phone');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
-            $table->string('city');
-            $table->string('country');
-            $table->date('birthday');
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->date('birthdate');
             $table->string('gender');
             $table->timestamps();
 
@@ -117,6 +117,7 @@ class InitialMigration extends Migration
         Schema::create('conference_vehicles', function (Blueprint $table) {
             $table->integer('vehicle_id');
             $table->integer('conference_id')->index('conference_id');
+            $table->enum('type', ['arrival', 'departure']);
             $table->timestamps();
 
             $table->foreign('conference_id', 'conference_vehicles_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -125,6 +126,7 @@ class InitialMigration extends Migration
         Schema::create('event_vehicles', function (Blueprint $table) {
             $table->integer('vehicle_id');
             $table->integer('event_id')->index('event_id');
+            $table->enum('type', ['arrival', 'departure']);
             $table->timestamps();
 
             $table->foreign('event_id', 'event_vehicles_ibfk_1')->references('id')->on('events')->onUpdate('RESTRICT')->onDelete('RESTRICT');
