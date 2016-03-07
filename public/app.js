@@ -96,8 +96,8 @@ angular.module('cms', [
     })
 
     .when( '/logs', {
-    templateUrl: 'components/activityLog/activityLogView.html',
-    controller: 'activityLogController'
+        templateUrl: 'components/activityLog/activityLogView.html',
+        controller: 'activityLogController'
     })
 
     .when( '/accounts', {
