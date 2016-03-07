@@ -1,9 +1,9 @@
 <div id="signupConf" class="container has-header">
+  <h1 class="text-center">Sign Up for the {{conference.name}}</h1>
     <div class="well row">
-        <h1 class="text-center">Sign Up for the {{conference.name}}</h1>
-
         <div class="col-sm-6">
             <h3 class="text-center">Profile </h3>
+            <hr>
             <!-- Profile -->
             <form role="form" class="form-horizontal">
                 <div class="form-group">
@@ -93,7 +93,7 @@
 
         <div class="col-sm-6">
             <h3 class="text-center">Emergency Contact</h3>
-
+            <hr>
             <!-- Emergency Contact Form -->
             <form class="form-horizontal">
 
@@ -142,6 +142,7 @@
     <div class="well row">
         <div class="col-sm-12">
             <h2>Family Members</h2>
+            <hr>
             <fieldset data-ng-repeat="family in familymembers">
 
                 <div>
@@ -190,7 +191,7 @@
         <h2>Transportation Information</h2>
         <div class="col-sm-6">
             <h3 class="text-center">Arrival Information</h3>
-
+            <hr>
             <form class="form-horizontal">
 
                 <div class="form-group">
@@ -247,7 +248,7 @@
 
         <div class="col-sm-6">
             <h3 class="text-center">Departure Information</h3>
-
+            <hr>
             <form class="form-horizontal">
 
                 <div class="form-group">
@@ -305,6 +306,7 @@
         <h2>Accommodation and Medical Information</h2>
         <div class="col-sm-6">
             <h3 class="text-center">Accommodation</h3>
+            <hr>
             <div class="form-group">
                 <div class="radio col-sm-offset-4 form-control-label">
                     <label><input type="radio" ng-model="accommodation.type" ng-value="Hotel">Hotel</label>
@@ -323,6 +325,7 @@
 
         <div class="col-sm-6">
             <h3 class="text-center">Medical Conditions</h3>
+            <hr>
             <div class="form-group">
                 <textarea class="form-control" rows="3" id="comment" placeholder="Condition(s) and any special requests"
                     ng-model="medical.Condition"></textarea>
