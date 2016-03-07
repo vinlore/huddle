@@ -156,6 +156,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        GrahamCampbell\Throttle\ThrottleServiceProvider::class,
 
         /*
          * Migrations Generator
@@ -179,7 +180,7 @@ return [
         'Activation' => 'Cartalyst\Sentinel\Laravel\Facades\Activation',
         'Reminder'   => 'Cartalyst\Sentinel\Laravel\Facades\Reminder',
         'Sentinel'   => 'Cartalyst\Sentinel\Laravel\Facades\Sentinel',
-
+        'Throttle'   =>  GrahamCampbell\Throttle\Facades\Throttle::class,
 
         'App'       => Illuminate\Support\Facades\App::class,
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,

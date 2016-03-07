@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User as User;
+use App\Models\Profile as Profile;
 
 class AuthenticateController extends Controller
 {
@@ -10,15 +12,21 @@ class AuthenticateController extends Controller
     /*
      * User Creation
      */
-    function user_registration(){
+    function user_registration(Request $request){
 
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST ['password'];
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
+        $username = $request->username;
+        $email = $request->email;
+        $password = $request->password;
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $middleName = $request->middleName;
+        $birthdate = $request->birthdate;
+        $country = $request->country;
+        $city = $request->city;
+        $phone = $request->phone;
+        $gender = $request->gender;
 
-        $credential = array(
+        $user_credential = array(
             'username' => $username,
             'email'     => $email,
             'password'  => $password,
@@ -26,18 +34,27 @@ class AuthenticateController extends Controller
             'last_name' => $lastName,
         );
 
+
         //Check If username is correctly set
         if((strlen($username) < 4) ||
             !preg_match('/^[a-zA-Z0-9]+[_.-]{0,1}[a-zA-Z0-9]+$/m', $username)){
             //TODO - IF Password is incorrectly set
-            return "{'success' : false, 'error':{ 'code' : 'Aporia', 'message' : 'Username incorrectly set'}}";
+            return \Response::json(array(
+                'status' => 'error', 
+                'code' => 'Aporia', 
+                'message' => 'Username incorrectly set'
+            ));
         }
 
         //Check if username exists within DB
         $checkUserExist = \Sentinel::findByCredentials(['login' => $username]);
         if($checkUserExist){
             //TODO - The Email ALready Exists.
-            return "{'success' : false, 'error':{ 'code' : 'Ares', 'message' : 'Username already exists'}}";
+            return \Response::json(array(
+                'status' => 'error', 
+                'code' => 'Ares', 
+                'message' => 'Username already exists'
+            ));
         }
 
         //Check If Password is correctly set
@@ -45,9 +62,13 @@ class AuthenticateController extends Controller
             !preg_match("#[0-9]+#", $password) ||
             !preg_match("#[a-zA-Z]+#", $password)){
             //TODO - IF Password is incorrectly set
-            return "{'success' : false, 'error':{ 'code' : 'Aporia', 'message' : 'Password incorrectly set'}}";
+            return \Response::json(array(
+                'status' => 'error', 
+                'code' => 'Aporia', 
+                'message' => 'Password incorrectly set'
+            ));
         }
-
+/*
         //Check if email exists within DB
         $checkUserExist = \DB::table('users')->where('email',$email)->get();
         if($checkUserExist){
@@ -59,31 +80,59 @@ class AuthenticateController extends Controller
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             //TODO - IF Email is not match proper email regex
             return "{'success' : false, 'error':{ 'code' : 'Aphrodite', 'message' : 'Email does not match regex'}}";
-        }
+        }*/
 
 
 
         try{
             //Register User to Database
-            \Sentinel::register($credential,true);
-
-            //Check if User has been saved to DB
-             $checkUserExist = \Sentinel::findByCredentials(['login' => $username]);
-            if(!$checkUserExist){
-                //TODO - Check if User has been saved into DB
-                return "{'success' : false, 'error':{ 'code' : 'Artemis', 'message' : 'User unable to save to Database'}}";
-            }
+            \Sentinel::register($user_credential,true);
 
 
-            if(!empty($email)){
+            /*if(!empty($email)){
                 //Send Email to User saying they are registered
                 \Mail::send('email',['email' => $email] , function($message) use($email){
                     $message->to($email)->subject('You have been registered, Welcome!');
                 });
+            }*/
+
+            $user = \Sentinel::findByCredentials(['login' => $username]);
+
+            //Create and link a profile to user
+            $user_id = $user->id;
+
+            $profile = new Profile;
+            $profile->user_id =  $user_id;
+            $profile->first_name = $firstName;
+            $profile->middle_name = $middleName;
+            $profile->last_name = $lastName;
+            $profile->city = $city;
+            $profile->country = $country;
+            $profile->birthdate = $birthdate;
+            $profile->gender = $gender;
+            $profile->email = $email;
+            $profile->phone = $phone;
+            $profile->is_owner = 1;
+            //TODO: add validation check birthdate 'YYYY-MM-DD', phone all #s, email, other stuff only letters not crazy long
+            //      required: first_name, last_name, birthdate, gender
+            $profile->save();
+
+            // Login
+            if(!$user = \Sentinel::authenticateAndRemember($user_credential,true)){
+                return \Response::json(array(
+                    'status' => 'error'
+                ));
             }
 
-            //Registration Successful - TODO - Go to Sucess page
-            return \Response::json($checkUserExist->toArray());
+            $token = bcrypt($user);
+            $user->api_token = $token;
+
+            \DB::table('users')->where('username',$username)->update(['api_token' => $token]);
+
+            return \Response::json(array(
+                'status' => 'success',
+                'token' => $token
+            ));
         }catch(Exception $e){
             App::abort(404,$e->getMessage());
         }
