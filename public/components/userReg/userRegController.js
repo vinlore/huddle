@@ -1,5 +1,5 @@
 angular.module( 'userRegCtrl', [] )
-.controller( 'userRegController', function( $scope, $filter, Countries, Register ) {
+.controller( 'userRegController', function( $scope, $rootScope, $auth, $filter, $location, Countries, Register ) {
 
     $scope.user = {
         "Username": null,
@@ -12,7 +12,8 @@ angular.module( 'userRegCtrl', [] )
         "Country": null,
         "City": null,
         "Email": null,
-        "Phone": null
+        "Phone": null,
+        "Gender": null
     };
 
     $scope.countries = Countries;
@@ -34,17 +35,22 @@ angular.module( 'userRegCtrl', [] )
             firstName: $scope.user['First Name'],
             middleName: $scope.user['Middle Name'],
             lastName: $scope.user['Last Name'],
-            birthdate: $filter('date')($scope.user.Birthdate, 'MMM d, yyyy'),
+            birthdate: $filter('date')($scope.user.Birthdate, 'yyyy-MM-dd'),
             country: $scope.user.Country,
             city: city,
             email: $scope.user.Email,
-            phone: $scope.user.Phone
+            phone: $scope.user.Phone,
+            gender: $scope.user.Gender
         };
 
         Register.save( user )
             .$promise.then( function( response ) {
-                console.log( 'User registered successfully' );
-                $location.path('/');
+                if ( response.status == 'success' ) {
+                    console.log( 'User registered successfully' );
+                    $auth.setToken( response.token );
+                    $rootScope.auth = $auth.isAuthenticated();
+                    $location.path('/');
+                }
             }, function ( response ) {
                 console.log( 'Failed to register user' );
             })
