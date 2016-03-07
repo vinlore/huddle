@@ -19,13 +19,12 @@ class AuthenticateController extends Controller
         $password = $request->password;
         $firstName = $request->firstName;
         $lastName = $request->lastName;
-        $middleName = "test";
-        $age = "99";
-        $country = "can can";
-        $city = "van van";
-        $homePhone = "7865123256";
-        $birthdate = "something";
-        $gender = 'gender';
+        $middleName = $request->middleName;
+        $birthdate = $request->birthdate;
+        $country = $request->country;
+        $city = $request->city;
+        $phone = $request->phone;
+        $gender = $request->gender;
 
         $user_credential = array(
             'username' => $username,
@@ -40,14 +39,22 @@ class AuthenticateController extends Controller
         if((strlen($username) < 4) ||
             !preg_match('/^[a-zA-Z0-9]+[_.-]{0,1}[a-zA-Z0-9]+$/m', $username)){
             //TODO - IF Password is incorrectly set
-            return "{'success' : false, 'error':{ 'code' : 'Aporia', 'message' : 'Username incorrectly set'}}";
+            return \Response::json(array(
+                'status' => 'error', 
+                'code' => 'Aporia', 
+                'message' => 'Username incorrectly set'
+            ));
         }
 
         //Check if username exists within DB
         $checkUserExist = \Sentinel::findByCredentials(['login' => $username]);
         if($checkUserExist){
             //TODO - The Email ALready Exists.
-            return "{'success' : false, 'error':{ 'code' : 'Ares', 'message' : 'Username already exists'}}";
+            return \Response::json(array(
+                'status' => 'error', 
+                'code' => 'Ares', 
+                'message' => 'Username already exists'
+            ));
         }
 
         //Check If Password is correctly set
@@ -55,9 +62,13 @@ class AuthenticateController extends Controller
             !preg_match("#[0-9]+#", $password) ||
             !preg_match("#[a-zA-Z]+#", $password)){
             //TODO - IF Password is incorrectly set
-            return "{'success' : false, 'error':{ 'code' : 'Aporia', 'message' : 'Password incorrectly set'}}";
+            return \Response::json(array(
+                'status' => 'error', 
+                'code' => 'Aporia', 
+                'message' => 'Password incorrectly set'
+            ));
         }
-
+/*
         //Check if email exists within DB
         $checkUserExist = \DB::table('users')->where('email',$email)->get();
         if($checkUserExist){
@@ -69,7 +80,7 @@ class AuthenticateController extends Controller
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             //TODO - IF Email is not match proper email regex
             return "{'success' : false, 'error':{ 'code' : 'Aphrodite', 'message' : 'Email does not match regex'}}";
-        }
+        }*/
 
 
 
@@ -77,40 +88,39 @@ class AuthenticateController extends Controller
             //Register User to Database
             \Sentinel::register($user_credential,true);
 
-            //Check if User has been saved to DB
-             $checkUserExist = \Sentinel::findByCredentials(['login' => $username]);
-            if(!$checkUserExist){
-                //TODO - Check if User has been saved into DB
-                return "{'success' : false, 'error':{ 'code' : 'Artemis', 'message' : 'User unable to save to Database'}}";
-            }
 
-
-            if(!empty($email)){
+            /*if(!empty($email)){
                 //Send Email to User saying they are registered
                 \Mail::send('email',['email' => $email] , function($message) use($email){
                     $message->to($email)->subject('You have been registered, Welcome!');
                 });
-            }
+            }*/
+
+            $user = \Sentinel::findByCredentials(['login' => $username]);
 
             //Create and link a profile to user
-            $user_id = $checkUserExist->id;
+            $user_id = $user->id;
 
             $profile = new Profile;
             $profile->user_id =  $user_id;
-            $profile->email = $email;
             $profile->first_name = $firstName;
             $profile->middle_name = $middleName;
             $profile->last_name = $lastName;
             $profile->city = $city;
             $profile->country = $country;
-            $profile->birthday = $birthdate;
+            $profile->birthdate = $birthdate;
             $profile->gender = $gender;
+            $profile->email = $email;
+            $profile->phone = $phone;
             $profile->is_owner = 1;
-            //TODO: add validation
+            //TODO: add validation check birthdate 'YYYY-MM-DD', phone all #s, email, other stuff only letters not crazy long
+            //      required: first_name, last_name, birthdate, gender
             $profile->save();
 
             //Registration Successful - TODO - Go to Sucess page
-            return \Response::json($checkUserExist->toArray());
+            return \Response::json(array(
+                'status' => 'success'
+            ));
         }catch(Exception $e){
             App::abort(404,$e->getMessage());
         }

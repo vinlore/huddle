@@ -24,7 +24,7 @@ Route::get('welcome', function () {
  * Account - Login System
  */
  	//Authenticaiton and Login
-Route::get ('api/auth', 'AuthenticateController@user_authentication');
+Route::post ('api/auth', 'AuthenticateController@user_authentication');
 Route::get ('api/login', function(){
 	return View::make('login');
 });
