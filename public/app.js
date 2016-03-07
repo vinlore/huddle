@@ -106,7 +106,10 @@ angular.module('cms', [
 
     .when( '/logs', {
         templateUrl: 'components/activityLog/activityLogView.html',
-        controller: 'activityLogController'
+        controller: 'activityLogController',
+        resolve: {
+            loginRequired: loginRequired
+        }
     })
 
     .when( '/accounts', {
