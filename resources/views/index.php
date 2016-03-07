@@ -28,7 +28,7 @@
   <script src="assets/libs/angular-resource/angular-resource.min.js"></script>
   <script src="assets/libs/satellizer/satellizer.min.js"></script>
   <script src="assets/libs/angular-google-places-autocomplete/dist/autocomplete.min.js"></script>
-  <script src="assets/js/google-places-api.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1Pmv3HdlO7MufSCHtByXYIfiuRzhc1mg&libraries=places"></script>
 
   <!-- CONTROLLERS -->
   <script src="components/home/homeController.js"></script>
@@ -41,6 +41,7 @@
   <script src="components/activityLog/activityLogController.js"></script>
   <script src="shared/header/headerController.js"></script>
   <script src="shared/popupPrompt/popupPromptController.js"></script>
+  <script src="components/manageAccounts/manageAccountsController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>

@@ -14,6 +14,7 @@ angular.module('cms', [
     'createConferenceCtrl',
     'profileCtrl',
     'activityCtrl',
+    'manageAccountsCtrl',
     'apiService',
     'conferenceService',
     'eventService',
@@ -88,6 +89,14 @@ angular.module('cms', [
     .when( '/logs', {
     templateUrl: 'components/activityLog/activityLog.html',
     controller: 'activityLogController'
+    })
+
+    .when( '/accounts', {
+        templateUrl: 'components/manageAccounts/manageAccountsView.html',
+        controller: 'manageAccountsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
     })
 
     .otherwise({redirectTo: '/'});
