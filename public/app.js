@@ -24,7 +24,8 @@ angular.module('cms', [
     'customDirs',
     'customFilters',
     'google.places',
-    'popupPromptCtrl'
+    'popupPromptCtrl',
+    'signupConfCtrl'
 ])
 
 .run( function( $rootScope, $auth ) {
@@ -75,6 +76,14 @@ angular.module('cms', [
         controller: 'createConferenceController',
         resolve: {
             loginRequired: loginRequired
+        }
+    })
+
+    .when('/signup-conference', {
+        templateUrl: 'components/signupConference/signupConferenceView.html',
+        controller: 'signupConferenceController',
+        resolve: {
+          loginRequired: loginRequired
         }
     })
 

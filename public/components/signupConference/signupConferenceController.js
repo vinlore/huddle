@@ -1,5 +1,5 @@
-angular.module ( 'profileCtrl', [] )
-.controller('profileController', function ( $scope ) {
+angular.module('signupConfCtrl',[])
+.controller('signupConferenceController', function($scope){
 
   $scope.user = {
       "Username": null,
@@ -18,17 +18,8 @@ angular.module ( 'profileCtrl', [] )
       "OtherPhone": null
   };
 
-  $scope.saveChanges = function () {
+  $scope.submitRequest = function () {
 
   };
 
-  $scope.getUserInfo = function () {
-      // get username after login
-      return "Username"
-  }
-
-  $scope.submit = function () {
-      //update function
-  };
-
-});
+})
