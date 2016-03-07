@@ -24,7 +24,8 @@ angular.module('cms', [
     'customDirs',
     'customFilters',
     'google.places',
-    'popupPromptCtrl'
+    'popupPromptCtrl',
+    'signupConfCtrl'
 ])
 
 .run( function( $rootScope, $auth ) {
@@ -78,6 +79,14 @@ angular.module('cms', [
         }
     })
 
+    .when('/signup-conference', {
+        templateUrl: 'components/signupConference/signupConferenceView.html',
+        controller: 'signupConferenceController',
+        resolve: {
+          loginRequired: loginRequired
+        }
+    })
+
     .when( '/profile', {
         templateUrl: 'components/profile/profileView.html',
         controller: 'profileController',
@@ -87,7 +96,7 @@ angular.module('cms', [
     })
 
     .when( '/logs', {
-    templateUrl: 'components/activityLog/activityLog.html',
+    templateUrl: 'components/activityLog/activityLogView.html',
     controller: 'activityLogController'
     })
 

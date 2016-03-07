@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="assets/libs/angular-google-places-autocomplete/dist/autocomplete.min.css">
   <link rel="stylesheet" href="components/createConference/createConference.css">
   <link rel="stylesheet" href="components/userReg/userReg.css">
+  <link rel="stylesheet" href="components/profile/profile.css">
+  <link rel="stylesheet" href="components/signupConference/signupConference.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -42,6 +44,7 @@
   <script src="shared/header/headerController.js"></script>
   <script src="shared/popupPrompt/popupPromptController.js"></script>
   <script src="components/manageAccounts/manageAccountsController.js"></script>
+  <script src="components/signupConference/signupConferenceController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
