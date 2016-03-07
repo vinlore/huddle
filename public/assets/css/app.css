@@ -80,6 +80,16 @@
   }
 }
 
+/* Displays with width smaller than 500px */
+@media (max-width: 520px) {
+  .visible-xxs {
+    display: block !important;
+  }
+  .hidden-xxs {
+    display: none !important;
+  }
+}
+
 /* Displays with width smaller than 480px */
 @media (max-width: 480px) {
   h1 {
@@ -130,6 +140,14 @@
   .box {
     padding: 1em !important;
   }
+}
+
+.hidden-xxs {
+  display: block;
+}
+
+.visible-xxs {
+  display: none;
 }
 
 .padding-top-5 {
