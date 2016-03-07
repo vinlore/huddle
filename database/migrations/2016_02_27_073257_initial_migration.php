@@ -183,7 +183,7 @@ class InitialMigration extends Migration
             $table->string('last_name');
             $table->string('city');
             $table->string('country');
-            $table->date('birthday');
+            $table->date('birthdate');
             $table->string('gender');
             $table->boolean('arrv_ride_req');
             $table->date('arrv_date')->nullable();
