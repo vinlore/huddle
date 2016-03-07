@@ -139,18 +139,6 @@
 
     <div class="col-sm-12">
         <h3>Add Family Members</h3>
-
-        <!-- <fieldset  data-ng-repeat="choice in choices">
-      <select>
-         <option>Mobile</option>
-         <option>Office</option>
-         <option>Home</option>
-      </select>
-      <input type="text" ng-model="choice.name" name="" placeholder="Enter mobile number">
-      <button class="remove" ng-click="removeChoice($index)">-</button>
-   </fieldset>
-
-   <button class="addfields" ng-click="addNewChoice()">Add fields</button> -->
         <fieldset data-ng-repeat="family in familymembers">
             <label for="inputUser">First Name: </label>
             <input type="text" id="inputUser" placeholder="First Name:" ng-model="family.FirstName">
