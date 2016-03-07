@@ -36,6 +36,30 @@ angular.module('signupConfCtrl',[])
       description: null
   }
 
+  $scope.arrival = {
+    RideRequired: null,
+    AirlineNumber: null,
+    Airport: null,
+    ArrivalDate: null,
+    ArrivalTime: null
+  }
+
+  $scope.departure = {
+    RideRequired: null,
+    AirlineNumber: null,
+    Airport: null,
+    DepartureDate: null,
+    DepartureTime: null
+  }
+
+  $scope.accommodation = {
+    type: null,
+  }
+
+  $scope.medical = {
+    Condition: null,
+  }
+
   $scope.familymembers = [
     {
       id : 'member1',
