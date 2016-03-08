@@ -26,17 +26,20 @@ class InitialMigration extends Migration
             $table->string('country')->nullable();
             $table->date('birthdate');
             $table->string('gender');
+
             $table->timestamps();
 
             $table->unique(['user_id', 'is_owner']);
 
             $table->foreign('user_id', 'profiles_ibfk_1')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+
         });
 
         Schema::create('accommodations', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('name');
             $table->string('address');
+
             $table->timestamps();
         });
 
@@ -46,13 +49,16 @@ class InitialMigration extends Migration
             $table->integer('room_no');
             $table->integer('guest_count')->default(0);
             $table->integer('capacity');
+
             $table->timestamps();
 
             $table->foreign('accommodation_id', 'rooms_ibfk_1')->references('id')->on('accommodations')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+
         });
 
         Schema::create('inventories', function (Blueprint $table) {
             $table->integer('id', true);
+
             $table->timestamps();
         });
 
@@ -99,6 +105,7 @@ class InitialMigration extends Migration
             $table->integer('attendee_count')->default(0);
             $table->integer('capacity');
             $table->string('transportation')->nullable();
+
             $table->enum('status', ['pending', 'approved', 'denied'])->default('pending');
             $table->timestamps();
 
@@ -119,6 +126,7 @@ class InitialMigration extends Migration
             $table->integer('conference_id')->index('conference_id');
             $table->enum('type', ['arrival', 'departure']);
             $table->timestamps();
+
 
             $table->foreign('conference_id', 'conference_vehicles_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -183,7 +191,7 @@ class InitialMigration extends Migration
             $table->string('last_name');
             $table->string('city');
             $table->string('country');
-            $table->date('birthday');
+            $table->date('birthdate');
             $table->string('gender');
             $table->boolean('arrv_ride_req');
             $table->date('arrv_date')->nullable();

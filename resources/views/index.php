@@ -11,7 +11,6 @@
   <!-- CSS -->
   <link rel="stylesheet" href="assets/libs/bootstrap-css-only/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/app.css">
-  <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="components/home/home.css">
   <link rel="stylesheet" href="components/admin/admin.css">
   <link rel="stylesheet" href="components/conference/conference.css">
@@ -22,6 +21,7 @@
   <link rel="stylesheet" href="shared/header/header.css">
   <link rel="stylesheet" href="components/profile/profile.css">
   <link rel="stylesheet" href="components/signupConference/signupConference.css">
+  <link rel="stylesheet" href="components/signupEvent/signupEvent.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -46,6 +46,7 @@
   <script src="shared/popupPrompt/popupPromptController.js"></script>
   <script src="components/manageAccounts/manageAccountsController.js"></script>
   <script src="components/signupConference/signupConferenceController.js"></script>
+  <script src="components/signupEvent/signupEventController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
@@ -56,6 +57,7 @@
 
   <!-- DIRECTIVES -->
   <script src="assets/js/customDirectives.js"></script>
+  <script src="assets/js/validateDirectives.js"></script>
 
   <!-- FILTERS -->
   <script src="assets/js/customFilters.js"></script>

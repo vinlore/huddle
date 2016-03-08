@@ -22,10 +22,12 @@ angular.module('cms', [
     'countryService',
     'satellizer',
     'customDirs',
+    'validateDirectives',
     'customFilters',
     'google.places',
     'popupPromptCtrl',
-    'signupConfCtrl'
+    'signupConfCtrl',
+    'signupEventCtrl'
 ])
 
 .run( function( $rootScope, $auth ) {
@@ -87,6 +89,14 @@ angular.module('cms', [
         }
     })
 
+    .when('/signup-event', {
+        templateUrl: 'components/signupEvent/signupEventView.html',
+        controller: 'signupEventController',
+        resolve: {
+          loginRequired: loginRequired
+        }
+    })
+
     .when( '/profile', {
         templateUrl: 'components/profile/profileView.html',
         controller: 'profileController',
@@ -97,7 +107,10 @@ angular.module('cms', [
 
     .when( '/logs', {
         templateUrl: 'components/activityLog/activityLogView.html',
-        controller: 'activityLogController'
+        controller: 'activityLogController',
+        resolve: {
+            loginRequired: loginRequired
+        }
     })
 
     .when( '/accounts', {

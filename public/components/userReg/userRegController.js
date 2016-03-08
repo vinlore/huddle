@@ -18,12 +18,17 @@ angular.module( 'userRegCtrl', [] )
 
     $scope.countries = Countries;
 
-    $scope.calendar = {
-        isOpen: false
-    };
-
     $scope.citiesOnly = {
         types: ['(cities)']
+    };
+
+    $scope.changeCountry = function (country) {
+        $scope.citiesOnly.componentRestrictions = {country: country.code};
+        console.log($scope.citiesOnly)
+    }
+
+    $scope.calendar = {
+        isOpen: false
     };
 
     $scope.register = function() {
@@ -43,17 +48,20 @@ angular.module( 'userRegCtrl', [] )
             gender: $scope.user.Gender
         };
 
-        Register.save( user )
-            .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
-                    console.log( 'User registered successfully' );
-                    $auth.setToken( response.token );
-                    $rootScope.auth = $auth.isAuthenticated();
-                    $location.path('/');
-                }
-            }, function ( response ) {
-                console.log( 'Failed to register user' );
-            })
+        if ($scope.regForm.$valid) {
+            Register.save( user )
+                .$promise.then( function( response ) {
+                    if ( response.status == 'success' ) {
+                        console.log( 'User registered successfully' );
+                        $auth.setToken( response.token );
+                        $rootScope.auth = $auth.isAuthenticated();
+                        $location.path('/');
+                    }
+                }, function ( response ) {
+                    console.log( 'Failed to register user' );
+                })
+        }
+
     };
 
 })
