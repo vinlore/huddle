@@ -1,7 +1,7 @@
 angular.module( 'apiService', [] )
 
 .factory( 'Register', function( $resource ) {
-    return $resource( '/api/register' );
+    return $resource( '/api/create' );
 })
 
 .factory( 'Logout', function( $resource ) {

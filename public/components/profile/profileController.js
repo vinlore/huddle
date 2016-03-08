@@ -2,26 +2,33 @@ angular.module ( 'profileCtrl', [] )
 .controller('profileController', function ( $scope ) {
 
   $scope.user = {
-      "Username": null,
-      "Password": null,
-      "Confirm Password": null,
-      "First Name": null,
-      "Middle Name": null,
-      "Last Name": null,
-      "Age": null,
-      "Country": null,
-      "City": null,
-      "Email": null,
-      "Home Phone": null,
-      "Other Phone": null
+      Username: null,
+      OldPassword: null,
+      NewPassword: null,
+      ConfirmPassword: null,
+      FirstName: null,
+      MiddleName: null,
+      LastName: null,
+      Birthdate: null,
+      Gender: null,
+      Country: null,
+      City: null,
+      Email: null,
+      HomePhone: null,
+      OtherPhone: null
   };
 
   $scope.saveChanges = function () {
 
   };
 
-  $scope.submit = function () {
+  $scope.getUserInfo = function () {
+      // get username after login
+      return "Username"
+  }
 
+  $scope.submit = function () {
+      //update function
   };
 
 });

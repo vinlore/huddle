@@ -30,7 +30,6 @@ class Profile extends Model
         return $this->belongsToMany('App\Models\Room', 'profile_stays_in_rooms');
     }
 
-
     // Each profile is transported by many vehicles.
     public function vehicles()
     {

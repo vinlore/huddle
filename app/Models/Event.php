@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-
     // Each event has many transportation options.
     public function transportation()
     {

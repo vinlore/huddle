@@ -1,0 +1,7 @@
+#profile .center {
+    text-align:center;
+}
+
+#profile .center form {
+    display:inline-block;
+}

@@ -1,6 +1,7 @@
 <div id="login" class="container has-header">
     <h1 class="text-center">Login</h1>
-    <h4 class="text-center text-danger" ng-visible="invalid">Incorrect login. Please try again.</h4>
+    <h4 class="text-center text-success" ng-if="valid">Successfully logged in!</h4>
+    <h4 class="text-center text-danger" ng-if="invalid">Incorrect login. Please try again.</h4>
     <form class="form-horizontal" ng-submit="login()">
         <div class="form-group">
             <label for="inputLogin" class="col-sm-2 col-sm-offset-2 control-label">Username</label>
@@ -15,8 +16,8 @@
             </div>
         </div>
         <div id="button-container">
-            <button on-click="login()" type="submit" class="btn btn-lg btn-sm-block btn-success">Login</button>
-            <a href="/register" type="button" class="btn btn-lg btn-sm-block btn-info">Register</a>
+            <button on-click="login()" type="submit" class="btn btn-sm-block btn-success">Login</button>
+            <a href="/register" type="button" class="btn btn-sm-block btn-info">Register</a>
         </div>
     </form>
 </div>
