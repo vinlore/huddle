@@ -177,6 +177,7 @@ return [
     */
 
     'aliases' => [
+
         'Activation' => 'Cartalyst\Sentinel\Laravel\Facades\Activation',
         'Reminder'   => 'Cartalyst\Sentinel\Laravel\Facades\Reminder',
         'Sentinel'   => 'Cartalyst\Sentinel\Laravel\Facades\Sentinel',

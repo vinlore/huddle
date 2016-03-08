@@ -42,7 +42,7 @@ class UsersTableSeeder extends Seeder
             User::create([
                 'username' => $faker->unique()->userName,
                 'email'    => $faker->unique()->email,
-                'password' => Hash::make($faker->password)
+                'password' => Hash::make($faker->password),
             ]);
         }
     }
@@ -67,7 +67,7 @@ class ProfilesTableSeeder extends Seeder
                 'city'       => $faker->city,
                 'country'    => $faker->country,
                 'birthdate'  => $faker->date($format = 'Y-m-d', $max = 'now'),
-                'gender'     => $gender[array_rand($gender)]
+                'gender'     => $gender[array_rand($gender)],
             ]);
         }
     }

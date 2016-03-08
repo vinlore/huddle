@@ -15,7 +15,6 @@ return [
     |
     */
 
-
     'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*
