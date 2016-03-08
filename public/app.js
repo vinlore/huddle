@@ -22,6 +22,7 @@ angular.module('cms', [
     'countryService',
     'satellizer',
     'customDirs',
+    'validateDirectives',
     'customFilters',
     'google.places',
     'popupPromptCtrl',
