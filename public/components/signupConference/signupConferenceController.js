@@ -1,5 +1,5 @@
 angular.module('signupConfCtrl',[])
-.controller('signupConferenceController', function($scope){
+.controller('signupConferenceController', function($scope, $routeParams){
 
   $scope.user = {
       Username: null,
@@ -27,13 +27,8 @@ angular.module('signupConfCtrl',[])
   }
 
   $scope.conference = {
-      name: "Indian Conference",
-      country: null,
-      city: null,
-      address: null,
-      startDate: null,
-      endDate: null,
-      description: null
+      conferenceId: $routeParams.id,
+      name: $routeParams.name
   }
 
   $scope.arrival = {

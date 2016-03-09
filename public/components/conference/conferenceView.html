@@ -38,7 +38,7 @@
             </div>
             <div class="page-header">
                 <h1>Events</h1>
-                <a type="button" class="btn btn-info attendance" href="signup-conference" ng-show="auth">
+                <a type="button" class="btn btn-info attendance" ng-href="conference-{{conference.conferenceId}}/signup/?name={{conference.name}}" ng-show="auth">
                     <span class="glyphicon glyphicon-ok"></span> Attend
                 </a>
                 <button type="button" class="btn btn-info attendance attend-leave" ng-hide="true">

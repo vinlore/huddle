@@ -83,7 +83,7 @@ angular.module('cms', [
         }
     })
 
-    .when('/signup-conference', {
+    .when('/conference-:conferenceId/signup', {
         templateUrl: 'components/signupConference/signupConferenceView.html',
         controller: 'signupConferenceController',
         resolve: {
