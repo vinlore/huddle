@@ -104,7 +104,7 @@ angular.module ( 'conferenceCtrl', [] )
     }
 
 
-$scope.dataset = {
+$scope.dataset1 = {
     "chart": {
         "caption": "Countries Represented by Attendees",
         "subCaption": "2016",
@@ -144,4 +144,42 @@ $scope.dataset = {
         }
     ]
 }
+
+$scope.dataset2 = {
+    "chart": {
+        "caption": "Gender Representation",
+        "subCaption": "2016",
+        "showBorder": "0",
+        "use3DLighting": "0",
+        "enableSmartLabels": "1",
+        "startingAngle": "30",
+        "showLabels": "1",
+        "showPercentValues": "1",
+        "showLegend": "1",
+        "defaultCenterLabel": "",
+        "centerLabel": "1",
+        "centerLabelBold": "1",
+        "showTooltip": "1",
+        "decimals": "0",
+        "useDataPlotColorForLabels": "1",
+        "theme": "fint",
+        "enableMultiSlicing": "1",
+        "radius3D":"5"
+    },
+    "data": [
+        {
+            "label": "Males",
+            "value": "820"
+        },
+        {
+            "label": "Females",
+            "value": "1300"
+        },
+        {
+            "label": "Other",
+            "value": "275"
+        },
+    ]
+}
+
 })
