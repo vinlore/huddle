@@ -2,55 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+
 class ConferenceController extends Controller
 {
-    // -------------------------------------------------------------------------
-    // CONFERENCE
-    // -------------------------------------------------------------------------
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
 
-    function getConferences() {}
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
-    function getConference() {}
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
 
-    function createConference() {}
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
-    function updateConference() {}
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
 
-    function deleteConference() {}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
 
-    // -------------------------------------------------------------------------
-    // ATTENDEE
-    // -------------------------------------------------------------------------
-
-    function getAttendees() {}
-
-    function createAttendee() {}
-
-    function updateAttendee() {}
-
-    function deleteAttendee() {}
-
-    // -------------------------------------------------------------------------
-    // ACCOMMODATION
-    // -------------------------------------------------------------------------
-
-    function getAccommodations() {}
-
-    function createAccommodation() {}
-
-    function updateAccommodation() {}
-
-    function deleteAccommodation() {}
-
-    // -------------------------------------------------------------------------
-    // INVENTORY
-    // -------------------------------------------------------------------------
-
-    function getInventory() {}
-
-    function createItem() {}
-
-    function updateItem() {}
-
-    function deleteItem() {}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }
