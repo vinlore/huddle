@@ -7,7 +7,14 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="/" class="navbar-brand">Huddle</a>
-            <a href="/login" type="button" class="navbar-btn btn btn-danger" ng-if="!auth" id="signin-btn">Sign in</a>
+            <div class="visible-xs" id="login-btn">
+                <a href="/register" type="button" class="navbar-btn btn btn-success" ng-if="!auth">Sign up</a>
+                <a href="/login" type="button" class="navbar-btn btn btn-default" ng-if="!auth">Sign in</a>
+            </div>
+        </div>
+        <div class="navbar-right hidden-xs">
+            <a href="/register" type="button" class="navbar-btn btn btn-success" ng-if="!auth">Sign up</a>
+            <a href="/login" type="button" class="navbar-btn btn btn-default" ng-if="!auth">Sign in</a>
         </div>
         <div class="navbar-collapse" uib-collapse="isCollapsed" ng-hide="!auth">
             <ul class="nav navbar-nav navbar-right">
