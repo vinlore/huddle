@@ -81,6 +81,7 @@ class InitialMigration extends Migration
             $table->integer('inventory_id')->index('inventory_id');
             $table->string('transportation')->nullable();
             $table->enum('status', ['pending', 'approved', 'denied',])->default('pending');
+            $table->text('description');
             $table->timestamps();
 
             $table->foreign('inventory_id', 'conferences_ibfk_1')->references('id')->on('inventories')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -100,6 +101,7 @@ class InitialMigration extends Migration
             $table->integer('capacity');
             $table->string('transportation')->nullable();
             $table->enum('status', ['pending', 'approved', 'denied',])->default('pending');
+            $table->text('description');
             $table->timestamps();
 
             $table->foreign('conference_id', 'events_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -196,6 +198,7 @@ class InitialMigration extends Migration
             $table->string('emergency_contact')->nullable();
             $table->string('emergency_phone')->nullable();
             $table->string('medical_conditions')->nullable();
+            $table->enum('status', ['pending', 'approved', 'denied', 'canceled',])->default('pending');
             $table->primary(['profile_id', 'conference_id',]);
             $table->timestamps();
 
@@ -208,6 +211,7 @@ class InitialMigration extends Migration
             $table->integer('event_id')->index('event_id');
             $table->boolean('ride_req');
             $table->primary(['profile_id', 'event_id',]);
+            $table->enum('status', ['pending', 'approved', 'denied', 'canceled',])->default('pending');
             $table->timestamps();
 
             $table->foreign('profile_id', 'profile_attends_events_ibfk_1')->references('id')->on('profiles')->onUpdate('RESTRICT')->onDelete('RESTRICT');
