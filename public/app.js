@@ -28,7 +28,8 @@ angular.module('cms', [
     'popupPromptCtrl',
     'signupConfCtrl',
     'signupEventCtrl',
-    'ng-fusioncharts'
+    'ng-fusioncharts',
+    'manageInventoryCtrl',
 ])
 
 .run( function( $rootScope, $auth ) {
@@ -117,6 +118,14 @@ angular.module('cms', [
     .when( '/accounts', {
         templateUrl: 'components/manageAccounts/manageAccountsView.html',
         controller: 'manageAccountsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .when( '/manage-inventory', {
+        templateUrl: 'components/manageInventory/manageInventoryView.html',
+        controller: 'manageInventoryController',
         resolve: {
             loginRequired: loginRequired
         }
