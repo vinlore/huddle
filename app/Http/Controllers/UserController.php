@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User as User;
 use App\Models\Profile as Profile;
 
-class AuthenticateController extends Controller
+class UserController extends Controller
 {
 
     /*
@@ -40,8 +40,8 @@ class AuthenticateController extends Controller
             !preg_match('/^[a-zA-Z0-9]+[_.-]{0,1}[a-zA-Z0-9]+$/m', $username)){
             //TODO - IF Password is incorrectly set
             return \Response::json(array(
-                'status' => 'error', 
-                'code' => 'Aporia', 
+                'status' => 'error',
+                'code' => 'Aporia',
                 'message' => 'Username incorrectly set'
             ));
         }
@@ -51,8 +51,8 @@ class AuthenticateController extends Controller
         if($checkUserExist){
             //TODO - The Email ALready Exists.
             return \Response::json(array(
-                'status' => 'error', 
-                'code' => 'Ares', 
+                'status' => 'error',
+                'code' => 'Ares',
                 'message' => 'Username already exists'
             ));
         }
@@ -63,8 +63,8 @@ class AuthenticateController extends Controller
             !preg_match("#[a-zA-Z]+#", $password)){
             //TODO - IF Password is incorrectly set
             return \Response::json(array(
-                'status' => 'error', 
-                'code' => 'Aporia', 
+                'status' => 'error',
+                'code' => 'Aporia',
                 'message' => 'Password incorrectly set'
             ));
         }

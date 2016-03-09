@@ -6,9 +6,9 @@
 
 // Prefix all API routes with 'api'.
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1',]], function () {
-    Route::post('create', 'AuthenticateController@user_registration');
-    Route::post('auth', 'AuthenticateController@user_authentication');
-    Route::post('logout', 'AuthenticateController@logout');
+    Route::post('create', 'UserController@user_registration');
+    Route::post('auth', 'UserController@user_authentication');
+    Route::post('logout', 'UserController@logout');
 });
 
 // -----------------------------------------------------------------------------
