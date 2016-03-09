@@ -1,6 +1,6 @@
 angular.module ( 'conferenceCtrl', [] )
 .controller ( 'conferenceController', function ( $scope, $filter, Conference, Gmap, Events, $routeParams, $resource ) {
-    
+
     $scope.conference = {};
 
     $scope.loadConference = function () {
@@ -103,4 +103,45 @@ angular.module ( 'conferenceCtrl', [] )
         return Gmap( event.address, "400x250", 12, [{color: 'green', label: '.', location: event.address}] );
     }
 
+
+$scope.dataset = {
+    "chart": {
+        "caption": "Countries Represented by Attendees",
+        "subCaption": "2016",
+        "showBorder": "0",
+        "use3DLighting": "0",
+        "enableSmartLabels": "1",
+        "startingAngle": "30",
+        "showLabels": "1",
+        "showPercentValues": "1",
+        "showLegend": "1",
+        "defaultCenterLabel": "",
+        "centerLabel": "1",
+        "centerLabelBold": "1",
+        "showTooltip": "1",
+        "decimals": "0",
+        "useDataPlotColorForLabels": "1",
+        "theme": "fint",
+        "enableMultiSlicing": "1",
+        "radius3D":"4"
+    },
+    "data": [
+        {
+            "label": "Canada",
+            "value": "500"
+        },
+        {
+            "label": "India",
+            "value": "1500"
+        },
+        {
+            "label": "USA",
+            "value": "275"
+        },
+        {
+            "label": "Germany",
+            "value": "120"
+        }
+    ]
+}
 })

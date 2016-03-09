@@ -27,7 +27,8 @@ angular.module('cms', [
     'google.places',
     'popupPromptCtrl',
     'signupConfCtrl',
-    'signupEventCtrl'
+    'signupEventCtrl',
+    'ng-fusioncharts'
 ])
 
 .run( function( $rootScope, $auth ) {
