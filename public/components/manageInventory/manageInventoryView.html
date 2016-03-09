@@ -1,0 +1,42 @@
+<div id="inventory" class="container has-header">
+  <h1 class="text-center" id="title">Manage {{conference.name}} Inventory</h1>
+  <!-- Addition of Inventory -->
+  <div class="panel panel-default">
+    <div class="panel-body">
+        <fieldset id="item" data-ng-repeat="item in items">
+          <div>
+            <div class="col-sm-4 form-group">
+              <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Enter Item" ng-model="item.Name">
+            </div>
+
+            <div class="col-sm-4 form-group">
+              <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Enter Quantity" ng-model="item.Quantity">
+            </div>
+
+            <div class="col-sm-2 form-group">
+              <button class="btn btn-danger btn-md" ng-click="removeItem($index)">
+                <span class="glyphicon glyphicon-minus">
+              </button>
+            </div>
+          </div>
+        </fieldset>
+        <button class="btn btn-primary btn-md" id="add" ng-click="addItem()">
+          <span class="glyphicon glyphicon-plus">
+        </button>
+      </div>
+    </div>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="col-sm-4">
+        <button type="submit" class="btn btn-half-block btn-info center-block" ng-click="export()">Export</button>
+      </div>
+      <div class="col-sm-4">
+        <button type="submit" class="btn btn-half-block btn-success center-block" ng-click="saveChanges()">Save Changes</button>
+      </div>
+      <div class="col-sm-4">
+        <button type="submit" class="btn btn-half-block btn-danger center-block" ng-click="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
