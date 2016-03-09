@@ -1,20 +1,24 @@
 angular.module ( 'conferenceCtrl', [] )
-.controller ( 'conferenceController', function ( $scope, $filter, Conference, Gmap, Events ) {
+.controller ( 'conferenceController', function ( $scope, $filter, Conference, Gmap, Events, $routeParams, $resource ) {
     
-    $scope.conference = {
-        "conferenceId": 123,
-        "name": "India Conference",
-        "country": "India",
-        "description": "Description",
-        "city": "New Delhi",
-        "startDate": new Date("Feb 13, 2016"),
-        "endDate": new Date("Feb 20, 2016"),
-        "arrivalTransport": true,
-        "departTransport": false,
-        "address": "District Centre, Saket, New Delhi, Delhi 110017, India",
-        "inventoryId": 123,
-        "accommodationId": 123
-    };
+    $scope.conference = {};
+
+    $scope.loadConference = function () {
+        Conference.all().$promise.then(function(result) {
+            angular.forEach(result, function(value, key) {
+                if (value.conferenceId == $routeParams.conferenceId) {
+                    value.startDate = new Date(value.startDate);
+                    value.endDate = new Date(value.endDate);
+                    $scope.conference = value;
+                    console.log($scope.conference);
+                    $scope.background = 'assets/img/' + $scope.conference.country + '/big/' + $filter('randomize')(3) + '.jpg';
+                }
+            });
+        });
+    }
+
+    $scope.loadConference();
+
     var conferenceBackup = {};
 
     $scope.background = {'background-image': 'url(assets/img/overlay.png), url(assets/img/' + $scope.conference.country + '/big/' + $filter('randomize')(3) + '.jpg)'};

@@ -10,8 +10,7 @@
         "genderLimit": null,
         "transportation": false,
         "attendeeCount": 12,
-        "capacity": 30,
-        "address": "Janpath Lane, Connaught Place"
+        "capacity": 30
     },
     {
         "eventId": 2,
@@ -24,8 +23,7 @@
         "genderLimit": "M",
         "transportation": false,
         "attendeeCount": 25,
-        "capacity": 30,
-        "address": "No.1, Mansingh Road, Near Khan Market, India Gate"
+        "capacity": 30
     },
     {
         "eventId": 3,
@@ -38,7 +36,6 @@
         "genderLimit": null,
         "transportation": true,
         "attendeeCount": 15,
-        "capacity": 20,
-        "address": "2719, Bank Street, Adjacent to RC Jewelers, Behind Karol Bagh Police Station, Karol Bagh"
+        "capacity": 20
     }
 ]

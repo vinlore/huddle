@@ -166,7 +166,7 @@ body {
   background-size: auto, cover;
   background-attachment: scroll, fixed;
   color: #fff;
-  text-shadow: 1px 1px 2px black;
+  text-shadow: 2px 2px 1px black;
   text-align: center;
   padding: 10em 0 20em 0;
 }
@@ -195,7 +195,7 @@ body {
   border: medium none;
   padding: 0px;
   border-radius: 0px;
-  text-shadow: 1px 1px 2px black !important;
+  text-shadow: 2px 1px 1px black !important;
   background-color: transparent;
   background-image: none;
   width: 100%;
@@ -433,7 +433,7 @@ body {
 .card-subtitle {
   margin-top: 0px !important;
   color: white !important;
-  text-shadow: 1px 1px 2px black !important;
+  text-shadow: 2px 1px 1px black !important;
   margin-bottom: 10px;
 }
 
@@ -515,4 +515,11 @@ body {
 
 .image-error {
   display: none !important;
+}
+
+.center-modal {
+  top: 30%;
+  z-index: 1050;
+  width: 80%;
+  margin: 0 auto;
 }

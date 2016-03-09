@@ -28,6 +28,7 @@ angular.module( 'headerCtrl', [] )
             templateUrl: 'shared/popupPrompt/popupPrompt.html',
             controller: 'popupPromptController',
             size: 'sm',
+            windowClass: 'center-modal',
             resolve: {
                 content: function () {
                     return {
