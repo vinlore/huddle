@@ -5,7 +5,7 @@ app.directive( 'username', function () {
     return {
         require: 'ngModel',
         link: function ( scope, elm, attrs, ctrl ) {
-            ctrl.$validators.username = function ( modelValue, viewValue ) {
+            ctrl.$validators.username = function( modelValue, viewValue ) {
                 // Empty models are valid
                 if ( ctrl.$isEmpty( modelValue ) ) {
                     return true;
@@ -31,7 +31,7 @@ app.directive( 'password', function () {
     return {
         require: 'ngModel',
         link: function ( scope, elm, attrs, ctrl ) {
-            ctrl.$validators.password = function ( modelValue, viewValue ) {
+            ctrl.$validators.password = function( modelValue, viewValue ) {
                 // Empty models are valid
                 if ( ctrl.$isEmpty( modelValue ) ) {
                     return true;
@@ -56,7 +56,7 @@ app.directive( 'confirmPassword', function () {
         	confirmPassword: '='
         },
         link: function ( scope, elm, attrs, ctrl ) {
-            ctrl.$validators.confirmPassword = function ( modelValue, viewValue ) {
+            ctrl.$validators.confirmPassword = function( modelValue, viewValue ) {
                 // Empty models are valid
                 if ( ctrl.$isEmpty( modelValue ) ) {
                     return true;
@@ -80,7 +80,7 @@ app.directive( 'names', function () {
     return {
         require: 'ngModel',
         link: function ( scope, elm, attrs, ctrl ) {
-            ctrl.$validators.names = function ( modelValue, viewValue ) {
+            ctrl.$validators.names = function( modelValue, viewValue ) {
 
                 // Empty models are valid
                 if ( ctrl.$isEmpty( modelValue ) ) {
@@ -97,4 +97,32 @@ app.directive( 'names', function () {
             }
         }
     }
+})
+
+app.directive( 'birthdate', function () {
+	return {
+		require: 'ngModel',
+		link: function ( scope, elm, attrs, ctrl ) {
+			ctrl.$validators.birthdate = function( modelValue, viewValue ) {
+
+				// Empty models are valid
+                if ( ctrl.$isEmpty( modelValue ) ) {
+                    return true;
+                }
+
+                var today = new Date();
+                var enteredDate = new Date( viewValue );
+                if ( !enteredDate ) {
+                	return false;
+                }
+
+                if ( enteredDate <= today ) {
+                    return true;
+                }
+
+                return false;
+
+			}
+		}
+	}
 })
