@@ -35,4 +35,10 @@ class Profile extends Model
     {
         return $this->belongsToMany('App\Models\Vehicle', 'profile_rides_vehicles');
     }
+
+    // Each profile takes many flights.
+    public function flights()
+    {
+        return $this->belongsToMany('App\Models\Flight', 'profile_takes_flights');
+    }
 }

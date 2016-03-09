@@ -24,6 +24,12 @@ class Conference extends Model
         return $this->belongsToMany('App\Models\Vehicle', 'conference_vehicles');
     }
 
+    // Each conference has many flights.
+    public function flights()
+    {
+        return $this->hasMany('App\Models\Flight');
+    }
+
     // Each conference has many events.
     public function events()
     {
