@@ -1,9 +1,16 @@
-#login #button-container {
-    display: flex;
-    align-items: center;
-    flex-flow: column nowrap;
+@media (max-width: 450px) {
+    #login {
+        width: 80% !important;
+    }
 }
 
-#login #button-container .btn:first-child {
-    margin-bottom: 10px;
+#login {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(30%);
+}
+
+#login #title {
+    margin-bottom: 30px;
 }

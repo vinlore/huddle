@@ -249,6 +249,16 @@ body {
   margin-top: 50px;
 }
 
+.panel {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 2px !important;
+  border: 0px;
+}
+
+.panel-default .panel-heading {
+  background-color: white;
+}
+
 .card {
   position: relative;
   display: block;
