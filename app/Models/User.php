@@ -40,4 +40,10 @@ class User extends SentinelUser
     {
         return $this->belongsToMany('App\Models\Inventory', 'user_manages_inventories');
     }
+
+    // Each user has one role.
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role');
+    }
 }

@@ -71,15 +71,6 @@ class MigrationCartalystSentinel extends Migration
             $table->unique('slug');
         });
 
-        Schema::create('role_users', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('role_id')->unsigned();
-            $table->nullableTimestamps();
-
-            $table->engine = 'InnoDB';
-            $table->primary(['user_id', 'role_id']);
-        });
-
         Schema::create('throttle', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
@@ -94,6 +85,7 @@ class MigrationCartalystSentinel extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->string('api_token',96)->nullable();
             $table->increments('id');
+            $table->integer('role_id')->unsigned();
             $table->string('username');
             $table->string('email')->nullable();
             $table->string('password');
@@ -106,6 +98,8 @@ class MigrationCartalystSentinel extends Migration
             $table->engine = 'InnoDB';
             $table->unique('email');
             $table->unique('username');
+
+            $table->foreign('role_id', 'users_ibfk_1')->references('id')->on('roles')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
     }
 
@@ -116,12 +110,11 @@ class MigrationCartalystSentinel extends Migration
      */
     public function down()
     {
-        Schema::drop('activations');
-        Schema::drop('persistences');
-        Schema::drop('reminders');
-        Schema::drop('roles');
-        Schema::drop('role_users');
-        Schema::drop('throttle');
         Schema::drop('users');
+        Schema::drop('throttle');
+        Schema::drop('roles');
+        Schema::drop('reminders');
+        Schema::drop('persistences');
+        Schema::drop('activations');
     }
 }
