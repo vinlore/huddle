@@ -27,7 +27,9 @@ angular.module('cms', [
     'google.places',
     'popupPromptCtrl',
     'signupConfCtrl',
-    'signupEventCtrl'
+    'signupEventCtrl',
+    'ng-fusioncharts',
+    'manageInventoryCtrl',
 ])
 
 .run( function( $rootScope, $auth ) {
@@ -81,7 +83,7 @@ angular.module('cms', [
         }
     })
 
-    .when('/signup-conference', {
+    .when('/conference-:conferenceId/signup', {
         templateUrl: 'components/signupConference/signupConferenceView.html',
         controller: 'signupConferenceController',
         resolve: {
@@ -116,6 +118,14 @@ angular.module('cms', [
     .when( '/accounts', {
         templateUrl: 'components/manageAccounts/manageAccountsView.html',
         controller: 'manageAccountsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .when( '/manage-inventory', {
+        templateUrl: 'components/manageInventory/manageInventoryView.html',
+        controller: 'manageInventoryController',
         resolve: {
             loginRequired: loginRequired
         }

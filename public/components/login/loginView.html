@@ -1,23 +1,22 @@
-<div id="login" class="container has-header">
-    <h1 class="text-center">Login</h1>
+<div id="login" class="has-header">
+    <h1 class="text-center" id="title">Sign in to Huddle</h1>
     <h4 class="text-center text-success" ng-if="valid">Successfully logged in!</h4>
     <h4 class="text-center text-danger" ng-if="invalid">Incorrect login. Please try again.</h4>
-    <form class="form-horizontal" ng-submit="login()">
-        <div class="form-group">
-            <label for="inputLogin" class="col-sm-2 col-sm-offset-2 control-label">Username</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="inputLogin" ng-model="user.username">
+    <div class="panel panel-default">
+    <div class="panel-body">
+        
+        <form ng-submit="login()">
+            <div class="form-group">
+                <label for="loginUser" class="control-label">Username</label>
+                <input type="text" class="form-control" id="loginUser" ng-model="user.username">
             </div>
-        </div>
-        <div class="form-group">
-            <label for="inputLogin" class="col-sm-2 col-sm-offset-2 control-label">Password</label>
-            <div class="col-sm-4">
-                <input type="password" class="form-control" id="inputLogin" ng-model="user.password">
+            <div class="form-group">
+                <label for="loginPass" class="control-label">Password</label>
+                <input type="password" class="form-control" id="loginPass" ng-model="user.password">
             </div>
+                <button on-click="login()" type="submit" class="btn btn-block btn-primary">Sign in</button>
+                <a href="/register" type="button" class="btn btn-block btn-success">Sign up</a>
+        </form>
         </div>
-        <div id="button-container">
-            <button on-click="login()" type="submit" class="btn btn-sm-block btn-success">Login</button>
-            <a href="/register" type="button" class="btn btn-sm-block btn-info">Register</a>
-        </div>
-    </form>
+    </div>
 </div>

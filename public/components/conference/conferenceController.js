@@ -1,20 +1,24 @@
 angular.module ( 'conferenceCtrl', [] )
-.controller ( 'conferenceController', function ( $scope, $filter, Conference, Gmap, Events ) {
-    
-    $scope.conference = {
-        "conferenceId": 123,
-        "name": "India Conference",
-        "country": "India",
-        "description": "Description",
-        "city": "New Delhi",
-        "startDate": new Date("Feb 13, 2016"),
-        "endDate": new Date("Feb 20, 2016"),
-        "arrivalTransport": true,
-        "departTransport": false,
-        "address": "District Centre, Saket, New Delhi, Delhi 110017, India",
-        "inventoryId": 123,
-        "accommodationId": 123
-    };
+.controller ( 'conferenceController', function ( $scope, $filter, Conference, Gmap, Events, $routeParams, $resource ) {
+
+    $scope.conference = {};
+
+    $scope.loadConference = function () {
+        Conference.all().$promise.then(function(result) {
+            angular.forEach(result, function(value, key) {
+                if (value.conferenceId == $routeParams.conferenceId) {
+                    value.startDate = new Date(value.startDate);
+                    value.endDate = new Date(value.endDate);
+                    $scope.conference = value;
+                    console.log($scope.conference);
+                    $scope.background = 'assets/img/' + $scope.conference.country + '/big/' + $filter('randomize')(3) + '.jpg';
+                }
+            });
+        });
+    }
+
+    $scope.loadConference();
+
     var conferenceBackup = {};
 
     $scope.background = {'background-image': 'url(assets/img/overlay.png), url(assets/img/' + $scope.conference.country + '/big/' + $filter('randomize')(3) + '.jpg)'};
@@ -98,5 +102,84 @@ angular.module ( 'conferenceCtrl', [] )
     $scope.getMap = function( event ) {
         return Gmap( event.address, "400x250", 12, [{color: 'green', label: '.', location: event.address}] );
     }
+
+
+$scope.dataset1 = {
+    "chart": {
+        "caption": "Countries Represented by Attendees",
+        "subCaption": "2016",
+        "showBorder": "0",
+        "use3DLighting": "0",
+        "enableSmartLabels": "1",
+        "startingAngle": "30",
+        "showLabels": "1",
+        "showPercentValues": "1",
+        "showLegend": "1",
+        "defaultCenterLabel": "",
+        "centerLabel": "1",
+        "centerLabelBold": "1",
+        "showTooltip": "1",
+        "decimals": "0",
+        "useDataPlotColorForLabels": "1",
+        "theme": "fint",
+        "enableMultiSlicing": "1",
+        "radius3D":"4"
+    },
+    "data": [
+        {
+            "label": "Canada",
+            "value": "500"
+        },
+        {
+            "label": "India",
+            "value": "1500"
+        },
+        {
+            "label": "USA",
+            "value": "275"
+        },
+        {
+            "label": "Germany",
+            "value": "120"
+        }
+    ]
+}
+
+$scope.dataset2 = {
+    "chart": {
+        "caption": "Gender Representation",
+        "subCaption": "2016",
+        "showBorder": "0",
+        "use3DLighting": "0",
+        "enableSmartLabels": "1",
+        "startingAngle": "30",
+        "showLabels": "1",
+        "showPercentValues": "1",
+        "showLegend": "1",
+        "defaultCenterLabel": "",
+        "centerLabel": "1",
+        "centerLabelBold": "1",
+        "showTooltip": "1",
+        "decimals": "0",
+        "useDataPlotColorForLabels": "1",
+        "theme": "fint",
+        "enableMultiSlicing": "1",
+        "radius3D":"5"
+    },
+    "data": [
+        {
+            "label": "Males",
+            "value": "820"
+        },
+        {
+            "label": "Females",
+            "value": "1300"
+        },
+        {
+            "label": "Other",
+            "value": "275"
+        },
+    ]
+}
 
 })

@@ -19,7 +19,7 @@ angular.module( 'loginCtrl', [] )
                 $scope.valid = true;
                 $timeout( function () {
                     $location.path('/');
-                }, 1500)
+                }, 500)
             } else {
                 $scope.invalid = true;
             }
