@@ -38,21 +38,23 @@ class ConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-      
-           $inventory = Inventory::create();
 
-           $conference = Conference::create([
-                'status'    => 'pending',
-                'name'   => $request->name,
-                'start_date'      => $request->startDate,
-                'end_date'      => $request->endDate,
-                'address' => $request->address,
-                'country'  => $request->country,
-                'city'       => $request->city,
-                'capacity'    => $request->capacity,
-                'attendee_count'  => $request->attendee_count,
-                'inventory_id'     => $inventory->id,
-            ]);
+        $conference = $request->conference;
+
+        Conference::create([
+            'name'              => $conference['name'],
+            'start_date'        => $conference['startDate'],
+            'end_date'          => $conference['endDate'],
+            'address'           => $conference['address'],
+            'country'           => $conference['country'],
+            'city'              => $conference['city'],
+            'capacity'          => $conference['capacity'],
+            'description'       => $conference['description'],
+            'status'            => 'pending',
+            'attendee_count'    => 0
+        ]);
+
+        return \Response::json(array('status' => 'success'));
     }
 
 

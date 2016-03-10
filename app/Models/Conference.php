@@ -15,8 +15,8 @@ class Conference extends Model
         'country',
         'attendee_count',
         'capacity',
-        'inventory_id',
-        'status'
+        'status',
+        'description'
     ];
 
 
