@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label for="cc-country" class="col-sm-3 control-label">Country</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="cc-country" ng-model="conference.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0" required>
+                        <input type="text" class="form-control" id="cc-country" ng-model="conference.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0" required typeahead-on-select="changeCountry($item)">
                     </div>
                 </div>
                 <div class="form-group">
