@@ -6,6 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conference extends Model
 {
+     protected $fillable = [
+        'name',
+        'start_date',
+        'end_date',
+        'address',
+        'city',
+        'country',
+        'attendee_count',
+        'capacity',
+        'inventory_id',
+        'status'
+    ];
+
+
+
     // Each conference has one inventory.
     public function inventory()
     {

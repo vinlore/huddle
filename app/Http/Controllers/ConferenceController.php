@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Models\Conference as Conference;
+use App\Models\Inventory as Inventory;
+
 class ConferenceController extends Controller
 {
     /**
@@ -34,10 +37,25 @@ class ConferenceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+      
+           $inventory = Inventory::create();
+
+           $conference = Conference::create([
+                'status'    => 'pending',
+                'name'   => $request->name,
+                'start_date'      => $request->startDate,
+                'end_date'      => $request->endDate,
+                'address' => $request->address,
+                'country'  => $request->country,
+                'city'       => $request->city,
+                'capacity'    => $request->capacity,
+                'attendee_count'  => $request->attendee_count,
+                'inventory_id'     => $inventory->id,
+            ]);
     }
+
+
 
     /**
      * Display the specified resource.
