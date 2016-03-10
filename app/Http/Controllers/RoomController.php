@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Models\Conference as Conference;
+use App\Models\Room as Room;
 
-class ConferenceController extends Controller
+class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,17 +28,7 @@ class ConferenceController extends Controller
      */
     public function store(Request $request)
     {
-       $conference = Conference::create([
-            'name'           => $request->name,
-            'start_date'     => $request->startDate,
-            'end_date'       => $request->endDate,
-            'address'        => $request->address,
-            'country'        => $request->country,
-            'city'           => $request->city,
-            'attendee_count' => $request->attendee_count,
-            'capacity'       => $request->capacity,
-            'status'         => 'pending',
-        ]);
+        //
     }
 
     /**
