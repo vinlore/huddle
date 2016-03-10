@@ -32,6 +32,7 @@ class UserController extends Controller
             'password'  => $password,
             'first_name' => $firstName,
             'last_name' => $lastName,
+            'role_id'   => 1
         );
 
 

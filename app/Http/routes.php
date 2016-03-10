@@ -10,7 +10,41 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1',]], function (
     Route::post('auth', 'UserController@user_authentication');
     Route::post('logout', 'UserController@logout');
 
-    Route::resource('conferences', 'ConferenceController');
+    Route::resource('profiles', 'ProfileController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('conferences', 'ConferenceController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('events', 'EventController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('accommodations', 'AccommodationController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('rooms', 'RoomController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('inventories', 'InventoryController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('items', 'ItemController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('vehicles', 'VehicleController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('flights', 'FlightController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
 });
 
 // -----------------------------------------------------------------------------

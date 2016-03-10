@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Models\Conference as Conference;
+use App\Models\Flight as Flight;
 
-class ConferenceController extends Controller
+class FlightController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,30 +21,24 @@ class ConferenceController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-    public function store(Request $request){
-
-        $conference = $request->conference;
-
-        Conference::create([
-            'name'              => $conference['name'],
-            'start_date'        => $conference['startDate'],
-            'end_date'          => $conference['endDate'],
-            'address'           => $conference['address'],
-            'country'           => $conference['country'],
-            'city'              => $conference['city'],
-            'capacity'          => $conference['capacity'],
-            'description'       => $conference['description'],
-            'status'            => 'pending',
-            'attendee_count'    => 0
-        ]);
-
-        return \Response::json(array('status' => 'success'));
+    public function store(Request $request)
+    {
+        //
     }
 
     /**
@@ -54,6 +48,17 @@ class ConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
         //
     }

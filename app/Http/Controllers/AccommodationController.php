@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Models\Conference as Conference;
+use App\Models\Accommodation as Accommodation;
 
-class ConferenceController extends Controller
+class AccommodationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,25 +26,9 @@ class ConferenceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-    public function store(Request $request){
-
-        $conference = $request->conference;
-
-        Conference::create([
-            'name'              => $conference['name'],
-            'start_date'        => $conference['startDate'],
-            'end_date'          => $conference['endDate'],
-            'address'           => $conference['address'],
-            'country'           => $conference['country'],
-            'city'              => $conference['city'],
-            'capacity'          => $conference['capacity'],
-            'description'       => $conference['description'],
-            'status'            => 'pending',
-            'attendee_count'    => 0
-        ]);
-
-        return \Response::json(array('status' => 'success'));
+    public function store(Request $request)
+    {
+        //
     }
 
     /**
