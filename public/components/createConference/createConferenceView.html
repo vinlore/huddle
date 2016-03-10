@@ -6,34 +6,34 @@
         <div class="col-lg-6">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label for="name" class="col-sm-3 control-label">Name</label>
+                    <label for="cc-name" class="col-sm-3 control-label">Name</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="name" ng-model="conference.name">
+                        <input type="text" class="form-control" id="cc-name" ng-model="conference.name" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="country" class="col-sm-3 control-label">Country</label>
+                    <label for="cc-country" class="col-sm-3 control-label">Country</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="country" ng-model="conference.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0">
+                        <input type="text" class="form-control" id="cc-country" ng-model="conference.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0" required typeahead-on-select="changeCountry($item)">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="city" class="col-sm-3 control-label">City</label>
+                    <label for="cc-city" class="col-sm-3 control-label">City</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="city" ng-model="conference.city" g-places-autocomplete options="citiesOnly">
+                        <input type="text" class="form-control" id="cc-city" ng-model="conference.city" g-places-autocomplete options="citiesOnly" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="address" class="col-sm-3 control-label">Address</label>
+                    <label for="cc-address" class="col-sm-3 control-label">Address</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="address" ng-model="conference.address" g-places-autocomplete>
+                        <input type="text" class="form-control" id="cc-address" ng-model="conference.address" g-places-autocomplete required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="start-date" class="col-sm-3 control-label">Start Date</label>
+                    <label for="cc-start-date" class="col-sm-3 control-label">Start Date</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="start-date" ng-model="conference.startDate" uib-datepicker-popup="MMM dd, yyyy" is-open="calendar.isOpen1">
+                            <input type="text" class="form-control" id="cc-start-date" ng-model="conference.startDate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen1" required>
                             <span class="input-group-btn">
                                 <button class="btn btn-link" ng-click="calendar.isOpen1 = !calendar.isOpen1">
                                     <i class="glyphicon glyphicon-calendar"></i>
@@ -43,10 +43,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="end-date" class="col-sm-3 control-label">End Date</label>
+                    <label for="cc-end-date" class="col-sm-3 control-label">End Date</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="end-date" ng-model="conference.endDate" uib-datepicker-popup="MMM dd, yyyy" is-open="calendar.isOpen2">
+                            <input type="text" class="form-control" id="cc-end-date" ng-model="conference.endDate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" required>
                             <span class="input-group-btn">
                                 <button class="btn btn-link" ng-click="calendar.isOpen2 = !calendar.isOpen2">
                                     <i class="glyphicon glyphicon-calendar"></i>
@@ -56,9 +56,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="description" class="col-sm-3 control-label">Description</label>
+                    <label for="cc-capacity" class="col-sm-3 control-label">Capacity</label>
                     <div class="col-sm-9">
-                        <textarea rows="5" type="text" class="form-control" ng-model="conference.description" maxlength="300"></textarea>
+                        <input type="number" class="form-control" id="cc-capacity" ng-model="conference.capacity" g-places-autocomplete required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cc-description" class="col-sm-3 control-label">Description</label>
+                    <div class="col-sm-9">
+                        <textarea rows="5" type="text" id="cc-description" class="form-control" ng-model="conference.description" maxlength="300" required></textarea>
                         <span class="help-block">Max 300 characters</span>
                     </div>
                 </div>
@@ -138,5 +144,5 @@
             </div>
         </div>
     </div>
-        <button class="btn btn-lg btn-success center-block" ng-click="submit()">Create Request</button>
+    <button class="btn btn-lg btn-success center-block" type="button" ng-click="submit()">Create Request</button>
 </div>

@@ -1,5 +1,5 @@
 <div id="conference">
-    <div class="banner" ng-style="{{background}}">
+    <div class="banner" back-img="{{background}}">
         <div class="jumbo-container">
             <input type="text" class="input-xxlg" ng-model="conference.name" ng-readonly="isDisabled">
             <div class="input-dates">
@@ -24,10 +24,10 @@
     <div class="body-container" id="events-container">
         <div class="box">
             <div class="btn-container">
-                <button type="button" class="btn btn-primary" ng-click="editConference()" ng-show="isDisabled">
+                <button type="button" class="btn btn-primary" ng-click="editConference()" ng-show="isDisabled && auth">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </button>
-                <div ng-hide="isDisabled">
+                <div ng-hide="isDisabled || !auth">
                     <button type="button" class="btn btn-success" ng-click="updateConference()">
                         <span class="glyphicon glyphicon-ok"></span> Save Changes
                     </button>
@@ -38,10 +38,10 @@
             </div>
             <div class="page-header">
                 <h1>Events</h1>
-                <button type="button" class="btn btn-info attendance">
+                <a type="button" class="btn btn-info attendance" ng-href="conference-{{conference.conferenceId}}/signup/?name={{conference.name}}" ng-show="auth">
                     <span class="glyphicon glyphicon-ok"></span> Attend
-                </button>
-                <button type="button" class="btn btn-info attendance">
+                </a>
+                <button type="button" class="btn btn-info attendance attend-leave" ng-hide="true">
                     <span class="attending">
                         <span class="glyphicon glyphicon-ok"></span> Attending
                     </span>
@@ -99,6 +99,24 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+
+            <h1>Conference Data</h1>
+            <hr>
+            <div
+                  fusioncharts
+                  width="800"
+                  height="400"
+                  type="doughnut3d"
+                  dataSource="{{dataset1}}">
+            </div>
+            <hr>
+            <div
+                  fusioncharts
+                  width="800"
+                  height="400"
+                  type="column3d"
+                  dataSource="{{dataset2}}">
             </div>
         </div>
     </div>

@@ -6,22 +6,25 @@ angular.module ( 'homeCtrl', [] )
 
     $scope.pastConferences = [
         {
+            id: 123,
             name: "India Conference",
             country: "India",
-            date: "Feb 10, 2016",
-            image: "assets/img/india-flag.gif"
+            startDate: "Feb 20, 2016",
+            endDate: "Feb 27, 2016",
         },
         {
+            id: 234,
             name: "Canada Conference",
             country: "Canada",
-            date: "Feb 16, 2016",
-            image: "assets/img/canada-flag.gif"
+            startDate: "Jan 29, 2016",
+            endDate: "Feb 3, 2016"
         },
         {
+            id: 1,
             name: "France Conference",
             country: "France",
-            date: "Feb 22, 2016",
-            image: "assets/img/world-flag.gif"
+            startDate: "Jan 5, 2016",
+            endDate: "Jan 12, 2016"
         }
     ];
 

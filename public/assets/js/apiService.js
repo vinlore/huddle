@@ -12,10 +12,10 @@ angular.module( 'apiService', [] )
     return $resource( '/api/user/:userId/profile/:profileId', {userId: '@uid', profileId: '@pid'} );
 })
 
-/*.factory( 'Conferences', function( $resource ) {
-    return $resource( '/api/conferences/:id', {id: '@cid'});
+.factory( 'Conferences', function( $resource ) {
+    return $resource( '/api/conferences');
 })
-
+/*
 .factory( 'Conference', function( $resource ) {
     return {
 
@@ -44,7 +44,7 @@ angular.module( 'apiService', [] )
         }
     }
 })
-
+/*
 .factory( 'Events', function( $resource ) {
     return $resource( '/api/conferences/events');
 })

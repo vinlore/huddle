@@ -11,7 +11,7 @@ You must have PHP, node.js and composer installed. You can get them from [https:
 
 We have 3 kinds of dependencies in this project: Laravel, tools, and AngularJS. The tools help us manage and test the application.
 
-* We get the Laravel depencies via `composer`.
+* We get the Laravel dependencies via `composer`.
 * We get the tools we depend upon via `npm`, the Node Package Manager.
 * We get the AngularJS code via `bower`, a client-side (front-end) code package manager.
 
