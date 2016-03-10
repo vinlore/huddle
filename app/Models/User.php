@@ -13,29 +13,31 @@ class User extends SentinelUser
         'first_name',
         'last_name',
         'permissions',
+        'role_id'
     ];
 
     protected $loginNames = ['username'];
 
-    // Each user has many profiles.
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role');
+    }
+
     public function profiles()
     {
         return $this->hasMany('App\Models\Profile');
     }
 
-    // Each user manages many conferences.
     public function conferences()
     {
         return $this->belongsToMany('App\Models\Confernece', 'user_manages_conferences');
     }
 
-    // Each user manages many events.
     public function events()
     {
         return $this->belongsToMany('App\Models\Event', 'user_manages_events');
     }
 
-    // Each user manages many inventories.
     public function inventories()
     {
         return $this->belongsToMany('App\Models\Inventory', 'user_manages_inventories');

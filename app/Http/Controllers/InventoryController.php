@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Models\Event as Event;
+use App\Models\Inventory as Inventory;
 
-class EventController extends Controller
+class InventoryController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Models\Event as Event;
+use App\Models\Item as Item;
 
-class EventController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
