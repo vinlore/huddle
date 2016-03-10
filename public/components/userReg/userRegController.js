@@ -44,8 +44,19 @@ angular.module( 'userRegCtrl', [] )
     ];
 
     $scope.register = function() {
-        var city = null;
-        if ( $scope.user.City ) city = $scope.user.City.formatted_address;
+        var city, country;
+        if ( $scope.user.city.formatted_address ) {
+            city = $scope.user.city.formatted_address;
+        } else {
+            city = $scope.user.city;
+        }
+
+        if ( $scope.user.country.name ) {
+            country = $scope.user.country.name;
+        } else {
+            country = $scope.user.country;
+        };
+
         var user = {
             username: $scope.user.username,
             password: $scope.user.password,
@@ -53,7 +64,7 @@ angular.module( 'userRegCtrl', [] )
             middleName: $scope.user.middleName,
             lastName: $scope.user.lastName,
             birthdate: $filter('date')($scope.user.birthdate, 'yyyy-MM-dd'),
-            country: $scope.user.country,
+            country: country,
             city: city,
             email: $scope.user.email,
             phone: $scope.user.phone,
