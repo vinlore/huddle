@@ -1,5 +1,5 @@
 angular.module( 'createConferenceCtrl', [])
-.controller( 'createConferenceController', function( $scope, Countries ) {
+.controller( 'createConferenceController', function( $scope, Countries, Conferences, $filter ) {
     
     $scope.conference = {
         name: null,
@@ -8,7 +8,8 @@ angular.module( 'createConferenceCtrl', [])
         address: null,
         startDate: null,
         endDate: null,
-        description: null
+        description: null,
+        capacity: null
     }
 
     $scope.countries = Countries;
@@ -124,6 +125,30 @@ angular.module( 'createConferenceCtrl', [])
 
     $scope.removeDeparture = function( ind ) {
         $scope.depTransport.splice( ind, 1 );
+    }
+
+    $scope.submit = function () {
+        var conference = {
+            conference: {
+                name: $scope.conference.name,
+                address: $scope.conference.address,
+                country: $scope.conference.country,
+                city: $scope.conference.city.formatted_address,
+                startDate: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
+                endDate: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
+                description: $scope.conference.description,
+                capacity: $scope.conference.capacity
+            }
+        }
+
+        Conferences.save( conference )
+            .$promise.then( function( response ) {
+                if ( response.status == 'success' ) {
+                    console.log( 'Conference request successfully made' );
+                } else {
+                    console.log( 'Error' + response.code + response.message );
+                }
+            })
     }
 
 })
