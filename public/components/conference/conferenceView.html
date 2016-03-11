@@ -100,7 +100,7 @@
                     </ul>
                 </div>
             </div>
-
+            <div ng-hide="!auth">
             <h1>Conference Data</h1>
             <hr>
             <div
@@ -117,6 +117,7 @@
                   height="400"
                   type="column3d"
                   dataSource="{{dataset2}}">
+            </div>
             </div>
         </div>
     </div>
