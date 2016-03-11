@@ -39,7 +39,6 @@ class UserController extends Controller
         //Check If username is correctly set
         if((strlen($username) < 4) ||
             !preg_match('/^[a-zA-Z0-9]+[_.-]{0,1}[a-zA-Z0-9]+$/m', $username)){
-            //TODO - IF Password is incorrectly set
             return \Response::json(array(
                 'status' => 'error',
                 'code' => 'Aporia',
@@ -50,7 +49,6 @@ class UserController extends Controller
         //Check if username exists within DB
         $checkUserExist = \Sentinel::findByCredentials(['login' => $username]);
         if($checkUserExist){
-            //TODO - The Email ALready Exists.
             return \Response::json(array(
                 'status' => 'error',
                 'code' => 'Ares',
@@ -62,28 +60,34 @@ class UserController extends Controller
         if((strlen($password) < 8) ||
             !preg_match("#[0-9]+#", $password) ||
             !preg_match("#[a-zA-Z]+#", $password)){
-            //TODO - IF Password is incorrectly set
             return \Response::json(array(
                 'status' => 'error',
                 'code' => 'Aporia',
                 'message' => 'Password incorrectly set'
             ));
         }
-/*
+
         //Check if email exists within DB
-        $checkUserExist = \DB::table('users')->where('email',$email)->get();
-        if($checkUserExist){
-            //TODO - The Email ALready Exists.
-            return "{'success' : false, 'error':{ 'code' : 'Aegaeon', 'message' : 'Email already exists'}}";
+        if($email) {
+            $checkUserExist = \DB::table('users')->where('email',$email)->get();
+            if($checkUserExist){
+                //TODO - The Email ALready Exists.
+                return \Response::json(array(
+                    'status' => 'error', 
+                    'code' => 'Aegaeon', 
+                    'message' => 'Email already exists'
+                ));
+            }
+
+            //Check If Email Has Correct Regex
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                return \Response::json(array(
+                    'status' => 'error', 
+                    'code' => 'Aphrodite', 
+                    'message' => 'Email does not match regex'
+                ));
+            }
         }
-
-        //Check If Email Has Correct Regex
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            //TODO - IF Email is not match proper email regex
-            return "{'success' : false, 'error':{ 'code' : 'Aphrodite', 'message' : 'Email does not match regex'}}";
-        }*/
-
-
 
         try{
             //Register User to Database
@@ -93,7 +97,7 @@ class UserController extends Controller
             /*if(!empty($email)){
                 //Send Email to User saying they are registered
                 \Mail::send('email',['email' => $email] , function($message) use($email){
-                    $message->to($email)->subject('You have been registered, Welcome!');
+                    $message->to($email)->subject('You have been registered, Welcome to Huddle!');
                 });
             }*/
 
@@ -132,9 +136,11 @@ class UserController extends Controller
 
             return \Response::json(array(
                 'status' => 'success',
-                'token' => $token
+                'token' => $token,
+                'user' => $user
             ));
-        }catch(Exception $e){
+
+        } catch(Exception $e) {
             App::abort(404,$e->getMessage());
         }
     }
@@ -163,8 +169,6 @@ class UserController extends Controller
     */
     function user_authentication(Request $request){
 
-        /*$username = $_POST['username'];
-        $password = $_POST['password'];*/
         $username = $request->username;
         $password = $request->password;
 
@@ -175,14 +179,22 @@ class UserController extends Controller
         try{
             //Check if User Exists within Database
             if(!$user = \Sentinel::findByCredentials(['login' => $username])){
-                //TODO - This User does not exist
-                return "{'success' : false, 'error':{ 'code' : 'Aura', 'message' : 'User Does Not Exist'}}";
+                // This User does not exist
+                return \Response::json(array(
+                    'status' => 'error', 
+                    'code' => 'Aura', 
+                    'message' => 'User Does Not Exist'
+                ));
             }
 
             //Authenicate Users login and password
             if(!$user = \Sentinel::authenticateAndRemember($credential,true)){
-                //TODO - What happens if login information is incorrect
-                return "{'success' : false, 'error' : { 'code' : 'Adikia', 'message' : 'Login Information Incorrect'}}";
+                // What happens if login information is incorrect
+                return \Response::json(array(
+                    'status' => 'error', 
+                    'code' => 'Adikia', 
+                    'message' => 'Login Information Incorrect'
+                ));
             }
 
             //generate login token
@@ -194,12 +206,14 @@ class UserController extends Controller
 
             //Generate JSON to return
             return \Response::json(array('token' => $token, 'user' => $user->toArray()));
-        }catch(\Cartalyst\Sentinel\Checkpoints\ThrottlingException $e){
-            return "{'success' : false, 'error' : { 'code' : 'Acratopotes', 'message' : 'Too many login attempts'}}";
-        }catch(\Cartalyst\Sentinel\Checkpoints\NotActivatedException $e){
-            return "{'success' : false, 'error' : { 'code' : 'Adephagia', 'message' : 'Activation not complete'}}";
-        }catch(Exception $e)
-        {
+
+        } catch(\Cartalyst\Sentinel\Checkpoints\ThrottlingException $e) {
+            return \Response::json(array('status' => 'error', 'code' => 'Acratopotes', 'message' => 'Too many login attempts'));
+
+        } catch(\Cartalyst\Sentinel\Checkpoints\NotActivatedException $e) {
+            return \Response::json(array('status' => 'error', 'code' => 'Adephagia', 'message' => 'Activation not complete'));
+
+        } catch(Exception $e) {
             App::abort(404,$e->getMessage());
         }
     }
@@ -209,7 +223,17 @@ class UserController extends Controller
     */
     function logout(Request $request) {
         $api_token = $request->token;
-        \DB::table('users')->where('api_token', $api_token)->update(['api_token' => '']);
-        return \Response::json(array('success' => true));
+
+        $checkTokenExist = \DB::table('users')->where('api_token', $api_token)->get();
+        if ($checkTokenExist) {
+            \DB::table('users')->where('api_token', $api_token)->update(['api_token' => '']);
+            return \Response::json(array('status' => 'success'));
+        } else {
+            // Should never get to this condition
+            return \Response::json(array(
+                'status' => 'error',
+                'message' => 'Token not found'
+            ));
+        }
     }
 }

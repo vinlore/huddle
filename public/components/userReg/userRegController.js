@@ -1,5 +1,5 @@
 angular.module( 'userRegCtrl', [] )
-.controller( 'userRegController', function( $scope, $rootScope, $auth, $filter, $location, Countries, Register ) {
+.controller( 'userRegController', function( $scope, $rootScope, $auth, $filter, $location, Countries, Register, $localStorage, $rootScope ) {
 
     $scope.user = {
         username: null,
@@ -44,18 +44,20 @@ angular.module( 'userRegCtrl', [] )
     ];
 
     $scope.register = function() {
-        var city, country;
-        if ( $scope.user.city.formatted_address ) {
-            city = $scope.user.city.formatted_address;
-        } else {
+        var city, country = null;
+        if ( $scope.user.city ) {
             city = $scope.user.city;
+            if ( $scope.user.city.formatted_address ) {
+                city = $scope.user.city.formatted_address;
+            }
         }
 
-        if ( $scope.user.country.name ) {
-            country = $scope.user.country.name;
-        } else {
+        if ( $scope.user.country ) {
             country = $scope.user.country;
-        };
+            if ( $scope.user.country.name ) {
+                country = $scope.user.country.name;
+            }
+        }
 
         var user = {
             username: $scope.user.username,
@@ -77,6 +79,7 @@ angular.module( 'userRegCtrl', [] )
                     if ( response.status == 'success' ) {
                         console.log( 'User registered successfully' );
                         $auth.setToken( response.token );
+                        $localStorage.user, $rootScope.user = response.user;
                         $rootScope.auth = $auth.isAuthenticated();
                         $location.path('/');
                     }

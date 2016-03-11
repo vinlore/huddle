@@ -1,5 +1,5 @@
 angular.module( 'headerCtrl', [] )
-.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout ) {
+.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout, $rootScope, $localStorage ) {
 
     $scope.isCollapsed = true;
 
@@ -8,13 +8,15 @@ angular.module( 'headerCtrl', [] )
     }
 
     var logout = function () {
-        Logout.save( $auth.getToken() )
+        Logout.save( {token: $auth.getToken()} )
             .$promise.then( function ( response ) { // OK
                 console.log( response );
-                if ( response.success ) { // If logout on server was successful
+                if ( response.status == 'success' ) { // If logout on server was successful
                     console.log( "Logging out..." );
                     $auth.logout().then( function ( result ) { // If logout on front-end was successful
                         $rootScope.auth = $auth.isAuthenticated();
+                        delete $localStorage.user;
+                        $rootScope.user = null;
                         $location.path('/');
                     });
                 }

@@ -1,5 +1,5 @@
 angular.module( 'loginCtrl', [] )
-.controller( 'loginController', function( $scope, $auth, $location, $timeout, $rootScope ) {
+.controller( 'loginController', function( $scope, $auth, $location, $timeout, $rootScope, $localStorage ) {
 
     $scope.invalid = false;
     $scope.valid = false;
@@ -17,9 +17,10 @@ angular.module( 'loginCtrl', [] )
                 $rootScope.auth = $auth.isAuthenticated;
                 $scope.invalid = false;
                 $scope.valid = true;
+                $localStorage.user, $rootScope.user = response.data.user;
                 $timeout( function () {
                     $location.path('/');
-                }, 500)
+                }, 300)
             } else {
                 $scope.invalid = true;
             }
