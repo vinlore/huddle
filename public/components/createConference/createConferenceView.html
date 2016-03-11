@@ -4,7 +4,7 @@
             <h1 class="text-center">Create New Conference</h1>
         </div>
         <div class="col-lg-6">
-            <form class="form-horizontal">
+            <form name="cc-form" class="form-horizontal" ng-submit="submit()">
                 <div class="form-group">
                     <label for="cc-name" class="col-sm-3 control-label">Name</label>
                     <div class="col-sm-9">
@@ -35,7 +35,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" id="cc-start-date" ng-model="conference.startDate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen1" required>
                             <span class="input-group-btn">
-                                <button class="btn btn-link" ng-click="calendar.isOpen1 = !calendar.isOpen1">
+                                <button class="btn btn-link" type="button" ng-click="calendar.isOpen1 = !calendar.isOpen1">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </span>
@@ -48,7 +48,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" id="cc-end-date" ng-model="conference.endDate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" required>
                             <span class="input-group-btn">
-                                <button class="btn btn-link" ng-click="calendar.isOpen2 = !calendar.isOpen2">
+                                <button class="btn btn-link" type="button" ng-click="calendar.isOpen2 = !calendar.isOpen2">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </span>
@@ -144,5 +144,5 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-lg btn-success center-block" type="button" ng-click="submit()">Create Request</button>
+    <button class="btn btn-lg btn-success center-block" type="submit" ng-click="submit()">Create Request</button>
 </div>
