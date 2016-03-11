@@ -28,7 +28,8 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Event::create($request);
+        return \Response::json(array('status' => 'success'));
     }
 
     /**
@@ -51,7 +52,19 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (!is_null($request->status){
+
+            Event::find($id)
+            ->update($request);
+
+        } else{
+
+            Event::find($id)
+            ->update($request);
+
+        }
+        
+        return \Response::json(array('status' => 'success'));
     }
 
     /**

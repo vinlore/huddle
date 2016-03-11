@@ -28,7 +28,8 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Vehicle::create($request);
+        return \Response::json(array('status' => 'success'));
     }
 
     /**

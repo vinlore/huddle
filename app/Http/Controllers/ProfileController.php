@@ -28,7 +28,8 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Profile::create($request);
+        return \Response::json(array('status' => 'success'));
     }
 
     /**

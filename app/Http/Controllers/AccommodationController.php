@@ -28,7 +28,8 @@ class AccommodationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Accommodation::create($request);
+        return \Response::json(array('status' => 'success'));
     }
 
     /**

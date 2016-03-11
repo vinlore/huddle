@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conference extends Model
 {
-     protected $fillable = [
+    protected $fillable = [
         'name',
         'start_date',
         'end_date',

@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Flight extends Model
 {
+	protected $fillable = [
+        'conference_id',
+        'date',
+        'time',
+        'airport',
+        'nunmber',
+        'type'
+    ];
     public function conference()
     {
         return $this->belongsTo('App\Models\Conference');

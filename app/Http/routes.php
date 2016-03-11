@@ -9,7 +9,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1',]], function (
     Route::post('create', 'UserController@user_registration');
     Route::post('auth', 'UserController@user_authentication');
     Route::post('logout', 'UserController@logout');
-
+    
     Route::resource('profiles', 'ProfileController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
