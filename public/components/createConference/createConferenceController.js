@@ -160,8 +160,8 @@ angular.module( 'createConferenceCtrl', [])
                 address: address,
                 country: country,
                 city: city,
-                startDate: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
-                endDate: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
+                start_date: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
+                end_date: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
                 description: $scope.conference.description,
                 capacity: $scope.conference.capacity
             }

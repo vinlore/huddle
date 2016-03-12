@@ -164,6 +164,27 @@ angular.module( 'conferenceCtrl', [] )
 
     $scope.loadDepartVehicles();*/
 
+    $scope.saveDetails = function () {
+        var confDetails = {
+            name: $scope.conference.name,
+            start_date: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
+            end_date: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
+            address: $scope.conference.address,
+            description: $scope.conference.description,
+            capacity: $scope.conference.capacity,
+            city: $scope.conference.city,
+            country: $scope.conference.country
+        }
+        Conference.fetch().put( confDetails, {cid: $routeParams.conferenceId} )
+            .$promise.then( function( response ) {
+                if ( response.status == 'success' ) {
+                    console.log( 'Changes saved to conference' );
+                } else {
+                    console.log( 'Error saving changes to conference' );
+                }
+            })
+    }
+
     $scope.dataset1 = {
         "chart": {
             "caption": "Countries Represented by Attendees",
