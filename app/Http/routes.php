@@ -7,10 +7,14 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::post('create', 'UserController@user_registration');
     Route::post('auth', 'UserController@user_authentication');
     Route::post('logout', 'UserController@logout');
-}
+});
 
 // Prefix all API routes with 'api'.
-Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken']], function () {
+Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
+
+    Route::resource('roles' , 'RolesController', ['only' =>[
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
 
     Route::resource('profiles', 'ProfileController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
@@ -53,20 +57,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken']],
 // TESTING
 // -----------------------------------------------------------------------------
 
-// Test DDoS protection.
-// throttle{requests/minute}
-Route::get('api/ddos', ['middleware' => 'throttle:10,1', function () {
-    return 'Hello!';
-}]);
-
-// Create a role called 'Admin'.
-Route::get('createRole', function () {
-    $role = Sentinel::getRoleRepository()->createModel()->create([
-        'name' => 'Admin',
-        'slug' => 'Admin',
-    ]);
-    var_dump($role);
-});
 
 // Assign the 'Admin' role to the first user.
 Route::get('assignRole', function () {
