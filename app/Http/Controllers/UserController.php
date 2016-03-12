@@ -12,7 +12,7 @@ class UserController extends Controller
     /*
      * User Creation
      */
-    function user_registration(Request $request){
+    function register(Request $request){
 
         $username = $request->username;
         $email = $request->email;
@@ -73,8 +73,8 @@ class UserController extends Controller
             if($checkUserExist){
                 //TODO - The Email ALready Exists.
                 return \Response::json(array(
-                    'status' => 'error', 
-                    'code' => 'Aegaeon', 
+                    'status' => 'error',
+                    'code' => 'Aegaeon',
                     'message' => 'Email already exists'
                 ));
             }
@@ -82,8 +82,8 @@ class UserController extends Controller
             //Check If Email Has Correct Regex
             if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
                 return \Response::json(array(
-                    'status' => 'error', 
-                    'code' => 'Aphrodite', 
+                    'status' => 'error',
+                    'code' => 'Aphrodite',
                     'message' => 'Email does not match regex'
                 ));
             }
@@ -167,7 +167,7 @@ class UserController extends Controller
     /*
     *   Authenticate the User when logging in
     */
-    function user_authentication(Request $request){
+    function login(Request $request){
 
         $username = $request->username;
         $password = $request->password;
@@ -181,8 +181,8 @@ class UserController extends Controller
             if(!$user = \Sentinel::findByCredentials(['login' => $username])){
                 // This User does not exist
                 return \Response::json(array(
-                    'status' => 'error', 
-                    'code' => 'Aura', 
+                    'status' => 'error',
+                    'code' => 'Aura',
                     'message' => 'User Does Not Exist'
                 ));
             }
@@ -191,8 +191,8 @@ class UserController extends Controller
             if(!$user = \Sentinel::authenticateAndRemember($credential,true)){
                 // What happens if login information is incorrect
                 return \Response::json(array(
-                    'status' => 'error', 
-                    'code' => 'Adikia', 
+                    'status' => 'error',
+                    'code' => 'Adikia',
                     'message' => 'Login Information Incorrect'
                 ));
             }
