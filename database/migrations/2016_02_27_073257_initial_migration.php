@@ -122,19 +122,6 @@ class InitialMigration extends Migration
             $table->timestamps();
         });
 
-        Schema::create('flights', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->integer('conference_id')->index('conference_id');
-            $table->date('date');
-            $table->time('time');
-            $table->string('airport');
-            $table->string('number');
-            $table->enum('type', ['arrival', 'departure',]);
-            $table->timestamps();
-
-            $table->foreign('conference_id', 'flights_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-        });
-
         // ---------------------------------------------------------------------
         // PIVOT TABLES
         // ---------------------------------------------------------------------
@@ -212,10 +199,22 @@ class InitialMigration extends Migration
             $table->string('country');
             $table->date('birthdate');
             $table->string('gender');
+            $table->boolean('accommodation_req');
+            $table->string('accommodation_pref')->nullable();
             $table->boolean('arrv_ride_req');
+            $table->date('arrv_date')->nullable();
+            $table->time('arrv_time')->nullable();
+            $table->string('arrv_airport')->nullable();
+            $table->string('arrv_flight')->nullable();
             $table->boolean('dept_ride_req');
-            $table->string('emergency_contact')->nullable();
-            $table->string('emergency_phone')->nullable();
+            $table->date('dept_date')->nullable();
+            $table->time('dept_time')->nullable();
+            $table->string('dept_airport')->nullable();
+            $table->string('dept_flight')->nullable();
+            $table->string('contact_first_name')->nullable();
+            $table->string('contact_last_name')->nullable();
+            $table->string('contact_email')->nullable();
+            $table->string('contact_phone')->nullable();
             $table->string('medical_conditions')->nullable();
             $table->enum('status', ['pending', 'approved', 'denied', 'canceled',])->default('pending');
             $table->timestamps();
@@ -228,7 +227,8 @@ class InitialMigration extends Migration
         Schema::create('profile_attends_events', function (Blueprint $table) {
             $table->integer('profile_id');
             $table->integer('event_id')->index('event_id');
-            $table->boolean('ride_req');
+            $table->boolean('arrv_ride_req');
+            $table->boolean('dept_ride_req');
             $table->enum('status', ['pending', 'approved', 'denied', 'canceled',])->default('pending');
             $table->timestamps();
 
@@ -256,16 +256,6 @@ class InitialMigration extends Migration
             $table->foreign('profile_id', 'profile_rides_vehicles_ibfk_1')->references('id')->on('profiles')->onUpdate('RESTRICT')->onDelete('RESTRICT');
             $table->foreign('vehicle_id', 'profile_rides_vehicles_ibfk_2')->references('id')->on('vehicles')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
-
-        Schema::create('profile_takes_flights', function (Blueprint $table) {
-            $table->integer('profile_id');
-            $table->integer('flight_id')->index('flight_id');
-            $table->timestamps();
-
-            $table->primary(['profile_id', 'flight_id',]);
-            $table->foreign('profile_id', 'profile_takes_flights_ibfk_1')->references('id')->on('profiles')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('flight_id', 'profile_takes_flights_ibfk_2')->references('id')->on('flights')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-        });
     }
 
     /**
@@ -275,7 +265,6 @@ class InitialMigration extends Migration
      */
     public function down()
     {
-        Schema::drop('profile_takes_flights');
         Schema::drop('profile_rides_vehicles');
         Schema::drop('profile_stays_in_rooms');
         Schema::drop('profile_attends_events');
@@ -286,7 +275,6 @@ class InitialMigration extends Migration
         Schema::drop('event_vehicles');
         Schema::drop('conference_vehicles');
         Schema::drop('conference_accommodations');
-        Schema::drop('flights');
         Schema::drop('vehicles');
         Schema::drop('items');
         Schema::drop('inventories');

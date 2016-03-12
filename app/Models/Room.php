@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
+	protected $fillable = [
+        'accomodation_id',
+        'room_no',
+        'guest_count',
+        'capacity'
+    ];
+
     public function accommodation()
     {
         return $this->belongsTo('App\Models\Accommodation');
