@@ -199,6 +199,8 @@ class InitialMigration extends Migration
             $table->string('country');
             $table->date('birthdate');
             $table->string('gender');
+            $table->boolean('accommodation_req');
+            $table->string('accommodation_pref')->nullable();
             $table->boolean('arrv_ride_req');
             $table->date('arrv_date')->nullable();
             $table->time('arrv_time')->nullable();
@@ -209,8 +211,10 @@ class InitialMigration extends Migration
             $table->time('dept_time')->nullable();
             $table->string('dept_airport')->nullable();
             $table->string('dept_flight')->nullable();
-            $table->string('emergency_contact')->nullable();
-            $table->string('emergency_phone')->nullable();
+            $table->string('contact_first_name')->nullable();
+            $table->string('contact_last_name')->nullable();
+            $table->string('contact_email')->nullable();
+            $table->string('contact_phone')->nullable();
             $table->string('medical_conditions')->nullable();
             $table->enum('status', ['pending', 'approved', 'denied', 'canceled',])->default('pending');
             $table->timestamps();
@@ -223,7 +227,8 @@ class InitialMigration extends Migration
         Schema::create('profile_attends_events', function (Blueprint $table) {
             $table->integer('profile_id');
             $table->integer('event_id')->index('event_id');
-            $table->boolean('ride_req');
+            $table->boolean('arrv_ride_req');
+            $table->boolean('dept_ride_req');
             $table->enum('status', ['pending', 'approved', 'denied', 'canceled',])->default('pending');
             $table->timestamps();
 
