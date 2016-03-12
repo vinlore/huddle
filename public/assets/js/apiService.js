@@ -1,11 +1,11 @@
 angular.module( 'apiService', [] )
 
 .factory( 'Register', function( $resource ) {
-    return $resource( '/auth/register' );
+    return $resource( '/api/auth/register' );
 })
 
 .factory( 'Logout', function( $resource ) {
-    return $resource( '/auth/logout' );
+    return $resource( '/api/auth/logout' );
 })
 
 .factory( 'Profile', function( $resource ) {
@@ -28,7 +28,7 @@ angular.module( 'apiService', [] )
         }
 
         fetch: function () {
-            return $resource( '/api/conferences/:cid', {cid: 'cid'}, 
+            return $resource( '/api/conferences/:cid', {cid: 'cid'},
                 update: {
                   method: 'PUT'
                 }
