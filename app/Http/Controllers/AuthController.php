@@ -131,8 +131,6 @@ class AuthController extends Controller
 
             \DB::table('users')->where('username',$username)->update(['api_token' => $token]);
 
-            $user->first_name = $firstName;
-
             return \Response::json(array(
                 'status' => 'success',
                 'token' => $token,
