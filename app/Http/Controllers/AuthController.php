@@ -30,8 +30,6 @@ class AuthController extends Controller
             'username' => $username,
             'email'     => $email,
             'password'  => $password,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
             'role_id'   => 1
         );
 
@@ -93,7 +91,6 @@ class AuthController extends Controller
             //Register User to Database
             \Sentinel::register($user_credential,true);
 
-
             /*if(!empty($email)){
                 //Send Email to User saying they are registered
                 \Mail::send('email',['email' => $email] , function($message) use($email){
@@ -134,6 +131,8 @@ class AuthController extends Controller
 
             \DB::table('users')->where('username',$username)->update(['api_token' => $token]);
 
+            $user->first_name = $firstName;
+
             return \Response::json(array(
                 'status' => 'success',
                 'token' => $token,
@@ -141,7 +140,6 @@ class AuthController extends Controller
             ));
 
         } catch(Exception $e) {
-            App::abort(404,$e->getMessage());
         }
     }
 
