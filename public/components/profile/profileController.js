@@ -2,23 +2,31 @@ angular.module ( 'profileCtrl', [] )
 .controller('profileController', function ( $scope ) {
 
   $scope.user = {
-      Username: null,
+      Username: "Tino",
       OldPassword: null,
       NewPassword: null,
       ConfirmPassword: null,
-      FirstName: null,
+      FirstName: "Haniel",
       MiddleName: null,
-      LastName: null,
+      LastName: "Martino",
       Birthdate: null,
       Gender: null,
-      Country: null,
-      City: null,
-      Email: null,
-      HomePhone: null,
-      OtherPhone: null
+      Country: "Canada",
+      City: "Vancouver",
+      Email: "Haniel_Martino@hotmail.com",
+      HomePhone: "9999999999",
+      OtherPhone: "1234567890"
   };
 
-  $scope.saveChanges = function () {
+  $scope.saveNameChanges = function () {
+
+  };
+
+  $scope.saveContactChanges = function () {
+
+  };
+
+  $scope.savePasswordChanges = function () {
 
   };
 
@@ -31,4 +39,8 @@ angular.module ( 'profileCtrl', [] )
       //update function
   };
 
+  $scope.deleteAccount = function () {
+
+  };
+  
 });
