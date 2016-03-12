@@ -6,9 +6,9 @@
 
 // Routes that don't require the user to be logged in.
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1'],], function () {
-    Route::post('auth/register', 'UserController@register');
-    Route::post('auth/login', 'UserController@login');
-    Route::post('auth/logout', 'UserController@logout');
+    Route::post('auth/register', 'AuthController@register');
+    Route::post('auth/login', 'AuthController@login');
+    Route::post('auth/logout', 'AuthController@logout');
 });
 
 // Routes that require the user to be logged in.
