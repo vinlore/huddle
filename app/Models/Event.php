@@ -6,6 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
+    protected $fillable = [
+        'conference_id',
+        'name',
+        'description',
+        'facilitator',
+        'date',
+        'start_time',
+        'end_time',
+        'address',
+        'city',
+        'country',
+        'age_limit',
+        'gender_limit',
+        'attendee_count',
+        'capacity',
+        'status'
+    ];
+
     public function conference()
     {
         return $this->belongsTo('App\Models\Conference');

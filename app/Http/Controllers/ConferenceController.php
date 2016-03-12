@@ -29,21 +29,7 @@ class ConferenceController extends Controller
 
     public function store(Request $request){
 
-        $conference = $request->conference;
-
-        Conference::create([
-            'name'              => $conference['name'],
-            'start_date'        => $conference['startDate'],
-            'end_date'          => $conference['endDate'],
-            'address'           => $conference['address'],
-            'country'           => $conference['country'],
-            'city'              => $conference['city'],
-            'capacity'          => $conference['capacity'],
-            'description'       => $conference['description'],
-            'status'            => 'pending',
-            'attendee_count'    => 0
-        ]);
-
+        Conference::create($request->all());
         return \Response::json(array('status' => 'success'));
     }
 
@@ -55,7 +41,7 @@ class ConferenceController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -67,8 +53,34 @@ class ConferenceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       /* $new_conference_data = array(
+            'name'=> $request->name,
+            'description' => $request->description,
+            'start_date' => $request->startDate,
+            'end_date' => $request->endDate,
+            'address' => $request->address,
+            'city' => $request->city,
+            'country' => $request->country,
+            'attendee_count' => $request->attendee_count,
+            'capacity' => $request->capacity,
+            'status' => $request->status
+        ); */
+
+        if (!is_null($request->status){
+
+            Conference::find($id)
+            ->update($request->all());
+
+        } else{
+
+            Conference::find($id)
+            ->update($request->all());
+
+        }
+
+        return \Response::json(array('status' => 'success'));
     }
+
 
     /**
      * Remove the specified resource from storage.

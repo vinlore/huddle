@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conference extends Model
 {
-     protected $fillable = [
+    protected $fillable = [
         'name',
         'start_date',
         'end_date',
@@ -37,11 +37,6 @@ class Conference extends Model
     public function vehicles()
     {
         return $this->belongsToMany('App\Models\Vehicle', 'conference_vehicles');
-    }
-
-    public function flights()
-    {
-        return $this->hasMany('App\Models\Flight');
     }
 
     public function managers()
