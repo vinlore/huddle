@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User as User;
 use App\Models\Profile as Profile;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
 
     /*
