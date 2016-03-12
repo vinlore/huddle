@@ -5,14 +5,18 @@
 // -----------------------------------------------------------------------------
 
 // Routes that don't require the user to be logged in.
-Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
+Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1'],], function () {
     Route::post('auth/register', 'UserController@register');
     Route::post('auth/login', 'UserController@login');
     Route::post('auth/logout', 'UserController@logout');
 });
 
 // Routes that require the user to be logged in.
-Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken']], function () {
+Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken',],], function () {
+
+    Route::resource('users', 'UserController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
 
     Route::resource('profiles', 'ProfileController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
