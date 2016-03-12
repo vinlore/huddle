@@ -79,7 +79,8 @@ angular.module( 'userRegCtrl', [] )
                     if ( response.status == 'success' ) {
                         console.log( 'User registered successfully' );
                         $auth.setToken( response.token );
-                        $localStorage.user, $rootScope.user = response.user;
+                        $localStorage.user = response.user;
+                        $rootScope.user = $localStorage.user;
                         $rootScope.auth = $auth.isAuthenticated();
                         $location.path('/');
                     }
