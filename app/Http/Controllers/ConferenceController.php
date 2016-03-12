@@ -29,7 +29,7 @@ class ConferenceController extends Controller
 
     public function store(Request $request){
 
-        Conference::create($request);
+        Conference::create($request->all());
         return \Response::json(array('status' => 'success'));
     }
 
@@ -41,7 +41,7 @@ class ConferenceController extends Controller
      */
     public function show($id)
     {
-    
+
     }
 
     /**
@@ -52,9 +52,9 @@ class ConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
        /* $new_conference_data = array(
-            'name'=> $request->name, 
+            'name'=> $request->name,
             'description' => $request->description,
             'start_date' => $request->startDate,
             'end_date' => $request->endDate,
@@ -63,21 +63,21 @@ class ConferenceController extends Controller
             'country' => $request->country,
             'attendee_count' => $request->attendee_count,
             'capacity' => $request->capacity,
-            'status' => $request->status 
+            'status' => $request->status
         ); */
-        
+
         if (!is_null($request->status){
 
             Conference::find($id)
-            ->update($request);
+            ->update($request->all());
 
         } else{
 
             Conference::find($id)
-            ->update($request);
+            ->update($request->all());
 
         }
-        
+
         return \Response::json(array('status' => 'success'));
     }
 

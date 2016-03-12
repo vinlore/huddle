@@ -28,7 +28,7 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        Event::create($request);
+        Event::create($request->all());
         return \Response::json(array('status' => 'success'));
     }
 
@@ -55,15 +55,15 @@ class EventController extends Controller
         if (!is_null($request->status){
 
             Event::find($id)
-            ->update($request);
+            ->update($request->all());
 
         } else{
 
             Event::find($id)
-            ->update($request);
+            ->update($request->all());
 
         }
-        
+
         return \Response::json(array('status' => 'success'));
     }
 

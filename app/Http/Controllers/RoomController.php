@@ -28,7 +28,7 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        Room::create($request);
+        Room::create($request->all());
         return \Response::json(array('status' => 'success'));
     }
 
