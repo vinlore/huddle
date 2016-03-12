@@ -44,10 +44,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken']],
     Route::resource('vehicles', 'VehicleController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
-
-    Route::resource('flights', 'FlightController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
-    ]]);
 });
 
 // -----------------------------------------------------------------------------
