@@ -30,14 +30,16 @@ angular.module('cms', [
     'signupEventCtrl',
     'ng-fusioncharts',
     'manageInventoryCtrl',
+    'ngStorage'
 ])
 
-.run( function( $rootScope, $auth ) {
+.run( function( $rootScope, $auth, $localStorage ) {
     $rootScope.auth = $auth.isAuthenticated();
+    $rootScope.user = $localStorage.user;
 })
 
 .config( function( $routeProvider, $locationProvider, $authProvider ) {
-    $authProvider.loginUrl = '/api/auth';
+    $authProvider.loginUrl = '/auth/login';
 
     $routeProvider
 
