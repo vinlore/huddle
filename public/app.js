@@ -39,7 +39,7 @@ angular.module('cms', [
 })
 
 .config( function( $routeProvider, $locationProvider, $authProvider ) {
-    $authProvider.loginUrl = '/auth/login';
+    $authProvider.loginUrl = 'api/auth/login';
 
     $routeProvider
 
