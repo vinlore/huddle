@@ -1,5 +1,5 @@
 angular.module('signupConfCtrl',[])
-.controller('signupConferenceController', function($scope, $routeParams, Conference, Countries){
+.controller('signupConferenceController', function($scope, $routeParams, Conference, Countries, popup){
 
     $scope.calendar = {
         isOpen1: false,
@@ -125,19 +125,10 @@ angular.module('signupConfCtrl',[])
                         console.log( 'User successfully registered to attend conference' );
                         // TODO change attending button to pending approval
                     } else {
-                        console.log( 'Failed to register to attend conference' );
-                        // TODO error popup
+                        popup.error( 'Error', response.message );
                     }
-                });
-
-            Conference.flights().save( {cid: $routeParams.conferenceId} )
-                .$promise.then( function( response ) {
-                    if ( response.status == 'success' ) {
-                        console.log( 'Flight information successfully saved' );
-                    } else {
-                        console.log( 'Flight information failed to save' );
-                        // TODO error popup
-                    }
+                }, function () {
+                    popup.connection();
                 });
         }
     }*/

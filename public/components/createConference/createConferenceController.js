@@ -1,5 +1,5 @@
 angular.module( 'createConferenceCtrl', [])
-.controller( 'createConferenceController', function( $scope, Countries, Conferences, $filter, $location ) {
+.controller( 'createConferenceController', function( $scope, Countries, Conferences, $filter, $location, popup ) {
     
     $scope.conference = {
         name: null,
@@ -170,11 +170,12 @@ angular.module( 'createConferenceCtrl', [])
         Conferences.save( conference )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' ) {
-                    console.log( 'Conference request successfully made' );
                     $location.path('/admin');
                 } else {
-                    console.log( 'Error' + response.code + response.message );
+                    popup.error( 'Error', response.message );
                 }
+            }, function () {
+                popup.connection();
             })
     }
 
