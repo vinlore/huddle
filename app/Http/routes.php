@@ -18,8 +18,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken',],
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('profiles', 'ProfileController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+    Route::resource('users.profiles', 'ProfileController', ['only' => [
+        'index', 'store', 'update', 'destroy',
     ]]);
 
     Route::resource('conferences', 'ConferenceController', ['only' => [

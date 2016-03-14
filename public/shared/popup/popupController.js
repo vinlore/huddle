@@ -1,5 +1,5 @@
-angular.module('popupPromptCtrl', [])
-.controller('popupPromptController', function( $scope, $uibModalInstance, content ) {
+angular.module('popupCtrl', [])
+.controller('popupController', function( $scope, $uibModalInstance, content ) {
 	
 	$scope.content = content;
 
