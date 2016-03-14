@@ -6,6 +6,10 @@
 	margin-top: 50px;
 }
 
+.margin-top-35 {
+	margin-top: 35px;
+}
+
 .margin-right-25  {
 	margin-right: 25px;
 }
@@ -24,7 +28,7 @@
 
 #admin-conferences h2,
 #admin-conferences h3 {
-    margin-top: 15px;
+    margin-top: 0px;
 }
 
 #admin .events hr {
