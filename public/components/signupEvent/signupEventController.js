@@ -1,5 +1,5 @@
 angular.module('signupEventCtrl',[])
-.controller('signupEventController', function($scope){
+.controller('signupEventController', function($scope, $stateParams){
 
   $scope.user = {
       Username: null,
@@ -19,7 +19,7 @@ angular.module('signupEventCtrl',[])
   };
 
   $scope.event = {
-      name: "Peace, Light and Love",
+      name: $stateParams.name,
   }
 
   $scope.arrival = {

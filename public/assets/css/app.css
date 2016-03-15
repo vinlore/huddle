@@ -243,7 +243,7 @@ body {
 }
 
 .has-header {
-  margin-top: 50px;
+  padding-top: 50px;
 }
 
 .panel {
@@ -1262,7 +1262,7 @@ fieldset[disabled] .btn-link:focus {
 .card-subtitle {
   margin-top: 0px !important;
   color: white !important;
-  text-shadow: 2px 1px 1px black !important;
+  text-shadow: 1px 1px 1px black !important;
   margin-bottom: 10px;
 }
 
