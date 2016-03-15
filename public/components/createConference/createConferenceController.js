@@ -1,5 +1,5 @@
 angular.module( 'createConferenceCtrl', [])
-.controller( 'createConferenceController', function( $scope, Countries, Conferences, $filter ) {
+.controller( 'createConferenceController', function( $scope, Countries, Conferences, $filter, $location ) {
     
     $scope.conference = {
         name: null,
@@ -133,23 +133,26 @@ angular.module( 'createConferenceCtrl', [])
 
     $scope.submit = function () {
         var city, address, country;
-        if ( $scope.conference.city.name ) {
-            city = $scope.conference.city.name;
-        } else {
+        if ( $scope.conference.city ) {
             city = $scope.conference.city;
-        };
+            if ( $scope.conference.city.name ) {
+                city = $scope.conference.city.name;
+            }
+        }
 
-        if ( $scope.conference.address.formatted_address ) {
-            address = $scope.conference.address.formatted_address;
-        } else {
-            address = $scope.conference.address;
-        };
-
-        if ( $scope.conference.country.name ) {
-            country = $scope.conference.country.name;
-        } else {
+        if ( $scope.conference.country ) {
             country = $scope.conference.country;
-        };
+            if ( $scope.conference.country.name ) {
+                country = $scope.conference.country.name;
+            }
+        }
+
+        if ( $scope.conference.address) {
+            address = $scope.conference.address;
+            if ( $scope.conference.address.formatted_address ) {
+                address = $scope.conference.address.formatted_address;
+            }
+        }
 
         var conference = {
             conference: {
@@ -157,8 +160,8 @@ angular.module( 'createConferenceCtrl', [])
                 address: address,
                 country: country,
                 city: city,
-                startDate: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
-                endDate: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
+                start_date: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
+                end_date: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
                 description: $scope.conference.description,
                 capacity: $scope.conference.capacity
             }
@@ -168,6 +171,7 @@ angular.module( 'createConferenceCtrl', [])
             .$promise.then( function( response ) {
                 if ( response.status == 'success' ) {
                     console.log( 'Conference request successfully made' );
+                    $location.path('/admin');
                 } else {
                     console.log( 'Error' + response.code + response.message );
                 }

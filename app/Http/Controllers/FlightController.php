@@ -38,7 +38,8 @@ class FlightController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Flight::create($request->all());
+        return \Response::json(array('status' => 'success'));
     }
 
     /**

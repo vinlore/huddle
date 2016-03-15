@@ -35,6 +35,7 @@
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1Pmv3HdlO7MufSCHtByXYIfiuRzhc1mg&libraries=places"></script>
   <script type="text/javascript" src="assets/js/fusioncharts/fusioncharts.js"></script>
   <script type="text/javascript" src="assets/js/fusioncharts/angular-fusioncharts.min.js"></script>
+  <script text="text/javascript" src="assets/libs/ngstorage/ngStorage.min.js"></script>
 
   <!-- CONTROLLERS -->
   <script src="components/home/homeController.js"></script>
