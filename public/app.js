@@ -32,7 +32,8 @@ angular.module('cms', [
     'ngStorage',
     'popupServices',
     'ngMap',
-    'ui.router'
+    'ui.router',
+    'manageRequestsCtrl',
 ])
 
 .run( function( $rootScope, $auth, $localStorage ) {
@@ -144,6 +145,15 @@ angular.module('cms', [
         url: '/manage-inventory',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
         controller: 'manageInventoryController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'requests', {
+        url: '/manage-requests',
+        templateUrl: 'components/manageRequests/manageRequestsView.html',
+        controller: 'manageRequestsController',
         resolve: {
             loginRequired: loginRequired
         }
