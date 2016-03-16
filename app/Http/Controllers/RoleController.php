@@ -70,17 +70,6 @@ class RoleController extends Controller
         $role = \Sentinel::findRoleById($id);
         $role->permissions = $request->permissions;
         $role->save();
-
-        /*
-        $roleName = $request->name;
-
-        $user = \Sentinel::findById($id);
-        $role = \Sentinel::findRoleByName($roleName);
-        //Checking if Attaching role or detatching a role
-        if() TODO - check if attaching or detaching
-        $role->users()->attach($user);
-        $role->users()->detach($user);
-        */
     }
 
     /**
