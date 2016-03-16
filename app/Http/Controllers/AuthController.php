@@ -120,7 +120,8 @@ class AuthController extends Controller
             $profile->save();
 
             // Login
-            if(!$user = \Sentinel::authenticateAndRemember($user_credential,true)){
+            $user = \Sentinel::authenticateAndRemember($user_credential,true);
+            if(!$user){
                 return \Response::json(array(
                     'status' => 'error'
                 ));
@@ -130,6 +131,7 @@ class AuthController extends Controller
             $user->api_token = $token;
 
             \DB::table('users')->where('username',$username)->update(['api_token' => $token]);
+
 
             return \Response::json(array(
                 'status' => 'success',
@@ -174,7 +176,8 @@ class AuthController extends Controller
         );
         try{
             //Check if User Exists within Database
-            if(!$user = \Sentinel::findByCredentials(['login' => $username])){
+            $user = \Sentinel::findByCredentials(['login' => $username]);
+            if(!$user){
                 // This User does not exist
                 return \Response::json(array(
                     'status' => 'error',
@@ -184,7 +187,8 @@ class AuthController extends Controller
             }
 
             //Authenicate Users login and password
-            if(!$user = \Sentinel::authenticateAndRemember($credential,true)){
+            $user = \Sentinel::authenticateAndRemember($credential,true);
+            if(!$user){
                 // What happens if login information is incorrect
                 return \Response::json(array(
                     'status' => 'error',
@@ -199,7 +203,7 @@ class AuthController extends Controller
 
             //save token to database
             \DB::table('users')->where('username',$username)->update(['api_token' => $token]);
-
+          
             //Generate JSON to return
             return \Response::json(array('token' => $token, 'user' => $user->toArray()));
 
@@ -219,10 +223,10 @@ class AuthController extends Controller
     */
     function logout(Request $request) {
         $api_token = $request->token;
-
         $checkTokenExist = \DB::table('users')->where('api_token', $api_token)->get();
         if ($checkTokenExist) {
             \DB::table('users')->where('api_token', $api_token)->update(['api_token' => '']);
+            \Sentinel::logout();
             return \Response::json(array('status' => 'success'));
         } else {
             // Should never get to this condition
