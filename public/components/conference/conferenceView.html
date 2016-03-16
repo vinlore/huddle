@@ -1,47 +1,56 @@
 <div id="conference">
     <div class="banner" back-img="{{background}}">
-        <div class="jumbo-container">
-            <input type="text" class="input-xxlg" ng-model="conference.name" ng-readonly="isDisabled">
+        <div class="jumbo-container" ng-if="editConference">
+            <input type="text" class="input-xxlg" ng-model="conference.name" placeholder="Name">
             <div class="input-dates">
                 <div class="input-group">
-                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.startDate" is-open="calendar.isOpen1" ng-readonly="isDisabled">
-                    <span class="input-group-btn" ng-if="!isDisabled">
+                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.startDate" is-open="calendar.isOpen1" placeholder="Start Date">
+                    <span class="input-group-btn">
                         <button type="button" class="btn btn-link" ng-click="calendar.isOpen1 = !calendar.isOpen1"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>&nbspto &nbsp
                 <div class="input-group">
-                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.endDate" is-open="calendar.isOpen2" ng-readonly="isDisabled">
-                    <span class="input-group-btn" ng-if="!isDisabled">
+                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.endDate" is-open="calendar.isOpen2" placeholder="End Date">
+                    <span class="input-group-btn">
                         <button type="button" class="btn btn-link" ng-click="calendar.isOpen2 = !calendar.isOpen2"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
             </div>
-            <input type="text" class="input-xlg" ng-model="conference.city" ng-readonly="isDisabled" ng-model-options="{debounce: 800}">
-            <input type="text" class="input-xlg" ng-model="conference.country" ng-readonly="isDisabled" ng-model-options="{debounce: 800}">
-            <textarea type="text" class="textarea-xlg" ng-model="conference.description" ng-readonly="isDisabled" rows="3" wrap="soft"></textarea>
+            <input type="text" class="input-xlg" ng-model="conference.address" placeholder="Address" ng-model-options="{debounce: 800}">
+            <input type="text" class="input-xlg" ng-model="conference.city" placeholder="City" ng-model-options="{debounce: 800}">
+            <input type="text" class="input-xlg" ng-model="conference.country" placeholder="Country" ng-model-options="{debounce: 800}">
+            <input type="number" class="input-xlg" ng-model="conference.capacity" placeholder="Capacity">
+            <textarea type="text" class="textarea-xlg" ng-model="conference.description" placeholder="Description" rows="3" wrap="soft"></textarea>
+        </div>
+        <div class="jumbo-container" ng-if="!editConference">
+            <h6 class="input-xxlg">{{conference.name}}</h6>
+            <h6 class="input-xlg">{{conference.startDate | date }} to {{conference.endDate | date}}</h6>
+            <h6 class="input-xlg">{{conference.address}}</h6>
+            <h6 class="input-xlg">{{conference.city}}, {{conference.country}}</h6>
+            <h6 class="input-xlg">{{conference.description}}</h6>
         </div>
     </div>
     <div class="body-container">
         <div class="box">
             <div class="btn-container">
-                <button type="button" class="btn btn-primary" ng-click="editConference()" ng-show="isDisabled && auth">
+                <button type="button" class="btn btn-primary no-animate" ng-click="edit()" ng-if="!editConference && auth">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </button>
-                <div ng-hide="isDisabled || !auth">
-                    <button type="button" class="btn btn-success" ng-click="updateConference()">
+                <div ng-if="editConference && auth">
+                    <button type="button" class="btn btn-success" ng-click="update()">
                         <span class="glyphicon glyphicon-ok"></span> Save Changes
                     </button>
-                    <button type="button" class="btn btn-danger" ng-click="resetConference()">
+                    <button type="button" class="btn btn-danger" ng-click="reset()">
                         <span class="glyphicon glyphicon-remove"></span> Cancel
                     </button>
                 </div>
             </div>
             <div class="page-header">
                 <h1>Events</h1>
-                <a type="button" class="btn btn-info attendance" ui-sref="conference-signup({conferenceId: conference.conferenceId, name: conference.name})" ng-show="auth">
+                <a type="button" class="btn btn-info attendance no-animate" ui-sref="conference-signup({conferenceId: conference.conferenceId, name: conference.name})" ng-if="auth">
                     <span class="glyphicon glyphicon-ok"></span> Attend
                 </a>
-                <button type="button" class="btn btn-info attendance attend-leave" ng-hide="true">
+                <button type="button" class="btn btn-info attendance attend-leave" ng-if="false">
                     <span class="attending">
                         <span class="glyphicon glyphicon-ok"></span> Attending
                     </span>
@@ -61,7 +70,7 @@
                                 <div class="accordion-heading">
                                     <h4>{{event.name}}</h4>
                                     <div class="btn-container">
-                                        <div ng-hide="!editEvent[$index] || !auth">
+                                        <div ng-if="editEvent[$index] && auth">
                                             <button type="button" class="btn btn-success" ng-click="updateEvent( event, $index, $event )">
                                                 <span class="glyphicon glyphicon-ok"></span> Save Changes
                                             </button>
@@ -69,32 +78,43 @@
                                                 <span class="glyphicon glyphicon-remove"></span> Cancel
                                             </button>
                                         </div>
-                                        <button type="button" class="btn btn-primary" ng-click="editEvent(event, $index, $event)" ng-show="!editEvent[$index] && auth">
+                                        <button type="button" class="btn btn-primary no-animate" ng-click="editEvent(event, $index, $event)" ng-if="!editEvent[$index] && auth">
                                             <span class="glyphicon glyphicon-edit"></span> Edit
                                         </button>
                                     </div>
                                 </div>
                             </uib-accordion-heading>
-                            <div id="event-details" ng-hide="editEvent[$index]">
+                            <div id="event-details" ng-if="!editEvent[$index]">
                                 <h3>{{event.name}}</h3>
                                 <h4>{{event.address}}</h4>
                                 <h4>{{event.city}}</h4>
-                                <h4>{{event.date}}</h4>
+                                <h4>{{event.date | date}}</h4>
                                 <h4>{{event.startTime | time}} to {{event.endTime | time}}</h4>
                                 <h4>{{event.facilitator}}</h4>
                                 <h4>{{event.description}}</h4>
                             </div>
-                            <div id="event-edit" ng-show="editEvent[$index]">
-                                <input type="text" class="input-xlg" ng-model="event.name">
-                                <input type="text" class="input-lg" ng-model="event.address" placeholder="Address" ng-model-options="{debounce: 800}">
-                                <input type="text" class="input-lg" ng-model="event.city" placeholder="City">
+                            <div id="event-edit" ng-if="editEvent[$index]">
+                                <input type="text" class="input-xlg" ng-model="event.name" required>
+                                <input type="text" class="input-lg" ng-model="event.address" placeholder="Address" ng-model-options="{debounce: 800}" g-places-autocomplete required>
+                                <input type="text" class="input-lg" ng-model="event.city" placeholder="City" g-places-autocomplete options="citiesOnly" required>
                                 <div class="input-group">
-                                    <input type="custom-date" class="form-control input-lg" uib-datepicker-popup="yyyy-MM-dd" ng-model="event.date" is-open="eventCalendar[$index]" placeholder="Event Date">
+                                    <input type="custom-date" class="form-control input-lg" uib-datepicker-popup="yyyy-MM-dd" ng-model="event.date" is-open="eventCalendar[$index]" placeholder="Event Date" required>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-link" ng-click="eventCalendar[$index] = !eventCalendar[$index]"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </div>
-                                <input type="text" class="input-lg" ng-model="event.facilitator" placeholder="Speaker">
+                                <input type="text" class="input-lg" ng-model="event.facilitator" placeholder="Speaker" required>
+                                <div class="row">
+                                <label class="col-sm-3"><input type="number" class="input-lg" ng-model="event.capacity" placeholder="Capacity" required></label>
+                                <label class="col-sm-3">
+                                    <select type="text" class="input-lg" ng-model="event.genderLimit" placeholder="Gender Restriction">
+                                        <option value="">Gender Restriction</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                    </select>
+                                </label>
+                                <label class="col-sm-3"><input type="number" class="input-lg" ng-model="event.ageLimit" placeholder="Age Limit"></label>
+                                </div>
                                 <textarea type="text" class="textarea-lg" ng-model="event.description" rows="3" wrap="soft" placeholder="Event Description"></textarea>
                             </div>
                         </uib-accordion-group>
@@ -103,10 +123,10 @@
                             <span ng-if="event.ageLimit">Ages: <strong>{{event.ageLimit}}+</strong> |</span>
                             <span ng-if="!event.ageLimit && !event.genderLimit">No restrictions |</span>
                             <span>&nbspSeats: <strong>{{event.attendeeCount}}/{{event.capacity}}</strong></span>
-                            <a type="button" class="btn btn-info" ui-sref="event-signup({eventId: event.eventId, name: event.name})" ng-show="auth">
+                            <a type="button" class="btn btn-info" ui-sref="event-signup({eventId: event.eventId, name: event.name})" ng-if="auth">
                                 <span class="glyphicon glyphicon-ok"></span> Attend
                             </a>
-                            <button type="button" class="btn btn-info attend-leave" ng-hide="true">
+                            <button type="button" class="btn btn-info attend-leave" ng-if="false">
                                 <span class="attending">
                                     <span class="glyphicon glyphicon-ok"></span> Attending
                                 </span>
@@ -154,7 +174,7 @@
                     </ul>
                 </div>
             </div>
-            <div ng-hide="!auth">
+            <div ng-if="auth">
                 <h1>Conference Data</h1>
                 <hr>
                 <div fusioncharts width="800" height="400" type="doughnut3d" dataSource="{{dataset1}}">

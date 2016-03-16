@@ -139,6 +139,15 @@
   }
 }
 
+.ng-hide.ng-hide-animate{
+     display: none !important;
+}
+
+.no-animate {
+   -webkit-transition: none !important;
+   transition: none !important;
+}
+
 body {
   background-color: #f5f5f5;
   overflow-y: scroll;
@@ -188,11 +197,11 @@ body {
 /* Bootswatch Paper theme input */
 .jumbo-container input[type="text"],
 .jumbo-container textarea,
-.jumbo-container input[type="custom-date"] {
+.jumbo-container input[type="custom-date"],
+.jumbo-container input[type="number"] {
   border: medium none;
   padding: 0px;
   border-radius: 0px;
-  text-shadow: 2px 1px 1px black !important;
   background-color: transparent;
   background-image: none;
   width: 100%;
@@ -202,19 +211,13 @@ body {
   resize: none;
 }
 
+.jumbo-container {
+  text-shadow: 2px 1px 1px black !important;
+}
+
 .jumbo-container input[type="custom-date"] {
   color: white !important;
   width: 150px;
-}
-
-.jumbo-container input:read-only,
-.jumbo-container textarea:read-only {
-  box-shadow: none;
-}
-
-.jumbo-container input:-moz-read-only,
-.jumbo-container textarea:-moz-read-only {
-  box-shadow: none;
 }
 
 .input-dates {
