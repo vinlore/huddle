@@ -64,8 +64,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 
 // Assign the 'Admin' role to the first user.
 Route::get('assignRole', function () {
-    $user = Sentinel::findById(1);
-    $role = Sentinel::findRoleByName('Admin');
+    $user = Sentinel::findById(21);
+    $role = Sentinel::findRoleByName('Reg');
     $role->users()->attach($user);
     var_dump($role);
 });
@@ -80,8 +80,8 @@ Route::get('removeRole', function () {
 
 Route::get('addRole', function(){
     $role = \Sentinel::getRoleRepository()->createModel()->create([
-            'name' => 'Admin',
-            'slug' => 'admin',
+            'name' => 'Reg',
+            'slug' => 'reg',
         ]);
 });
 

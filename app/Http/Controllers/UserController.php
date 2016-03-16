@@ -49,7 +49,16 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        /*
+        $roleName = $request->name;
+
+        $user = \Sentinel::findById($id);
+        $role = \Sentinel::findRoleByName($roleName);
+        //Checking if Attaching role or detatching a role
+        if() TODO - check if attaching or detaching
+        $role->users()->attach($user);
+        $role->users()->detach($user);
+        */
     }
 
     /**
