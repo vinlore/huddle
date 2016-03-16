@@ -4,6 +4,7 @@
 // API
 // -----------------------------------------------------------------------------
 
+
 // Routes that don't require the user to be logged in.
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1'],], function () {
     Route::post('auth/register', 'AuthController@register');
@@ -11,8 +12,12 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1'],], function (
     Route::post('auth/logout', 'AuthController@logout');
 });
 
-// Routes that require the user to be logged in.
-Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken',],], function () {
+// Prefix all API routes with 'api'. - TODO - Make sure to add, AuthToken
+Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
+
+    Route::resource('roles' , 'RoleController', ['only' =>[
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
 
     Route::resource('users', 'UserController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
@@ -55,20 +60,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken',],
 // TESTING
 // -----------------------------------------------------------------------------
 
-// Test DDoS protection.
-// throttle{requests/minute}
-Route::get('api/ddos', ['middleware' => 'throttle:10,1', function () {
-    return 'Hello!';
-}]);
-
-// Create a role called 'Admin'.
-Route::get('createRole', function () {
-    $role = Sentinel::getRoleRepository()->createModel()->create([
-        'name' => 'Admin',
-        'slug' => 'Admin',
-    ]);
-    var_dump($role);
-});
 
 // Assign the 'Admin' role to the first user.
 Route::get('assignRole', function () {
@@ -84,6 +75,13 @@ Route::get('removeRole', function () {
     $role = Sentinel::findRoleByName('Admin');
     $role->users()->detach($user);
     var_dump($role);
+});
+
+Route::get('addRole', function(){
+    $role = \Sentinel::getRoleRepository()->createModel()->create([
+            'name' => 'Admin',
+            'slug' => 'admin',
+        ]);
 });
 
 // Add permissions to the 'Admin' role.
