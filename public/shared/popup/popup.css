@@ -1,0 +1,14 @@
+.modal-header {
+	display: flex;
+	padding-bottom: 10px;
+}
+
+.modal-header .modal-btn {
+	color: #D32F2F;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+.modal-title {
+	width: 100%;
+}

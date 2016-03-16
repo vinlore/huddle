@@ -3,18 +3,23 @@
 // -----------------------------------------------------------------------------
 // API
 // -----------------------------------------------------------------------------
-Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
-    Route::post('create', 'UserController@user_registration');
-    Route::post('auth', 'UserController@user_authentication');
-    Route::post('logout', 'UserController@logout');
+
+// Routes that don't require the user to be logged in.
+Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1'],], function () {
+    Route::post('auth/register', 'AuthController@register');
+    Route::post('auth/login', 'AuthController@login');
+    Route::post('auth/logout', 'AuthController@logout');
 });
 
-// Prefix all API routes with 'api'.
-Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken']], function () {
+// Routes that require the user to be logged in.
+Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken',],], function () {
 
-
-    Route::resource('profiles', 'ProfileController', ['only' => [
+    Route::resource('users', 'UserController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('users.profiles', 'ProfileController', ['only' => [
+        'index', 'store', 'update', 'destroy',
     ]]);
 
     Route::resource('conferences', 'ConferenceController', ['only' => [
@@ -42,10 +47,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1','authToken']],
     ]]);
 
     Route::resource('vehicles', 'VehicleController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
-    ]]);
-
-    Route::resource('flights', 'FlightController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 });

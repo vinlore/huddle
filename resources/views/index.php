@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="components/createConference/createConference.css">
   <link rel="stylesheet" href="components/userReg/userReg.css">
   <link rel="stylesheet" href="shared/header/header.css">
+  <link rel="stylesheet" href="shared/popup/popup.css">
   <link rel="stylesheet" href="components/profile/profile.css">
   <link rel="stylesheet" href="components/signupConference/signupConference.css">
   <link rel="stylesheet" href="components/signupEvent/signupEvent.css">
@@ -47,7 +48,7 @@
   <script src="components/profile/profileController.js"></script>
   <script src="components/activityLog/activityLogController.js"></script>
   <script src="shared/header/headerController.js"></script>
-  <script src="shared/popupPrompt/popupPromptController.js"></script>
+  <script src="shared/popup/popupController.js"></script>
   <script src="components/manageAccounts/manageAccountsController.js"></script>
   <script src="components/signupConference/signupConferenceController.js"></script>
   <script src="components/signupEvent/signupEventController.js"></script>
@@ -59,6 +60,7 @@
   <script src="assets/js/mapService.js"></script>
   <script src="assets/js/countryService.js"></script>
   <script src="assets/js/apiService.js"></script>
+  <script src="assets/js/popupServices.js"></script>
 
   <!-- DIRECTIVES -->
   <script src="assets/js/customDirectives.js"></script>

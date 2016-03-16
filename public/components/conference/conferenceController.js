@@ -1,5 +1,5 @@
 angular.module( 'conferenceCtrl', [] )
-.controller( 'conferenceController', function( $scope, $filter, Conference, Gmap, Events, $routeParams, $resource ) {
+.controller( 'conferenceController', function( $scope, $filter, Conference, Gmap, Events, $routeParams, $resource, popup ) {
 
     $scope.conference = {};
 
@@ -16,17 +16,19 @@ angular.module( 'conferenceCtrl', [] )
                     }
                 } );
             } );
-        /*Conference.one().get( {cid: $routeParams.conferenceId} )
+        /*Conference.fetch().get( {cid: $routeParams.conferenceId} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
-                    console.log( 'Retrieved conference' );
-                    console.log( response.conference );
+                if ( response.status == 'success' && response.conference ) {
                     var conf = response.conference;
                     conf.startDate = new Date( conf.start_date );
                     conf.endDate = new Date( conf.end_date );
                     $scope.conference = conf;
                     $scope.background = 'assets/img/' + $scope.conference.country + '/big/' + $filter( 'randomize' )( 3 ) + '.jpg';
+                } else {
+                    popup.error( 'Error', response.message );
                 }
+            }, function () {
+                popup.connection();
             } )*/
     }
 
@@ -116,13 +118,32 @@ angular.module( 'conferenceCtrl', [] )
         return Gmap( event.address, "400x250", 12, [ { color: 'green', label: '.', location: event.address } ] );
     }
 
-    /*$scope.loadInventory = function () {
+    /*
+    $scope.loadEvents = function () {
+        Event.fetch().query( {cid: $routeParams.conferenceId} )
+            .$promise.then( function( response ) {
+                if ( response.status == 'success' && response.events ) {
+                    $scope.events = response.events;
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    }
+
+    $scope.loadEvents();
+
+    $scope.loadInventory = function () {
         Conference.inventory().get( {cid: $routeParams.conferenceId} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
-                    console.log( 'Retrieved inventory' ); console.log( response.inventory );
+                if ( response.status == 'success' && response.inventory ) {
                     $scope.inventory = response.inventory;
+                } else {
+                    popup.error( 'Error', response.message );
                 }
+            }, function () {
+                popup.connection();
             })
     }
 
@@ -131,10 +152,13 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadAccommodations = function () {
         Conference.accommodations().get( {cid: $routeParams.conferenceId} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
-                    console.log( 'Retrieved accommodations' ); console.log( response.accommodations );
+                if ( response.status == 'success' && response.accommodations ) {
                     $scope.accommodations = response.accommodations;
+                } else {
+                    popup.error( 'Error', response.message );
                 }
+            }, function () {
+                popup.connection();
             })
     }
 
@@ -143,10 +167,13 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadArrivalVehicles = function () {
         Conference.vehicles().get( {cid: $routeParams.conferenceId, type: 'arrival'} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
-                    console.log( 'Retrieved arrival vehicles' ); console.log( response.vehicles );
+                if ( response.status == 'success' && response.vehicles ) {
                     $scope.arrivalVehicles = response.vehicles;
+                } else {
+                    popup.error( 'Error', response.message );
                 }
+            }, function () {
+                popup.connection();
             })
     }
 
@@ -155,10 +182,14 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadDepartVehicles = function () {
         Conference.vehicles().get( {cid: $routeParams.conferenceId, type: 'departure'} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 'success' && response.vehicles ) {
                     console.log( 'Retrieved departure vehicles' ); console.log( response.vehicles );
                     $scope.departVehicles = response.vehicles;
+                } else {
+                    popup.error( 'Error', response.message );
                 }
+            }, function () {
+                popup.connection();
             })
     }
 
@@ -175,13 +206,16 @@ angular.module( 'conferenceCtrl', [] )
             city: $scope.conference.city,
             country: $scope.conference.country
         }
-        Conference.fetch().put( confDetails, {cid: $routeParams.conferenceId} )
+        Conference.fetch().update( {cid: $routeParams.conferenceId}, confDetails )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' ) {
                     console.log( 'Changes saved to conference' );
+                    // TODO success alert
                 } else {
-                    console.log( 'Error saving changes to conference' );
+                    popup.error( 'Error', response.message );
                 }
+            }, function () {
+                popup.connection();
             })
     }
 

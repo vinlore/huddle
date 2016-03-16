@@ -25,12 +25,13 @@ angular.module('cms', [
     'validateDirectives',
     'customFilters',
     'google.places',
-    'popupPromptCtrl',
+    'popupCtrl',
     'signupConfCtrl',
     'signupEventCtrl',
     'ng-fusioncharts',
     'manageInventoryCtrl',
-    'ngStorage'
+    'ngStorage',
+    'popupServices'
 ])
 
 .run( function( $rootScope, $auth, $localStorage ) {
@@ -39,7 +40,9 @@ angular.module('cms', [
 })
 
 .config( function( $routeProvider, $locationProvider, $authProvider ) {
-    $authProvider.loginUrl = '/auth/login';
+    $authProvider.loginUrl = 'api/auth/login';
+    $authProvider.authHeader = 'X-Auth-Token';
+    $authProvider.authToken = '';
 
     $routeProvider
 

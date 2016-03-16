@@ -1,8 +1,10 @@
 angular.module ( 'homeCtrl', [] )
-.controller ( 'homeController', function ( $scope, Conference ) {
+.controller ( 'homeController', function ( $scope, Conference, popup ) {
 	
 	$scope.conferences = Conference.all();
     console.log($scope.conferences);
+    /*$scope.pastConferences = [];
+    $scope.upcomingConferences = [];*/
 
     $scope.pastConferences = [
         {
@@ -27,5 +29,35 @@ angular.module ( 'homeCtrl', [] )
             endDate: "Jan 12, 2016"
         }
     ];
+
+    /*$scope.loadPastConferences = function () {
+        Conference.past().query()
+            .$promise.then( function ( response ) {
+                if ( response.status == 'success' && response.conferences ) {
+                    $scope.pastConferences = response.conferences;
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    };
+
+    $scope.loadPastConferences();
+
+    $scope.loadUpcomingConferences = function () {
+        Conference.upcoming().query()
+            .$promise.then( function ( response ) {
+                if ( response.status == 'success' && response.conferences ) {
+                    $scope.pastConferences = response.conferences;
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    };
+
+    $scope.loadUpcomingConferences();*/
 
 })
