@@ -9,13 +9,12 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::post('logout', 'UserController@logout');
 });
 
-// Prefix all API routes with 'api'.
+// Prefix all API routes with 'api'. - TODO - Make sure to add, AuthToken
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
 
-    Route::resource('roles' , 'RolesController', ['only' =>[
+    Route::resource('roles' , 'RoleController', ['only' =>[
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
-
 
     Route::resource('profiles', 'ProfileController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
@@ -73,6 +72,13 @@ Route::get('removeRole', function () {
     $role = Sentinel::findRoleByName('Admin');
     $role->users()->detach($user);
     var_dump($role);
+});
+
+Route::get('addRole', function(){
+    $role = \Sentinel::getRoleRepository()->createModel()->create([
+            'name' => 'Admin',
+            'slug' => 'admin',
+        ]);
 });
 
 // Add permissions to the 'Admin' role.
