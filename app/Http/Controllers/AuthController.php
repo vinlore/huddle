@@ -120,7 +120,7 @@ class AuthController extends Controller
             $profile->save();
 
             // Login
-            $user = \Sentinel::authenticateAndRemember($user_credential,true);
+            $user = \Sentinel::stateless($user_credential);
             if(!$user){
                 return \Response::json(array(
                     'status' => 'error'
@@ -187,7 +187,7 @@ class AuthController extends Controller
             }
 
             //Authenicate Users login and password
-            $user = \Sentinel::authenticateAndRemember($credential,true);
+            $user = \Sentinel::stateless($credential,true);
             if(!$user){
                 // What happens if login information is incorrect
                 return \Response::json(array(
@@ -226,7 +226,6 @@ class AuthController extends Controller
         $checkTokenExist = \DB::table('users')->where('api_token', $api_token)->get();
         if ($checkTokenExist) {
             \DB::table('users')->where('api_token', $api_token)->update(['api_token' => '']);
-            \Sentinel::logout();
             return \Response::json(array('status' => 'success'));
         } else {
             // Should never get to this condition
