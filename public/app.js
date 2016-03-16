@@ -30,6 +30,7 @@ angular.module('cms', [
     'signupEventCtrl',
     'ng-fusioncharts',
     'manageInventoryCtrl',
+    'manageTransportationCtrl',
     'ngStorage',
     'popupServices'
 ])
@@ -131,6 +132,14 @@ angular.module('cms', [
     .when( '/manage-inventory', {
         templateUrl: 'components/manageInventory/manageInventoryView.html',
         controller: 'manageInventoryController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .when( '/manage-transportation', {
+        templateUrl: 'components/manageTransportation/manageTransportationView.html',
+        controller: 'manageTransportationController',
         resolve: {
             loginRequired: loginRequired
         }
