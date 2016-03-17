@@ -25,10 +25,11 @@
   <link rel="stylesheet" href="components/signupEvent/signupEvent.css">
   <link rel="stylesheet" href="components/manageInventory/manageInventory.css">
   <link rel="stylesheet" href="components/manageTransportation/manageTransportation.css">
+  <link rel="stylesheet" href="components/manageRequests/manageRequests.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
-  <script src="assets/libs/angular-route/angular-route.min.js"></script>
+  <script src="assets/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="assets/libs/angular-animate/angular-animate.min.js"></script>
   <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script src="assets/libs/angular-resource/angular-resource.min.js"></script>
@@ -38,6 +39,7 @@
   <script type="text/javascript" src="assets/js/fusioncharts/fusioncharts.js"></script>
   <script type="text/javascript" src="assets/js/fusioncharts/angular-fusioncharts.min.js"></script>
   <script text="text/javascript" src="assets/libs/ngstorage/ngStorage.min.js"></script>
+  <script text="text/javascript" src="assets/libs/ngmap/build/scripts/ng-map.min.js"></script>
 
   <!-- CONTROLLERS -->
   <script src="components/home/homeController.js"></script>
@@ -55,6 +57,7 @@
   <script src="components/signupEvent/signupEventController.js"></script>
   <script src="components/manageInventory/manageInventoryController.js"></script>
   <script src="components/manageTransportation/manageTransportationController.js"></script>
+  <script src="components/manageRequests/manageRequestsController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
@@ -77,7 +80,7 @@
 
 <body>
   <div ng-include="'shared/header/header.html'" ng-controller="headerController"></div>
-  <div class="has-header" ng-view autoscroll></div>
+  <div ui-view autoscroll class="has-header"></div>
 </body>
 
 </html>

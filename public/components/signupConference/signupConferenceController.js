@@ -1,5 +1,5 @@
 angular.module('signupConfCtrl',[])
-.controller('signupConferenceController', function($scope, $routeParams, Conference, Countries, popup){
+.controller('signupConferenceController', function($scope, $stateParams, Conference, Countries, popup){
 
     $scope.calendar = {
         isOpen1: false,
@@ -41,8 +41,8 @@ angular.module('signupConfCtrl',[])
   }
 
   $scope.conference = {
-      conferenceId: $routeParams.conferenceId,
-      name: $routeParams.name
+      conferenceId: $stateParams.conferenceId,
+      name: $stateParams.name
   }
 
   $scope.arrival = {
@@ -64,7 +64,7 @@ angular.module('signupConfCtrl',[])
   $scope.accommodations = [];
 
   /*$scope.loadAccommodations = function () {
-    Conference.accommodations().query( {cid: $routeParams.conferenceId} )
+    Conference.accommodations().query( {cid: $stateParams.conferenceId} )
         .$promise.then( function( response ) {
             if ( response.status == 'success' ) {
                 $scope.accommodations = response.accommodations;
@@ -108,7 +108,7 @@ angular.module('signupConfCtrl',[])
                 email: $scope.user.email,
                 phone: $scope.user.HomePhone,
                 phone2: $scope.user.OtherPhone,
-                conference_id: $routeParams.conferenceId,
+                conference_id: $stateParams.conferenceId,
                 contact_first_name: $scope.emergencyContact.FirstName,
                 contact_last_name: $scope.emergencyContact.LastName,
                 contact_email: $scope.emergencyContact.Email,
@@ -119,7 +119,7 @@ angular.module('signupConfCtrl',[])
                 medical_conditions: $scope.user.MedicalConditions,
                 accomm_pref:
             }
-            Conference.attendees().save( {cid: $routeParams.conferenceId} )
+            Conference.attendees().save( {cid: $stateParams.conferenceId} )
                 .$promise.then( function( response ) {
                     if ( response.status == 'success' ) {
                         console.log( 'User successfully registered to attend conference' );

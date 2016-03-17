@@ -1,5 +1,9 @@
 angular.module( 'conferenceCtrl', [] )
-.controller( 'conferenceController', function( $scope, $filter, Conference, Gmap, Events, $routeParams, $resource, popup ) {
+.controller( 'conferenceController', function( $scope, $filter, Conference, Gmap, Event, $stateParams, $resource, popup, Events ) {
+
+    $scope.citiesOnly = {
+        types: ['(cities)']
+    };
 
     $scope.conference = {};
 
@@ -7,16 +11,15 @@ angular.module( 'conferenceCtrl', [] )
         Conference.all()
             .$promise.then( function( result ) {
                 angular.forEach( result, function( value, key ) {
-                    if ( value.conferenceId == $routeParams.conferenceId ) {
+                    if ( value.conferenceId == $stateParams.conferenceId ) {
                         value.startDate = new Date( value.startDate );
                         value.endDate = new Date( value.endDate );
                         $scope.conference = value;
-                        console.log( $scope.conference );
                         $scope.background = 'assets/img/' + $scope.conference.country + '/big/' + $filter( 'randomize' )( 3 ) + '.jpg';
                     }
                 } );
             } );
-        /*Conference.fetch().get( {cid: $routeParams.conferenceId} )
+        /*Conference.fetch().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.conference ) {
                     var conf = response.conference;
@@ -89,38 +92,126 @@ angular.module( 'conferenceCtrl', [] )
     ]
 
     $scope.events = Events.all();
+    var eventBackup = {};
+
+    $scope.editEvent = [];
+
+    $scope.editEvent = function ( event, $index, e ) {
+        e.preventDefault();
+        e.stopPropagation();
+        $scope.editEvent[$index] = true;
+        angular.extend( eventBackup, event );
+    }
+
+    $scope.resetEvent = function( event, $index, e ) {
+        e.preventDefault();
+        e.stopPropagation();
+        $scope.events[$index] = eventBackup;
+        $scope.editEvent[$index] = false;
+        eventBackup = {};
+    }
+
+    $scope.updateEvent = function ( event, $index, e ) {
+        e.preventDefault();
+        e.stopPropagation();
+        $scope.editEvent[$index] = false;
+        eventBackup = {};
+        saveEvent($index);
+    }
+
+    var saveEvent = function ( $index ) {
+        var address, city;
+        if ( $scope.events[$index].address) {
+            address = $scope.events[$index].address;
+            if ( $scope.events[$index].address.formatted_address ) {
+                address = $scope.events[$index].address.formatted_address;
+            }
+        }
+        if ( $scope.events[$index].city ) {
+            city = $scope.events[$index].city;
+            if ( $scope.events[$index].city.name ) {
+                city = $scope.events[$index].city.name;
+            }
+        }
+
+        var eventDetails = {
+            name: $scope.events[$index].name,
+            date: $filter('date')($scope.events[$index].startDate, 'yyyy-MM-dd'),
+            address: address,
+            description: $scope.events[$index].description,
+            capacity: $scope.events[$index].capacity,
+            city: city,
+            capacity: $scope.events[$index].capacity,
+            age_limit: $scope.events[$index].ageLimit,
+            gender_limit: $scope.events[$index].genderLimit,
+            facilitator: $scope.events[$index].facilitator
+        }
+        Event.fetch().update( {cid: $stateParams.conferenceId, eid: $scope.event[index].eventId}, eventDetails )
+            .$promise.then( function( response ) {
+                if ( response.status == 'success' ) {
+                    console.log( 'Changes saved to conference' );
+                    // TODO success alert
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    }
 
     $scope.calendar = {
         isOpen1: false,
         isOpen2: false
     };
 
-    $scope.isDisabled = true;
+    $scope.eventCalendar = [];
+
+    $scope.editConference = false;
 
     // Makes conference fields editable and creates a 'backup' of the conference data
-    $scope.editConference = function() {
-        $scope.isDisabled = false;
+    $scope.edit = function() {
+        $scope.editConference = true;
         angular.extend( conferenceBackup, $scope.conference );
     }
 
     // Saves any conference changes to server
-    $scope.updateConference = function() {
-        $scope.isDisabled = true;
+    $scope.update = function() {
+        $scope.editConference = false;
+        conferenceBackup = {};
+        var confDetails = {
+            name: $scope.conference.name,
+            start_date: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
+            end_date: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
+            address: $scope.conference.address,
+            description: $scope.conference.description,
+            capacity: $scope.conference.capacity,
+            city: $scope.conference.city,
+            country: $scope.conference.country,
+            capacity: $scope.conference.capacity
+        }
+        Conference.fetch().update( {cid: $stateParams.conferenceId}, confDetails )
+            .$promise.then( function( response ) {
+                if ( response.status == 'success' ) {
+                    console.log( 'Changes saved to conference' );
+                    // TODO success alert
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
     };
 
     // Restores from conference backup if changes do not want to be saved to server
-    $scope.resetConference = function() {
+    $scope.reset = function() {
         $scope.conference = conferenceBackup;
-        $scope.isDisabled = true;
-    }
-
-    $scope.getMap = function( event ) {
-        return Gmap( event.address, "400x250", 12, [ { color: 'green', label: '.', location: event.address } ] );
+        $scope.editConference = false;
+        conferenceBackup = {};
     }
 
     /*
     $scope.loadEvents = function () {
-        Event.fetch().query( {cid: $routeParams.conferenceId} )
+        Event.fetch().query( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.events ) {
                     $scope.events = response.events;
@@ -135,7 +226,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadEvents();
 
     $scope.loadInventory = function () {
-        Conference.inventory().get( {cid: $routeParams.conferenceId} )
+        Conference.inventory().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.inventory ) {
                     $scope.inventory = response.inventory;
@@ -150,7 +241,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadInventory();
 
     $scope.loadAccommodations = function () {
-        Conference.accommodations().get( {cid: $routeParams.conferenceId} )
+        Conference.accommodations().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.accommodations ) {
                     $scope.accommodations = response.accommodations;
@@ -165,7 +256,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadAccommodations();
 
     $scope.loadArrivalVehicles = function () {
-        Conference.vehicles().get( {cid: $routeParams.conferenceId, type: 'arrival'} )
+        Conference.vehicles().get( {cid: $stateParams.conferenceId, type: 'arrival'} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.vehicles ) {
                     $scope.arrivalVehicles = response.vehicles;
@@ -180,7 +271,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadArrivalVehicles();
 
     $scope.loadDepartVehicles = function () {
-        Conference.vehicles().get( {cid: $routeParams.conferenceId, type: 'departure'} )
+        Conference.vehicles().get( {cid: $stateParams.conferenceId, type: 'departure'} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.vehicles ) {
                     console.log( 'Retrieved departure vehicles' ); console.log( response.vehicles );
@@ -194,30 +285,6 @@ angular.module( 'conferenceCtrl', [] )
     }
 
     $scope.loadDepartVehicles();*/
-
-    $scope.saveDetails = function () {
-        var confDetails = {
-            name: $scope.conference.name,
-            start_date: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
-            end_date: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
-            address: $scope.conference.address,
-            description: $scope.conference.description,
-            capacity: $scope.conference.capacity,
-            city: $scope.conference.city,
-            country: $scope.conference.country
-        }
-        Conference.fetch().update( {cid: $routeParams.conferenceId}, confDetails )
-            .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
-                    console.log( 'Changes saved to conference' );
-                    // TODO success alert
-                } else {
-                    popup.error( 'Error', response.message );
-                }
-            }, function () {
-                popup.connection();
-            })
-    }
 
     $scope.dataset1 = {
         "chart": {

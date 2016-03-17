@@ -79,6 +79,52 @@ angular.module('manageAccountsCtrl', [])
 		}
 	]
 
+	$scope.role = {
+		name: null,
+		permissions: {
+			conference: {
+				create: false,
+				edit: false,
+				delete: false
+			},
+			conAccommodations: {
+				create: false,
+				view: false,
+				edit: false,
+				delete: false
+			},
+			conAttendees: {
+				create: false,
+				view: false,
+				edit: false,
+				delete: false
+			},
+			conInventory: {
+				create: false,
+				view: false,
+				edit: false,
+				delete: false
+			},
+			conVehicles: {
+				create: false,
+				view: false,
+				edit: false,
+				delete: false
+			},
+			event: {
+				create: false,
+				edit: false,
+				delete: false
+			},
+			eveVehicles: {
+				create: false,
+				view: false,
+				edit: false,
+				delete: false
+			}
+		}
+	}
+
 	$scope.changeConference = function () {
 		$scope.events = $scope.conferences[$scope.selectedConference].events;
 		$scope.conferenceSpecific = true;

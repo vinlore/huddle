@@ -61,13 +61,13 @@ angular.module( 'apiService', [] )
         }
     }
 })
-
+*/
 .factory( 'Event', function( $resource ) {
     return {
 
         status: function () {
             return $resource( '/api/events/status/:status', {status: '@status'} );
-        }
+        },
 
         fetch: function () {
             return $resource( '/api/conferences/:cid/events/:eid', {cid: '@cid', eid: '@eid'}, {'update': { method: 'PUT' }} );
@@ -79,8 +79,6 @@ angular.module( 'apiService', [] )
 
         vehicles: function () {
             return $resource( '/api/events/:eid/vehicles/:type/:vid', {eid: '@eid', type: '@type', vid: '@vid'}, {'update': { method: 'PUT' }} );
-        },
+        }
     }
 })
-
-*/

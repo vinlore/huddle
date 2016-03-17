@@ -11,79 +11,67 @@
     <div uib-accordion class="container" id="admin-conferences" close-others="false">
         <uib-accordion-group class="margin-top-25" ng-repeat="c in conferences">
             <uib-accordion-heading is-open="isCollapsed">
-                <div class="row">
-                    <div class="col-md-7">
-                        <h2>{{c.name}}</h2>
-                        <p class="con_text">{{c.address}}</p>
-                        <p class="con_text">{{c.startDate}} - {{c.endDate}}</p>
+                <div class="panel-body">
+                    <h2>{{c.name}}</h2>
+                    <p class="con_text">{{c.address}}</p>
+                    <p class="con_text">{{c.startDate}} - {{c.endDate}}</p>
+                    <button class="btn btn-sm btn-danger margin-top-35">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbspDelete
+                    </button>
+                    <div class="pull-right hidden-xs margin-top-35">
+                        <button class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Accommodations
+                        </button>
+                        <button class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Inventory
+                        </button>
+                        <button class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Vehicles
+                        </button>
+                        <button class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Attendees
+                        </button>
                     </div>
-                    <div class="col-md-5">
-                        <div class="row">
-                            <button class="btn btn-sm btn-danger pull-right margin-right-25">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbspDelete
-                            </button>
-                        </div>
-                        <div class="row pull-right margin-top-50 hidden-xxs">
-                        	<button class="btn btn-sm btn-default">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Accommodation
-                            </button>
-                            <button class="btn btn-sm btn-default">
-                                <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Inventory
-                            </button>
-                            <button class="btn btn-sm btn-default">
-                                <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Transportation
-                            </button>
-                            <button class="btn btn-sm btn-default margin-right-25">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Attendees
-                            </button>
-                        </div>
-                        <div class="visible-xxs btn-group pull-right margin-top-50">
-                        	<button class="btn btn-default">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                            </button>
-                            <button class="btn btn-default">
-                                <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-                            </button>
-                            <button class="btn btn-default">
-                                <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
-                            </button>
-                            <button class="btn btn-default">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                            </button>
-                        </div>
+                    <div class="visible-xs btn-group pull-right margin-top-35">
+                        <button class="btn btn-default">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-default">
+                            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-default">
+                            <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-default">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        </button>
                     </div>
                 </div>
             </uib-accordion-heading>
             <div ng-if="c.events.length">
                 <div class="events" ng-repeat="e in c.events">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <h3>{{e.name}}</h3>
-                            <p class="event_text">{{e.address}}</p>
-                            <p class="event_text">{{e.startDateTime}} - {{e.endDateTime}}</p>
+                    <div class="panel-body">
+                        <h3>{{e.name}}</h3>
+                        <p class="event_text">{{e.address}}</p>
+                        <p class="event_text">{{e.startDateTime}} - {{e.endDateTime}}</p>
+                        <button class="btn btn-sm btn-danger margin-top-35">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbspDelete
+                        </button>
+                        <div class="hidden-xs pull-right margin-top-35">
+                            <button class="btn btn-sm btn-default">
+                                <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Vehicles
+                            </button>
+                            <button class="btn btn-sm btn-default">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Attendees
+                            </button>
                         </div>
-                        <div class="col-md-5">
-                            <div class="row">
-                                <button class="btn btn-sm btn-danger pull-right margin-right-25">
-                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbspDelete
-                                </button>
-                            </div>
-                            <div class="hidden-xxs row pull-right margin-top-25">
-                                <button class="btn btn-sm btn-default">
-                                    <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Transportation
-                                </button>
-                                <button class="btn btn-sm btn-default margin-right-25">
-                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Attendees
-                                </button>
-                            </div>
-                            <div class="visible-xxs btn-group pull-right margin-top-50">
+                        <div class="visible-xs btn-group pull-right margin-top-35">
                             <button class="btn btn-default">
                                 <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
                             </button>
                             <button class="btn btn-default">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                             </button>
-                        </div>
                         </div>
                     </div>
                     <hr ng-show="!$last">

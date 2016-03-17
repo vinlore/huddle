@@ -1,0 +1,87 @@
+<div id="requests" class="container has-header">
+   <h1 class="page-header text-center">Requests</h1>
+   <div class="panel panel-default">
+      <div class="panel-body">
+         <div class="col-md-6">
+            <h3 class="text-center">Conference Creation Requests</h3>
+            <hr>
+            <!-- Requests -->
+            <div class="col-sm-12" ng-if="conferencePendingCreations" ng-repeat="con in conferencePendingCreations">
+               <div class="col-sm-12">
+                  <div class="card card-info card-block">
+                     <h4 class="card-title">{{con.name}} wants to create a conference {{con.conference_name}}</h4>
+                     <h5 class="card-text">Start: {{con.startDate}}</h5>
+                     <h5 class="card-text">End: {{con.endDate}}</h5>
+                     <button class="btn btn-primary btn-sm" ng-click="viewConfCreationRequest($index)">View Application</button>
+                     <div class="pull-right">
+                        <button class="btn btn-success btn-sm" ng-click="publishConfCreationRequest($index)">Publish</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineConfCreationRequest($index)">Decline</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <h3 class="text-center">Event Creation Requests</h3>
+            <hr>
+            <!-- Requests -->
+            <div class="col-sm-12" ng-if="eventsPendingCreations" ng-repeat="eve in eventsPendingCreations">
+               <div class="col-sm-12">
+                  <div class="card card-info card-block">
+                     <h4 class="card-title">{{eve.name}} wants to create an event {{eve.event_name}}</h4>
+                     <h5 class="card-text">Start: {{eve.startDate}}</h5>
+                     <h5 class="card-text">End: {{eve.endDate}}</h5>
+                     <button class="btn btn-primary btn-sm" ng-click="viewEventsCreationApplication($index)">View Application</button>
+                     <div class="pull-right">
+                        <button class="btn btn-success btn-sm" ng-click="publishEventsCreationRequest($index)">Publish</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineEventsCreationRequest($index)">Decline</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-default">
+      <div class="panel-body">
+         <div class="col-md-6">
+            <h3 class="text-center">Conference Attendee Requests</h3>
+            <hr>
+            <!-- Requests -->
+            <div class="col-sm-12" ng-if="conferencePendingCreations" ng-repeat="con in conferencePendingCreations">
+               <div class="col-sm-12">
+                  <div class="card card-warning card-block">
+                     <h4 class="card-title">{{con.name}} wants to attend a conference {{con.conference_name}}</h4>
+                     <h5 class="card-text">Start: {{con.startDate}}</h5>
+                     <h5 class="card-text">End: {{con.endDate}}</h5>
+                     <button class="btn btn-primary btn-sm" ng-click="viewConfPendingApplication($index)">View Application</button>
+                     <div class="pull-right">
+                        <button class="btn btn-success btn-sm" ng-click="acceptConfPendingRequest($index)">Accept</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineConfPendingRequest($index)">Decline</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <h3 class="text-center">Event Attendee Requests</h3>
+            <hr>
+            <!-- Requests -->
+            <div class="col-sm-12" ng-if="eventsPendingCreations" ng-repeat="eve in eventsPendingCreations">
+               <div class="col-sm-12">
+                  <div class="card card-warning card-block">
+                     <h4 class="card-title">{{eve.name}} wants to attend an event {{eve.event_name}}</h4>
+                     <h5 class="card-text">Start: {{eve.startDate}}</h5>
+                     <h5 class="card-text">End: {{eve.endDate}}</h5>
+                     <button class="btn btn-primary btn-sm" ng-click="viewEventsPendingApplication($index)">View Application</button>
+                     <div class="pull-right">
+                        <button class="btn btn-success btn-sm" ng-click="acceptEventsPendingRequest($index)">Accept</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineEventsPendingRequest($index)">Decline</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
