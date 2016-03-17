@@ -8,6 +8,9 @@ use App\Http\Requests;
 
 use App\Models\Accommodation as Accommodation;
 
+use App\Models\User;
+use App\Models\Role;
+
 class RoleController extends Controller
 {
     /**
@@ -101,12 +104,41 @@ class RoleController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * Destroy the Role
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        /*
+            $request =json_encode(array(
+                 'role_id' => 5,
+             ));
+
+             $response = json_decode($request);
+             */
+            //Check if Role Id exists
+            if(!\Sentinel::findRoleById($id))
+            {
+                return \Response::json(array(
+                    'status' => 'error',
+                    'code' => 'Remus',
+                    'message' => 'Unable to find Role with role_id '.$id
+                ));
+            }
+
+            //Check if Users have this user_id
+            if(User::where('role_id',$id)->first())
+            {
+                return \Response::json(array(
+                    'status' => 'error',
+                    'code' => 'Roma',
+                    'message' => 'Users belong are assigned to this role, unable to delete role',
+                ));
+            }
+
+            //Destroy Role
+            Role::destroy($id);
     }
+
 }
