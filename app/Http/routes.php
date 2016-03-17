@@ -13,6 +13,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 });
 
 
+Route::get('api/users/show', 'UserController@devUpdateRole');
 // Prefix all API routes with 'api'. - TODO - Make sure to add, AuthToken
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
 

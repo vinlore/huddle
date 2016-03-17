@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -42,23 +43,35 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     * Update the user's permissions and Role with the request state of their permissions and Roles.
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        /*
-        $roleName = $request->name;
+        /* Example JSON of request
+        *
+        $request =json_encode(array(
+             'api_token' => 1,
+             'user_id' =>  7,
+             'permissions' => array(
+                 'model.update' => true,
+                 'model.view' => true,
+             ),
+             'role_id' => 1,
+         ));
+         $response = json_decode($request);
+         */
 
-        $user = \Sentinel::findById($id);
-        $role = \Sentinel::findRoleByName($roleName);
-        //Checking if Attaching role or detatching a role
-        if() TODO - check if attaching or detaching
-        $role->users()->attach($user);
-        $role->users()->detach($user);
-        */
+         //Update Role first
+         User::where('id',$response->user_id)
+                ->update(['role_id' => $response->role_id]);
+
+         //Update Permissions next
+         $user = \Sentinel::findById($response->user_id);
+         $user->permissions = json_decode(json_encode($response->permissions), True);
+         $user->save();
     }
 
     /**
