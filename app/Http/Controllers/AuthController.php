@@ -58,8 +58,9 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json([
-            'status' => 'success',
-            'token'  => $token,
+            'status'  => 'success',
+            'token'   => $token,
+            'user_id' => $user->id,
         ]);
     }
 
