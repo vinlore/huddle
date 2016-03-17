@@ -128,20 +128,29 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        /* EXAMPLE OF JSON REQUEST
+        $request =json_encode(array(
+             'user_id' =>  4,
+             'role_id' => 1,
+         ));
+
+         $response = json_decode($request);
+         */
+
         //Check if Role Id exists
-        if(!\Sentinel::findRoleById($id))
+        if(!\Sentinel::findRoleById($response->role_id))
         {
             return \Response::json(array(
                 'status' => 'error',
                 'code' => 'Remus',
-                'message' => 'Unable to find Role with role_id '.$id
+                'message' => 'Unable to find Role with role_id '.$response->role_id
             ));
         }
 
         //Check if Users have this user_id
-        if(Role_User::where('role_id',$id)->first())
+        if(Role_User::where('role_id',$response->role_id)->first())
         {
             return \Response::json(array(
                 'status' => 'error',
@@ -150,7 +159,7 @@ class RoleController extends Controller
             ));
         }
         //Destroy Role
-        Role::destroy($id);
+        Role::destroy($response->user_id);
     }
 
 }
