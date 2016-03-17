@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Models\User;
+use App\Models\Role;
+use App\Models\Role_user;
 
 class UserController extends Controller
 {
@@ -86,7 +87,7 @@ class UserController extends Controller
 
 
          //Update Role first
-         User::where('id',$response->user_id)
+         Role_user::where('user_id',$response->user_id)
                 ->update(['role_id' => $response->role_id]);
 
          //Update Permissions next

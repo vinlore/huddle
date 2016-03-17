@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Models\Accommodation as Accommodation;
-
-use App\Models\User;
+use App\Models\Role_user;
 use App\Models\Role;
 
 class RoleController extends Controller
@@ -31,6 +29,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+
         /* SAMPLE JSON BEING SENT
         $request =json_encode(array(
              'api_token' =>  123,
@@ -38,7 +37,6 @@ class RoleController extends Controller
          ));
         $response =json_decode($request);
         */
-
         $role = \Sentinel::getRoleRepository()->createModel()->create([
                 'name' => $request->name,
                 'slug' => strtolower($name),
@@ -60,7 +58,6 @@ class RoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
      * Update the permissions of a role
      *
      * @param  \Illuminate\Http\Request  $request
@@ -103,8 +100,7 @@ class RoleController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
-     * Destroy the Role
+     * Destroy the Role from role table
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -121,7 +117,7 @@ class RoleController extends Controller
         }
 
         //Check if Users have this user_id
-        if(User::where('role_id',$id)->first())
+        if(Role_User::where('role_id',$id)->first())
         {
             return \Response::json(array(
                 'status' => 'error',

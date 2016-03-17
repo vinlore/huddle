@@ -12,7 +12,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::post('auth/logout', 'AuthController@logout');
 });
 
-
+Route::get('addRole','UserController@devUpdate');
 // Prefix all API routes with 'api'. - TODO - Make sure to add, AuthToken
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
 
@@ -61,40 +61,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 // TESTING
 // -----------------------------------------------------------------------------
 
-
-// Assign the 'Admin' role to the first user.
-Route::get('assignRole', function () {
-    $user = Sentinel::findById(21);
-    $role = Sentinel::findRoleByName('Reg');
-    $role->users()->attach($user);
-    var_dump($role);
-});
-
-// Remove the 'Admin' role from the first user.
-Route::get('removeRole', function () {
-    $user = Sentinel::findById(1);
-    $role = Sentinel::findRoleByName('Admin');
-    $role->users()->detach($user);
-    var_dump($role);
-});
-
-Route::get('addRole', function(){
-    $role = \Sentinel::getRoleRepository()->createModel()->create([
-            'name' => 'Reg',
-            'slug' => 'reg',
-        ]);
-});
-
-// Add permissions to the 'Admin' role.
-Route::get('addPermissions', function () {
-    $role = Sentinel::findRoleByName('Admin');
-    $role->permissions = [
-        'event.update' => true,
-        'event.view'   => false,
-    ];
-    $role->save();
-    var_dump($role);
-});
 
 // Reset the first user's password.
 Route::get('api/passwordreset',function () {
