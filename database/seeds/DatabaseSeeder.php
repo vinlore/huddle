@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         DB::table('roles')->truncate();
         DB::table('profiles')->truncate();
         DB::table('users')->truncate();
+        DB::table('role_users')->truncate();
 
         $this->call(RolesTableSeeder::class);
         $this->call(AdminUserSeeder::class);
@@ -220,16 +221,20 @@ class AdminUserSeeder extends Seeder
         
             $user = User::create([
                 'username' => 'admin',
-                'password' => 'password',
-                'role_id'  => 1
+                'password' => 'password'
             ]);
 
             $user_id = $user->id;
 
-            Profile::create([
+              Profile::create([
                 'user_id'    => $user_id,
                 'is_owner'   => 1
             ]);
+
+            DB::table('role_users')->insert([
+                'user_id'   => $user_id,
+                'role_id'   => 1
+                ]);
         
     }
 
