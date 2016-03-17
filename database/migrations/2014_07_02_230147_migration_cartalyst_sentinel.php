@@ -68,7 +68,7 @@ class MigrationCartalystSentinel extends Migration
             $table->integer('role_id')->unsigned();
             $table->nullableTimestamps();
 
-            $table->primary(['user_id', 'role_id',]);
+            $table->primary(['user_id', 'role_id']);
         });
 
         Schema::create('throttle', function (Blueprint $table) {
