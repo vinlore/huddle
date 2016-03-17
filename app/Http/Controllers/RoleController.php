@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-
-use App\Models\Role_user;
-use App\Models\Role;
 use App\Models\User;
 
 class RoleController extends Controller
@@ -149,8 +146,9 @@ class RoleController extends Controller
             ));
         }
 
-        //Check if Users have this user_id
-        if(Role_User::where('role_id',$response->role_id)->first())
+        //Check if Users have this role_id
+        $role = Sentinel::findRoleById($response->role_id);
+        if($role->users()->with('roles')->get())
         {
             return \Response::json(array(
                 'status' => 'error',
@@ -159,7 +157,7 @@ class RoleController extends Controller
             ));
         }
         //Destroy Role
-        Role::destroy($response->user_id);
+        Sentinel::findRoleById($response->role_id)->delete();
     }
 
 }
