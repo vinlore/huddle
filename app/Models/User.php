@@ -7,21 +7,13 @@ use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
 class User extends SentinelUser
 {
     protected $fillable = [
-        'email',
         'username',
+        'email',
         'password',
-        'first_name',
-        'last_name',
         'permissions',
-        'role_id'
     ];
 
     protected $loginNames = ['username'];
-
-    public function role()
-    {
-        return $this->belongsTo('App\Models\Role');
-    }
 
     public function profiles()
     {
@@ -30,7 +22,7 @@ class User extends SentinelUser
 
     public function conferences()
     {
-        return $this->belongsToMany('App\Models\Confernece', 'user_manages_conferences');
+        return $this->belongsToMany('App\Models\Conference', 'user_manages_conferences');
     }
 
     public function events()

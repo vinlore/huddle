@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('cms', [
-    'ngRoute',
     'ngResource',
     'ui.bootstrap',
     'ngAnimate',
@@ -25,12 +24,17 @@ angular.module('cms', [
     'validateDirectives',
     'customFilters',
     'google.places',
-    'popupPromptCtrl',
+    'popupCtrl',
     'signupConfCtrl',
     'signupEventCtrl',
     'ng-fusioncharts',
     'manageInventoryCtrl',
-    'ngStorage'
+    'manageTransportationCtrl',
+    'ngStorage',
+    'popupServices',
+    'ngMap',
+    'ui.router',
+    'manageRequestsCtrl',
 ])
 
 .run( function( $rootScope, $auth, $localStorage ) {
@@ -38,17 +42,21 @@ angular.module('cms', [
     $rootScope.user = $localStorage.user;
 })
 
-.config( function( $routeProvider, $locationProvider, $authProvider ) {
-    $authProvider.loginUrl = '/api/auth';
+.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider ) {
+    $authProvider.loginUrl = 'api/auth/login';
+    $authProvider.authHeader = 'X-Auth-Token';
+    $authProvider.authToken = '';
 
-    $routeProvider
+    $stateProvider
 
-    .when( '/', {
+    .state( 'home', {
+        url: '/',
         templateUrl: 'components/home/homeView.html',
         controller: 'homeController'
     })
 
-    .when( '/login', {
+    .state( 'login', {
+        url: '/login',
         templateUrl: 'components/login/loginView.html',
         controller: 'loginController',
         resolve: {
@@ -56,7 +64,8 @@ angular.module('cms', [
         }
     })
 
-    .when( '/admin', {
+    .state( 'admin', {
+        url: '/admin',
         templateUrl: 'components/admin/adminView.html',
         controller: 'adminController',
         resolve: {
@@ -64,7 +73,8 @@ angular.module('cms', [
         }
     })
 
-    .when( '/register', {
+    .state( 'register', {
+        url: '/register',
         templateUrl: 'components/userReg/userRegView.html',
         controller: 'userRegController',
         resolve: {
@@ -72,12 +82,14 @@ angular.module('cms', [
         }
     })
 
-    .when( '/conference-:conferenceId', {
+    .state( 'conference', {
+        url: '/conference-:conferenceId',
         templateUrl: 'components/conference/conferenceView.html',
         controller: 'conferenceController'
     })
 
-    .when( '/create-conference', {
+    .state( 'create-conference', {
+        url: '/create-conference',
         templateUrl: 'components/createConference/createConferenceView.html',
         controller: 'createConferenceController',
         resolve: {
@@ -85,7 +97,8 @@ angular.module('cms', [
         }
     })
 
-    .when('/conference-:conferenceId/signup', {
+    .state( 'conference-signup', {
+        url: '/conference-:conferenceId/signup?name',
         templateUrl: 'components/signupConference/signupConferenceView.html',
         controller: 'signupConferenceController',
         resolve: {
@@ -93,7 +106,8 @@ angular.module('cms', [
         }
     })
 
-    .when('/signup-event', {
+    .state( 'event-signup', {
+        url: '/event-:eventId/signup?name',
         templateUrl: 'components/signupEvent/signupEventView.html',
         controller: 'signupEventController',
         resolve: {
@@ -101,7 +115,8 @@ angular.module('cms', [
         }
     })
 
-    .when( '/profile', {
+    .state( 'profile', {
+        url: '/profile',
         templateUrl: 'components/profile/profileView.html',
         controller: 'profileController',
         resolve: {
@@ -109,7 +124,8 @@ angular.module('cms', [
         }
     })
 
-    .when( '/logs', {
+    .state( 'logs', {
+        url: '/logs',
         templateUrl: 'components/activityLog/activityLogView.html',
         controller: 'activityLogController',
         resolve: {
@@ -117,7 +133,8 @@ angular.module('cms', [
         }
     })
 
-    .when( '/accounts', {
+    .state( 'accounts', {
+        url: '/accounts',
         templateUrl: 'components/manageAccounts/manageAccountsView.html',
         controller: 'manageAccountsController',
         resolve: {
@@ -125,7 +142,8 @@ angular.module('cms', [
         }
     })
 
-    .when( '/manage-inventory', {
+    .state( 'manage-inventory', {
+        url: '/manage-inventory',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
         controller: 'manageInventoryController',
         resolve: {
@@ -133,7 +151,22 @@ angular.module('cms', [
         }
     })
 
-    .otherwise({redirectTo: '/'});
+    .state( '/manage-transportation', {
+        url: '/manage-transportation',
+        templateUrl: 'components/manageTransportation/manageTransportationView.html',
+        controller: 'manageTransportationController'
+    })
+
+    .state( 'requests', {
+        url: '/manage-requests',
+        templateUrl: 'components/manageRequests/manageRequestsView.html',
+        controller: 'manageRequestsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    $urlRouterProvider.otherwise( '/' );
 
     $locationProvider.html5Mode(true);
 

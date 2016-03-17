@@ -1,15 +1,20 @@
 angular.module( 'apiService', [] )
 
 .factory( 'Register', function( $resource ) {
-    return $resource( '/api/create' );
+    return $resource( '/api/auth/register' );
 })
 
 .factory( 'Logout', function( $resource ) {
-    return $resource( '/api/logout' );
+    return $resource( '/api/auth/logout' );
 })
 
 .factory( 'Profile', function( $resource ) {
-    return $resource( '/api/user/:userId/profile/:profileId', {userId: '@uid', profileId: '@pid'} );
+    return $resource( '/api/users/:uid/profiles/:pid', {uid: '@uid', pid: '@pid'}, {'update': { method: 'PUT' }}
+    );
+})
+
+.factory( 'User', function ( $resource ) {
+    return $resource( '/api/users/:id', {id: '@id'}, {'update': { method: 'PUT' }} );
 })
 
 .factory( 'Conferences', function( $resource ) {
@@ -19,54 +24,61 @@ angular.module( 'apiService', [] )
 .factory( 'Conference', function( $resource ) {
     return {
 
-        get: function() {
-            return $resource( '/api/conferences/:cid', {cid: 'cid'});
-        },
-
-        attendees: function() {
-            return $resource( '/api/conferences/:cid/attendees/:aid', {cid: '@cid', aid: '@aid'} );
-        },
-
-        arrivalTransport: function() {
-            return $resource( '/api/conferences/:cid/arrivalTransport/:aid', {cid: '@cid', aid: '@aid'} );
-        },
-
-        departTransport: function() {
-            return $resource( '/api/conferences/:cid/departTransport/:did', {cid: '@cid', aid: '@aid'} );
-        },
-
-        inventory: function() {
-            return $resource( '/api/conferences/:cid/inventory/:iid', {cid: '@cid', iid: '@id'} );
-        },
-
-        accommodation: function() {
-            return $resource( '/api/conferneces/:cid/accommodations/:aid', {cid: '@cid', aid: '@aid'} );
+        upcoming: function() {
+            return $resource( '/api/conferences/upcoming' );
         }
-    }
-})
-/*
-.factory( 'Events', function( $resource ) {
-    return $resource( '/api/conferences/events');
-})
 
-.factory( 'Event', function( $resource ) {
-    return {
+        past: function () {
+            return $resource( '/api/conferences/past' );
+        }
 
-        get: function() {
-            return $resource( '/api/conferences/:cid/events/:eid', {cid: '@cid', eid: '@eid'} );
-        }, 
-
-        attendees: function() {
-            return $resource( '/api/events/:eid/attendees/:aid', {eid: '@eid', aid: '@aid'} );
+        fetch: function () {
+            return $resource( '/api/conferences/:cid', {cid: 'cid'}, {'update': { method: 'PUT' }} );
         },
 
-        arrivalTransport: function() {
-            return $resource( '/api/events/:eid/arrivalTransport/:aid', {eid: '@eid', aid: '@aid'} );
+        status: function () {
+            return $resource( '/api/conferences/status/:status', {status: '@status'} );
         },
 
-        departTransport: function( eventId ) {
-            return $resource( '/api/events/:eid/departTransport/:did', {eid: '@eid', did: '@did'} );
+        attendees: function () {
+            return $resource( '/api/conferences/:cid/attendees/:aid', {cid: '@cid', attId: '@aid'}, {'update': { method: 'PUT' }} );
+        },
+
+        vehicles: function () {
+            return $resource( '/api/conferences/:cid/vehicles/:type/:vid', {cid: '@cid', type: '@type', vid: '@vid'}, {'update': { method: 'PUT' }} );
+        },
+
+        inventory: function () {
+            return $resource( '/api/conferences/:cid/inventory/:id', {cid: '@cid', iid: '@id'}, {'update': { method: 'PUT' }} );
+        },
+
+        accommodations: function () {
+            return $resource( '/api/conferences/:cid/accommodations/:aid', {cid: '@cid', accId: '@aid'}, {'update': { method: 'PUT' }} );
+        }
+
+        rooms: function () {
+            return $resource( '/api/conferences/:cid/accommodations/:aid/:rid', {cid: '@cid', accId: '@aid', rid: '@rid'}, {'update': { method: 'PUT' }} );
         }
     }
 })
 */
+.factory( 'Event', function( $resource ) {
+    return {
+
+        status: function () {
+            return $resource( '/api/events/status/:status', {status: '@status'} );
+        },
+
+        fetch: function () {
+            return $resource( '/api/conferences/:cid/events/:eid', {cid: '@cid', eid: '@eid'}, {'update': { method: 'PUT' }} );
+        },
+
+        attendees: function () {
+            return $resource( '/api/events/:eid/attendees/:aid', {eid: '@eid', attId: '@aid'}, {'update': { method: 'PUT' }} );
+        },
+
+        vehicles: function () {
+            return $resource( '/api/events/:eid/vehicles/:type/:vid', {eid: '@eid', type: '@type', vid: '@vid'}, {'update': { method: 'PUT' }} );
+        }
+    }
+})

@@ -8,12 +8,14 @@
     "angular": "~1.4.0",
     "angular-route": "~1.4.0",
     "angular-mocks": "~1.4.0",
-    "angular-bootstrap": "~1.1.0",
+    "angular-bootstrap": "^1.1.0",
     "bootstrap-css-only": "~3.3.6",
     "angular-animate": "~1.4.8",
     "angular-resource": "~1.4.0",
     "satellizer": "^0.13.4",
     "angular-google-places-autocomplete": "^0.2.7",
-    "ngstorage": "^0.3.10"
+    "ngstorage": "^0.3.10",
+    "ngmap": "^1.16.7",
+    "angular-ui-router": "^0.2.18"
   }
 }

@@ -19,14 +19,17 @@
   <link rel="stylesheet" href="components/createConference/createConference.css">
   <link rel="stylesheet" href="components/userReg/userReg.css">
   <link rel="stylesheet" href="shared/header/header.css">
+  <link rel="stylesheet" href="shared/popup/popup.css">
   <link rel="stylesheet" href="components/profile/profile.css">
   <link rel="stylesheet" href="components/signupConference/signupConference.css">
   <link rel="stylesheet" href="components/signupEvent/signupEvent.css">
   <link rel="stylesheet" href="components/manageInventory/manageInventory.css">
+  <link rel="stylesheet" href="components/manageTransportation/manageTransportation.css">
+  <link rel="stylesheet" href="components/manageRequests/manageRequests.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
-  <script src="assets/libs/angular-route/angular-route.min.js"></script>
+  <script src="assets/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="assets/libs/angular-animate/angular-animate.min.js"></script>
   <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script src="assets/libs/angular-resource/angular-resource.min.js"></script>
@@ -36,6 +39,7 @@
   <script type="text/javascript" src="assets/js/fusioncharts/fusioncharts.js"></script>
   <script type="text/javascript" src="assets/js/fusioncharts/angular-fusioncharts.min.js"></script>
   <script text="text/javascript" src="assets/libs/ngstorage/ngStorage.min.js"></script>
+  <script text="text/javascript" src="assets/libs/ngmap/build/scripts/ng-map.min.js"></script>
 
   <!-- CONTROLLERS -->
   <script src="components/home/homeController.js"></script>
@@ -47,11 +51,13 @@
   <script src="components/profile/profileController.js"></script>
   <script src="components/activityLog/activityLogController.js"></script>
   <script src="shared/header/headerController.js"></script>
-  <script src="shared/popupPrompt/popupPromptController.js"></script>
+  <script src="shared/popup/popupController.js"></script>
   <script src="components/manageAccounts/manageAccountsController.js"></script>
   <script src="components/signupConference/signupConferenceController.js"></script>
   <script src="components/signupEvent/signupEventController.js"></script>
   <script src="components/manageInventory/manageInventoryController.js"></script>
+  <script src="components/manageTransportation/manageTransportationController.js"></script>
+  <script src="components/manageRequests/manageRequestsController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
@@ -59,6 +65,7 @@
   <script src="assets/js/mapService.js"></script>
   <script src="assets/js/countryService.js"></script>
   <script src="assets/js/apiService.js"></script>
+  <script src="assets/js/popupServices.js"></script>
 
   <!-- DIRECTIVES -->
   <script src="assets/js/customDirectives.js"></script>
@@ -73,7 +80,7 @@
 
 <body>
   <div ng-include="'shared/header/header.html'" ng-controller="headerController"></div>
-  <div class="has-header" ng-view autoscroll></div>
+  <div ui-view autoscroll class="has-header"></div>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 angular.module( 'userRegCtrl', [] )
-.controller( 'userRegController', function( $scope, $rootScope, $auth, $filter, $location, Countries, Register, $localStorage, $rootScope ) {
+.controller( 'userRegController', function( $scope, $rootScope, $auth, $filter, $location, Countries, Register, $localStorage, $rootScope, popup ) {
 
     $scope.user = {
         username: null,
@@ -76,15 +76,17 @@ angular.module( 'userRegCtrl', [] )
         if ($scope.regForm.$valid) {
             Register.save( user )
                 .$promise.then( function( response ) {
-                    if ( response.status == 'success' ) {
-                        console.log( 'User registered successfully' );
+                    if ( response.status == 'success' && response.token && response.user) {
                         $auth.setToken( response.token );
-                        $localStorage.user, $rootScope.user = response.user;
+                        $localStorage.user = response.user;
+                        $rootScope.user = $localStorage.user;
                         $rootScope.auth = $auth.isAuthenticated();
                         $location.path('/');
+                    } else {
+                        popup.error( 'Error', response.message );
                     }
                 }, function ( response ) {
-                    console.log( 'Failed to register user' );
+                    popup.connection();
                 })
         }
 

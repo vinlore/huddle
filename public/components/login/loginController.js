@@ -17,7 +17,8 @@ angular.module( 'loginCtrl', [] )
                 $rootScope.auth = $auth.isAuthenticated;
                 $scope.invalid = false;
                 $scope.valid = true;
-                $localStorage.user, $rootScope.user = response.data.user;
+                $localStorage.user = response.data.user;
+                $rootScope.user = $localStorage.user;
                 $timeout( function () {
                     $location.path('/');
                 }, 300)

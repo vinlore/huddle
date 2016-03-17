@@ -11,13 +11,26 @@ use App\Models\Profile as Profile;
 class ProfileController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get the resource
      *
+     * @param  int  $users
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($users)
     {
-        //
+        try {
+            $profile = Profile::where('user_id', '=', $users)->first();
+            return \Response::json(array(
+                'status' => 'success',
+                'profile' => $profile
+            )); 
+        } catch (Exception $e) {
+            return \Response::json(array(
+                'status' => 'error',
+                'message' => $e
+            ));
+        }
+        
     }
 
     /**
@@ -28,36 +41,38 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        Profile::create($request->all());
+        return \Response::json(array('status' => 'success'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $users
+     * @param  int  $profiles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $users, $profiles)
     {
-        //
+        try {
+            Profile::where('id', $profiles)->update($request->all());
+            return \Response::json(array(
+                'status' => 'success'
+            ));
+        } catch (Exception $e) {
+            return \Response::json(array(
+                'status' => 'error',
+                'message' => $e
+            ));
+        }
+        
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

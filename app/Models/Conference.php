@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conference extends Model
 {
-     protected $fillable = [
+    protected $fillable = [
         'name',
+        'description',
         'start_date',
         'end_date',
         'address',
@@ -16,7 +17,6 @@ class Conference extends Model
         'attendee_count',
         'capacity',
         'status',
-        'description'
     ];
 
     public function events()
@@ -24,24 +24,19 @@ class Conference extends Model
         return $this->hasMany('App\Models\Event');
     }
 
-    public function inventory()
-    {
-        return $this->hasOne('App\Models\Inventory');
-    }
-
     public function accommodations()
     {
         return $this->belongsToMany('App\Models\Accommodation', 'conference_accommodations');
     }
 
+    public function inventory()
+    {
+        return $this->hasOne('App\Models\Inventory');
+    }
+
     public function vehicles()
     {
         return $this->belongsToMany('App\Models\Vehicle', 'conference_vehicles');
-    }
-
-    public function flights()
-    {
-        return $this->hasMany('App\Models\Flight');
     }
 
     public function managers()

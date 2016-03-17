@@ -1,34 +1,93 @@
-angular.module ( 'profileCtrl', [] )
-.controller('profileController', function ( $scope ) {
+angular.module( 'profileCtrl', [] )
+.controller( 'profileController', function ( $scope, Profile, $filter, popup, User, $rootScope ) {
 
-  $scope.user = {
-      Username: null,
-      OldPassword: null,
-      NewPassword: null,
-      ConfirmPassword: null,
-      FirstName: null,
-      MiddleName: null,
-      LastName: null,
-      Birthdate: null,
-      Gender: null,
-      Country: null,
-      City: null,
-      Email: null,
-      HomePhone: null,
-      OtherPhone: null
-  };
+    $scope.user = {};
 
-  $scope.saveChanges = function () {
+    $scope.saveNameChanges = function () {
+        var profile = {
+            first_name: $scope.user.FirstName,
+            last_name: $scope.user.LastName,
+            middle_name: $scope.user.MiddleName
+        };
+        Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
+            .$promise.then( function ( response ) {
+                if ( response.status == 'success' ) {
+                    // TODO success alert
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    };
 
-  };
+    $scope.saveContactChanges = function () {
+        var profile = {
+            email: $scope.user.Email,
+            phone: $scope.user.HomePhone
+        };
+        Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
+            .$promise.then( function ( response ) {
+                if ( response.status == 'success' ) {
+                    // TODO success alert
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    };
 
-  $scope.getUserInfo = function () {
-      // get username after login
-      return "Username"
-  }
+    $scope.savePasswordChanges = function () {
+        var password = {
+            password: $scope.user.NewPassword
+        };
+        User.update( { id: $rootScope.user.id }, password )
+            .$promise.then( function ( response ) {
+                if ( response.status == 'success' ) {
+                    // TODO success alert
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    };
 
-  $scope.submit = function () {
-      //update function
-  };
+    $scope.deleteAccount = function () {
 
-});
+    };
+
+    $scope.loadProfile = function () {
+        Profile.get( { uid: $rootScope.user.id } )
+            .$promise.then( function ( response ) {
+                if ( response.status == 'success' && response.profile) {
+                    console.log(response);
+                    var profile = response.profile;
+                    $scope.user = {
+                        id: profile.id,
+                        Username: $rootScope.user.username,
+                        OldPassword: null,
+                        NewPassword: null,
+                        ConfirmPassword: null,
+                        FirstName: profile.first_name,
+                        MiddleName: profile.middle_name,
+                        LastName: profile.last_name,
+                        Birthdate: $filter('date')(profile.birthdate, 'yyyy-MM-dd'),
+                        Gender: profile.gender,
+                        Country: profile.country,
+                        City: profile.city,
+                        Email: profile.email,
+                        HomePhone: profile.phone
+                    };
+                } else {
+                    popup.error('Error', response.error);
+                }
+            }, function () {
+                popup.connection();
+            } )
+    }
+
+    $scope.loadProfile();
+
+} );

@@ -20,6 +20,8 @@ class ConferenceController extends Controller
         //
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -29,21 +31,7 @@ class ConferenceController extends Controller
 
     public function store(Request $request){
 
-        $conference = $request->conference;
-
-        Conference::create([
-            'name'              => $conference['name'],
-            'start_date'        => $conference['startDate'],
-            'end_date'          => $conference['endDate'],
-            'address'           => $conference['address'],
-            'country'           => $conference['country'],
-            'city'              => $conference['city'],
-            'capacity'          => $conference['capacity'],
-            'description'       => $conference['description'],
-            'status'            => 'pending',
-            'attendee_count'    => 0
-        ]);
-
+        Conference::create($request->all());
         return \Response::json(array('status' => 'success'));
     }
 
@@ -55,7 +43,7 @@ class ConferenceController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -67,8 +55,27 @@ class ConferenceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = \Sentinel::findById(2);
+        $status = null;
+        $user_permissions = null;
+        $role = $user->role;
+        
+        if (!is_null($request->status) && ($user_permissions == null && $role == 1)){
+
+            Conference::find($id)
+            ->update(array('status' => $request->satus));
+
+        } elseif(is_null($request->status)){
+
+            Conference::find($id)
+            ->update(array('name' => 'lololol'));
+            ->update(array('status' => 'pending'));
+
+        }
+
+        return \Response::json(array('status' => 'success'));
     }
+
 
     /**
      * Remove the specified resource from storage.

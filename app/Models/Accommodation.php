@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Accommodation extends Model
 {
+	protected $fillable = [
+        'name',
+        'address',
+        'city',
+        'country',
+    ];
+
     public function rooms()
     {
         return $this->hasMany('App\Models\Room');

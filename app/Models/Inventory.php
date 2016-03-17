@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
 {
+    protected $fillable = [
+        'conference_id',
+    ];
+
     protected $table = 'inventories';
 
     public function conference()

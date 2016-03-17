@@ -1,5 +1,5 @@
 angular.module( 'headerCtrl', [] )
-.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout, $rootScope, $localStorage ) {
+.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout, $rootScope, $localStorage, popup ) {
 
     $scope.isCollapsed = true;
 
@@ -12,34 +12,22 @@ angular.module( 'headerCtrl', [] )
             .$promise.then( function ( response ) { // OK
                 console.log( response );
                 if ( response.status == 'success' ) { // If logout on server was successful
-                    console.log( "Logging out..." );
                     $auth.logout().then( function ( result ) { // If logout on front-end was successful
                         $rootScope.auth = $auth.isAuthenticated();
                         delete $localStorage.user;
                         $rootScope.user = null;
                         $location.path('/');
                     });
+                } else {
+                    popup.error( 'Error', response.message );
                 }
-            }, function ( response ) { // API call failed
-                console.log( "An error occurred while logging in." );
+            }, function () { // API call failed
+                popup.connection();
             })
     };
 
     $scope.logout = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: 'shared/popupPrompt/popupPrompt.html',
-            controller: 'popupPromptController',
-            size: 'sm',
-            windowClass: 'center-modal',
-            resolve: {
-                content: function () {
-                    return {
-                        title: 'Logout',
-                        body: 'Are you sure you want to logout?'
-                    }
-                }
-            }
-        });
+        var modalInstance = popup.prompt( 'Logout', 'Are you sure you want to logout?' );
 
         modalInstance.result.then( function ( result ) {
             if ( result ) {
