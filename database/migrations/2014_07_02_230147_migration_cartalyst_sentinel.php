@@ -88,6 +88,7 @@ class MigrationCartalystSentinel extends Migration
             $table->text('permissions')->nullable();
             $table->timestamp('last_login')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
