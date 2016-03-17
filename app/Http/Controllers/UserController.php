@@ -65,6 +65,17 @@ class UserController extends Controller
          $response = json_decode($request);
          */
 
+         //Check for permissions - user.update
+         $user_id = User::where('api_token',$response->api_token)->get();
+         $user = Sentinel::findById($user_id->id);
+         if (!$user->hasAccess(['user.update'])){
+             return \Response::json(array(
+                 'status' => 'error',
+                 'code' => 'User Permissions',
+                 'message' => 'You have no permissions to access this'
+             ));
+         }
+
          //Check if Role Id exists
          if(!\Sentinel::findRoleById($response->role_id))
          {

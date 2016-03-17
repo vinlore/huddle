@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Models\Role_user;
 use App\Models\Role;
+use App\Models\User;
 
 class RoleController extends Controller
 {
@@ -37,6 +38,18 @@ class RoleController extends Controller
          ));
         $response =json_decode($request);
         */
+
+        //Check for permissions - role.store
+        $user_id = User::where('api_token',$response->api_token)->get();
+        $user = Sentinel::findById($user_id->id);
+        if (!$user->hasAccess(['role.store'])){
+            return \Response::json(array(
+                'status' => 'error',
+                'code' => 'Role Permissions',
+                'message' => 'You have no permissions to access this'
+            ));
+        }
+
         $role = \Sentinel::getRoleRepository()->createModel()->create([
                 'name' => $request->name,
                 'slug' => strtolower($name),
@@ -77,6 +90,17 @@ class RoleController extends Controller
 
          $response = json_decode($request);
          */
+
+         //Check for permissions - role.update
+         $user_id = User::where('api_token',$response->api_token)->get();
+         $user = Sentinel::findById($user_id->id);
+         if (!$user->hasAccess(['role.update'])){
+             return \Response::json(array(
+                 'status' => 'error',
+                 'code' => 'Role Permissions',
+                 'message' => 'You have no permissions to access this'
+             ));
+         }
 
          //Check if Role Id exists
          if(!\Sentinel::findRoleById($response->role_id))
