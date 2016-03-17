@@ -9,7 +9,7 @@ class Vehicle extends Model
     protected $fillable = [
         'name',
         'passenger_count',
-        'capacity'
+        'capacity',
     ];
 
     public function conferences()

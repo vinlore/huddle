@@ -10,7 +10,7 @@ class Accommodation extends Model
         'name',
         'address',
         'city',
-        'country'
+        'country',
     ];
 
     public function rooms()

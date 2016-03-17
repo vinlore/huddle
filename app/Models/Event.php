@@ -21,7 +21,7 @@ class Event extends Model
         'gender_limit',
         'attendee_count',
         'capacity',
-        'status'
+        'status',
     ];
 
     public function conference()
