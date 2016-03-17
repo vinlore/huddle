@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Conference extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name',
         'description',
@@ -18,6 +21,8 @@ class Conference extends Model
         'capacity',
         'status',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function events()
     {
