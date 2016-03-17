@@ -10,7 +10,7 @@ class Room extends Model
         'accomodation_id',
         'room_no',
         'guest_count',
-        'capacity'
+        'capacity',
     ];
 
     public function accommodation()

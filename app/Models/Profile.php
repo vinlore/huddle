@@ -17,7 +17,7 @@ class Profile extends Model
         'city',
         'country',
         'birthdate',
-        'gender'
+        'gender',
     ];
 
     public function user()
