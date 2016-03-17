@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Models\Role;
-use App\Models\Role_user;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -98,8 +97,10 @@ class UserController extends Controller
 
 
          //Update Role first
-         Role_user::where('user_id',$response->user_id)
-                ->update(['role_id' => $response->role_id]);
+         $user = Sentinel::findById($response->user_id);
+         $role = Sentinel::findRoleById($response->role_id);
+
+         $user->roles()->sync([$role->id]);
 
          //Update Permissions next
          $user = \Sentinel::findById($response->user_id);
