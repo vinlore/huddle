@@ -1,18 +1,6 @@
 angular.module( 'manageRequestsCtrl', [] )
 .controller( 'manageRequestsController', function ($scope) {
 
-  $scope.user = {};
-
-  $scope.removeFamilyMember = function (index) {
-    $scope.familymembers.splice(index, 1);
-  }
-
-  //$scope.loadPendingConferenceCreations = function() {};
-  //$scope.loadPendingConferenceAttendees = function() {};
-
-  //$scope.loadPendingEventCreations = function() {};
-  //$scope.loadPendingEventAttendees = function() {};
-
   $scope.conferencePendingCreations = [
       {
           id: 123,
@@ -68,7 +56,73 @@ angular.module( 'manageRequestsCtrl', [] )
       }
   ];
 
-  $scope.acceptConfRequest = function (index) {
+  // Conference Creation methods
+
+  // show conference creation application
+  $scope.viewConfCreationApplication = function(index){
     $scope.conferencePendingCreations.splice(index, 1);
   }
+
+  // change conference from pending to publish
+  $scope.publishConfCreationRequest = function (index) {
+    $scope.conferencePendingCreations.splice(index, 1);
+  }
+
+  // decline creation requests
+  $scope.declineConfCreationRequest = function (index) {
+    $scope.conferencePendingCreations.splice(index, 1);
+  }
+
+
+  // Event Creation methods
+
+  // show events creation application
+  $scope.viewEventsCreationApplication = function(index){
+    $scope.eventsPendingCreationssplice(index, 1);
+  }
+
+  $scope.publishEventsCreationRequest = function (index) {
+    $scope.eventsPendingCreations.splice(index, 1);
+  }
+
+  $scope.declineEventsCreationRequest = function (index) {
+    $scope.eventsPendingCreations.splice(index, 1);
+  }
+
+  // // Conference attendee pending methods
+  //
+  // $scope.viewConfPendingApplication = function(index){
+  //
+  // }
+  //
+  // $scope.acceptConfPendingRequest = function(index){
+  //
+  // }
+  //
+  // $scope.declineEventsPendingRequest= function(index){
+  //
+  // }
+  //
+  // // Event attendee pending methods
+  //
+  // $scope.viewEventsPendingApplication = function(index){
+  //
+  // }
+  //
+  // $scope.acceptEventsPendingRequest = function(index){
+  //
+  // }
+  //
+  // $scope.declineEventsPendingRequest = function(index){
+  //
+  // }
+
+    // method to load all pending requests (creation and attendee)
+
+    //$scope.loadPendingConferenceCreations = function() {};
+    //$scope.loadPendingConferenceAttendees = function() {};
+
+    //$scope.loadPendingEventCreations = function() {};
+    //$scope.loadPendingEventAttendees = function() {};
+
 });

@@ -12,10 +12,10 @@
                      <h4 class="card-title">{{con.name}} wants to create a conference {{con.conference_name}}</h4>
                      <h5 class="card-text">Start: {{con.startDate}}</h5>
                      <h5 class="card-text">End: {{con.endDate}}</h5>
-                     <button class="btn btn-primary btn-sm" ng-click="acceptConfRequest($index)">View Application</button>
+                     <button class="btn btn-primary btn-sm" ng-click="viewConfCreationRequest($index)">View Application</button>
                      <div class="pull-right">
-                        <button class="btn btn-success btn-sm" ng-click="acceptConfRequest($index)">Publish</button>
-                        <button class="btn btn-danger btn-sm" ng-click="declineConfRequest($index)">Decline</button>
+                        <button class="btn btn-success btn-sm" ng-click="publishConfCreationRequest($index)">Publish</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineConfCreationRequest($index)">Decline</button>
                      </div>
                   </div>
                </div>
@@ -31,10 +31,10 @@
                      <h4 class="card-title">{{eve.name}} wants to create an event {{eve.event_name}}</h4>
                      <h5 class="card-text">Start: {{eve.startDate}}</h5>
                      <h5 class="card-text">End: {{eve.endDate}}</h5>
-                     <button class="btn btn-primary btn-sm" ng-click="acceptConfRequest($index)">View Application</button>
+                     <button class="btn btn-primary btn-sm" ng-click="viewEventsCreationApplication($index)">View Application</button>
                      <div class="pull-right">
-                        <button class="btn btn-success btn-sm" ng-click="acceptConfRequest($index)">Publish</button>
-                        <button class="btn btn-danger btn-sm" ng-click="declineConfRequest($index)">Decline</button>
+                        <button class="btn btn-success btn-sm" ng-click="publishEventsCreationRequest($index)">Publish</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineEventsCreationRequest($index)">Decline</button>
                      </div>
                   </div>
                </div>
@@ -54,10 +54,10 @@
                      <h4 class="card-title">{{con.name}} wants to attend a conference {{con.conference_name}}</h4>
                      <h5 class="card-text">Start: {{con.startDate}}</h5>
                      <h5 class="card-text">End: {{con.endDate}}</h5>
-                     <button class="btn btn-primary btn-sm" ng-click="acceptConfRequest($index)">View Application</button>
+                     <button class="btn btn-primary btn-sm" ng-click="viewConfPendingApplication($index)">View Application</button>
                      <div class="pull-right">
-                        <button class="btn btn-success btn-sm" ng-click="acceptConfRequest($index)">Accept</button>
-                        <button class="btn btn-danger btn-sm" ng-click="declineConfRequest($index)">Decline</button>
+                        <button class="btn btn-success btn-sm" ng-click="acceptConfPendingRequest($index)">Accept</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineConfPendingRequest($index)">Decline</button>
                      </div>
                   </div>
                </div>
@@ -73,10 +73,10 @@
                      <h4 class="card-title">{{eve.name}} wants to attend an event {{eve.event_name}}</h4>
                      <h5 class="card-text">Start: {{eve.startDate}}</h5>
                      <h5 class="card-text">End: {{eve.endDate}}</h5>
-                     <button class="btn btn-primary btn-sm" ng-click="acceptConfRequest($index)">View Application</button>
+                     <button class="btn btn-primary btn-sm" ng-click="viewEventsPendingApplication($index)">View Application</button>
                      <div class="pull-right">
-                        <button class="btn btn-success btn-sm" ng-click="acceptConfRequest($index)">Accept</button>
-                        <button class="btn btn-danger btn-sm" ng-click="declineConfRequest($index)">Decline</button>
+                        <button class="btn btn-success btn-sm" ng-click="acceptEventsPendingRequest($index)">Accept</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineEventsPendingRequest($index)">Decline</button>
                      </div>
                   </div>
                </div>
