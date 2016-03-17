@@ -64,6 +64,27 @@ class UserController extends Controller
          $response = json_decode($request);
          */
 
+         //Check if Role Id exists
+         if(!\Sentinel::findRoleById($response->role_id))
+         {
+             return \Response::json(array(
+                 'status' => 'error',
+                 'code' => 'Unta',
+                 'message' => 'Unable to find Role with role_id '.$response->role_id
+             ));
+         }
+
+         //Check if User Id Exists
+         if(!\Sentinel::findUserById($response->user_id))
+         {
+             return \Response::json(array(
+                 'status' => 'error',
+                 'code' => 'Umesh',
+                 'message' => 'Unable to find User with user_id '.$response->user_id
+             ));
+         }
+
+
          //Update Role first
          User::where('id',$response->user_id)
                 ->update(['role_id' => $response->role_id]);

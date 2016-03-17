@@ -77,7 +77,18 @@ class RoleController extends Controller
 
          $response = json_decode($request);
          */
-         $role = \Sentinel::findRoleById($response->id);
+
+         //Check if Role Id exists
+         if(!\Sentinel::findRoleById($response->role_id))
+         {
+             return \Response::json(array(
+                 'status' => 'error',
+                 'code' => 'Remi',
+                 'message' => 'Unable to find Role with role_id '.$response->role_id
+             ));
+         }
+
+        $role = \Sentinel::findRoleById($response->id);
 
          //Convert into String, then back into array
          //Place array into the roles permissions
