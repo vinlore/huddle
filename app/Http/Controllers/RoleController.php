@@ -110,35 +110,27 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        /*
-            $request =json_encode(array(
-                 'role_id' => 5,
-             ));
+        //Check if Role Id exists
+        if(!\Sentinel::findRoleById($id))
+        {
+            return \Response::json(array(
+                'status' => 'error',
+                'code' => 'Remus',
+                'message' => 'Unable to find Role with role_id '.$id
+            ));
+        }
 
-             $response = json_decode($request);
-             */
-            //Check if Role Id exists
-            if(!\Sentinel::findRoleById($id))
-            {
-                return \Response::json(array(
-                    'status' => 'error',
-                    'code' => 'Remus',
-                    'message' => 'Unable to find Role with role_id '.$id
-                ));
-            }
-
-            //Check if Users have this user_id
-            if(User::where('role_id',$id)->first())
-            {
-                return \Response::json(array(
-                    'status' => 'error',
-                    'code' => 'Roma',
-                    'message' => 'Users belong are assigned to this role, unable to delete role',
-                ));
-            }
-
-            //Destroy Role
-            Role::destroy($id);
+        //Check if Users have this user_id
+        if(User::where('role_id',$id)->first())
+        {
+            return \Response::json(array(
+                'status' => 'error',
+                'code' => 'Roma',
+                'message' => 'Users are assigned to this role, unable to delete role, Make sure to remove this role from all Users',
+            ));
+        }
+        //Destroy Role
+        Role::destroy($id);
     }
 
 }
