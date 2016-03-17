@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Models\Role;
+use App\Models\Role_user;
 
 class UserController extends Controller
 {
@@ -42,14 +44,67 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     * Update the user's permissions and Role with the request state of their permissions and Roles.
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        /* Example JSON of request
+        *
+        $request =json_encode(array(
+             'api_token' => 1,
+             'user_id' =>  7,
+             'permissions' => array(
+                 'model.update' => true,
+                 'model.view' => true,
+             ),
+             'role_id' => 1,
+         ));
+         $response = json_decode($request);
+         */
+
+         //Check for permissions - user.update
+         $user_id = User::where('api_token',$response->api_token)->get();
+         $user = Sentinel::findById($user_id->id);
+         if (!$user->hasAccess(['user.update'])){
+             return \Response::json(array(
+                 'status' => 'error',
+                 'code' => 'User Permissions',
+                 'message' => 'You have no permissions to access this'
+             ));
+         }
+
+         //Check if Role Id exists
+         if(!\Sentinel::findRoleById($response->role_id))
+         {
+             return \Response::json(array(
+                 'status' => 'error',
+                 'code' => 'Unta',
+                 'message' => 'Unable to find Role with role_id '.$response->role_id
+             ));
+         }
+
+         //Check if User Id Exists
+         if(!\Sentinel::findUserById($response->user_id))
+         {
+             return \Response::json(array(
+                 'status' => 'error',
+                 'code' => 'Umesh',
+                 'message' => 'Unable to find User with user_id '.$response->user_id
+             ));
+         }
+
+
+         //Update Role first
+         Role_user::where('user_id',$response->user_id)
+                ->update(['role_id' => $response->role_id]);
+
+         //Update Permissions next
+         $user = \Sentinel::findById($response->user_id);
+         $user->permissions = json_decode(json_encode($response->permissions), True);
+         $user->save();
     }
 
     /**
@@ -60,6 +115,5 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }
