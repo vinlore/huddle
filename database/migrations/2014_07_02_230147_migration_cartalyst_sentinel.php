@@ -63,6 +63,14 @@ class MigrationCartalystSentinel extends Migration
             $table->timestamps();
         });
 
+        Schema::create('role_users', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->integer('role_id')->unsigned();
+            $table->nullableTimestamps();
+
+            $table->primary(['user_id', 'role_id',]);
+        });
+
         Schema::create('throttle', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable()->index('user_id');
@@ -74,15 +82,12 @@ class MigrationCartalystSentinel extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->string('api_token', 96)->nullable();
             $table->increments('id');
-            $table->integer('role_id')->unsigned();
             $table->string('username')->unique();
             $table->string('email')->nullable()->unique();
             $table->string('password');
             $table->text('permissions')->nullable();
             $table->timestamp('last_login')->nullable();
             $table->timestamps();
-
-            $table->foreign('role_id', 'users_ibfk_1')->references('id')->on('roles')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
     }
 

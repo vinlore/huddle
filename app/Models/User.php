@@ -16,11 +16,6 @@ class User extends SentinelUser
 
     protected $loginNames = ['username'];
 
-    public function role()
-    {
-        return $this->belongsTo('App\Models\Role');
-    }
-
     public function profiles()
     {
         return $this->hasMany('App\Models\Profile');

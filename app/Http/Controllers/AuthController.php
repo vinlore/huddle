@@ -30,7 +30,6 @@ class AuthController extends Controller
             'username' => $username,
             'email'     => $email,
             'password'  => $password,
-            'role_id'   => 1
         );
 
 
@@ -203,7 +202,7 @@ class AuthController extends Controller
 
             //save token to database
             \DB::table('users')->where('username',$username)->update(['api_token' => $token]);
-          
+
             //Generate JSON to return
             return \Response::json(array('token' => $token, 'user' => $user->toArray()));
 
