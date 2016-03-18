@@ -5,7 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class InitialMigration extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -31,6 +30,7 @@ class InitialMigration extends Migration
             $table->date('birthdate');
             $table->string('gender');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['user_id', 'is_owner']);
 
@@ -50,6 +50,7 @@ class InitialMigration extends Migration
             $table->integer('capacity');
             $table->enum('status', ['pending', 'approved', 'denied'])->default('pending');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('events', function (Blueprint $table) {
@@ -70,6 +71,7 @@ class InitialMigration extends Migration
             $table->integer('capacity');
             $table->enum('status', ['pending', 'approved', 'denied'])->default('pending');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('conference_id', 'events_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -81,6 +83,7 @@ class InitialMigration extends Migration
             $table->string('city');
             $table->string('country');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('rooms', function (Blueprint $table) {
@@ -90,6 +93,7 @@ class InitialMigration extends Migration
             $table->integer('guest_count')->default(0);
             $table->integer('capacity');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('accommodation_id', 'rooms_ibfk_1')->references('id')->on('accommodations')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -98,6 +102,7 @@ class InitialMigration extends Migration
             $table->integer('id', true);
             $table->integer('conference_id')->index('conference_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('conference_id', 'inventories_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -108,6 +113,7 @@ class InitialMigration extends Migration
             $table->string('name');
             $table->integer('quantity')->default(0);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['id', 'inventory_id']);
 
@@ -120,6 +126,7 @@ class InitialMigration extends Migration
             $table->integer('passenger_count')->default(0);
             $table->integer('capacity');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // ---------------------------------------------------------------------
@@ -130,6 +137,7 @@ class InitialMigration extends Migration
             $table->integer('conference_id')->index('conference_id');
             $table->integer('accommodation_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['conference_id', 'accommodation_id']);
             $table->foreign('conference_id', 'conference_accommodations_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -141,6 +149,7 @@ class InitialMigration extends Migration
             $table->integer('vehicle_id');
             $table->enum('type', ['arrival', 'departure']);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['conference_id', 'vehicle_id']);
             $table->foreign('conference_id', 'conference_vehicles_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -151,6 +160,7 @@ class InitialMigration extends Migration
             $table->integer('vehicle_id');
             $table->enum('type', ['arrival', 'departure']);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['event_id', 'vehicle_id']);
             $table->foreign('event_id', 'event_vehicles_ibfk_1')->references('id')->on('events')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -160,6 +170,7 @@ class InitialMigration extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('inventory_id')->index('inventory_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['user_id', 'inventory_id']);
             $table->foreign('user_id', 'user_manages_inventories_ibfk_1')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -170,6 +181,7 @@ class InitialMigration extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('conference_id')->index('conference_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['user_id', 'conference_id']);
             $table->foreign('user_id', 'user_manages_conferences_ibfk_1')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -180,6 +192,7 @@ class InitialMigration extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('event_id')->index('event_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['user_id', 'event_id']);
             $table->foreign('user_id', 'user_manages_events_ibfk_1')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -218,6 +231,7 @@ class InitialMigration extends Migration
             $table->string('medical_conditions')->nullable();
             $table->enum('status', ['pending', 'approved', 'denied', 'canceled'])->default('pending');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['profile_id', 'conference_id']);
             $table->foreign('profile_id', 'profile_attends_conferences_ibfk_1')->references('id')->on('profiles')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -231,6 +245,7 @@ class InitialMigration extends Migration
             $table->boolean('dept_ride_req');
             $table->enum('status', ['pending', 'approved', 'denied', 'canceled'])->default('pending');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['profile_id', 'event_id']);
             $table->foreign('profile_id', 'profile_attends_events_ibfk_1')->references('id')->on('profiles')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -241,6 +256,7 @@ class InitialMigration extends Migration
             $table->integer('profile_id');
             $table->integer('room_id')->index('room_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['profile_id', 'room_id']);
             $table->foreign('profile_id', 'profile_stays_in_rooms_ibfk_1')->references('id')->on('profiles')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -251,6 +267,7 @@ class InitialMigration extends Migration
             $table->integer('profile_id');
             $table->integer('vehicle_id')->index('vehicle_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['profile_id', 'vehicle_id']);
             $table->foreign('profile_id', 'profile_rides_vehicles_ibfk_1')->references('id')->on('profiles')->onUpdate('RESTRICT')->onDelete('RESTRICT');

@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Conference extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name',
+        'description',
         'start_date',
         'end_date',
         'address',
@@ -16,22 +20,23 @@ class Conference extends Model
         'attendee_count',
         'capacity',
         'status',
-        'description'
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function events()
     {
         return $this->hasMany('App\Models\Event');
     }
 
-    public function inventory()
-    {
-        return $this->hasOne('App\Models\Inventory');
-    }
-
     public function accommodations()
     {
         return $this->belongsToMany('App\Models\Accommodation', 'conference_accommodations');
+    }
+
+    public function inventory()
+    {
+        return $this->hasOne('App\Models\Inventory');
     }
 
     public function vehicles()

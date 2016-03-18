@@ -37,8 +37,23 @@ angular.module('cms', [
     'manageRequestsCtrl',
 ])
 
-.run( function( $rootScope, $auth, $localStorage ) {
+.run( function( $rootScope, $auth, $localStorage, Confirm ) {
     $rootScope.auth = $auth.isAuthenticated();
+
+    $rootScope.$on('$stateChangeStart', 
+        function(){ 
+            Confirm.save()
+                .$promise.then( function ( response ) {
+                    if ( response.status == 'error' ) {
+                        // You have been logged out alert
+                        $auth.removeToken();
+                        $rootScope.auth = null;
+                        $rootScope.name = null;
+                        delete $localStorage.user;
+                    }
+                })
+        })
+
     $rootScope.user = $localStorage.user;
 })
 

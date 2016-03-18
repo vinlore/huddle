@@ -59,7 +59,7 @@ class MigrationCartalystSentinel extends Migration
             $table->increments('id');
             $table->string('slug')->unique();
             $table->string('name', 255)->unique();
-            $table->string('permissions');
+            $table->text('permissions');
             $table->timestamps();
         });
 
@@ -88,6 +88,7 @@ class MigrationCartalystSentinel extends Migration
             $table->text('permissions')->nullable();
             $table->timestamp('last_login')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

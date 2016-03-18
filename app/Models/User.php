@@ -2,19 +2,23 @@
 
 namespace App\Models;
 
-use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
+use Cartalyst\Sentinel\Users\EloquentUser;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends SentinelUser
+class User extends EloquentUser
 {
-    protected $fillable = [
-        'email',
-        'username',
-        'password',
-        'permissions',
-        'role_id'
-    ];
+    use SoftDeletes;
 
     protected $loginNames = ['username'];
+
+    protected $fillable = [
+        'username',
+        'email',
+        'password',
+        'permissions',
+    ];
+
+    protected $dates = ['deleted_at'];
 
     public function profiles()
     {

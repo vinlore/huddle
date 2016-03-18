@@ -3,14 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Inventory extends Model
 {
-    protected $fillable = [
-        'conference_id'
-    ];
-    
+    use SoftDeletes;
+
     protected $table = 'inventories';
+
+    protected $fillable = [
+        'conference_id',
+    ];
+
+    protected $dates = ['deleted_at'];
 
     public function conference()
     {

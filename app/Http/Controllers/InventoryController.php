@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 
@@ -29,18 +30,18 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         Inventory::create($request->all());
-        return \Response::json(array('status' => 'success'));
+        return Response::json(array('status' => 'success'));
     }
 
     /**
-     * Display the specified resource.
+     * Return the specific Inventory
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        return response()->json(Inventory::find($id));
     }
 
     /**
@@ -63,6 +64,6 @@ class InventoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+    
     }
 }
