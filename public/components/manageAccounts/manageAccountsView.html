@@ -11,15 +11,15 @@
                     </tr>
                     <tr ng-repeat="role in roles">
                         <td>{{role.name}}</td>
-                        <td ng-repeat="permission in role">
+                        <td ng-repeat="permission in role.permissions">
                             <div class="btn-group">
                                 <label class="btn btn-primary" uib-btn-checkbox ng-model="permission">+</label>
                             </div>
                         </td>
                         <td>
                             <div class="btn-group">
-                                <button class="btn btn-warning" ng-click="updateRole()"><i class="glyphicon glyphicon-edit"></i></button>
-                                <button class="btn btn-danger" ng-click="deleteRole()"><i class="glyphicon glyphicon-minus"></i></button>
+                                <button class="btn btn-warning" ng-click="updateRole(role.id)"><i class="glyphicon glyphicon-edit"></i></button>
+                                <button class="btn btn-danger" ng-click="deleteRole(role.id)"><i class="glyphicon glyphicon-minus"></i></button>
                             </div>
                         </td>
                     </tr>
