@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Cartalyst\Sentinel\Roles\EloquentRole;
 use App\Http\Requests;
 use App\Models\User;
+
 
 class RoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * Display a listing of Roles
+     
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return EloquentRole::all();
     }
 
     /**
@@ -37,7 +38,7 @@ class RoleController extends Controller
         */
 
         //Check for permissions - role.store
-        $user_id = User::where('api_token',$response->api_token)->get();
+        $user_id = User::where('api_token',$response->api_token)->first();
         $user = Sentinel::findById($user_id->id);
         if (!$user->hasAccess(['role.store'])){
             return \Response::json(array(

@@ -15,6 +15,7 @@ class ResponseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //response()->success("code", "message")
         Response::macro('success', function ($code = NULL, $message = NULL) {
             return Response::json([
                 'status'  => 'success',
@@ -23,6 +24,8 @@ class ResponseServiceProvider extends ServiceProvider
             ]);
         });
 
+
+        //response()->error("code", "message")
         Response::macro('error', function ($code, $message) {
             return Response::json([
                 'status'  => 'error',

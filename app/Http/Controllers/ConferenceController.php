@@ -17,9 +17,10 @@ class ConferenceController extends Controller
      */
     public function index()
     {
-        //
+        return Conference::all();
     }
 
+    public function dev
 
 
     /**
@@ -59,7 +60,7 @@ class ConferenceController extends Controller
         $status = null;
         $user_permissions = null;
         $role = $user->role;
-        
+
         if (!is_null($request->status) && ($user_permissions == null && $role == 1)){
 
             Conference::find($id)
