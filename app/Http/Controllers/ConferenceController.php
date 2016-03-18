@@ -54,14 +54,14 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(/*Request $request, $id*/)
     {
-        $user = \Sentinel::findById(2);
-        $status = null;
-        $user_permissions = null;
-        $role = $user->role;
 
-        if (!is_null($request->status) && ($user_permissions == null && $role == 1)){
+        $user_id = 2;
+        $user = \Sentinel::findById($user_id);
+        $status = approved;
+        
+        if (!is_null($request->status) && $user->hasAccess(['conference.status'])){
 
             Conference::find($id)
             ->update(array('status' => $request->satus));
