@@ -76,10 +76,11 @@ angular.module( 'userRegCtrl', [] )
         if ($scope.regForm.$valid) {
             Register.save( user )
                 .$promise.then( function( response ) {
-                    if ( response.status == 'success' && response.token && response.user) {
+                    if ( response.status == 'success' && response.token && response.user_id) {
                         $auth.setToken( response.token );
-                        $localStorage.user = response.user;
-                        $rootScope.user = $localStorage.user;
+                        $localStorage.user = response.user_id;
+                        $localStorage.name = user.username;
+                        $rootScope.name = $localStorage.name;
                         $rootScope.auth = $auth.isAuthenticated();
                         $location.path('/');
                     } else {

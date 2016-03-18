@@ -12,7 +12,7 @@ class RoleController extends Controller
 {
     /**
      * Display a listing of Roles
-     
+
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -38,8 +38,10 @@ class RoleController extends Controller
         */
 
         //Check for permissions - role.store
-        $user_id = User::where('api_token',$response->api_token)->first();
-        $user = Sentinel::findById($user_id->id);
+
+        $user_id = User::where('api_token', $request->header('X-Auth-Token'))->first();
+        $user = \Sentinel::findById($user_id->id);
+
         if (!$user->hasAccess(['role.store'])){
             return \Response::json(array(
                 'status' => 'error',
@@ -48,9 +50,21 @@ class RoleController extends Controller
             ));
         }
 
+        $slug = strtolower($request->name);
+        $name = $request->name;
+
+        if (\Sentinel::findRoleBySlug($slug) || \Sentinel::findRoleByName($name)) {
+            return \Response::json(array(
+                'status' => 'error',
+                'code' => 'Role Permissions',
+                'message' => 'Role name already exists'
+            ));
+        }
+
         $role = \Sentinel::getRoleRepository()->createModel()->create([
                 'name' => $request->name,
-                'slug' => strtolower($name),
+                'slug' => strtolower($request->name),
+                'permissions' => json_decode(json_encode($request->permissions), true)
             ]);
 
         return $role;
@@ -90,7 +104,7 @@ class RoleController extends Controller
          */
 
          //Check for permissions - role.update
-         $user_id = User::where('api_token',$response->api_token)->get();
+         $user_id = User::where('api_token',$response->api_token)->first();
          $user = Sentinel::findById($user_id->id);
          if (!$user->hasAccess(['role.update'])){
              return \Response::json(array(
