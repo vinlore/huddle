@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="components/manageInventory/manageInventory.css">
   <link rel="stylesheet" href="components/manageTransportation/manageTransportation.css">
   <link rel="stylesheet" href="components/manageRequests/manageRequests.css">
+  <link rel="stylesheet" href="assets/css/animate.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -80,6 +81,7 @@
 
 <body>
   <div ng-include="'shared/header/header.html'" ng-controller="headerController"></div>
+  <uib-alert id="popup-alert" ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="2500" close="alerts.splice(index, 1)" class="alert-fade">{{alert.msg}}</uib-alert>
   <div ui-view autoscroll class="has-header"></div>
 </body>
 

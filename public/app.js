@@ -41,7 +41,7 @@ angular.module('cms', [
     $rootScope.auth = $auth.isAuthenticated();
 
     $rootScope.$on('$stateChangeStart', 
-        function(){ 
+        function () { 
             Confirm.save()
                 .$promise.then( function ( response ) {
                     if ( response.status == 'error' ) {
@@ -55,6 +55,7 @@ angular.module('cms', [
         })
 
     $rootScope.user = $localStorage.user;
+    $rootScope.alerts = [];
 })
 
 .config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider ) {
