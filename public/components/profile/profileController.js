@@ -66,7 +66,7 @@ angular.module( 'profileCtrl', [] )
                     var profile = response.profile;
                     $scope.user = {
                         id: profile.id,
-                        Username: $rootScope.user.username,
+                        Username: $rootScope.user.name,
                         OldPassword: null,
                         NewPassword: null,
                         ConfirmPassword: null,

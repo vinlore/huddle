@@ -53,6 +53,10 @@ class AuthController extends Controller
 
         $user = Sentinel::stateless($user);
 
+        if (!$user) {
+            return response()->error('USER_NOT_FOUND', 'Incorrect username or password.');
+        }
+
         $token = bcrypt($user);
         $user->api_token = $token;
         $user->save();
@@ -72,6 +76,18 @@ class AuthController extends Controller
             $user->update([
                 'api_token' => '',
             ]);
+            return response()->success();
+        } else {
+            return response()->error('TOKEN_NOT_FOUND', 'Token not found.');
+        }
+    }
+
+    function confirm(Request $request)
+    {
+        $token = $request->header('X-Auth-Token');
+        $user = User::where('api_token', $token)->first();
+
+        if ($user) {
             return response()->success();
         } else {
             return response()->error('TOKEN_NOT_FOUND', 'Token not found.');
