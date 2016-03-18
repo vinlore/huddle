@@ -1,6 +1,6 @@
 var app = angular.module( 'popupServices', [] );
 
-app.factory( 'popup', function ( $uibModal ) {
+app.factory( 'popup', function ( $uibModal, $rootScope ) {
     return {
 
         prompt: function ( title, body ) {
@@ -55,6 +55,13 @@ app.factory( 'popup', function ( $uibModal ) {
                     }
                 }
             } )
+        },
+
+        success: function ( type, message ) {
+            $rootScope.alerts.push( {
+                type: type,
+                msg: message
+            } )  
         }
     }
 } );

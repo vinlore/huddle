@@ -1,0 +1,25 @@
+.ng-hide.ng-hide-animate{
+     display: none !important;
+}
+
+.alert-fade.ng-enter {
+  transition:0.5s linear all;
+  opacity:0;
+}
+
+.alert-fade.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+.alert-fade.ng-leave {
+  transition:0.5s linear all;
+  opacity:1;
+}
+.alert-fade.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.no-animate {
+   -webkit-transition: none !important;
+   transition: none !important;
+}

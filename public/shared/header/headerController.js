@@ -15,8 +15,8 @@ angular.module( 'headerCtrl', [] )
                     $auth.logout().then( function ( result ) { // If logout on front-end was successful
                         $rootScope.auth = $auth.isAuthenticated();
                         delete $localStorage.user;
-                        delete $localStorage.name;
-                        $rootScope.name = null;
+                        $rootScope.user = null;
+                        popup.success("success", "Successfully logged out!");
                         $location.path('/');
                     });
                 } else {

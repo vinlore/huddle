@@ -79,11 +79,12 @@ angular.module( 'userRegCtrl', [] )
                     if ( response.status == 'success' && response.token && response.user_id) {
                         $auth.setToken( response.token );
                         $localStorage.user = {
-                            id: response.data.user_id,
+                            id: response.user_id,
                             name: $scope.user.username
                         };
                         $rootScope.user = $localStorage.user;
                         $rootScope.auth = $auth.isAuthenticated();
+                        popup.success("success", "Welcome to Huddle," + $scope.user.username + "!");
                         $location.path('/');
                     } else {
                         popup.error( 'Error', response.message );
