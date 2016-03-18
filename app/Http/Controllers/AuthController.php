@@ -72,14 +72,9 @@ class AuthController extends Controller
             $user->update([
                 'api_token' => '',
             ]);
-            return response()->json([
-                'status' => 'success',
-            ]);
+            return response()->success();
         } else {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Token not found.',
-            ]);
+            return response()->error('TOKEN_NOT_FOUND', 'Token not found.');
         }
     }
 }
