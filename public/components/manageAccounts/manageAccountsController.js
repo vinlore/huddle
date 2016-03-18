@@ -12,8 +12,8 @@ angular.module( 'manageAccountsCtrl', [] )
         $scope.loadRoles = function () {
         	Roles.query()
         		.$promise.then( function ( response ) {
-	                if ( response.status == 'success' && response.roles ) {
-	                    $scope.roles = response.roles;
+	                if ( response ) {
+	                    $scope.roles = response;
 	                } else {
 	                    popup.error( 'Error', response.message );
 	                }
