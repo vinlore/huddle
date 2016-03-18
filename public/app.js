@@ -29,10 +29,12 @@ angular.module('cms', [
     'signupEventCtrl',
     'ng-fusioncharts',
     'manageInventoryCtrl',
+    'manageTransportationCtrl',
     'ngStorage',
     'popupServices',
     'ngMap',
-    'ui.router'
+    'ui.router',
+    'manageRequestsCtrl',
 ])
 
 .run( function( $rootScope, $auth, $localStorage ) {
@@ -144,6 +146,21 @@ angular.module('cms', [
         url: '/manage-inventory',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
         controller: 'manageInventoryController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( '/manage-transportation', {
+        url: '/manage-transportation',
+        templateUrl: 'components/manageTransportation/manageTransportationView.html',
+        controller: 'manageTransportationController'
+    })
+
+    .state( 'requests', {
+        url: '/manage-requests',
+        templateUrl: 'components/manageRequests/manageRequestsView.html',
+        controller: 'manageRequestsController',
         resolve: {
             loginRequired: loginRequired
         }

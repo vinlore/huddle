@@ -20,6 +20,8 @@ class ConferenceController extends Controller
         //
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -53,28 +55,21 @@ class ConferenceController extends Controller
      */
     public function update(Request $request, $id)
     {
-       /* $new_conference_data = array(
-            'name'=> $request->name,
-            'description' => $request->description,
-            'start_date' => $request->startDate,
-            'end_date' => $request->endDate,
-            'address' => $request->address,
-            'city' => $request->city,
-            'country' => $request->country,
-            'attendee_count' => $request->attendee_count,
-            'capacity' => $request->capacity,
-            'status' => $request->status
-        ); */
-
-        if (!is_null($request->status){
+        $user = \Sentinel::findById(2);
+        $status = null;
+        $user_permissions = null;
+        $role = $user->role;
+        
+        if (!is_null($request->status) && ($user_permissions == null && $role == 1)){
 
             Conference::find($id)
-            ->update($request->all());
+            ->update(array('status' => $request->satus));
 
-        } else{
+        } elseif(is_null($request->status)){
 
             Conference::find($id)
-            ->update($request->all());
+            ->update(array('name' => 'lololol'));
+            ->update(array('status' => 'pending'));
 
         }
 

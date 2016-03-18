@@ -151,11 +151,11 @@ return [
         /*
          * Application Service Providers...
          */
-        'Cartalyst\Sentinel\Laravel\SentinelServiceProvider',
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
 
         /*
@@ -178,9 +178,9 @@ return [
 
     'aliases' => [
 
-        'Activation' => 'Cartalyst\Sentinel\Laravel\Facades\Activation',
-        'Reminder'   => 'Cartalyst\Sentinel\Laravel\Facades\Reminder',
-        'Sentinel'   => 'Cartalyst\Sentinel\Laravel\Facades\Sentinel',
+        'Activation' => Cartalyst\Sentinel\Laravel\Facades\Activation::class,
+        'Reminder'   => Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
+        'Sentinel'   => Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
         'Throttle'   =>  GrahamCampbell\Throttle\Facades\Throttle::class,
 
         'App'       => Illuminate\Support\Facades\App::class,

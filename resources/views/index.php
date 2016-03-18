@@ -24,6 +24,8 @@
   <link rel="stylesheet" href="components/signupConference/signupConference.css">
   <link rel="stylesheet" href="components/signupEvent/signupEvent.css">
   <link rel="stylesheet" href="components/manageInventory/manageInventory.css">
+  <link rel="stylesheet" href="components/manageTransportation/manageTransportation.css">
+  <link rel="stylesheet" href="components/manageRequests/manageRequests.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -54,6 +56,8 @@
   <script src="components/signupConference/signupConferenceController.js"></script>
   <script src="components/signupEvent/signupEventController.js"></script>
   <script src="components/manageInventory/manageInventoryController.js"></script>
+  <script src="components/manageTransportation/manageTransportationController.js"></script>
+  <script src="components/manageRequests/manageRequestsController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/conferenceService.js"></script>
