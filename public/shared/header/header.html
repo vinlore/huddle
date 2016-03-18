@@ -22,7 +22,7 @@
                 <li><a href="/accounts" ng-if="auth">Manage Accounts</a></li>
                 <li><a href="/requests" ng-if="auth">Requests</a></li>
                 <li><a href="/logs" ng-if="auth">Activity Log</a></li>
-                <li><a href="/profile" ng-if="auth">{{user.username | uppercase}}</a></li>
+                <li><a href="/profile" ng-if="auth">{{name | uppercase}}</a></li>
                 <li><a ng-if="auth" href="" ng-click="logout()" id="signout-btn">Sign Out <i class="glyphicon glyphicon-off"></i></a></li>
             </ul>
         </div>

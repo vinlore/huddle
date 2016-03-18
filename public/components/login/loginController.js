@@ -13,12 +13,13 @@ angular.module( 'loginCtrl', [] )
         $auth.login( $scope.user ).then( function( response ) {
             console.log("Logging in...");
             console.log( response );
-            if ( response.data.token && response.data.user ) {
-                $rootScope.auth = $auth.isAuthenticated;
+            if ( response.data.status == "success" && response.data.token && response.data.user_id ) {
+                $rootScope.auth = $auth.isAuthenticated();
                 $scope.invalid = false;
                 $scope.valid = true;
-                $localStorage.user = response.data.user;
-                $rootScope.user = $localStorage.user;
+                $localStorage.user = response.data.user_id;
+                $localStorage.name = $scope.user.username;
+                $rootScope.name = $localStorage.name;
                 $timeout( function () {
                     $location.path('/');
                 }, 300)

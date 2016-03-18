@@ -7,34 +7,30 @@
                     <tr>
                         <th>Role Name</th>
                         <th>Conferences</th>
-                        <th>Accommodations</th>
-                        <th>Attendees</th>
-                        <th>Inventory</th>
-                        <th>Vehicles</th>
-                        <th>Events</th>
-                        <th>Vehicles</th>
+                        <th></th>
                     </tr>
                     <tr ng-repeat="role in roles">
-                        <td>{{role.name}</td>
-                        <td ng-repeat="cat in role.permissions">
+                        <td>{{role.name}}</td>
+                        <td ng-repeat="permission in role">
                             <div class="btn-group">
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="cat.create">C</label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="cat.view">V</label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="cat.edit">E</label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="cat.delete">D</label>
+                                <label class="btn btn-primary" uib-btn-checkbox ng-model="permission">+</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-warning" ng-click="updateRole()"><i class="glyphicon glyphicon-edit"></i></button>
+                                <button class="btn btn-danger" ng-click="deleteRole()"><i class="glyphicon glyphicon-minus"></i></button>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td><input class="form-control" ng-model="role.name" placeholder="Role name"></td>
-                        <td ng-repeat="cat in role.permissions track by $index">
-                            <div class="btn-group">
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="cat.create">C</label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-hide="$index == 0 || $index == 5" ng-model="cat.view">V</label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="cat.edit">E</label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="cat.delete">D</label>
+                        <td><input class="form-control" ng-model="newRole.name" placeholder="Role name"></td>
+                        <td>
+                            <div class="btn-group" ng-repeat="permission in newRole.permissions">
+                                <label class="btn btn-primary" uib-btn-checkbox ng-model="permission">+</label>
                             </div>
                         </td>
+                        <td><button class="btn btn-success" ng-click="createRole()"><i class="glyphicon glyphicon-plus"></i></button></td>
                     </tr>
                 </table>
             </uib-accordion-group>

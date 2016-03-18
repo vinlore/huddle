@@ -9,8 +9,7 @@ angular.module( 'apiService', [] )
 })
 
 .factory( 'Profile', function( $resource ) {
-    return $resource( '/api/users/:uid/profiles/:pid', {uid: '@uid', pid: '@pid'}, {'update': { method: 'PUT' }}
-    );
+    return $resource( '/api/users/:uid/profiles/:pid', {uid: '@uid', pid: '@pid'}, {'update': { method: 'PUT' }} );
 })
 
 .factory( 'User', function ( $resource ) {
@@ -18,8 +17,13 @@ angular.module( 'apiService', [] )
 })
 
 .factory( 'Conferences', function( $resource ) {
-    return $resource( '/api/conferences');
+    return $resource( '/api/conferences' );
 })
+
+.factory( 'Roles', function ( $resource ) {
+    return $resource( '/api/roles/:id', {id: '@id'}, {'update': { method: 'PUT' }} );
+})
+
 /*
 .factory( 'Conference', function( $resource ) {
     return {

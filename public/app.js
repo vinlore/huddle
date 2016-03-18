@@ -39,7 +39,7 @@ angular.module('cms', [
 
 .run( function( $rootScope, $auth, $localStorage ) {
     $rootScope.auth = $auth.isAuthenticated();
-    $rootScope.user = $localStorage.user;
+    $rootScope.name = $localStorage.name;
 })
 
 .config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider ) {
