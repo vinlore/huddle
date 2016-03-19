@@ -33,6 +33,24 @@ class EventController extends Controller
         $user_id = $request->id;
         $api_token = $request->apiToken;
 
+        $new_event_data = array(
+            'coference_id'          => $request->conference_id,
+            'name'                  => $request->name, 
+            'description'           => $request->description,
+            'facilitator'           => $request->facilitator,
+            'date'                  => $request->date,
+            'start_time'            => $request->start_time,
+            'end_time'              => $request->end_time,
+            'address'               => $request->address,
+            'city'                  => $request->city,
+            'country'               => $request->country,
+            'age_limit'             => $request->age_limit,
+            'gender_limit'          => $request->gender_limit,
+            'attendee_count'        => $request->attendee_count,
+            'capacity'              => $request->capacity,
+            'status'                => 'pending'
+        ); 
+
         $check = userCheck($user_id,$api_token);
         
         if(!$check){
@@ -45,7 +63,7 @@ class EventController extends Controller
 
                 if($user->hasAccess(['event.store'])){
 
-                    Event::create($request->all());
+                    Event::create($new_event_data);
                     $response = array('status' => 'success');
 
                 }   else{
@@ -82,6 +100,23 @@ class EventController extends Controller
         $user_id = $request->id;
         $api_token = $request->apiToken;
 
+        $new_event_data = array(
+            'coference_id'          => $request->conference_id,
+            'name'                  => $request->name, 
+            'description'           => $request->description,
+            'facilitator'           => $request->facilitator,
+            'date'                  => $request->date,
+            'start_time'            => $request->start_time,
+            'end_time'              => $request->end_time,
+            'address'               => $request->address,
+            'city'                  => $request->city,
+            'country'               => $request->country,
+            'age_limit'             => $request->age_limit,
+            'gender_limit'          => $request->gender_limit,
+            'attendee_count'        => $request->attendee_count,
+            'capacity'              => $request->capacity
+        ); 
+
         $check = userCheck($user_id,$api_token);
         
         if(!$check){
@@ -104,7 +139,7 @@ class EventController extends Controller
             }elseif(is_null($status) && $user->hasAccess(['event.update'])){
 
                 Conference::find($id)
-                ->update($request->all())
+                ->update($new_event_data)
                 ->update(array('status' => 'pending'));
 
                 /*

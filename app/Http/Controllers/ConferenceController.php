@@ -38,9 +38,23 @@ class ConferenceController extends Controller
         $user_id = $request->id;
         $api_token = $request->apiToken;
 
+         
+        $new_conference_data = array(
+            'name'                  => $request->name, 
+            'description'           => $request->description,
+            'start_date'            => $request->startDate,
+            'end_date'              => $request->endDate,
+            'address'               => $request->address,
+            'city'                  => $request->city,
+            'country'               => $request->country,
+            'attendee_count'        => $request->attendee_count,
+            'capacity'              => $request->capacity,
+            'status'                => $request->status 
+        ); 
+
         $check = userCheck($user_id,$api_token);
         
-        if(!$check){
+        if(false){
 
             $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
 
@@ -50,7 +64,7 @@ class ConferenceController extends Controller
 
                 if($user->hasAccess(['conference.store'])){
 
-                    Conference::create($request->all());
+                    Conference::create($new_conference_data);
                     $response = array('status' => 'success');
 
                 }   else{
@@ -87,6 +101,18 @@ class ConferenceController extends Controller
         $user_id = $request->id;
         $api_token = $request->apiToken;
 
+          $new_conference_data = array(
+            'name'                  => $request->name, 
+            'description'           => $request->description,
+            'start_date'            => $request->startDate,
+            'end_date'              => $request->endDate,
+            'address'               => $request->address,
+            'city'                  => $request->city,
+            'country'               => $request->country,
+            'attendee_count'        => $request->attendee_count,
+            'capacity'              => $request->capacity
+        ); 
+
         $check = userCheck($user_id,$api_token);
         
         if(!$check){
@@ -103,12 +129,13 @@ class ConferenceController extends Controller
 
                 Conference::find($id)
                 ->update(array('status' => $status));
+
                 $response = array('status' => 'success');
 
             }elseif(is_null($status) && $user->hasAccess(['conference.update'])){
 
                 Conference::find($id)
-                ->update($request->all())
+                ->update($new_conference_data)
                 ->update(array('status' => 'pending'));
 
                 /*
