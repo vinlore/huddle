@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Models\Conference as Conference;
+use App\Models\User as User;
+
+require app_path().'/helpers.php';
 
 class ConferenceController extends Controller
 {
@@ -20,7 +23,7 @@ class ConferenceController extends Controller
         return Conference::all();
     }
 
-    public function dev
+   // public function dev
 
 
     /**
@@ -32,8 +35,32 @@ class ConferenceController extends Controller
 
     public function store(Request $request){
 
-        Conference::create($request->all());
-        return \Response::json(array('status' => 'success'));
+        $user_id = $request->id;
+        $api_token = $request->apiToken;
+
+        $check = userCheck($user_id,$api_token);
+        
+        if(!$check){
+
+            $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
+
+        }   else{
+
+                $user = \Sentinel::findById($user_id);
+
+                if($user->hasAccess(['conference.store'])){
+
+                    Conference::create($request->all());
+                    $response = array('status' => 'success');
+
+                }   else{
+
+                    $response = array('status' => 'error', 'message' => 'user does not have permission to perform this action');
+                }
+
+        }
+
+        return \Response::json($response);  
     }
 
     /**
@@ -54,27 +81,51 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(/*Request $request, $id*/)
+    public function update(Request $request, $id)
     {
 
-        $user_id = 2;
-        $user = \Sentinel::findById($user_id);
-        $status = approved;
+        $user_id = $request->id;
+        $api_token = $request->apiToken;
+
+        $check = userCheck($user_id,$api_token);
         
-        if (!is_null($request->status) && $user->hasAccess(['conference.status'])){
+        if(!$check){
 
-            Conference::find($id)
-            ->update(array('status' => $request->satus));
+            $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
 
-        } elseif(is_null($request->status)){
+        }   else{
 
-            Conference::find($id)
-            ->update(array('name' => 'lololol'));
-            ->update(array('status' => 'pending'));
 
+            $user = \Sentinel::findById($user_id);
+            $status = $request->status;
+        
+            if (!is_null($status) && $user->hasAccess(['conference.status'])){
+
+                Conference::find($id)
+                ->update(array('status' => $status));
+                $response = array('status' => 'success');
+
+            }elseif(is_null($status) && $user->hasAccess(['conference.update'])){
+
+                Conference::find($id)
+                ->update($request->all())
+                ->update(array('status' => 'pending'));
+
+                /*
+                *TODO: check if user wants email notifcations. If yes, send one. 
+                *TODO: ADD notification column to user table.
+                */
+
+                $response = array('status' => 'success');
+
+            }else{
+
+                $response = array('status' => 'error', 'message' => 'user doesnt have permission to perform this action');
+
+            }
         }
 
-        return \Response::json(array('status' => 'success'));
+        return \Response::json($response);
     }
 
 

@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use App\Models\Event as Event;
 
+require app_path().'/helpers.php';
+
 class EventController extends Controller
 {
     /**
@@ -28,8 +30,32 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        Event::create($request->all());
-        return \Response::json(array('status' => 'success'));
+        $user_id = $request->id;
+        $api_token = $request->apiToken;
+
+        $check = userCheck($user_id,$api_token);
+        
+        if(!$check){
+
+            $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
+
+        }   else{
+
+                $user = \Sentinel::findById($user_id);
+
+                if($user->hasAccess(['event.store'])){
+
+                    Event::create($request->all());
+                    $response = array('status' => 'success');
+
+                }   else{
+
+                    $response = array('status' => 'error', 'message' => 'user does not have permission to perform this action');
+                }
+
+        }
+
+        return \Response::json($response); 
     }
 
     /**
@@ -52,19 +78,50 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!is_null($request->status){
+        
+        $user_id = $request->id;
+        $api_token = $request->apiToken;
 
-            Event::find($id)
-            ->update($request->all());
+        $check = userCheck($user_id,$api_token);
+        
+        if(!$check){
 
-        } else{
+            $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
 
-            Event::find($id)
-            ->update($request->all());
+        }   else{
 
+
+            $user = \Sentinel::findById($user_id);
+            $status = $request->status;
+        
+            if (!is_null($status) && $user->hasAccess(['event.status'])){
+
+                Event::find($id)
+                ->update(array('status' => $status));
+
+                $response = array('status' => 'success');
+
+            }elseif(is_null($status) && $user->hasAccess(['event.update'])){
+
+                Conference::find($id)
+                ->update($request->all())
+                ->update(array('status' => 'pending'));
+
+                /*
+                *TODO: check if user wants email notifcations. If yes, send one. 
+                *TODO: ADD notification column to user table lol ;p
+                */
+
+                $response = array('status' => 'success');
+
+            }else{
+
+                $response = array('status' => 'error', 'message' => 'user doesnt have permission to perform this action');
+
+            }
         }
 
-        return \Response::json(array('status' => 'success'));
+        return \Response::json($response);
     }
 
     /**

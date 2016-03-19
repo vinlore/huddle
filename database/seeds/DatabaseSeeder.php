@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Profile as Profile;
 use App\Models\User as User;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -341,11 +342,13 @@ class AdminUserSeeder extends Seeder
 {
     public function run()
     {
-        
-            $user = User::create([
+       
+            $user_credential = [
                 'username' => 'admin',
                 'password' => 'password'
-            ]);
+            ];
+
+           $user =  \Sentinel::register($user_credential,true);
 
             $user_id = $user->id;
 
