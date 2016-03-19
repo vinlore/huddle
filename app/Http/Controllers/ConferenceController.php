@@ -54,7 +54,7 @@ class ConferenceController extends Controller
 
         $check = userCheck($user_id,$api_token);
         
-        if(false){
+        if(!$check){
 
             $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
 
