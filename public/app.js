@@ -40,8 +40,8 @@ angular.module('cms', [
 .run( function( $rootScope, $auth, $localStorage, Confirm ) {
     $rootScope.auth = $auth.isAuthenticated();
 
-    $rootScope.$on('$stateChangeStart', 
-        function () { 
+    $rootScope.$on('$stateChangeStart',
+        function () {
             Confirm.save()
                 .$promise.then( function ( response ) {
                     if ( response.status == 'error' ) {
@@ -174,7 +174,7 @@ angular.module('cms', [
     })
 
     .state( 'requests', {
-        url: '/manage-requests',
+        url: '/requests',
         templateUrl: 'components/manageRequests/manageRequestsView.html',
         controller: 'manageRequestsController',
         resolve: {
