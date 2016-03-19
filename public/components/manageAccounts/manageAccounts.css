@@ -1,0 +1,25 @@
+#manage-accounts .table-responsive {
+    border: 0 !important;
+}
+
+#manage-accounts #role-table {
+    text-align: center;
+}
+
+#manage-accounts #role-table th {
+    text-align: center;
+    border: 0;
+}
+
+#manage-accounts #role-table td {
+    border: 0;
+}
+
+#manage-accounts #role-table button {
+    min-width: 45px;
+}
+
+#manage-accounts #role-name {
+    text-align: left !important;
+    min-width: 200px;
+}

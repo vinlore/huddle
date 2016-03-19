@@ -12,7 +12,7 @@ angular.module( 'apiService', [] )
     return $resource( '/api/users/:uid/profiles/:pid', { uid: '@uid', pid: '@pid' }, { 'update': { method: 'PUT' } } );
 })
 
-.factory( 'User', function ( $resource ) {
+.factory( 'Users', function ( $resource ) {
     return $resource( '/api/users/:id', { id: '@id' }, { 'update': { method: 'PUT' } } );
 })
 

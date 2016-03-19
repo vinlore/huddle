@@ -23,7 +23,7 @@ angular.module( 'loginCtrl', [] )
                 $rootScope.user = $localStorage.user;
                 $timeout( function () {
                     $location.path('/');
-                    popup.success('success', 'Welcome back, ' + $scope.user.username + "!");
+                    popup.alert('success', 'Welcome back, ' + $scope.user.username + "!");
                 }, 300)
             } else {
                 $scope.invalid = true;

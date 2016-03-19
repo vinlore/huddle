@@ -105,35 +105,36 @@ class RoleController extends Controller
          $response = json_decode($request);
          */
 
-         //Check for permissions - role.store
+         //Check for permissions - role.update
          $user_id = User::where('api_token', $request->header('X-Auth-Token'))->first();
          $user = \Sentinel::findById($user_id->id);
 
-         if (!$user->hasAccess(['role.store'])){
+         if (!$user->hasAccess(['role.update'])){
              return \Response::json(array(
                  'status' => 'error',
                  'code' => 'Role Permissions',
                  'message' => 'You have no permissions to access this'
              ));
          }
+
          //Check if Role Id exists
-         if(!\Sentinel::findRoleById($request->role_id))
+         $role = \Sentinel::findRoleById($id);
+         if(!$role)
          {
              return \Response::json(array(
                  'status' => 'error',
                  'code' => 'Remi',
-                 'message' => 'Unable to find Role with role_id '.$request->role_id
+                 'message' => 'Unable to find Role with role_id '.$id
              ));
          }
 
-        $role = \Sentinel::findRoleById($request->id);
 
          //Convert into String, then back into array
          //Place array into the roles permissions
          $role->permissions = json_decode(json_encode($request->permissions), True);
          $role->save();
 
-         return $role;
+         return \Response::json(array('status' => 'success'));
     }
 
 
@@ -152,6 +153,18 @@ class RoleController extends Controller
 
          $response = json_decode($request);
          */
+        
+        //Check for permissions - role.destroy
+        $user_id = User::where('api_token', $request->header('X-Auth-Token'))->first();
+        $user = \Sentinel::findById($user_id->id);
+
+        if (!$user->hasAccess(['role.destroy'])){
+            return \Response::json(array(
+                'status' => 'error',
+                'code' => 'Role Permissions',
+                'message' => 'You have no permissions to access this'
+            ));
+        }
 
         //Check if Role Id exists
         if(!\Sentinel::findRoleById($roles))
@@ -174,7 +187,7 @@ class RoleController extends Controller
             ));
         }
         //Destroy Role
-        Sentinel::findRoleById($response->role_id)->delete();
+        \Sentinel::findRoleById($response->role_id)->delete();
         return \Response::json(array(
             'status' => 'success',
         ));
