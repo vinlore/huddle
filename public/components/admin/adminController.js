@@ -58,8 +58,7 @@ angular.module('adminCtrl', [])
             event.preventDefault();
             event.stopPropagation();
         }
-        $log.log(id);
-        $location.url('/manage-accommodations');
+        $location.url('/manage-accommodations-' + id);
     }
 
     $scope.goTransportation = function(id, event){  
@@ -67,8 +66,7 @@ angular.module('adminCtrl', [])
             event.preventDefault();
             event.stopPropagation();
         }
-        $log.log(id);
-        $location.url('/manage-transportation');
+        $location.url('/manage-transportation-' + id);
     }
 
 })

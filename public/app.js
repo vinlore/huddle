@@ -161,7 +161,7 @@ angular.module('cms', [
     })
 
     .state( '/manage-accommodations', {
-        url: '/manage-accommodations',
+        url: '/manage-accommodations-:conferenceId',
         templateUrl: 'components/manageAccommodations/manageAccommodationsView.html',
         controller: 'manageAccommodationsController',
         resolve: {
@@ -179,7 +179,7 @@ angular.module('cms', [
     })
 
     .state( '/manage-transportation', {
-        url: '/manage-transportation',
+        url: '/manage-transportation-:conferenceId',
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
         controller: 'manageTransportationController',
         resolve: {
