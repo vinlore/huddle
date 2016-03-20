@@ -84,7 +84,7 @@ angular.module( 'userRegCtrl', [] )
                         };
                         $rootScope.user = $localStorage.user;
                         $rootScope.auth = $auth.isAuthenticated();
-                        popup.success("success", "Welcome to Huddle," + $scope.user.username + "!");
+                        popup.alert("success", "Welcome to Huddle," + $scope.user.username + "!");
                         $location.path('/');
                     } else {
                         popup.error( 'Error', response.message );

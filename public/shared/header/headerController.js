@@ -16,7 +16,7 @@ angular.module( 'headerCtrl', [] )
                         $rootScope.auth = $auth.isAuthenticated();
                         delete $localStorage.user;
                         $rootScope.user = null;
-                        popup.success("success", "Successfully logged out!");
+                        popup.alert("success", "Successfully logged out!");
                         $location.path('/');
                     });
                 } else {

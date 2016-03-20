@@ -20,11 +20,19 @@ class ConferenceController extends Controller
      */
     public function index()
     {
-        return Conference::all();
+        $conferences = Conference::all();
+
+        if (!$conferences) {
+            return \Response::json(array(
+                'status' => 'error',
+                'message' => 'No conferences could be found.'
+            ));
+        }
+
+        return $conferences;
     }
 
    // public function dev
-
 
     /**
      * Store a newly created resource in storage.
@@ -35,41 +43,27 @@ class ConferenceController extends Controller
 
     public function store(Request $request){
 
-        $user_id = $request->id;
-        $api_token = $request->apiToken;
-
-         
-        $new_conference_data = array(
-            'name'                  => $request->name, 
-            'description'           => $request->description,
-            'start_date'            => $request->startDate,
-            'end_date'              => $request->endDate,
-            'address'               => $request->address,
-            'city'                  => $request->city,
-            'country'               => $request->country,
-            'attendee_count'        => $request->attendee_count,
-            'capacity'              => $request->capacity,
-            'status'                => $request->status 
-        ); 
+        $user_id = $request->header('ID');
+        $api_token = $request->header('X-Auth-Token');
 
         $check = userCheck($user_id,$api_token);
         
         if(!$check){
 
-            $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
+            $response = array('status' => 'error', 'message' => 'Access denied.');
 
         }   else{
 
                 $user = \Sentinel::findById($user_id);
 
-                if($user->hasAccess(['conference.store'])){
+                if(true){
 
-                    Conference::create($new_conference_data);
+                    Conference::create($request->all());
                     $response = array('status' => 'success');
 
                 }   else{
 
-                    $response = array('status' => 'error', 'message' => 'user does not have permission to perform this action');
+                    $response = array('status' => 'error', 'message' => 'You do not have permission to access this.');
                 }
 
         }
@@ -85,7 +79,16 @@ class ConferenceController extends Controller
      */
     public function show($id)
     {
+        $conference = Conference::find($id);
 
+        if(!$conference) {
+            \Response::json(array(
+                'status' => 'error',
+                'message' => 'Conference could not be found.'
+            ));
+        }
+
+        return $conference;
     }
 
     /**
@@ -98,18 +101,17 @@ class ConferenceController extends Controller
     public function update(Request $request, $id)
     {
 
-        $user_id = $request->id;
-        $api_token = $request->apiToken;
+        $user_id = $request->header('ID');
+        $api_token = $request->header('X-Auth-Token');
 
-          $new_conference_data = array(
+        $new_conference_data = array(
             'name'                  => $request->name, 
             'description'           => $request->description,
-            'start_date'            => $request->startDate,
-            'end_date'              => $request->endDate,
+            'start_date'            => $request->start_date,
+            'end_date'              => $request->end_date,
             'address'               => $request->address,
             'city'                  => $request->city,
             'country'               => $request->country,
-            'attendee_count'        => $request->attendee_count,
             'capacity'              => $request->capacity
         ); 
 
@@ -117,9 +119,9 @@ class ConferenceController extends Controller
         
         if(!$check){
 
-            $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
+            $response = array('status' => 'error', 'message' => 'Access denied.');
 
-        }   else{
+        }else{
 
 
             $user = \Sentinel::findById($user_id);
@@ -135,8 +137,7 @@ class ConferenceController extends Controller
             }elseif(is_null($status) && $user->hasAccess(['conference.update'])){
 
                 Conference::find($id)
-                ->update($new_conference_data)
-                ->update(array('status' => 'pending'));
+                ->update($new_conference_data);
 
                 /*
                 *TODO: check if user wants email notifcations. If yes, send one. 
@@ -147,7 +148,7 @@ class ConferenceController extends Controller
 
             }else{
 
-                $response = array('status' => 'error', 'message' => 'user doesnt have permission to perform this action');
+                $response = array('status' => 'error', 'message' => 'You have no permission to access this.');
 
             }
         }

@@ -1,5 +1,5 @@
 angular.module( 'profileCtrl', [] )
-.controller( 'profileController', function ( $scope, Profile, $filter, popup, User, $rootScope ) {
+.controller( 'profileController', function ( $scope, Profile, $filter, popup, Users, $rootScope ) {
 
     $scope.user = {};
 
@@ -12,7 +12,7 @@ angular.module( 'profileCtrl', [] )
         Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
                 if ( response.status == 'success' ) {
-                    // TODO success alert
+                    popup.alert( 'success', 'Name successfully changed.' );
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -29,7 +29,7 @@ angular.module( 'profileCtrl', [] )
         Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
                 if ( response.status == 'success' ) {
-                    // TODO success alert
+                    popup.alert( 'success', 'Contact information successfully changed.' );
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -42,10 +42,10 @@ angular.module( 'profileCtrl', [] )
         var password = {
             password: $scope.user.NewPassword
         };
-        User.update( { id: $rootScope.user.id }, password )
+        Users.update( { id: $rootScope.user.id }, password )
             .$promise.then( function ( response ) {
                 if ( response.status == 'success' ) {
-                    // TODO success alert
+                    popup.alert( 'success', 'Password successfully changed.' );
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -55,7 +55,16 @@ angular.module( 'profileCtrl', [] )
     };
 
     $scope.deleteAccount = function () {
-
+        Users.delete( user )
+            .$promise.then( function ( response ) {
+                if ( response.status == 'success' ) {
+                    popup.alert( 'success', 'User successfully deleted.' );
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
     };
 
     $scope.loadProfile = function () {

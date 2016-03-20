@@ -57,7 +57,7 @@ app.factory( 'popup', function ( $uibModal, $rootScope ) {
             } )
         },
 
-        success: function ( type, message ) {
+        alert: function ( type, message ) {
             $rootScope.alerts.push( {
                 type: type,
                 msg: message

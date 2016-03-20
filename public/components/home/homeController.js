@@ -1,12 +1,10 @@
 angular.module ( 'homeCtrl', [] )
-.controller ( 'homeController', function ( $scope, Conference, popup ) {
+.controller ( 'homeController', function ( $scope, Conferences, popup ) {
 	
-	$scope.conferences = Conference.all();
+	$scope.conferences = [];
     console.log($scope.conferences);
-    /*$scope.pastConferences = [];
-    $scope.upcomingConferences = [];*/
 
-    $scope.pastConferences = [
+    /*$scope.pastConferences = [
         {
             id: 123,
             name: "India Conference",
@@ -28,13 +26,13 @@ angular.module ( 'homeCtrl', [] )
             startDate: "Jan 5, 2016",
             endDate: "Jan 12, 2016"
         }
-    ];
+    ];*/
 
-    /*$scope.loadPastConferences = function () {
-        Conference.past().query()
+    $scope.loadConferences = function () {
+        Conferences.fetch().query()
             .$promise.then( function ( response ) {
-                if ( response.status == 'success' && response.conferences ) {
-                    $scope.pastConferences = response.conferences;
+                if ( response ) {
+                    $scope.conferences = response;
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -43,21 +41,6 @@ angular.module ( 'homeCtrl', [] )
             })
     };
 
-    $scope.loadPastConferences();
-
-    $scope.loadUpcomingConferences = function () {
-        Conference.upcoming().query()
-            .$promise.then( function ( response ) {
-                if ( response.status == 'success' && response.conferences ) {
-                    $scope.pastConferences = response.conferences;
-                } else {
-                    popup.error( 'Error', response.message );
-                }
-            }, function () {
-                popup.connection();
-            })
-    };
-
-    $scope.loadUpcomingConferences();*/
+    $scope.loadConferences();
 
 })

@@ -34,25 +34,6 @@
           </div>
         </uib-accordion-group>
 
-        <uib-accordion-group is-open="username.open">
-          <uib-accordion-heading>
-            Username: {{user.Username}}
-            <div class="pull-right">Edit</div>
-          </uib-accordion-heading>
-          <form role="form" class="form-horizontal">
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Username</label>
-              <div class="col-sm-5">
-                <input class="form-control" id="inputUser" ng-model="user.Username">
-              </div>
-            </div>
-          </form>
-          <div class="col-sm-8 col-sm-offset-4">
-            <button type="button" class="btn btn-success btn-sm" ng-click="saveUsernameChanges()">Save Changes</button>
-            <button type="button" class="btn btn-danger btn-sm" ng-click="username.open = !username.open">Cancel</button>
-          </div>
-        </uib-accordion-group>
-
         <uib-accordion-group is-open="contact.open">
           <uib-accordion-heading>
             Contact Information
@@ -141,7 +122,7 @@
         <uib-accordion-group heading="Delete account" panel-class="panel-danger" is-open="delete.open">
           <h4 class="text-center">This option cannot be undone!</h4>
           <div class="col-sm-12 col-sm-offset-5">
-          <button class="btn btn-default btn-sm" ng-click="deleteAccount()">Delete</button>
+          <button class="btn btn-default btn-sm" ng-click="deleteAccount(user.id)">Delete</button>
           <button type="button" class="btn btn-danger btn-sm" ng-click="delete.open = !delete.open">Cancel</button>
         </div>
         </uib-accordion-group>

@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="components/manageTransportation/manageTransportation.css">
   <link rel="stylesheet" href="components/manageRequests/manageRequests.css">
   <link rel="stylesheet" href="assets/css/animate.css">
+  <link rel="stylesheet" href="components/manageAccounts/manageAccounts.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>

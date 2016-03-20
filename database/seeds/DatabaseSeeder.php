@@ -342,13 +342,11 @@ class AdminUserSeeder extends Seeder
 {
     public function run()
     {
-       
-            $user_credential = [
+        
+            $user = User::create([
                 'username' => 'admin',
                 'password' => 'password'
-            ];
-
-           $user =  \Sentinel::register($user_credential,true);
+            ]);
 
             $user_id = $user->id;
 
