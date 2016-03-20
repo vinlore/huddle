@@ -60,10 +60,9 @@ angular.module('cms', [
 
 .config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider, $localStorageProvider ) {
     $authProvider.loginUrl = 'api/auth/login';
-    $authProvider.authHeader = 'X-Auth-Token';
-    $authProvider.authToken = '';
+    $authProvider.httpInterceptor = false;
 
-    $httpProvider.defaults.headers.common["ID"] = $localStorageProvider.get('user').id;
+    $httpProvider.interceptors.push('tokenInterceptor')
     $httpProvider.defaults.headers.common["Accept"] = 'application/json';
 
     $stateProvider
@@ -208,4 +207,26 @@ angular.module('cms', [
         }
         return deferred.promise;
     }
+})
+
+.factory('tokenInterceptor', function ($q, $localStorage, $injector) {
+    return {
+        'response': function (response) {
+            var $auth = $injector.get('$auth');
+            var $http = $injector.get('$http');
+            var token = $auth.getToken();
+            if (token) {
+                $http.defaults.headers.common["X-Auth-Token"]=token;
+            } else {
+                $http.defaults.headers.common["X-Auth-Token"]=undefined;
+            }
+            var user = $localStorage.user;
+            var id = undefined;
+            if (user) {
+                id = user.id;
+            }
+            $http.defaults.headers.common["ID"]=id;
+            return response || $q.when(response);
+        }  
+    };
 });
