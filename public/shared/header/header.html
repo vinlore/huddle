@@ -21,7 +21,16 @@
                 <li><a href="/admin" ng-if="auth">Admin</a></li>
                 <li><a href="/accounts" ng-if="auth">Manage Accounts</a></li>
                 <li><a href="/requests" ng-if="auth">Requests</a></li>
-                <li><a href="/logs" ng-if="auth">Activity Log</a></li>
+                <li class="dropdown" uib-dropdown>
+                    <a role="button" class="dropdown-toggle" uib-dropdown-toggle>
+                      Activity Log <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li role="menuitem" ng-repeat="log in logs"><a href="#"> {{log.Time}} {{log.Log}}</a></li>
+                        <li class="divider"></li>
+                        <li role="menuitem"><a href="/logs" ng-if="auth"><p class="text-center">View All</p></a></li>
+                    </ul>
+                  </li>
                 <li><a href="/profile" ng-if="auth">{{user.name | uppercase}}</a></li>
                 <li><a ng-if="auth" href="" ng-click="logout()" id="signout-btn">Sign Out <i class="glyphicon glyphicon-off"></i></a></li>
             </ul>
