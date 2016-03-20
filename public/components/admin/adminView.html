@@ -19,13 +19,13 @@
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbspDelete
                     </button>
                     <div class="pull-right hidden-xs margin-top-35">
-                        <button class="btn btn-sm btn-default">
+                        <button class="btn btn-sm btn-default" ng-click="goAccommodations(c.conferenceId, $event)">
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Accommodations
                         </button>
                         <button class="btn btn-sm btn-default">
                             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Inventory
                         </button>
-                        <button class="btn btn-sm btn-default">
+                        <button class="btn btn-sm btn-default" ng-click="goTransportation(c.conferenceId, $event)">
                             <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Vehicles
                         </button>
                         <button class="btn btn-sm btn-default">
