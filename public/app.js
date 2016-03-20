@@ -58,10 +58,13 @@ angular.module('cms', [
     $rootScope.alerts = [];
 })
 
-.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider ) {
+.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider, $localStorageProvider ) {
     $authProvider.loginUrl = 'api/auth/login';
     $authProvider.authHeader = 'X-Auth-Token';
     $authProvider.authToken = '';
+
+    $httpProvider.defaults.headers.common["ID"] = $localStorageProvider.get('user').id;
+    $httpProvider.defaults.headers.common["Accept"] = 'application/json';
 
     $stateProvider
 
