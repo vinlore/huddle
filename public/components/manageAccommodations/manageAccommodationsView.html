@@ -1,0 +1,32 @@
+<div id="accommodations">
+	<div class="container">
+		<h1>Accommodations</h1>
+	</div>
+	<div class="container">
+		<div class="pull-right">
+			<a class="btn btn-success" type="button">
+				<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add
+			</a>
+		</div>
+	</div>
+
+	<div class="header-row margin-top-25">
+		<table ng-table="tableParams" class="table table-condensed table-bordered table-striped" show-filter="true">
+			<tr ng-repeat="a in $data">
+				<td title="'Name'" filter="{ 'name': 'text'}" sortable="'name'">
+            		{{a.name}}
+            		<button type="button pull-right" ng-click="open()">Rooms</button>
+        		</td>
+        		<td title="'Address'" filter="{ 'address': 'text'}" sortable="'address'">
+            		{{a.address}}
+        		</td>
+        		<td title="'City'" filter="{ 'city': 'text'}" sortable="'city'">
+            		{{a.city}}
+        		</td>
+        		<td title="'Country'" filter="{ 'country': 'text'}" sortable="'country'">
+            		{{a.country}}
+        		</td> 
+			</tr>
+		</table>
+	</div>
+</div>

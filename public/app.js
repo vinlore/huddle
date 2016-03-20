@@ -28,6 +28,7 @@ angular.module('cms', [
     'signupConfCtrl',
     'signupEventCtrl',
     'ng-fusioncharts',
+    'manageAccommodationsCtrl',
     'manageInventoryCtrl',
     'manageTransportationCtrl',
     'ngStorage',
@@ -35,6 +36,7 @@ angular.module('cms', [
     'ngMap',
     'ui.router',
     'manageRequestsCtrl',
+    'ngTable',
 ])
 
 .run( function( $rootScope, $auth, $localStorage, Confirm ) {
@@ -158,6 +160,15 @@ angular.module('cms', [
         }
     })
 
+    .state( '/manage-accommodations', {
+        url: '/manage-accommodations',
+        templateUrl: 'components/manageAccommodations/manageAccommodationsView.html',
+        controller: 'manageAccommodationsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
     .state( 'manage-inventory', {
         url: '/manage-inventory',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
@@ -170,7 +181,10 @@ angular.module('cms', [
     .state( '/manage-transportation', {
         url: '/manage-transportation',
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
-        controller: 'manageTransportationController'
+        controller: 'manageTransportationController',
+        resolve: {
+            loginRequired: loginRequired
+        }
     })
 
     .state( 'requests', {
