@@ -1,7 +1,9 @@
 angular.module('manageAccommodationsCtrl',[])
 .controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $uibModal, $log){
 
-	//$var id = $stateParams.conferenceId;
+	var id = $stateParams.conferenceId;
+
+	$log.log(id);
 
 	$scope.accommodations = [
 	{
