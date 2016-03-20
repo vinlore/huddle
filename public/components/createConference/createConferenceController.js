@@ -155,16 +155,16 @@ angular.module( 'createConferenceCtrl', [])
         }
 
         var conference = {
-            conference: {
-                name: $scope.conference.name,
-                address: address,
-                country: country,
-                city: city,
-                start_date: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
-                end_date: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
-                description: $scope.conference.description,
-                capacity: $scope.conference.capacity
-            }
+            name: $scope.conference.name,
+            address: address,
+            country: country,
+            city: city,
+            start_date: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
+            end_date: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
+            description: $scope.conference.description,
+            capacity: $scope.conference.capacity,
+            attendee_count: 0,
+            status: 'pending'
         }
 
         Conferences.save( conference )

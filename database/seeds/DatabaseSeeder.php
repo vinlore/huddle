@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Profile as Profile;
 use App\Models\User as User;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**

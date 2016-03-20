@@ -44,6 +44,13 @@ class RoleController extends Controller
         $user_id = User::where('api_token', $request->header('X-Auth-Token'))->first();
         $user = \Sentinel::findById($user_id->id);
 
+        if ($user != $request->header('ID')) {
+            return \Response::json(array(
+                'status' => 'error',
+                'message' => 'Access denied.'
+            ));
+        }
+
         if (!$user->hasAccess(['role.store'])){
             return \Response::json(array(
                 'status' => 'error',
@@ -109,6 +116,13 @@ class RoleController extends Controller
          $user_id = User::where('api_token', $request->header('X-Auth-Token'))->first();
          $user = \Sentinel::findById($user_id->id);
 
+        if ($user != $request->header('ID')) {
+            return \Response::json(array(
+                'status' => 'error',
+                'message' => 'Access denied.'
+            ));
+        }
+
          if (!$user->hasAccess(['role.update'])){
              return \Response::json(array(
                  'status' => 'error',
@@ -116,8 +130,8 @@ class RoleController extends Controller
                  'message' => 'You have no permissions to access this'
              ));
          }
-
          //Check if Role Id exists
+
          $role = \Sentinel::findRoleById($id);
          if(!$role)
          {
@@ -127,7 +141,6 @@ class RoleController extends Controller
                  'message' => 'Unable to find Role with role_id '.$id
              ));
          }
-
 
          //Convert into String, then back into array
          //Place array into the roles permissions
@@ -157,6 +170,13 @@ class RoleController extends Controller
         //Check for permissions - role.destroy
         $user_id = User::where('api_token', $request->header('X-Auth-Token'))->first();
         $user = \Sentinel::findById($user_id->id);
+
+        if ($user != $request->header('ID')) {
+            return \Response::json(array(
+                'status' => 'error',
+                'message' => 'Access denied.'
+            ));
+        }
 
         if (!$user->hasAccess(['role.destroy'])){
             return \Response::json(array(
