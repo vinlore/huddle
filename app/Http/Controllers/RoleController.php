@@ -180,4 +180,9 @@ class RoleController extends Controller
         ));
     }
 
+    public function send()
+    {
+        return response()->success();
+    }
+
 }
