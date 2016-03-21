@@ -15,7 +15,7 @@
 			<tr ng-repeat="a in $data">
 				<td title="'Name'" filter="{ 'name': 'text'}" sortable="'name'">
             		{{a.name}}
-            		<button type="button pull-right" ng-click="open()">Rooms</button>
+            		<button type="button pull-right" ng-click="open(a.accommodationId)">Rooms</button>
         		</td>
         		<td title="'Address'" filter="{ 'address': 'text'}" sortable="'address'">
             		{{a.address}}

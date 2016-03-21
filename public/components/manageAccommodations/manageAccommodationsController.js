@@ -1,5 +1,5 @@
 angular.module('manageAccommodationsCtrl',[])
-.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $uibModal, $log){
+.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $location, $log){
 
 	var id = $stateParams.conferenceId;
 
@@ -7,30 +7,14 @@ angular.module('manageAccommodationsCtrl',[])
 
 	$scope.accommodations = [
 	{
+		accommodationId: 1,
 		name: "Hotel-1",
 		address: "1128 West Georgia Street",
 		city: "Vancouver",
 		country: "Canada",
-		// rooms: [
-		// {
-		// 	room_no: "1000",
-		// 	guest_count: 0,
-		// 	capacity: 2
-		// },
-		// {
-		// 	room_no: "1001",
-		// 	guest_count: 1,
-		// 	capacity: 2
-		// },
-		// {
-		// 	room_no: "1002",
-		// 	guest_count: 2,
-		// 	capacity: 2
-		// }
-
-		// ]
 	},
 	{
+		accomodationId: 2,
 		name: "Hotel-2",
 		address: "5911 Minoru Blvd",
 		city: "Richmond",
@@ -49,4 +33,8 @@ angular.module('manageAccommodationsCtrl',[])
 			$defer.resolve($scope.data);
 		}
 	});
+
+	$scope.open = function(id) {
+		$location.url('/manage-rooms-' + id);
+	}
 })

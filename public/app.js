@@ -30,6 +30,7 @@ angular.module('cms', [
     'ng-fusioncharts',
     'manageAccommodationsCtrl',
     'manageInventoryCtrl',
+    'manageRoomsCtrl',
     'manageTransportationCtrl',
     'ngStorage',
     'popupServices',
@@ -173,6 +174,15 @@ angular.module('cms', [
         url: '/manage-inventory',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
         controller: 'manageInventoryController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( '/manage-rooms', {
+        url: '/manage-rooms-:accommodationId',
+        templateUrl: 'components/manageRooms/manageRoomsView.html',
+        controller: 'manageRoomsController',
         resolve: {
             loginRequired: loginRequired
         }

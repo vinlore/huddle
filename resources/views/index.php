@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="components/signupEvent/signupEvent.css">
   <link rel="stylesheet" href="components/manageAccommodations/manageAccommodations.css">
   <link rel="stylesheet" href="components/manageInventory/manageInventory.css">
+  <link rel="stylesheet" href="components/manageRooms/manageRooms.css">
   <link rel="stylesheet" href="components/manageTransportation/manageTransportation.css">
   <link rel="stylesheet" href="components/manageRequests/manageRequests.css">
   <link rel="stylesheet" href="assets/css/animate.css">
@@ -61,6 +62,7 @@
   <script src="components/signupEvent/signupEventController.js"></script>
   <script src="components/manageAccommodations/manageAccommodationsController.js"></script>
   <script src="components/manageInventory/manageInventoryController.js"></script>
+  <script src="components/manageRooms/manageRoomsController.js"></script>
   <script src="components/manageTransportation/manageTransportationController.js"></script>
   <script src="components/manageRequests/manageRequestsController.js"></script>
 
