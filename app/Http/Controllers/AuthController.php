@@ -7,12 +7,14 @@ use Illuminate\Http\Response;
 
 use Sentinel;
 
-use App\Models\Profile as Profile;
-use App\Models\User as User;
+use App\Models\Profile;
+use App\Models\User;
 
 class AuthController extends Controller
 {
-    // TODO: Validate input
+    /**
+     * Registers a new Regular User and creates its owner profile.
+     */
     function register(Request $request)
     {
         $user = [
@@ -41,9 +43,15 @@ class AuthController extends Controller
         $profile->user()->associate($user);
         $profile->save();
 
+        $role = Sentinel::findRoleByName('Regular User');
+        $role->users()->attach($user);
+
         return $this->login($request);
     }
 
+    /**
+     * Logs a user in.
+     */
     function login(Request $request)
     {
         $user = [
@@ -52,6 +60,10 @@ class AuthController extends Controller
         ];
 
         $user = Sentinel::stateless($user);
+
+        if (!$user) {
+            return response()->error('USER_NOT_FOUND', 'Incorrect username or password.');
+        }
 
         $token = bcrypt($user);
         $user->api_token = $token;
@@ -64,14 +76,34 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Logs a user out.
+     */
     function logout(Request $request)
     {
-        $user = User::where('api_token', '=', $request->token);
+        $token = $request->header('X-Auth-Token');
+        $user = User::where('api_token', $token)->first();
 
         if ($user) {
             $user->update([
                 'api_token' => '',
             ]);
+            return response()->success();
+        } else {
+            return response()->error('TOKEN_NOT_FOUND', 'Token not found.');
+        }
+    }
+
+
+    /**
+     * Confirms that a user is logged in.
+     */
+    function confirm(Request $request)
+    {
+        $token = $request->header('X-Auth-Token');
+        $user = User::where('api_token', $token)->first();
+
+        if ($user) {
             return response()->success();
         } else {
             return response()->error('TOKEN_NOT_FOUND', 'Token not found.');

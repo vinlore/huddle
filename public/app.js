@@ -37,15 +37,33 @@ angular.module('cms', [
     'manageRequestsCtrl',
 ])
 
-.run( function( $rootScope, $auth, $localStorage ) {
+.run( function( $rootScope, $auth, $localStorage, Confirm ) {
     $rootScope.auth = $auth.isAuthenticated();
-    $rootScope.name = $localStorage.name;
+
+    $rootScope.$on('$stateChangeStart', 
+        function () { 
+            Confirm.save()
+                .$promise.then( function ( response ) {
+                    if ( response.status == 'error' ) {
+                        // You have been logged out alert
+                        $auth.removeToken();
+                        $rootScope.auth = null;
+                        $rootScope.name = null;
+                        delete $localStorage.user;
+                    }
+                })
+        })
+
+    $rootScope.user = $localStorage.user;
+    $rootScope.alerts = [];
 })
 
-.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider ) {
+.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider, $localStorageProvider ) {
     $authProvider.loginUrl = 'api/auth/login';
-    $authProvider.authHeader = 'X-Auth-Token';
-    $authProvider.authToken = '';
+    $authProvider.httpInterceptor = false;
+
+    $httpProvider.interceptors.push('tokenInterceptor')
+    $httpProvider.defaults.headers.common["Accept"] = 'application/json';
 
     $stateProvider
 
@@ -189,4 +207,26 @@ angular.module('cms', [
         }
         return deferred.promise;
     }
+})
+
+.factory('tokenInterceptor', function ($q, $localStorage, $injector) {
+    return {
+        'response': function (response) {
+            var $auth = $injector.get('$auth');
+            var $http = $injector.get('$http');
+            var token = $auth.getToken();
+            if (token) {
+                $http.defaults.headers.common["X-Auth-Token"]=token;
+            } else {
+                $http.defaults.headers.common["X-Auth-Token"]=undefined;
+            }
+            var user = $localStorage.user;
+            var id = undefined;
+            if (user) {
+                id = user.id;
+            }
+            $http.defaults.headers.common["ID"]=id;
+            return response || $q.when(response);
+        }  
+    };
 });

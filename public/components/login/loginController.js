@@ -1,5 +1,5 @@
 angular.module( 'loginCtrl', [] )
-.controller( 'loginController', function( $scope, $auth, $location, $timeout, $rootScope, $localStorage ) {
+.controller( 'loginController', function( $scope, $auth, $location, $timeout, $rootScope, $localStorage, popup ) {
 
     $scope.invalid = false;
     $scope.valid = false;
@@ -12,16 +12,18 @@ angular.module( 'loginCtrl', [] )
     $scope.login = function() {
         $auth.login( $scope.user ).then( function( response ) {
             console.log("Logging in...");
-            console.log( response );
             if ( response.data.status == "success" && response.data.token && response.data.user_id ) {
                 $rootScope.auth = $auth.isAuthenticated();
                 $scope.invalid = false;
                 $scope.valid = true;
-                $localStorage.user = response.data.user_id;
-                $localStorage.name = $scope.user.username;
-                $rootScope.name = $localStorage.name;
+                $localStorage.user = {
+                    id: response.data.user_id,
+                    name: $scope.user.username
+                };
+                $rootScope.user = $localStorage.user;
                 $timeout( function () {
                     $location.path('/');
+                    popup.alert('success', 'Welcome back, ' + $scope.user.username + "!");
                 }, 300)
             } else {
                 $scope.invalid = true;

@@ -3,10 +3,8 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
-use Faker\Factory as Faker;
-
-use App\Models\Profile as Profile;
-use App\Models\User as User;
+use App\Models\Profile;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,8 +19,8 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         DB::table('roles')->truncate();
-        DB::table('profiles')->truncate();
         DB::table('users')->truncate();
+        DB::table('profiles')->truncate();
         DB::table('role_users')->truncate();
 
         $this->call(RolesTableSeeder::class);
@@ -36,207 +34,323 @@ class DatabaseSeeder extends Seeder
 
 class RolesTableSeeder extends Seeder
 {
-
     public function run()
     {
         Sentinel::getRoleRepository()->createModel()->create([
-            'slug'    => 'system administrator',
-            'name'   => 'System Administrator',
-            'permissions'      => array( 
-                                         "conference.status"                    => true,
-                                         "conference.store"                     => true,
-                                         "conference.show"                      => true,
-                                         "conference.update"                    => true,
-                                         "conference.destroy"                   => true,
-                                         "user.update"                          => true,
-                                         "role.store"                           => true,
-                                         "role.update"                          => true,
-                                         "role.destroy"                         => true,
-                                         "event.store"                          => true,
-                                         "event.show"                           => true,
-                                         "event.update"                         => true,
-                                         "event.status"                         => true,
-                                         "event.destroy"                        => true,
-                                         "conferenceAttendees.show"             => true,
-                                         "conferenceAttendees.update"           => true,
-                                         "conferenceAttendees.destroy"          => true,
-                                         "eventAttendees.show"                  => true,
-                                         "eventAttendees.update"                => true,
-                                         "eventAttendees.destroy"               => true,
-                                         "profile.show"                         => true,
-                                         "profile.update"                       => true,
-                                         "profile.destroy"                      => true,
-                                         "conferenceVehicles.store"             => true,
-                                         "conferenceVehicles.show"              => true,
-                                         "conferenceVehicles.update"            => true,
-                                         "conferenceVehicles.destroy"           => true,
-                                         "eventVehicles.store"                  => true,
-                                         "eventVehicles.show"                   => true,
-                                         "eventVehicle.update"                  => true,
-                                         "eventVehicle.destroy"                 => true,
-                                         "accommodations.store"                 => true,
-                                         "accommodations.show"                  => true,
-                                         "accommodations.update"                => true,
-                                         "accommodations.destroy"               => true
-                                        )
+            'slug'        => 'system administrator',
+            'name'        => 'System Administrator',
+            'permissions' => [
+                'conference.status'                    => true,
+                'conference.store'                     => true,
+                'conference.show'                      => true,
+                'conference.update'                    => true,
+                'conference.destroy'                   => true,
+                'user.update'                          => true,
+                'role.store'                           => true,
+                'role.update'                          => true,
+                'role.destroy'                         => true,
+                'event.store'                          => true,
+                'event.show'                           => true,
+                'event.update'                         => true,
+                'event.status'                         => true,
+                'event.destroy'                        => true,
+                'conferenceAttendees.show'             => true,
+                'conferenceAttendees.update'           => true,
+                'conferenceAttendees.destroy'          => true,
+                'eventAttendees.show'                  => true,
+                'eventAttendees.update'                => true,
+                'eventAttendees.destroy'               => true,
+                'profile.show'                         => true,
+                'profile.update'                       => true,
+                'profile.destroy'                      => true,
+                'conferenceVehicles.store'             => true,
+                'conferenceVehicles.show'              => true,
+                'conferenceVehicles.update'            => true,
+                'conferenceVehicles.destroy'           => true,
+                'eventVehicles.store'                  => true,
+                'eventVehicles.show'                   => true,
+                'eventVehicle.update'                  => true,
+                'eventVehicle.destroy'                 => true,
+                'accommodations.store'                 => true,
+                'accommodations.show'                  => true,
+                'accommodations.update'                => true,
+                'accommodations.destroy'               => true,
+            ],
         ]);
 
-    Sentinel::getRoleRepository()->createModel()->create([
-            'slug'    => 'conference manager',
-            'name'   => 'Conference Manager',
-            'permissions'      => array( 
-                                         "conference.store"                     => true,
-                                         "conference.show"                      => true,
-                                         "conference.update"                    => true,
-                                         "event.store"                          => true,
-                                         "event.show"                           => true,
-                                         "event.update"                         => true,
-                                         "event.status"                         => true,
-                                         "conferenceAttendees.show"             => true,
-                                         "conferenceAttendees.status"           => true,
-                                         "eventAttendees.show"                  => true,
-                                         "eventAttendees.status"                => true,
-                                         "profile.show"                         => true,
-                                         "profile.update"                       => true,
-                                         "conferenceVehicles.store"             => true,
-                                         "conferenceVehicles.show"              => true,
-                                         "conferenceVehicles.update"            => true,
-                                         "conferenceVehicles.destroy"           => true,
-                                         "eventVehicles.store"                  => true,
-                                         "eventVehicles.show"                   => true,
-                                         "eventVehicle.update"                  => true,
-                                         "eventVehicle.destroy"                 => true,
-                                         "accommodations.store"                 => true,
-                                         "accommodations.show"                  => true,
-                                         "accommodations.update"                => true,
-                                         "accommodations.destroy"               => true
-                                        )
-        ]); 
-
-         Sentinel::getRoleRepository()->createModel()->create([
-            'slug'    => 'event manager',
-            'name'   => 'Event Manager',
-            'permissions'      => array( 
-                                         "conference.show"                      => true,
-                                         "event.store"                          => true,
-                                         "event.show"                           => true,
-                                         "event.update"                         => true,
-                                         "conferenceAttendees.show"             => true,
-                                         "conferenceAttendees.status"           => true,
-                                         "conferenceAttendees.destroy"          => true,
-                                         "eventAttendees.show"                  => true,
-                                         "eventAttendees.status"                => true,
-                                         "profile.show"                         => true,
-                                         "profile.update"                       => true,
-                                         "conferenceVehicles.store"             => true,
-                                         "conferenceVehicles.show"              => true,
-                                         "conferenceVehicles.update"            => true,
-                                         "conferenceVehicles.destroy"           => true,
-                                         "eventVehicles.store"                  => true,
-                                         "eventVehicles.show"                   => true,
-                                         "eventVehicle.update"                  => true,
-                                         "eventVehicle.destroy"                 => true,
-                                         "accommodations.store"                 => true,
-                                         "accommodations.show"                  => true,
-                                         "accommodations.update"                => true,
-                                         "accommodations.destroy"               => true
-                                        )
+        Sentinel::getRoleRepository()->createModel()->create([
+            'slug'        => 'conference manager',
+            'name'        => 'Conference Manager',
+            'permissions' => [
+                'conference.status'                    => false,
+                'conference.store'                     => true,
+                'conference.show'                      => true,
+                'conference.update'                    => true,
+                'conference.destroy'                   => false,
+                'user.update'                          => false,
+                'role.store'                           => false,
+                'role.update'                          => false,
+                'role.destroy'                         => false,
+                'event.store'                          => true,
+                'event.show'                           => true,
+                'event.update'                         => true,
+                'event.status'                         => true,
+                'event.destroy'                        => false,
+                'conferenceAttendees.show'             => true,
+                'conferenceAttendees.update'           => true,
+                'conferenceAttendees.destroy'          => false,
+                'eventAttendees.show'                  => true,
+                'eventAttendees.update'                => true,
+                'eventAttendees.destroy'               => false,
+                'profile.show'                         => true,
+                'profile.update'                       => true,
+                'profile.destroy'                      => false,
+                'conferenceVehicles.store'             => true,
+                'conferenceVehicles.show'              => true,
+                'conferenceVehicles.update'            => true,
+                'conferenceVehicles.destroy'           => true,
+                'eventVehicles.store'                  => true,
+                'eventVehicles.show'                   => true,
+                'eventVehicle.update'                  => true,
+                'eventVehicle.destroy'                 => true,
+                'accommodations.store'                 => true,
+                'accommodations.show'                  => true,
+                'accommodations.update'                => true,
+                'accommodations.destroy'               => true,
+            ],
         ]);
 
-    Sentinel::getRoleRepository()->createModel()->create([
-            'slug'    => 'accommodations manager',
-            'name'   => 'Accommodations Manager',
-            'permissions'      => array( 
-                                         "conference.show"                      => true,
-                                         "event.show"                           => true,
-                                         "conferenceAttendees.show"             => true,
-                                         "eventAttendees.show"                  => true,
-                                         "profile.show"                         => true,
-                                         "profile.update"                       => true,
-                                         "accommodations.store"                 => true,
-                                         "accommodations.show"                  => true,
-                                         "accommodations.update"                => true,
-                                         "accommodations.destroy"               => true
-                                        )
+        Sentinel::getRoleRepository()->createModel()->create([
+            'slug'        => 'event manager',
+            'name'        => 'Event Manager',
+            'permissions' => [
+                'conference.status'                    => false,
+                'conference.store'                     => false,
+                'conference.show'                      => true,
+                'conference.update'                    => false,
+                'conference.destroy'                   => false,
+                'user.update'                          => false,
+                'role.store'                           => false,
+                'role.update'                          => false,
+                'role.destroy'                         => false,
+                'event.store'                          => true,
+                'event.show'                           => true,
+                'event.update'                         => true,
+                'event.status'                         => false,
+                'event.destroy'                        => false,
+                'conferenceAttendees.show'             => true,
+                'conferenceAttendees.update'           => true,
+                'conferenceAttendees.destroy'          => false,
+                'eventAttendees.show'                  => true,
+                'eventAttendees.update'                => true,
+                'eventAttendees.destroy'               => false,
+                'profile.show'                         => true,
+                'profile.update'                       => true,
+                'profile.destroy'                      => false,
+                'conferenceVehicles.store'             => true,
+                'conferenceVehicles.show'              => true,
+                'conferenceVehicles.update'            => true,
+                'conferenceVehicles.destroy'           => true,
+                'eventVehicles.store'                  => true,
+                'eventVehicles.show'                   => true,
+                'eventVehicle.update'                  => true,
+                'eventVehicle.destroy'                 => true,
+                'accommodations.store'                 => true,
+                'accommodations.show'                  => true,
+                'accommodations.update'                => true,
+                'accommodations.destroy'               => true,
+            ],
         ]);
 
-    Sentinel::getRoleRepository()->createModel()->create([
-            'slug'    => 'conference transportation manager',
-            'name'   => 'Conference Transportation Manager',
-            'permissions'      => array( 
-                                         "conference.show"                      => true,
-                                         "event.show"                           => true,
-                                         "conferenceAttendees.show"             => true,
-                                         "eventAttendees.show"                  => true,
-                                         "profile.show"                         => true,
-                                         "profile.update"                       => true,
-                                         "conferenceVehicles.store"             => true,
-                                         "conferenceVehicles.show"              => true,
-                                         "conferenceVehicles.update"            => true,
-                                         "conferenceVehicles.destroy"           => true,
-                                         "eventVehicles.store"                  => true,
-                                         "eventVehicles.show"                   => true,
-                                         "eventVehicle.update"                  => true,
-                                         "eventVehicle.destroy"                 => true
-                                        )
+        Sentinel::getRoleRepository()->createModel()->create([
+            'slug'        => 'accommodations manager',
+            'name'        => 'Accommodations Manager',
+            'permissions' => [
+                'conference.status'                    => false,
+                'conference.store'                     => false,
+                'conference.show'                      => true,
+                'conference.update'                    => false,
+                'conference.destroy'                   => false,
+                'user.update'                          => false,
+                'role.store'                           => false,
+                'role.update'                          => false,
+                'role.destroy'                         => false,
+                'event.store'                          => false,
+                'event.show'                           => true,
+                'event.update'                         => false,
+                'event.status'                         => false,
+                'event.destroy'                        => false,
+                'conferenceAttendees.show'             => true,
+                'conferenceAttendees.update'           => false,
+                'conferenceAttendees.destroy'          => false,
+                'eventAttendees.show'                  => true,
+                'eventAttendees.update'                => false,
+                'eventAttendees.destroy'               => false,
+                'profile.show'                         => true,
+                'profile.update'                       => true,
+                'profile.destroy'                      => false,
+                'conferenceVehicles.store'             => false,
+                'conferenceVehicles.show'              => false,
+                'conferenceVehicles.update'            => false,
+                'conferenceVehicles.destroy'           => false,
+                'eventVehicles.store'                  => false,
+                'eventVehicles.show'                   => false,
+                'eventVehicle.update'                  => false,
+                'eventVehicle.destroy'                 => false,
+                'accommodations.store'                 => true,
+                'accommodations.show'                  => true,
+                'accommodations.update'                => true,
+                'accommodations.destroy'               => true
+            ],
         ]);
 
-    Sentinel::getRoleRepository()->createModel()->create([
-            'slug'    => 'event transportation manager',
-            'name'   => 'Event Transportation Manager',
-            'permissions'      => array( 
-                                         "conference.show"                      => true,
-                                         "event.show"                           => true,
-                                         "conferenceAttendees.show"             => true,
-                                         "eventAttendees.show"                  => true,
-                                         "profile.show"                         => true,
-                                         "profile.update"                       => true,
-                                         "eventVehicles.store"                  => true,
-                                         "eventVehicles.show"                   => true,
-                                         "eventVehicle.update"                  => true,
-                                         "eventVehicle.destroy"                 => true
-                                        )
+        Sentinel::getRoleRepository()->createModel()->create([
+            'slug'        => 'conference transportation manager',
+            'name'        => 'Conference Transportation Manager',
+            'permissions' => [
+                'conference.status'                    => false,
+                'conference.store'                     => false,
+                'conference.show'                      => true,
+                'conference.update'                    => false,
+                'conference.destroy'                   => false,
+                'user.update'                          => false,
+                'role.store'                           => false,
+                'role.update'                          => false,
+                'role.destroy'                         => false,
+                'event.store'                          => false,
+                'event.show'                           => true,
+                'event.update'                         => false,
+                'event.status'                         => false,
+                'event.destroy'                        => false,
+                'conferenceAttendees.show'             => true,
+                'conferenceAttendees.update'           => false,
+                'conferenceAttendees.destroy'          => false,
+                'eventAttendees.show'                  => true,
+                'eventAttendees.update'                => false,
+                'eventAttendees.destroy'               => false,
+                'profile.show'                         => true,
+                'profile.update'                       => true,
+                'profile.destroy'                      => false,
+                'conferenceVehicles.store'             => true,
+                'conferenceVehicles.show'              => true,
+                'conferenceVehicles.update'            => true,
+                'conferenceVehicles.destroy'           => true,
+                'eventVehicles.store'                  => true,
+                'eventVehicles.show'                   => true,
+                'eventVehicle.update'                  => true,
+                'eventVehicle.destroy'                 => true,
+                'accommodations.store'                 => false,
+                'accommodations.show'                  => false,
+                'accommodations.update'                => false,
+                'accommodations.destroy'               => false,
+            ],
         ]);
 
-      Sentinel::getRoleRepository()->createModel()->create([
-            'slug'    => 'regular user',
-            'name'   => 'Regular User',
-            'permissions'      => array( 
-                                         "conference.show"                      => true,
-                                         "event.show"                           => true,
-                                         "profile.show"                         => true,
-                                         "profile.update"                       => true
-                                        )
+        Sentinel::getRoleRepository()->createModel()->create([
+            'slug'        => 'event transportation manager',
+            'name'        => 'Event Transportation Manager',
+            'permissions' => [
+                'conference.status'                    => false,
+                'conference.store'                     => false,
+                'conference.show'                      => true,
+                'conference.update'                    => false,
+                'conference.destroy'                   => false,
+                'user.update'                          => false,
+                'role.store'                           => false,
+                'role.update'                          => false,
+                'role.destroy'                         => false,
+                'event.store'                          => false,
+                'event.show'                           => true,
+                'event.update'                         => false,
+                'event.status'                         => false,
+                'event.destroy'                        => false,
+                'conferenceAttendees.show'             => true,
+                'conferenceAttendees.update'           => false,
+                'conferenceAttendees.destroy'          => false,
+                'eventAttendees.show'                  => true,
+                'eventAttendees.update'                => false,
+                'eventAttendees.destroy'               => false,
+                'profile.show'                         => true,
+                'profile.update'                       => true,
+                'profile.destroy'                      => false,
+                'conferenceVehicles.store'             => false,
+                'conferenceVehicles.show'              => false,
+                'conferenceVehicles.update'            => false,
+                'conferenceVehicles.destroy'           => false,
+                'eventVehicles.store'                  => true,
+                'eventVehicles.show'                   => true,
+                'eventVehicle.update'                  => true,
+                'eventVehicle.destroy'                 => true,
+                'accommodations.store'                 => false,
+                'accommodations.show'                  => false,
+                'accommodations.update'                => false,
+                'accommodations.destroy'               => false,
+            ],
         ]);
 
+        Sentinel::getRoleRepository()->createModel()->create([
+            'slug'        => 'regular user',
+            'name'        => 'Regular User',
+            'permissions' => [
+                'conference.status'                    => false,
+                'conference.store'                     => false,
+                'conference.show'                      => true,
+                'conference.update'                    => false,
+                'conference.destroy'                   => false,
+                'user.update'                          => false,
+                'role.store'                           => false,
+                'role.update'                          => false,
+                'role.destroy'                         => false,
+                'event.store'                          => false,
+                'event.show'                           => true,
+                'event.update'                         => false,
+                'event.status'                         => false,
+                'event.destroy'                        => false,
+                'conferenceAttendees.show'             => true,
+                'conferenceAttendees.update'           => true,
+                'conferenceAttendees.destroy'          => false,
+                'eventAttendees.show'                  => false,
+                'eventAttendees.update'                => false,
+                'eventAttendees.destroy'               => false,
+                'profile.show'                         => true,
+                'profile.update'                       => true,
+                'profile.destroy'                      => false,
+                'conferenceVehicles.store'             => false,
+                'conferenceVehicles.show'              => false,
+                'conferenceVehicles.update'            => false,
+                'conferenceVehicles.destroy'           => false,
+                'eventVehicles.store'                  => false,
+                'eventVehicles.show'                   => false,
+                'eventVehicle.update'                  => false,
+                'eventVehicle.destroy'                 => false,
+                'accommodations.store'                 => false,
+                'accommodations.show'                  => false,
+                'accommodations.update'                => false,
+                'accommodations.destroy'               => false,
+            ],
+        ]);
     }
-        
-
 }
 
 class AdminUserSeeder extends Seeder
 {
     public function run()
     {
-        
-            $user = User::create([
-                'username' => 'admin',
-                'password' => 'password'
-            ]);
+        // Register the user.
+        $user = [
+            'username' => 'admin',
+            'password' => 'password',
+        ];
+        $user = \Sentinel::registerAndActivate($user);
 
-            $user_id = $user->id;
+        // Create the owner profile for the user.
+        $profile = new Profile;
+        $profile->is_owner = 1;
+        $profile->user()->associate($user);
+        $profile->save();
 
-              Profile::create([
-                'user_id'    => $user_id,
-                'is_owner'   => 1
-            ]);
-
-            DB::table('role_users')->insert([
-                'user_id'   => $user_id,
-                'role_id'   => 1
-                ]);
-        
+        // Attach the System Administrator role to the user.
+        $role = Sentinel::findRoleByName('System Administrator');
+        $role->users()->attach($user);
     }
-
-
 }
