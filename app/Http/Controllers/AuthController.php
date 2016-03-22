@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 use Sentinel;
 
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\Profile;
 use App\Models\User;
 
@@ -15,7 +16,7 @@ class AuthController extends Controller
     /**
      * Registers a new Regular User and creates its owner profile.
      */
-    function register(Request $request)
+    function register(RegisterUserRequest $request)
     {
         $user = [
             'username' => $request->username,
@@ -25,14 +26,13 @@ class AuthController extends Controller
 
         $user = Sentinel::registerAndActivate($user);
 
-        // TODO: Change request fields to snake_case
         $profile = [
             'is_owner'    => 1,
             'email'       => $request->email,
             'phone'       => $request->phone,
-            'first_name'  => $request->firstName,
-            'middle_name' => $request->middleName,
-            'last_name'   => $request->lastName,
+            'first_name'  => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name'   => $request->last_name,
             'city'        => $request->city,
             'country'     => $request->country,
             'birthdate'   => $request->birthdate,
