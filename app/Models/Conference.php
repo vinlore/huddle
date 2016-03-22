@@ -34,11 +34,6 @@ class Conference extends Model
         return $this->belongsToMany('App\Models\Accommodation', 'conference_accommodations');
     }
 
-    public function inventory()
-    {
-        return $this->hasOne('App\Models\Inventory');
-    }
-
     public function vehicles()
     {
         return $this->belongsToMany('App\Models\Vehicle', 'conference_vehicles');

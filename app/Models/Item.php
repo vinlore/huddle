@@ -10,7 +10,7 @@ class Item extends Model
     use SoftDeletes;
 
 	protected $fillable = [
-        'inventory_id',
+        'conference_id',
         'name',
         'quantity',
     ];
@@ -19,6 +19,6 @@ class Item extends Model
 
     public function inventory()
     {
-        return $this->belongsTo('App\Models\Inventory');
+        return $this->belongsTo('App\Models\Conference');
     }
 }

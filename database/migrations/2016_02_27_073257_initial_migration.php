@@ -98,26 +98,17 @@ class InitialMigration extends Migration
             $table->foreign('accommodation_id', 'rooms_ibfk_1')->references('id')->on('accommodations')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
 
-        Schema::create('inventories', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->integer('conference_id')->index('conference_id');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreign('conference_id', 'inventories_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-        });
-
         Schema::create('items', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('inventory_id')->index('inventory_id');
+            $table->integer('conference_id')->index('conference_id');
             $table->string('name');
             $table->integer('quantity')->default(0);
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['id', 'inventory_id']);
+            $table->unique(['id', 'conference_id']);
 
-            $table->foreign('inventory_id', 'items_ibfk_1')->references('id')->on('inventories')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+            $table->foreign('conference_id', 'items_ibfk_1')->references('id')->on('conferences')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
 
         Schema::create('vehicles', function (Blueprint $table) {
@@ -164,17 +155,6 @@ class InitialMigration extends Migration
 
             $table->primary(['event_id', 'vehicle_id']);
             $table->foreign('event_id', 'event_vehicles_ibfk_1')->references('id')->on('events')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-        });
-
-        Schema::create('user_manages_inventories', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('inventory_id')->index('inventory_id');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->primary(['user_id', 'inventory_id']);
-            $table->foreign('user_id', 'user_manages_inventories_ibfk_1')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('inventory_id', 'user_manages_inventories_ibfk_2')->references('id')->on('inventories')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
 
         Schema::create('user_manages_conferences', function (Blueprint $table) {
@@ -286,7 +266,6 @@ class InitialMigration extends Migration
         Schema::drop('profile_stays_in_rooms');
         Schema::drop('profile_attends_events');
         Schema::drop('profile_attends_conferences');
-        Schema::drop('user_manages_inventories');
         Schema::drop('user_manages_events');
         Schema::drop('user_manages_conferences');
         Schema::drop('event_vehicles');
@@ -294,7 +273,6 @@ class InitialMigration extends Migration
         Schema::drop('conference_accommodations');
         Schema::drop('vehicles');
         Schema::drop('items');
-        Schema::drop('inventories');
         Schema::drop('rooms');
         Schema::drop('accommodations');
         Schema::drop('events');
