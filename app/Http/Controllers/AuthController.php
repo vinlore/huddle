@@ -85,9 +85,8 @@ class AuthController extends Controller
         $user = User::where('api_token', $token)->first();
 
         if ($user) {
-            $user->update([
-                'api_token' => '',
-            ]);
+            $user->api_token = NULL;
+            $user->save();
             return response()->success();
         } else {
             return response()->error('TOKEN_NOT_FOUND', 'Token not found.');
