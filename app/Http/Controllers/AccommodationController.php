@@ -8,6 +8,9 @@ use App\Http\Requests;
 
 use App\Models\Accommodation as Accommodation;
 
+require app_path().'/helpers.php';
+
+
 class AccommodationController extends Controller
 {
     /**
@@ -28,9 +31,21 @@ class AccommodationController extends Controller
      */
     public function store(Request $request)
     {
+        //Check for permissions - accommodations.store
+        if(!checkPermission($request->header('X-Auth-Token'),['accommodations.store']))
+        {
+            return \Response::json(array(
+                'status' => 'error',
+                'code' => 'Permissions',
+                'message' => 'You have no permissions to access this'
+            ));
+        }
+
         Accommodation::create($request->all());
         return \Response::json(array('status' => 'success'));
     }
+
+
 
     /**
      * Display the specified resource.

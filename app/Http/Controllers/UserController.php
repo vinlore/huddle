@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\User;
 
+require app_path().'/helpers.php';
+
 class UserController extends Controller
 {
     /**
@@ -65,15 +67,15 @@ class UserController extends Controller
          */
 
          //Check for permissions - user.update
-         $user_id = User::where('api_token',$response->api_token)->get();
-         $user = Sentinel::findById($user_id->id);
-         if (!$user->hasAccess(['user.update'])){
+         if(!checkPermission($request->header('X-Auth-Token'),['user.update']))
+         {
              return \Response::json(array(
                  'status' => 'error',
-                 'code' => 'User Permissions',
+                 'code' => 'Permissions',
                  'message' => 'You have no permissions to access this'
              ));
          }
+
 
          //Check if Role Id exists
          if(!\Sentinel::findRoleById($response->role_id))
