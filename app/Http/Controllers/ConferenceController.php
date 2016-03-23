@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\ConferenceRequest;
 
 use App\Models\Conference as Conference;
 use App\Models\User as User;
@@ -41,7 +42,7 @@ class ConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request){
+    public function store(ConferenceRequest $request){
 
         $user_id = $request->header('ID');
         $api_token = $request->header('X-Auth-Token');
