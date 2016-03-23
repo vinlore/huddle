@@ -1,5 +1,5 @@
 angular.module( 'loginCtrl', [] )
-.controller( 'loginController', function( $scope, $auth, $location, $timeout, $rootScope, $localStorage, popup ) {
+.controller( 'loginController', function( $scope, $auth, $state, $timeout, $rootScope, $localStorage, popup ) {
 
     $scope.invalid = false;
     $scope.valid = false;
@@ -22,7 +22,7 @@ angular.module( 'loginCtrl', [] )
                 };
                 $rootScope.user = $localStorage.user;
                 $timeout( function () {
-                    $location.path('/');
+                    $state.go('home');
                     popup.alert('success', 'Welcome back, ' + $scope.user.username + "!");
                 }, 300)
             } else {

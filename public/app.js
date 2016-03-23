@@ -37,32 +37,45 @@ angular.module('cms', [
     'manageRequestsCtrl',
 ])
 
-.run( function( $rootScope, $auth, $localStorage, Confirm ) {
+.run( function( $rootScope, $auth, $localStorage, $http ) {
     $rootScope.auth = $auth.isAuthenticated();
 
     $rootScope.$on('$stateChangeStart', 
         function () { 
-            Confirm.save()
-                .$promise.then( function ( response ) {
-                    if ( response.status == 'error' ) {
-                        // You have been logged out alert
-                        $auth.removeToken();
-                        $rootScope.auth = null;
-                        $rootScope.name = null;
-                        delete $localStorage.user;
-                    }
-                })
-        })
+            var user;
+            if ($rootScope.user) {
+                user = $rootScope.user.id;
+            }
+            var token;
+            if ($auth.getToken()) token = $auth.getToken();
+            $http({
+                method: 'POST',
+                url: 'api/auth/confirm',
+                headers: {
+                    'X-Auth-Token': token,
+                    'ID': user
+                }
+            }).success( function ( response ) {
+                if ( response.status == 'error' ) {
+                    // You have been logged out alert
+                    $auth.removeToken();
+                    $rootScope.auth = null;
+                    $rootScope.user = null;
+                    delete $localStorage.user;
+                }
+            })
+        });
 
     $rootScope.user = $localStorage.user;
     $rootScope.alerts = [];
 })
 
-.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider, $localStorageProvider ) {
+.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider ) {
     $authProvider.loginUrl = 'api/auth/login';
     $authProvider.httpInterceptor = false;
 
-    $httpProvider.interceptors.push('tokenInterceptor')
+    $httpProvider.interceptors.push('tokenInterceptor');
+
     $httpProvider.defaults.headers.common["Accept"] = 'application/json';
 
     $stateProvider
@@ -209,7 +222,7 @@ angular.module('cms', [
     }
 })
 
-.factory('tokenInterceptor', function ($q, $localStorage, $injector) {
+.factory('tokenInterceptor', function ($q, $rootScope, $injector) {
     return {
         'response': function (response) {
             var $auth = $injector.get('$auth');
@@ -220,7 +233,7 @@ angular.module('cms', [
             } else {
                 $http.defaults.headers.common["X-Auth-Token"]=undefined;
             }
-            var user = $localStorage.user;
+            var user = $rootScope.user;
             var id = undefined;
             if (user) {
                 id = user.id;

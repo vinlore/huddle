@@ -167,7 +167,7 @@ angular.module( 'createConferenceCtrl', [])
             status: 'pending'
         }
 
-        Conferences.save( conference )
+        Conferences.fetch().save( conference )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' ) {
                     $location.path('/admin');
