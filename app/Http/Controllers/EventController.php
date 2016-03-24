@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 
 use App\Models\Event as Event;
+
+require app_path().'/helpers.php';
 
 class EventController extends Controller
 {
@@ -17,7 +20,18 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+       try{ 
+            $events = Event::all();
+
+            if (!$events) {
+                return response()->error("No events found.");
+            }
+
+            return $events;
+
+         } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 
     /**
@@ -26,10 +40,14 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        Event::create($request->all());
-        return \Response::json(array('status' => 'success'));
+        try{
+            Event::create($request->all());
+            return response()->success();
+         } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 
     /**
@@ -39,9 +57,62 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        try{
+            $event = Event::find($id);
+
+            if(!$event){
+                return response()->error("No event found.");
+            }
+
+            return $event;
+         } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
+
+     /**
+     * Update the status of the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+     public function eventStatusUpdate(EventRequest $request){
+
+        try{
+            $user_to_check = User::find($request->header('ID'));
+
+            if($user_to_check->api_token == $api_key && $user_to_check->hasAccess(['event.status'])){
+
+                $event = Event::find($request->id);
+
+                if(!$event){
+                     return response()->error("No event found.");
+                }
+
+                $conference->update(['status' => $request->status]);
+
+               /*
+
+            if($request->Status == 'approved' && user_to_check->receive_email == 1){
+                //TODO SEND APPROVED EMAIL
+
+            }elseif($request->Status == 'declined' && user_to_check->receive_email == 1){
+                //TODO SEND DECLINED EMAIL
+            }    */
+
+
+                return response()->success();
+
+            }else{
+                return response()->error("no access.");
+            }
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
+     }
+
 
     /**
      * Update the specified resource in storage.
@@ -50,21 +121,26 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EventRequest $request, $id)
     {
-        if (!is_null($request->status){
+        try{
+            $event = Event::find($id);
 
-            Event::find($id)
-            ->update($request->all());
+            if(!$event){
+                 return response()->error("No event found.");
+            }
+        
+            $event->update($request->all());
+            /*
+            *TODO: check if user wants email notifcations. If yes, send one.
+            *TODO: ADD notification column to user table.
+            */
 
-        } else{
+            return response()->success();
 
-            Event::find($id)
-            ->update($request->all());
-
+         } catch (Exception $e) {
+            return response()->error($e);
         }
-
-        return \Response::json(array('status' => 'success'));
     }
 
     /**
@@ -73,8 +149,18 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(EventRequest $id)
     {
-        //
+        try{
+           if(!Event::find($id)){
+                 return response()->error("No Event found");
+            }
+
+            Event::destroy($id);
+
+            return response()->success();
+         } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 
@@ -17,7 +18,16 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $room = Room::all();
+            //Check if Rooms exists
+            if (!$room) {
+                return response()->success("Racoon" , "No Rooms Found");
+            }
+            return $room;
+        } catch (Exception $e) {
+                return response()->error("Rattle Snake" , $e);
+        }
     }
 
     /**
@@ -28,8 +38,12 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        Room::create($request->all());
-        return \Response::json(array('status' => 'success'));
+        try {
+            Room::create($request->all());
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("Raven" , $e);
+        }
     }
 
     /**
@@ -40,7 +54,16 @@ class RoomController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $room = Room::find($id);
+            //Check if the Room exists
+            if(!$room) {
+                response()->success("Rhino" , "Room could not be found.");
+            }
+            return $room;
+        } catch (Exception $e) {
+            return response()->error("Ringtail" , $e);
+        }
     }
 
     /**
@@ -52,7 +75,18 @@ class RoomController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $newRoomData = array(
+                'accomodation_id' => $request->accomodation_id,
+                'room_no' => $request->room_no,
+                'guest_count' => $request->guest_count,
+                'capacity' => $request->capacity
+            );
+            Room::where('id', $id)->update($newRoomData);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("Roadrunner" , $e);
+        }
     }
 
     /**
@@ -63,6 +97,11 @@ class RoomController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Room::destroy($id);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("500" , $e);
+        }
     }
 }

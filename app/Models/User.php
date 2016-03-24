@@ -34,9 +34,4 @@ class User extends EloquentUser
     {
         return $this->belongsToMany('App\Models\Event', 'user_manages_events');
     }
-
-    public function inventories()
-    {
-        return $this->belongsToMany('App\Models\Inventory', 'user_manages_inventories');
-    }
 }

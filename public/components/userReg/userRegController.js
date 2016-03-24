@@ -13,7 +13,8 @@ angular.module( 'userRegCtrl', [] )
         city: null,
         email: null,
         phone: null,
-        gender: null
+        gender: null,
+        receive: false
     };
 
     $scope.countries = Countries;
@@ -62,15 +63,17 @@ angular.module( 'userRegCtrl', [] )
         var user = {
             username: $scope.user.username,
             password: $scope.user.password,
-            firstName: $scope.user.firstName,
-            middleName: $scope.user.middleName,
-            lastName: $scope.user.lastName,
+            password_confirmation: $scope.user.confirm,
+            first_name: $scope.user.firstName,
+            middle_name: $scope.user.middleName,
+            last_name: $scope.user.lastName,
             birthdate: $filter('date')($scope.user.birthdate, 'yyyy-MM-dd'),
             country: country,
             city: city,
             email: $scope.user.email,
             phone: $scope.user.phone,
-            gender: $scope.user.gender
+            gender: $scope.user.gender,
+            receive_email: $scope.user.receive
         };
 
         if ($scope.regForm.$valid) {
@@ -84,7 +87,7 @@ angular.module( 'userRegCtrl', [] )
                         };
                         $rootScope.user = $localStorage.user;
                         $rootScope.auth = $auth.isAuthenticated();
-                        popup.success("success", "Welcome to Huddle," + $scope.user.username + "!");
+                        popup.alert("success", "Welcome to Huddle," + $scope.user.username + "!");
                         $location.path('/');
                     } else {
                         popup.error( 'Error', response.message );

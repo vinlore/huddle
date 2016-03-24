@@ -37,34 +37,49 @@ angular.module('cms', [
     'ngMap',
     'ui.router',
     'manageRequestsCtrl',
-    'ngTable',
+    'ngTable'
 ])
 
-.run( function( $rootScope, $auth, $localStorage, Confirm ) {
+.run( function( $rootScope, $auth, $localStorage, $http, popup ) {
     $rootScope.auth = $auth.isAuthenticated();
 
-    $rootScope.$on('$stateChangeStart',
-        function () {
-            Confirm.save()
-                .$promise.then( function ( response ) {
-                    if ( response.status == 'error' ) {
-                        // You have been logged out alert
-                        $auth.removeToken();
-                        $rootScope.auth = null;
-                        $rootScope.name = null;
-                        delete $localStorage.user;
-                    }
-                })
-        })
+    $rootScope.$on('$stateChangeStart', 
+        function () { 
+            var user;
+            if ($rootScope.user) {
+                user = $rootScope.user.id;
+            }
+            var token;
+            if ($auth.getToken()) token = $auth.getToken();
+            $http({
+                method: 'POST',
+                url: 'api/auth/confirm',
+                headers: {
+                    'X-Auth-Token': token,
+                    'ID': user
+                }
+            }).success( function ( response ) {
+                if ( response.status == 'error' ) {
+                    popup.alert('danger', 'You have been logged out.');
+                    $auth.removeToken();
+                    $rootScope.auth = null;
+                    $rootScope.user = null;
+                    delete $localStorage.user;
+                }
+            })
+        });
 
     $rootScope.user = $localStorage.user;
     $rootScope.alerts = [];
 })
 
-.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider ) {
+.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider ) {
     $authProvider.loginUrl = 'api/auth/login';
-    $authProvider.authHeader = 'X-Auth-Token';
-    $authProvider.authToken = '';
+    $authProvider.httpInterceptor = false;
+
+    $httpProvider.interceptors.push('tokenInterceptor');
+
+    $httpProvider.defaults.headers.common["Accept"] = 'application/json';
 
     $stateProvider
 
@@ -229,4 +244,26 @@ angular.module('cms', [
         }
         return deferred.promise;
     }
+})
+
+.factory('tokenInterceptor', function ($q, $rootScope, $injector) {
+    return {
+        'response': function (response) {
+            var $auth = $injector.get('$auth');
+            var $http = $injector.get('$http');
+            var token = $auth.getToken();
+            if (token) {
+                $http.defaults.headers.common["X-Auth-Token"]=token;
+            } else {
+                $http.defaults.headers.common["X-Auth-Token"]=undefined;
+            }
+            var user = $rootScope.user;
+            var id = undefined;
+            if (user) {
+                id = user.id;
+            }
+            $http.defaults.headers.common["ID"]=id;
+            return response || $q.when(response);
+        }  
+    };
 });

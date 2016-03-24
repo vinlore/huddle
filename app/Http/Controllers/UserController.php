@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 use App\Models\User;
@@ -16,7 +17,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        // TODO pagination
+        $users = \Sentinel::getUserRepository()->with('roles')->get();
+        return $users;
     }
 
     /**
@@ -48,7 +51,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $users)
     {
         /* Example JSON of request
         *
@@ -61,51 +64,36 @@ class UserController extends Controller
              ),
              'role_id' => 1,
          ));
-         $response = json_decode($request);
+         $request = json_decode($request);
          */
 
-         //Check for permissions - user.update
-         $user_id = User::where('api_token',$response->api_token)->get();
-         $user = Sentinel::findById($user_id->id);
-         if (!$user->hasAccess(['user.update'])){
-             return \Response::json(array(
-                 'status' => 'error',
-                 'code' => 'User Permissions',
-                 'message' => 'You have no permissions to access this'
-             ));
-         }
+        try {
+            //Check if Role Id exists
+            if(!\Sentinel::findRoleById($request->role_id))
+            {
+                return response()->error("Unta" , "Unable to find Role with role_id ".$request->role_id);
+            }
 
-         //Check if Role Id exists
-         if(!\Sentinel::findRoleById($response->role_id))
-         {
-             return \Response::json(array(
-                 'status' => 'error',
-                 'code' => 'Unta',
-                 'message' => 'Unable to find Role with role_id '.$response->role_id
-             ));
-         }
+            //Check if User Id Exists
+            if(!\Sentinel::findUserById($users))
+            {
+                return response()->error("Umesh" ,"Unable to find User with user_id ".$users);
+            }
 
-         //Check if User Id Exists
-         if(!\Sentinel::findUserById($response->user_id))
-         {
-             return \Response::json(array(
-                 'status' => 'error',
-                 'code' => 'Umesh',
-                 'message' => 'Unable to find User with user_id '.$response->user_id
-             ));
-         }
+            //Update Role first
+            $user = \Sentinel::findById($users);
+            $role = \Sentinel::findRoleById($request->role_id);
 
+            $user->roles()->sync([$role->id]);
 
-         //Update Role first
-         $user = Sentinel::findById($response->user_id);
-         $role = Sentinel::findRoleById($response->role_id);
+            //Update Permissions next
+            $user->permissions = json_decode(json_encode($request->permissions), True);
+            $user->save();
 
-         $user->roles()->sync([$role->id]);
-
-         //Update Permissions next
-         $user = \Sentinel::findById($response->user_id);
-         $user->permissions = json_decode(json_encode($response->permissions), True);
-         $user->save();
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("Ulysses" , $e);
+        }
     }
 
     /**
@@ -116,5 +104,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        //Not Allowed to destroy
     }
 }

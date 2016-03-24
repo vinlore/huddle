@@ -86,6 +86,7 @@ class MigrationCartalystSentinel extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('password');
             $table->text('permissions')->nullable();
+            $table->boolean('receive_email')->default(false);
             $table->timestamp('last_login')->nullable();
             $table->timestamps();
             $table->softDeletes();

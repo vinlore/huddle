@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
+use App\Http\Requests\ConferenceRequest;
 
 use App\Models\Conference as Conference;
+use App\Models\User as User;
+
 
 class ConferenceController extends Controller
 {
@@ -17,11 +21,21 @@ class ConferenceController extends Controller
      */
     public function index()
     {
-        return Conference::all();
+        try{ 
+            $conferences = Conference::all();
+
+        if (!$conferences) {
+            return response()->error("No conferences found.");
+        }
+
+        return $conferences;
+
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 
-    public function dev
-
+   //MAKE SEPARATE METHOD FOR STATUS
 
     /**
      * Store a newly created resource in storage.
@@ -30,10 +44,15 @@ class ConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request){
+    public function store(ConferenceRequest $request){
 
-        Conference::create($request->all());
-        return \Response::json(array('status' => 'success'));
+        try{ 
+            Conference::create($request->all());
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
+
     }
 
     /**
@@ -42,10 +61,64 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($conferences){
+        try{ 
+            $conference = Conference::find($conferences);
 
+            if(!$conference){
+                return response()->error(null, "No conference found.");
+            }
+
+            return $conference;
+
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
+
+     /**
+     * Update the status of the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+     public function conferenceStatusUpdate(Request $request){
+
+        try{
+
+                $user_to_check = User::find($request->header('ID'));
+
+                if($user_to_check->api_token == $api_key && $user_to_check->hasAccess(['conference.status'])){
+
+                    $conference = Conference::find($request->id);
+
+                    if(!$conference){
+                        return response()->error("No conference found.");
+                    }
+
+                    $conference->update(['status' => $request->status]);
+
+                    /*
+
+                    if($request->Status == 'approved' && user_to_check->receive_email == 1){
+                        //TODO SEND APPROVED EMAIL
+
+                    }elseif($request->Status == 'declined' && user_to_check->receive_email == 1){
+                        //TODO SEND DECLINED EMAIL
+                    }    */
+
+                     return response()->success();
+
+                }else{
+                    return response()->error("no access.");
+                }
+
+        }catch (Exception $e) {
+            return response()->error($e);
+        }
+     }
+
 
     /**
      * Update the specified resource in storage.
@@ -54,27 +127,25 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(/*Request $request, $id*/)
-    {
+    public function update(ConferenceRequest $request, $id){
 
-        $user_id = 2;
-        $user = \Sentinel::findById($user_id);
-        $status = approved;
-        
-        if (!is_null($request->status) && $user->hasAccess(['conference.status'])){
+        try{
+            $conference = Conference::find($id);
 
-            Conference::find($id)
-            ->update(array('status' => $request->satus));
+            if(!$conference){
+                 return response()->error("No conference found.");
+            }
 
-        } elseif(is_null($request->status)){
+            $conference->update($request->all());
+            /*
+            *TODO: check if user wants email notifcations. If yes, send one.
+            *TODO: ADD notification column to user table.
+            */
 
-            Conference::find($id)
-            ->update(array('name' => 'lololol'));
-            ->update(array('status' => 'pending'));
-
+            return response()->success();
+         }catch (Exception $e) {
+            return response()->error($e);
         }
-
-        return \Response::json(array('status' => 'success'));
     }
 
 
@@ -84,8 +155,18 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(ConferenceRequest $request){
+
+    try{
+        if(!Conference::find($request->id)){
+             return response()->error("No conferences found.");
+        }
+
+        Conference::destroy($request->id);
+
+        return response()->success();
+     }catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 }

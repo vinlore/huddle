@@ -13,7 +13,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 });
 
 
-
 // Prefix all API routes with 'api'. - TODO - Make sure to add, AuthToken
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
 
@@ -31,9 +30,13 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'update', 'destroy',
     ]]);
 
+    Route::post('conference.status', 'ConferenceController@conferenceStatusUpdate');
+
     Route::resource('conferences', 'ConferenceController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
+
+    Route::post('event.status', 'EventController@eventStatusUpdate');
 
     Route::resource('events', 'EventController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',

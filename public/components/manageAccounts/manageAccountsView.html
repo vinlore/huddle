@@ -2,78 +2,357 @@
     <div class="container-fluid">
         <h1 class="page-header">Manage Accounts</h1>
         <uib-accordion>
-            <uib-accordion-group heading="Roles" is-open="true">
-                <table class="table">
-                    <tr>
-                        <th>Role Name</th>
-                        <th>Conferences</th>
-                        <th></th>
-                    </tr>
-                    <tr ng-repeat="role in roles">
-                        <td>{{role.name}}</td>
-                        <td ng-repeat="permission in role.permissions">
-                            <div class="btn-group">
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="permission">+</label>
+            <uib-accordion-group>
+                <uib-accordion-heading>
+                    <div>Roles</div>
+                </uib-accordion-heading>
+                <uib-accordion>
+                    <uib-accordion-group ng-repeat="role in roles">
+                        <uib-accordion-heading>
+                            <div>{{role.name}}</div>
+                        </uib-accordion-heading>
+                        <div class="table-responsive">
+                            <table class="table table-condensed" id="role-table">
+                                <tr>
+                                    <th id="role-name">Role</th>
+                                    <th>Conference</th>
+                                    <th>Attendees</th>
+                                    <th>Housing</th>
+                                    <th>Inventory</th>
+                                    <th>Transport</th>
+                                    <th>Event</th>
+                                    <th>Attendees</th>
+                                    <th>Transport</th>
+                                    <th>Role</th>
+                                    <th>Profile</th>
+                                    <th>User</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td id="role-name">
+                                        <input type="text" class="form-control" ng-model="role.name" placeholder="Role Name">
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conference.status']">Approve</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conference.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conference.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conference.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conference.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conferenceAttendees.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conferenceAttendees.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conferenceAttendees.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['accommodations.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['accommodations.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['accommodations.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['accommodations.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['inventory.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['inventory.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['inventory.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['inventory.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conferenceVehicles.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conferenceVehicles.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conferenceVehicles.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['conferenceVehicles.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['event.status']">Approve</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['event.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['event.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['event.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['event.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['eventAttendees.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['eventAttendees.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['eventAttendees.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['eventVehicles.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['eventVehicles.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['eventVehicles.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['eventVehicles.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['role.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['role.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['role.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['role.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['profile.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['profile.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['profile.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['user.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="role.permissions['user.update']">Update</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <button class="btn btn-warning" ng-click="updateRole(role)"><i class="glyphicon glyphicon-edit"></i></button>
+                                            <button class="btn btn-danger" ng-click="deleteRole(role.id)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </uib-accordion-group>
+                    <uib-accordion-group>
+                        <uib-accordion-heading>
+                            <div><i class="glyphicon glyphicon-plus"></i> Add a new role</div>
+                        </uib-accordion-heading>
+                        <div class="table-responsive">
+                            <table class="table table-condensed" id="role-table">
+                                <tr>
+                                    <th id="role-name">Role</th>
+                                    <th>Conference</th>
+                                    <th>Attendees</th>
+                                    <th>Housing</th>
+                                    <th>Inventory</th>
+                                    <th>Transport</th>
+                                    <th>Event</th>
+                                    <th>Attendees</th>
+                                    <th>Transport</th>
+                                    <th>Role</th>
+                                    <th>Profile</th>
+                                    <th>User</th>
+                                    <th>&nbsp</th>
+                                </tr>
+                                <tr>
+                                    <td id="role-name">
+                                        <input class="form-control" ng-model="newRole.name" placeholder="Role name">
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conference.status']">Approve</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conference.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conference.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conference.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conference.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conferenceAttendees.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conferenceAttendees.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conferenceAttendees.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['accommodations.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['accommodations.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['accommodations.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['accommodations.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['inventory.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['inventory.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['inventory.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['inventory.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conferenceVehicles.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conferenceVehicles.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conferenceVehicles.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['conferenceVehicles.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['event.status']">Approve</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['event.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['event.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['event.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['event.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['eventAttendees.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['eventAttendees.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['eventAttendees.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['eventVehicles.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['eventVehicles.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['eventVehicles.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['eventVehicles.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['role.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['role.store']">Create</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['role.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['role.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['profile.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['profile.update']">Update</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['profile.destroy']">Delete</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['user.show']">View</label>
+                                            <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="newRole.permissions['user.update']">Update</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success" ng-click="createRole()"><i class="glyphicon glyphicon-plus"></i></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </uib-accordion-group>
+            </uib-accordion-group>
+            <uib-accordion-group>
+                <uib-accordion-heading>
+                    <div>Users</div>
+                </uib-accordion-heading>
+                <table ng-table="tableParams" class="table table-condensed" id="role-table">
+                    <tr ng-repeat="user in $data track by $index">
+                        <td title="'Name'" sortable="'username'" filter="{username: 'text'}" id="role-name">
+                            <div>{{user.username}}</div>
+                            <div>{{user.firstName}}</div>
+                            <div>{{user.lastName}}</div>
+                            <select class="form-control" ng-options="role as role.name for role in roles" ng-model="selectedRole[$index]" ng-change="givePermissions(selectedRole[$index], user)">
+                                <option value="" disabled>Role</option>
+                            </select>
+                        </td>
+                        <td title="'Conference'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conference.status']">Approve</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conference.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conference.store']">Create</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conference.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conference.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'Attendees'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conferenceAttendees.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conferenceAttendees.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conferenceAttendees.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'Housing'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['accommodations.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['accommodations.store']">Create</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['accommodations.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['accommodations.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'Inventory'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['inventory.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['inventory.store']">Create</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['inventory.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['inventory.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'Vehicles'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conferenceVehicles.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conferenceVehicles.store']">Create</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conferenceVehicles.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['conferenceVehicles.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'Event'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['event.status']">Approve</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['event.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['event.store']">Create</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['event.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['event.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'Attendees'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['eventAttendees.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['eventAttendees.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['eventAttendees.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'Vehicles'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['eventVehicles.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['eventVehicles.store']">Create</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['eventVehicles.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['eventVehicles.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'Role'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['role.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['role.store']">Create</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['role.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['role.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'Profile'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['profile.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['profile.update']">Update</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['profile.destroy']">Delete</label>
+                            </div>
+                        </td>
+                        <td title="'User'">
+                            <div class="btn-group-vertical">
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['user.show']">View</label>
+                                <label class="btn btn-sm btn-primary" uib-btn-checkbox ng-model="user.permissions['user.update']">Update</label>
                             </div>
                         </td>
                         <td>
                             <div class="btn-group">
-                                <button class="btn btn-warning" ng-click="updateRole(role.id)"><i class="glyphicon glyphicon-edit"></i></button>
-                                <button class="btn btn-danger" ng-click="deleteRole(role.id)"><i class="glyphicon glyphicon-minus"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input class="form-control" ng-model="newRole.name" placeholder="Role name"></td>
-                        <td>
-                            <div class="btn-group" ng-repeat="permission in newRole.permissions">
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="permission">+</label>
-                            </div>
-                        </td>
-                        <td><button class="btn btn-success" ng-click="createRole()"><i class="glyphicon glyphicon-plus"></i></button></td>
-                    </tr>
-                </table>
-            </uib-accordion-group>
-            <uib-accordion-group heading="Accounts">
-                <button type="button" class="btn btn-link" ng-click="reset()">RESET</button>
-                <select name="conferenceSelect" class="form-control" ng-options="index as con.name for (index, con) in conferences" ng-model="selectedConference" ng-change="changeConference()"></select>
-                <select name="eventSelect" class="form-control" ng-options="event.eventId as event.name for event in events" ng-model="selectedEvent" ng-change="changeEvent()"></select>
-                <input type="search" class="form-control" placeholder="Search for Account" ng-model="search">
-                <table class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tr ng-repeat="acc in accounts">
-                        <td>{{acc.username}}</td>
-                        <td>{{acc.firstName}}</td>
-                        <td>{{acc.lastName}}</td>
-                        <td ng-show="conferenceSpecific">
-                            <div class="btn-group">
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceEdit"><i class="glyphicon glyphicon-pencil"></i></label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceAccommodations"><i class="glyphicon glyphicon-home"></i></label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceTransport"><i class="glyphicon glyphicon-road"></i></label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceInventory"><i class="glyphicon glyphicon-briefcase"></i></label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.conferenceAttendee"><i class="glyphicon glyphicon-user"></i></label>
-                            </div>
-                        </td>
-                        <td ng-hide="!conferenceSpecific || eventSpecific">
-                            <input type="checkbox" ng-model="acc.permissions.event">
-                        </td>
-                        <td ng-show="eventSpecific">
-                            <div class="btn-group">
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.eventEdit"><i class="glyphicon glyphicon-pencil"></i></label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.eventTransport"><i class="glyphicon glyphicon-road"></i></label>
-                                <label class="btn btn-primary" uib-btn-checkbox ng-model="acc.permissions.eventAttendee"><i class="glyphicon glyphicon-user"></i></label>
+                                <button class="btn btn-warning" ng-click="updateUserRole(user, selectedRole[$index].id)"><i class="glyphicon glyphicon-edit"></i></button>
+                                <button class="btn btn-danger" ng-click="deleteUser(user.id)"><i class="glyphicon glyphicon-minus"></i></button>
                             </div>
                         </td>
                     </tr>
                 </table>
             </uib-accordion-group>
-        </uib-accordion>
+            </uib-accordion>
     </div>
 </div>

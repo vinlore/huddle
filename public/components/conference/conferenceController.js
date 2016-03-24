@@ -1,5 +1,5 @@
 angular.module( 'conferenceCtrl', [] )
-.controller( 'conferenceController', function( $scope, $filter, Conference, Gmap, Event, $stateParams, $resource, popup, Events ) {
+.controller( 'conferenceController', function( $scope, $filter, Conferences, Gmap, Event, $stateParams, $resource, popup, Events ) {
 
     $scope.citiesOnly = {
         types: ['(cities)']
@@ -8,21 +8,10 @@ angular.module( 'conferenceCtrl', [] )
     $scope.conference = {};
 
     $scope.loadConference = function () {
-        Conference.all()
-            .$promise.then( function( result ) {
-                angular.forEach( result, function( value, key ) {
-                    if ( value.conferenceId == $stateParams.conferenceId ) {
-                        value.startDate = new Date( value.startDate );
-                        value.endDate = new Date( value.endDate );
-                        $scope.conference = value;
-                        $scope.background = 'assets/img/' + $scope.conference.country + '/big/' + $filter( 'randomize' )( 3 ) + '.jpg';
-                    }
-                } );
-            } );
-        /*Conference.fetch().get( {cid: $stateParams.conferenceId} )
+        Conferences.fetch().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' && response.conference ) {
-                    var conf = response.conference;
+                if ( response ) {
+                    var conf = response;
                     conf.startDate = new Date( conf.start_date );
                     conf.endDate = new Date( conf.end_date );
                     $scope.conference = conf;
@@ -32,7 +21,7 @@ angular.module( 'conferenceCtrl', [] )
                 }
             }, function () {
                 popup.connection();
-            } )*/
+            } )
     }
 
     $scope.loadConference();
@@ -176,8 +165,6 @@ angular.module( 'conferenceCtrl', [] )
 
     // Saves any conference changes to server
     $scope.update = function() {
-        $scope.editConference = false;
-        conferenceBackup = {};
         var confDetails = {
             name: $scope.conference.name,
             start_date: $filter('date')($scope.conference.startDate, 'yyyy-MM-dd'),
@@ -186,14 +173,15 @@ angular.module( 'conferenceCtrl', [] )
             description: $scope.conference.description,
             capacity: $scope.conference.capacity,
             city: $scope.conference.city,
-            country: $scope.conference.country,
-            capacity: $scope.conference.capacity
+            country: $scope.conference.country
         }
-        Conference.fetch().update( {cid: $stateParams.conferenceId}, confDetails )
+        Conferences.fetch().update( {cid: $stateParams.conferenceId}, confDetails )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' ) {
                     console.log( 'Changes saved to conference' );
-                    // TODO success alert
+                    $scope.editConference = false;
+                    conferenceBackup = {};
+                    popup.alert( 'success', 'Changes have been saved.' );
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -226,7 +214,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadEvents();
 
     $scope.loadInventory = function () {
-        Conference.inventory().get( {cid: $stateParams.conferenceId} )
+        Conferences.inventory().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.inventory ) {
                     $scope.inventory = response.inventory;
@@ -241,7 +229,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadInventory();
 
     $scope.loadAccommodations = function () {
-        Conference.accommodations().get( {cid: $stateParams.conferenceId} )
+        Conferences.accommodations().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.accommodations ) {
                     $scope.accommodations = response.accommodations;
@@ -256,7 +244,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadAccommodations();
 
     $scope.loadArrivalVehicles = function () {
-        Conference.vehicles().get( {cid: $stateParams.conferenceId, type: 'arrival'} )
+        Conferences.vehicles().get( {cid: $stateParams.conferenceId, type: 'arrival'} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.vehicles ) {
                     $scope.arrivalVehicles = response.vehicles;
@@ -271,7 +259,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadArrivalVehicles();
 
     $scope.loadDepartVehicles = function () {
-        Conference.vehicles().get( {cid: $stateParams.conferenceId, type: 'departure'} )
+        Conferences.vehicles().get( {cid: $stateParams.conferenceId, type: 'departure'} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.vehicles ) {
                     console.log( 'Retrieved departure vehicles' ); console.log( response.vehicles );
