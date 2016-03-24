@@ -50,10 +50,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('inventories', 'InventoryController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
-    ]]);
-
     Route::resource('items', 'ItemController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);

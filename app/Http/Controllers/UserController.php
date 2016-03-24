@@ -18,8 +18,12 @@ class UserController extends Controller
     public function index()
     {
         // TODO pagination
-        $users = \Sentinel::getUserRepository()->with('roles')->get();
-        return $users;
+        try {
+            $users = \Sentinel::getUserRepository()->with('roles')->get();
+            return $users;
+        } catch (Exception $e) {
+        return response()->error("500" , $e);
+        }
     }
 
     /**

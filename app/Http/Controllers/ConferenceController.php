@@ -21,17 +21,14 @@ class ConferenceController extends Controller
      */
     public function index()
     {
-        try{ 
+        try {
             $conferences = Conference::all();
-
-        if (!$conferences) {
-            return response()->error("No conferences found.");
-        }
-
-        return $conferences;
-
+            if (!$conferences) {
+                return response()->error("No conferences found.");
+            }
+            return $conferences;
         } catch (Exception $e) {
-            return response()->error($e);
+            return response()->error("500" , $e);
         }
     }
 
@@ -45,14 +42,12 @@ class ConferenceController extends Controller
      */
 
     public function store(ConferenceRequest $request){
-
-        try{ 
+        try{
             Conference::create($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
         }
-
     }
 
     /**
@@ -62,15 +57,12 @@ class ConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($conferences){
-        try{ 
+        try{
             $conference = Conference::find($conferences);
-
             if(!$conference){
-                return response()->error(null, "No conference found.");
+                return response()->success("204", "No conference found.");
             }
-
             return $conference;
-
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -86,35 +78,20 @@ class ConferenceController extends Controller
      public function conferenceStatusUpdate(Request $request){
 
         try{
-
-                $user_to_check = User::find($request->header('ID'));
-
-                if($user_to_check->api_token == $api_key && $user_to_check->hasAccess(['conference.status'])){
-
                     $conference = Conference::find($request->id);
-
                     if(!$conference){
-                        return response()->error("No conference found.");
+                        return response()->success("204","No conference found.");
                     }
-
                     $conference->update(['status' => $request->status]);
-
                     /*
-
                     if($request->Status == 'approved' && user_to_check->receive_email == 1){
                         //TODO SEND APPROVED EMAIL
 
                     }elseif($request->Status == 'declined' && user_to_check->receive_email == 1){
                         //TODO SEND DECLINED EMAIL
                     }    */
-
-                     return response()->success();
-
-                }else{
-                    return response()->error("no access.");
-                }
-
-        }catch (Exception $e) {
+                    return response()->success();
+        } catch (Exception $e) {
             return response()->error($e);
         }
      }
@@ -129,21 +106,18 @@ class ConferenceController extends Controller
      */
     public function update(ConferenceRequest $request, $id){
 
-        try{
+        try {
             $conference = Conference::find($id);
-
             if(!$conference){
-                 return response()->error("No conference found.");
+                return response()->success("204","No conference found.");
             }
-
             $conference->update($request->all());
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
             */
-
             return response()->success();
-         }catch (Exception $e) {
+         } catch (Exception $e) {
             return response()->error($e);
         }
     }
@@ -156,17 +130,14 @@ class ConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(ConferenceRequest $request){
-
-    try{
-        if(!Conference::find($request->id)){
-             return response()->error("No conferences found.");
-        }
-
-        Conference::destroy($request->id);
-
-        return response()->success();
-     }catch (Exception $e) {
-            return response()->error($e);
+        try{
+            if (!Conference::find($request->id)) {
+                return response()->success("204","No conferences found.");
+            }
+            Conference::destroy($request->id);
+            return response()->success();
+        } catch (Exception $e) {
+                return response()->error($e);
         }
     }
 }
