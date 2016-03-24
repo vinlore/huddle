@@ -96,6 +96,10 @@ class RolesSeeder extends Seeder
                 'accommodations.show'                  => true,
                 'accommodations.update'                => true,
                 'accommodations.destroy'               => true,
+                'inventory.show'                       => true,
+                'inventory.store'                      => true,
+                'inventory.update'                     => true,
+                'inventory.destroy'                    => true
             ],
         ]);
 
@@ -138,6 +142,10 @@ class RolesSeeder extends Seeder
                 'accommodations.show'                  => true,
                 'accommodations.update'                => true,
                 'accommodations.destroy'               => true,
+                'inventory.show'                       => true,
+                'inventory.store'                      => true,
+                'inventory.update'                     => true,
+                'inventory.destroy'                    => true
             ],
         ]);
 
@@ -155,7 +163,6 @@ class RolesSeeder extends Seeder
                 'role.update'                          => false,
                 'role.destroy'                         => false,
                 'event.store'                          => true,
-                'event.show'                           => true,
                 'event.update'                         => true,
                 'event.status'                         => false,
                 'event.destroy'                        => false,
@@ -180,6 +187,10 @@ class RolesSeeder extends Seeder
                 'accommodations.show'                  => true,
                 'accommodations.update'                => true,
                 'accommodations.destroy'               => true,
+                'inventory.show'                       => false,
+                'inventory.store'                      => false,
+                'inventory.update'                     => false,
+                'inventory.destroy'                    => false,
             ],
         ]);
 
@@ -221,7 +232,11 @@ class RolesSeeder extends Seeder
                 'accommodations.store'                 => true,
                 'accommodations.show'                  => true,
                 'accommodations.update'                => true,
-                'accommodations.destroy'               => true
+                'accommodations.destroy'               => true,
+                'inventory.show'                       => false,
+                'inventory.store'                      => false,
+                'inventory.update'                     => false,
+                'inventory.destroy'                    => false
             ],
         ]);
 
@@ -264,6 +279,10 @@ class RolesSeeder extends Seeder
                 'accommodations.show'                  => false,
                 'accommodations.update'                => false,
                 'accommodations.destroy'               => false,
+                'inventory.show'                       => false,
+                'inventory.store'                      => false,
+                'inventory.update'                     => false,
+                'inventory.destroy'                    => false,
             ],
         ]);
 
@@ -306,6 +325,10 @@ class RolesSeeder extends Seeder
                 'accommodations.show'                  => false,
                 'accommodations.update'                => false,
                 'accommodations.destroy'               => false,
+                'inventory.show'                       => false,
+                'inventory.store'                      => false,
+                'inventory.update'                     => false,
+                'inventory.destroy'                    => false,
             ],
         ]);
 
@@ -348,6 +371,10 @@ class RolesSeeder extends Seeder
                 'accommodations.show'                  => false,
                 'accommodations.update'                => false,
                 'accommodations.destroy'               => false,
+                'inventory.show'                       => false,
+                'inventory.store'                      => false,
+                'inventory.update'                     => false,
+                'inventory.destroy'                    => false,
             ],
         ]);
     }

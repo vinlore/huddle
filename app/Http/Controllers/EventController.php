@@ -20,7 +20,18 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+       try{ 
+            $events = Event::all();
+
+            if (!$events) {
+                return response()->error("No events found.");
+            }
+
+            return $events;
+
+         } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 
     /**
@@ -29,52 +40,14 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        $user_id = $request->id;
-        $api_token = $request->apiToken;
-
-        $new_event_data = array(
-            'coference_id'          => $request->conference_id,
-            'name'                  => $request->name,
-            'description'           => $request->description,
-            'facilitator'           => $request->facilitator,
-            'date'                  => $request->date,
-            'start_time'            => $request->start_time,
-            'end_time'              => $request->end_time,
-            'address'               => $request->address,
-            'city'                  => $request->city,
-            'country'               => $request->country,
-            'age_limit'             => $request->age_limit,
-            'gender_limit'          => $request->gender_limit,
-            'attendee_count'        => $request->attendee_count,
-            'capacity'              => $request->capacity,
-            'status'                => 'pending'
-        );
-
-        $check = userCheck($user_id,$api_token);
-
-        if(!$check){
-
-            $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
-
-        }   else{
-
-                $user = \Sentinel::findById($user_id);
-
-                if($user->hasAccess(['event.store'])){
-
-                    Event::create($new_event_data);
-                    $response = array('status' => 'success');
-
-                }   else{
-
-                    $response = array('status' => 'error', 'message' => 'user does not have permission to perform this action');
-                }
-
+        try{
+            Event::create($request->all());
+            return response()->success();
+         } catch (Exception $e) {
+            return response()->error($e);
         }
-
-        return \Response::json($response);
     }
 
     /**
@@ -84,9 +57,62 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        try{
+            $event = Event::find($id);
+
+            if(!$event){
+                return response()->error("No event found.");
+            }
+
+            return $event;
+         } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
+
+     /**
+     * Update the status of the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+     public function eventStatusUpdate(EventRequest $request){
+
+        try{
+            $user_to_check = User::find($request->header('ID'));
+
+            if($user_to_check->api_token == $api_key && $user_to_check->hasAccess(['event.status'])){
+
+                $event = Event::find($request->id);
+
+                if(!$event){
+                     return response()->error("No event found.");
+                }
+
+                $conference->update(['status' => $request->status]);
+
+               /*
+
+            if($request->Status == 'approved' && user_to_check->receive_email == 1){
+                //TODO SEND APPROVED EMAIL
+
+            }elseif($request->Status == 'declined' && user_to_check->receive_email == 1){
+                //TODO SEND DECLINED EMAIL
+            }    */
+
+
+                return response()->success();
+
+            }else{
+                return response()->error("no access.");
+            }
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
+     }
+
 
     /**
      * Update the specified resource in storage.
@@ -95,69 +121,26 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EventRequest $request, $id)
     {
+        try{
+            $event = Event::find($id);
 
-        $user_id = $request->id;
-        $api_token = $request->apiToken;
-
-        $new_event_data = array(
-            'coference_id'          => $request->conference_id,
-            'name'                  => $request->name,
-            'description'           => $request->description,
-            'facilitator'           => $request->facilitator,
-            'date'                  => $request->date,
-            'start_time'            => $request->start_time,
-            'end_time'              => $request->end_time,
-            'address'               => $request->address,
-            'city'                  => $request->city,
-            'country'               => $request->country,
-            'age_limit'             => $request->age_limit,
-            'gender_limit'          => $request->gender_limit,
-            'attendee_count'        => $request->attendee_count,
-            'capacity'              => $request->capacity
-        );
-
-        $check = userCheck($user_id,$api_token);
-
-        if(!$check){
-
-            $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
-
-        }   else{
-
-
-            $user = \Sentinel::findById($user_id);
-            $status = $request->status;
-
-            if (!is_null($status) && $user->hasAccess(['event.status'])){
-
-                Event::find($id)
-                ->update(array('status' => $status));
-
-                $response = array('status' => 'success');
-
-            }elseif(is_null($status) && $user->hasAccess(['event.update'])){
-
-                Conference::find($id)
-                ->update($new_event_data)
-                ->update(array('status' => 'pending'));
-
-                /*
-                *TODO: check if user wants email notifcations. If yes, send one.
-                *TODO: ADD notification column to user table lol ;p
-                */
-
-                $response = array('status' => 'success');
-
-            }else{
-
-                $response = array('status' => 'error', 'message' => 'user doesnt have permission to perform this action');
-
+            if(!$event){
+                 return response()->error("No event found.");
             }
-        }
+        
+            $event->update($request->all());
+            /*
+            *TODO: check if user wants email notifcations. If yes, send one.
+            *TODO: ADD notification column to user table.
+            */
 
-        return \Response::json($response);
+            return response()->success();
+
+         } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 
     /**
@@ -166,8 +149,18 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(EventRequest $id)
     {
-        //
+        try{
+           if(!Event::find($id)){
+                 return response()->error("No Event found");
+            }
+
+            Event::destroy($id);
+
+            return response()->success();
+         } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 }

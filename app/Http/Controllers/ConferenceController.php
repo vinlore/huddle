@@ -11,7 +11,6 @@ use App\Http\Requests\ConferenceRequest;
 use App\Models\Conference as Conference;
 use App\Models\User as User;
 
-require app_path().'/helpers.php';
 
 class ConferenceController extends Controller
 {
@@ -22,19 +21,21 @@ class ConferenceController extends Controller
      */
     public function index()
     {
-        $conferences = Conference::all();
+        try{ 
+            $conferences = Conference::all();
 
         if (!$conferences) {
-            return \Response::json(array(
-                'status' => 'error',
-                'message' => 'No conferences could be found.'
-            ));
+            return response()->error("No conferences found.");
         }
 
         return $conferences;
+
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 
-   // public function dev
+   //MAKE SEPARATE METHOD FOR STATUS
 
     /**
      * Store a newly created resource in storage.
@@ -45,32 +46,13 @@ class ConferenceController extends Controller
 
     public function store(ConferenceRequest $request){
 
-        $user_id = $request->header('ID');
-        $api_token = $request->header('X-Auth-Token');
-
-        $check = userCheck($user_id,$api_token);
-
-        if(!$check){
-
-            $response = array('status' => 'error', 'message' => 'Access denied.');
-
-        }   else{
-
-                $user = \Sentinel::findById($user_id);
-
-                if(true){
-
-                    Conference::create($request->all());
-                    $response = array('status' => 'success');
-
-                }   else{
-
-                    $response = array('status' => 'error', 'message' => 'You do not have permission to access this.');
-                }
-
+        try{ 
+            Conference::create($request->all());
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error($e);
         }
 
-        return \Response::json($response);
     }
 
     /**
@@ -79,19 +61,64 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $conference = Conference::find($id);
+    public function show(ConferenceRequest $id){
+        try{ 
+                $conference = Conference::find($id);
 
-        if(!$conference) {
-            \Response::json(array(
-                'status' => 'error',
-                'message' => 'Conference could not be found.'
-            ));
+                if(!$conference){
+                    return response()->error("No conference found.");
+                }
+
+                return $conference;
+
+            } catch (Exception $e) {
+            return response()->error($e);
         }
-
-        return $conference;
     }
+
+     /**
+     * Update the status of the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+     public function conferenceStatusUpdate(Request $request){
+
+        try{
+
+                $user_to_check = User::find($request->header('ID'));
+
+                if($user_to_check->api_token == $api_key && $user_to_check->hasAccess(['conference.status'])){
+
+                    $conference = Conference::find($request->id);
+
+                    if(!$conference){
+                        return response()->error("No conference found.");
+                    }
+
+                    $conference->update(['status' => $request->status]);
+
+                    /*
+
+                    if($request->Status == 'approved' && user_to_check->receive_email == 1){
+                        //TODO SEND APPROVED EMAIL
+
+                    }elseif($request->Status == 'declined' && user_to_check->receive_email == 1){
+                        //TODO SEND DECLINED EMAIL
+                    }    */
+
+                     return response()->success();
+
+                }else{
+                    return response()->error("no access.");
+                }
+
+        }catch (Exception $e) {
+            return response()->error($e);
+        }
+     }
+
 
     /**
      * Update the specified resource in storage.
@@ -100,62 +127,25 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(ConferenceRequest $request, $id){
 
-        $user_id = $request->header('ID');
-        $api_token = $request->header('X-Auth-Token');
+        try{
+            $conference = Conference::find($id);
 
-        $new_conference_data = array(
-            'name'                  => $request->name,
-            'description'           => $request->description,
-            'start_date'            => $request->start_date,
-            'end_date'              => $request->end_date,
-            'address'               => $request->address,
-            'city'                  => $request->city,
-            'country'               => $request->country,
-            'capacity'              => $request->capacity
-        );
-
-        $check = userCheck($user_id,$api_token);
-
-        if(!$check){
-
-            $response = array('status' => 'error', 'message' => 'Access denied.');
-
-        }else{
-
-
-            $user = \Sentinel::findById($user_id);
-            $status = $request->status;
-
-            if (!is_null($status) && $user->hasAccess(['conference.status'])){
-
-                Conference::find($id)
-                ->update(array('status' => $status));
-
-                $response = array('status' => 'success');
-
-            }elseif(is_null($status) && $user->hasAccess(['conference.update'])){
-
-                Conference::find($id)
-                ->update($new_conference_data);
-
-                /*
-                *TODO: check if user wants email notifcations. If yes, send one.
-                *TODO: ADD notification column to user table.
-                */
-
-                $response = array('status' => 'success');
-
-            }else{
-
-                $response = array('status' => 'error', 'message' => 'You have no permission to access this.');
-
+            if(!$conference){
+                 return response()->error("No conference found.");
             }
-        }
 
-        return \Response::json($response);
+            $conference->update($request->all());
+            /*
+            *TODO: check if user wants email notifcations. If yes, send one.
+            *TODO: ADD notification column to user table.
+            */
+
+            return response()->success();
+         }catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 
 
@@ -165,8 +155,18 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(ConferenceRequest $request){
+
+    try{
+        if(!Conference::find($request->id)){
+             return response()->error("No conferences found.");
+        }
+
+        Conference::destroy($request->id);
+
+        return response()->success();
+     }catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 }

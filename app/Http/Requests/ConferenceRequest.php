@@ -19,22 +19,37 @@ class ConferenceRequest extends Request
             
         $user_to_check = User::find($user_id);
 
+
         if($user_to_check->api_token == $api_token){
 
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
-                    return false;
+                   if($user_to_check->hasAccess(['conference.store'])){
+                        return true;
+                   }else{
+                        return false;
+                   }
                   
                 case 'PUT':
-                    return false;
+                    if($user_to_check->hasAccess(['conference.update'])){
+                        return true;
+                   }else{
+                        return false;
+                   }
 
                 case 'DESTROY':
-
-                    return false;
+                    if($user_to_check->hasAccess(['conference.destroy'])){
+                        return true;
+                   }else{
+                        return false;
+                   }
 
                 case 'GET':
-
-                    return false;
+                    if($user_to_check->hasAccess(['conference.show'])){
+                        return true;
+                   }else{
+                        return false;
+                   }
 
                 default:
                     return false;
