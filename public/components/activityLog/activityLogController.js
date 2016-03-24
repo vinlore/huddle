@@ -8,21 +8,22 @@ angular.module ( 'activityCtrl', [] )
   };
 
   $scope.logs = [
-    {Time: "01:00:00",
-     Date: "Monday March 7, 2016",
-     Log: "This is log 1"},
+  {Time: "01:00:00",
+   Date: "Monday March 7, 2016",
+   Log: "James created a conference name India"},
 
-    {Time: "02:00:00",
-      Date: "Tuesday March 8, 2016",
-      Log: "This is log 2"},
+  {Time: "02:00:00",
+    Date: "Tuesday March 8, 2016",
+    Log: "Gabby is requesting to attend Canada conference"},
 
-    {Time: "03:00:00",
-       Date: "Wednesday March 9, 2016",
-       Log: "This is log 3"},
+  {Time: "03:00:00",
+     Date: "Wednesday March 9, 2016",
+     Log: "Viggy editted France conference"},
 
-    {Time: "04:00:00",
-        Date: "Thursday March 10, 2016",
-        Log: "This is log 4"}
-    ];
+     {Time: "04:00:00",
+        Date: "Wednesday March 9, 2016",
+        Log: "Chris approved Martin's conference attendance"},
+
+  ];
 
 });

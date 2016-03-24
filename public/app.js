@@ -28,20 +28,23 @@ angular.module('cms', [
     'signupConfCtrl',
     'signupEventCtrl',
     'ng-fusioncharts',
+    'manageAccommodationsCtrl',
     'manageInventoryCtrl',
+    'manageRoomsCtrl',
     'manageTransportationCtrl',
     'ngStorage',
     'popupServices',
     'ngMap',
     'ui.router',
     'manageRequestsCtrl',
+    'ngTable',
 ])
 
 .run( function( $rootScope, $auth, $localStorage, Confirm ) {
     $rootScope.auth = $auth.isAuthenticated();
 
-    $rootScope.$on('$stateChangeStart', 
-        function () { 
+    $rootScope.$on('$stateChangeStart',
+        function () {
             Confirm.save()
                 .$promise.then( function ( response ) {
                     if ( response.status == 'error' ) {
@@ -160,6 +163,15 @@ angular.module('cms', [
         }
     })
 
+    .state( '/manage-accommodations', {
+        url: '/manage-accommodations-:conferenceId',
+        templateUrl: 'components/manageAccommodations/manageAccommodationsView.html',
+        controller: 'manageAccommodationsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
     .state( 'manage-inventory', {
         url: '/manage-inventory',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
@@ -169,14 +181,26 @@ angular.module('cms', [
         }
     })
 
+    .state( '/manage-rooms', {
+        url: '/manage-rooms-:accommodationId',
+        templateUrl: 'components/manageRooms/manageRoomsView.html',
+        controller: 'manageRoomsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
     .state( '/manage-transportation', {
-        url: '/manage-transportation',
+        url: '/manage-transportation-:conferenceId',
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
-        controller: 'manageTransportationController'
+        controller: 'manageTransportationController',
+        resolve: {
+            loginRequired: loginRequired
+        }
     })
 
     .state( 'requests', {
-        url: '/manage-requests',
+        url: '/requests',
         templateUrl: 'components/manageRequests/manageRequestsView.html',
         controller: 'manageRequestsController',
         resolve: {
