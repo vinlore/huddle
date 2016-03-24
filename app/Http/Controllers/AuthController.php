@@ -7,13 +7,16 @@ use Illuminate\Http\Response;
 
 use Sentinel;
 
-use App\Models\Profile as Profile;
-use App\Models\User as User;
+use App\Http\Requests\RegisterUserRequest;
+use App\Models\Profile;
+use App\Models\User;
 
 class AuthController extends Controller
 {
-    // TODO: Validate input
-    function register(Request $request)
+    /**
+     * Registers a new Regular User and creates its owner profile.
+     */
+    function register(RegisterUserRequest $request)
     {
         $user = [
             'username' => $request->username,
@@ -23,14 +26,13 @@ class AuthController extends Controller
 
         $user = Sentinel::registerAndActivate($user);
 
-        // TODO: Change request fields to snake_case
         $profile = [
             'is_owner'    => 1,
             'email'       => $request->email,
             'phone'       => $request->phone,
-            'first_name'  => $request->firstName,
-            'middle_name' => $request->middleName,
-            'last_name'   => $request->lastName,
+            'first_name'  => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name'   => $request->last_name,
             'city'        => $request->city,
             'country'     => $request->country,
             'birthdate'   => $request->birthdate,
@@ -41,9 +43,15 @@ class AuthController extends Controller
         $profile->user()->associate($user);
         $profile->save();
 
+        $role = Sentinel::findRoleByName('Regular User');
+        $role->users()->attach($user);
+
         return $this->login($request);
     }
 
+    /**
+     * Logs a user in.
+     */
     function login(Request $request)
     {
         $user = [
@@ -68,20 +76,27 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Logs a user out.
+     */
     function logout(Request $request)
     {
-        $user = User::where('api_token', '=', $request->token);
+        $token = $request->header('X-Auth-Token');
+        $user = User::where('api_token', $token)->first();
 
         if ($user) {
-            $user->update([
-                'api_token' => '',
-            ]);
+            $user->api_token = NULL;
+            $user->save();
             return response()->success();
         } else {
             return response()->error('TOKEN_NOT_FOUND', 'Token not found.');
         }
     }
 
+
+    /**
+     * Confirms that a user is logged in.
+     */
     function confirm(Request $request)
     {
         $token = $request->header('X-Auth-Token');

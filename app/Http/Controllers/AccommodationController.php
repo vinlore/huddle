@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 
@@ -17,8 +18,9 @@ class AccommodationController extends Controller
      */
     public function index()
     {
-        //
+        //Not included in API document
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -28,9 +30,15 @@ class AccommodationController extends Controller
      */
     public function store(Request $request)
     {
-        Accommodation::create($request->all());
-        return \Response::json(array('status' => 'success'));
+        try{
+            Accommodation::create($request->all());
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("Aceso", $e);
+        }
     }
+
+
 
     /**
      * Display the specified resource.
@@ -40,7 +48,11 @@ class AccommodationController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            return Accommodation::find($id);
+        } catch (Exception $e){
+            return response()->error("Acheloisthe", $e);
+        }
     }
 
     /**
@@ -52,7 +64,18 @@ class AccommodationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $new_accomodation_data = array(
+                'name' => $request->name,
+                'address' => $request->address,
+                'city' => $request->city,
+                'country' => $request->country
+            );
+            Accommodation::where('id',$id)->update($new_accomodation_data);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("Achelous", $e);
+        }
     }
 
     /**
@@ -63,6 +86,16 @@ class AccommodationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $accom = Accommodation::findorfail($id);
+            if ($accom->rooms()->count()){
+                return response()->error("409" , "Rooms still in this Accomodation");
+            }
+            Accommodation::destroy($id);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("500" , $e);
+        }
     }
+
 }

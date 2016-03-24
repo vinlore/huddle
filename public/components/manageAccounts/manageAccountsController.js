@@ -1,5 +1,5 @@
 angular.module( 'manageAccountsCtrl', [] )
-.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, Users ) {
+.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, Users, ngTableParams ) {
 
     $scope.search = null;
     $scope.selectedConference = null;
@@ -26,22 +26,26 @@ angular.module( 'manageAccountsCtrl', [] )
 
     $scope.loadRoles();
 
+    $scope.tableParams = new ngTableParams(
+        {
+            page: 1,
+            count: 10
+        },
+        {
+            total: 0,
+            getData: function($defer, params) {
+                Users.query().$promise.then( function (response) {
+                    if (response) {
+                        $scope.users = response;
+                        params.total(response.length);
+                        $defer.resolve(response);
+                    }
+                })
+            }
+        }
+    )
+
     $scope.users = [];
-
-    $scope.loadUsers = function () {
-    	Users.query()
-    		.$promise.then( function ( response ) {
-    			if ( response ) {
-    				$scope.users = response;
-    			} else {
-    				// redirect to another page
-    			}
-    		}, function () {
-    			// redirect to another page
-    		})
-    }
-
-    $scope.loadUsers();
 
     $scope.conferences = [
         {
@@ -84,6 +88,7 @@ angular.module( 'manageAccountsCtrl', [] )
             "conference.show": false,
             "conference.update": false,
             "conference.destroy": false,
+            "user.show": false,
             "user.update": false,
             "role.store": false,
             "role.update": false,
@@ -139,6 +144,10 @@ angular.module( 'manageAccountsCtrl', [] )
         $scope.eventSpecific = false;
     }
 
+    $scope.givePermissions = function (role, user) {
+        user.permissions = role.permissions;
+    }
+
     $scope.createRole = function () {
     	var newRole = $scope.newRole;
         Roles.save( newRole )
@@ -184,16 +193,27 @@ angular.module( 'manageAccountsCtrl', [] )
     }
 
     $scope.updateUserRole = function ( user, role ) {
-    	Users.update( {uid: user, rid: role} )
-    		.$promise.then( function ( response ) {
-    			if ( response.status == 'success' ) {
-    				popup.alert( 'success', 'New role added to user.' );
-    			} else {
-    				popup.error( 'Error', response.message );
-    			}
-    		}, function () {
-    			popup.connection();
-    		})
+        var updateUser = {
+            role_id: role,
+            permissions: user.permissions
+        }
+        var modalInstance = popup.prompt("Updating User" , "Are you sure you want to update " + user.username + "'s permissions?");
+
+        modalInstance.result.then( function ( result ) {
+            if ( result ) {
+                Users.update( {id: user.id}, updateUser )
+                    .$promise.then( function ( response ) {
+                        if ( response.status == 'success' ) {
+                            popup.alert( 'success', 'User\'s permissions have been changed.' );
+                        } else {
+                            popup.error( 'Error', response.message );
+                        }
+                    }, function () {
+                        popup.connection();
+                    })
+            }
+        } )
+    	
     }
 
     $scope.deleteUser = function ( user ) {

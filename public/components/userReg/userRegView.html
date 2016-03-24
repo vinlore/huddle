@@ -98,8 +98,11 @@
             <label for="regEmail" class="col-sm-2 col-sm-offset-2 control-label">Email</label>
             <div class="col-sm-4">
                 <input type="email" class="form-control" name="email" id="regEmail" ng-model="user.email" ng-model-options="{ debounce: 600}">
+                <input type="checkbox" ng-model="user.receive" ng-disabled="!user.email || regForm.email.$error.email"><span> Receive emails from Gobind Sarvar.</span>
                 <uib-alert type="danger">Invalid Email!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
             </div>
+
+            
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.phone.$error.number}">
             <label for="regPhone" class="col-sm-2 col-sm-offset-2 control-label">Phone</label>

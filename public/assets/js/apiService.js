@@ -20,10 +20,6 @@ angular.module( 'apiService', [] )
     return $resource( '/api/roles/:id', { id: '@id' }, { 'update': { method: 'PUT' } } );
 })
 
-.factory( 'Confirm', function ( $resource ) {
-    return $resource( '/api/auth/confirm' );
-})
-
 .factory( 'Conferences', function( $resource ) {
     return {
 

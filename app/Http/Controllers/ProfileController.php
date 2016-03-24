@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 
 use App\Http\Requests;
 
@@ -20,17 +22,10 @@ class ProfileController extends Controller
     {
         try {
             $profile = Profile::where('user_id', '=', $users)->first();
-            return \Response::json(array(
-                'status' => 'success',
-                'profile' => $profile
-            )); 
+            return $profile;
         } catch (Exception $e) {
-            return \Response::json(array(
-                'status' => 'error',
-                'message' => $e
-            ));
+            return response()->error("Paeon" , $e);
         }
-        
     }
 
     /**
@@ -41,8 +36,12 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        Profile::create($request->all());
-        return \Response::json(array('status' => 'success'));
+        try {
+            Profile::create($request->all());
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("Pallas" , $e);
+        }
     }
 
     /**
@@ -57,16 +56,11 @@ class ProfileController extends Controller
     {
         try {
             Profile::where('id', $profiles)->update($request->all());
-            return \Response::json(array(
-                'status' => 'success'
-            ));
+            return response()->success();
         } catch (Exception $e) {
-            return \Response::json(array(
-                'status' => 'error',
-                'message' => $e
-            ));
+            return response()->error("Pan" , $e);
         }
-        
+
     }
 
     /**
@@ -77,6 +71,15 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $profile = Profile::findorfail($id);
+        if ($profile->is_owner == 1) {
+            return response()->error("409" , "Owner accounts cannot be deleted");
+        } else {
+            Profile::destroy($id);
+            return response()->success();
+        }
+
+
+
     }
 }
