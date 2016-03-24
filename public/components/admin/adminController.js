@@ -1,6 +1,6 @@
 angular.module('adminCtrl', [])
 .controller('adminController', function($scope, $location, $log) {
-	
+
 	$scope.conferences = [
         {
             conferenceId: 1,
@@ -52,8 +52,15 @@ angular.module('adminCtrl', [])
 			events.show = true;
 		}
 	}
+	$scope.goInventory = function(id, event){
+			if (event) {
+					event.preventDefault();
+					event.stopPropagation();
+			}
+			$location.url('/manage-inventory-' + id);
+	}
 
-    $scope.goAccommodations = function(id, event){  
+    $scope.goAccommodations = function(id, event){
         if (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -61,7 +68,7 @@ angular.module('adminCtrl', [])
         $location.url('/manage-accommodations-' + id);
     }
 
-    $scope.goTransportation = function(id, event){  
+    $scope.goTransportation = function(id, event){
         if (event) {
             event.preventDefault();
             event.stopPropagation();

@@ -43,8 +43,8 @@ angular.module('cms', [
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
     $rootScope.auth = $auth.isAuthenticated();
 
-    $rootScope.$on('$stateChangeStart', 
-        function () { 
+    $rootScope.$on('$stateChangeStart',
+        function () {
             var user;
             if ($rootScope.user) {
                 user = $rootScope.user.id;
@@ -186,7 +186,7 @@ angular.module('cms', [
     })
 
     .state( 'manage-inventory', {
-        url: '/manage-inventory',
+        url: '/manage-inventory-:conferenceId',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
         controller: 'manageInventoryController',
         resolve: {
@@ -264,6 +264,6 @@ angular.module('cms', [
             }
             $http.defaults.headers.common["ID"]=id;
             return response || $q.when(response);
-        }  
+        }
     };
 });
