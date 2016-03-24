@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 
@@ -35,7 +36,7 @@ class EventController extends Controller
 
         $new_event_data = array(
             'coference_id'          => $request->conference_id,
-            'name'                  => $request->name, 
+            'name'                  => $request->name,
             'description'           => $request->description,
             'facilitator'           => $request->facilitator,
             'date'                  => $request->date,
@@ -49,10 +50,10 @@ class EventController extends Controller
             'attendee_count'        => $request->attendee_count,
             'capacity'              => $request->capacity,
             'status'                => 'pending'
-        ); 
+        );
 
         $check = userCheck($user_id,$api_token);
-        
+
         if(!$check){
 
             $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
@@ -73,7 +74,7 @@ class EventController extends Controller
 
         }
 
-        return \Response::json($response); 
+        return \Response::json($response);
     }
 
     /**
@@ -96,13 +97,13 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $user_id = $request->id;
         $api_token = $request->apiToken;
 
         $new_event_data = array(
             'coference_id'          => $request->conference_id,
-            'name'                  => $request->name, 
+            'name'                  => $request->name,
             'description'           => $request->description,
             'facilitator'           => $request->facilitator,
             'date'                  => $request->date,
@@ -115,10 +116,10 @@ class EventController extends Controller
             'gender_limit'          => $request->gender_limit,
             'attendee_count'        => $request->attendee_count,
             'capacity'              => $request->capacity
-        ); 
+        );
 
         $check = userCheck($user_id,$api_token);
-        
+
         if(!$check){
 
             $response = array('status' => 'error', 'message' => 'user/api_token mismatch');
@@ -128,7 +129,7 @@ class EventController extends Controller
 
             $user = \Sentinel::findById($user_id);
             $status = $request->status;
-        
+
             if (!is_null($status) && $user->hasAccess(['event.status'])){
 
                 Event::find($id)
@@ -143,7 +144,7 @@ class EventController extends Controller
                 ->update(array('status' => 'pending'));
 
                 /*
-                *TODO: check if user wants email notifcations. If yes, send one. 
+                *TODO: check if user wants email notifcations. If yes, send one.
                 *TODO: ADD notification column to user table lol ;p
                 */
 

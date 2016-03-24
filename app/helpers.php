@@ -9,6 +9,10 @@ use App\Models\User as User;
             return false;
    }
 
+   /*
+   *Input - Authentication Token, Array of permissions e.g.['user.store']
+   *Output - Boolean
+   */
  function checkPermission($AuthToken,$permissionArray)
    {
        $user_id = User::where('api_token', $AuthToken)->first();

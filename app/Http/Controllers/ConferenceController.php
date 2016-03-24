@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 use App\Http\Requests\ConferenceRequest;
@@ -48,7 +49,7 @@ class ConferenceController extends Controller
         $api_token = $request->header('X-Auth-Token');
 
         $check = userCheck($user_id,$api_token);
-        
+
         if(!$check){
 
             $response = array('status' => 'error', 'message' => 'Access denied.');
@@ -69,7 +70,7 @@ class ConferenceController extends Controller
 
         }
 
-        return \Response::json($response);  
+        return \Response::json($response);
     }
 
     /**
@@ -106,7 +107,7 @@ class ConferenceController extends Controller
         $api_token = $request->header('X-Auth-Token');
 
         $new_conference_data = array(
-            'name'                  => $request->name, 
+            'name'                  => $request->name,
             'description'           => $request->description,
             'start_date'            => $request->start_date,
             'end_date'              => $request->end_date,
@@ -114,10 +115,10 @@ class ConferenceController extends Controller
             'city'                  => $request->city,
             'country'               => $request->country,
             'capacity'              => $request->capacity
-        ); 
+        );
 
         $check = userCheck($user_id,$api_token);
-        
+
         if(!$check){
 
             $response = array('status' => 'error', 'message' => 'Access denied.');
@@ -127,7 +128,7 @@ class ConferenceController extends Controller
 
             $user = \Sentinel::findById($user_id);
             $status = $request->status;
-        
+
             if (!is_null($status) && $user->hasAccess(['conference.status'])){
 
                 Conference::find($id)
@@ -141,7 +142,7 @@ class ConferenceController extends Controller
                 ->update($new_conference_data);
 
                 /*
-                *TODO: check if user wants email notifcations. If yes, send one. 
+                *TODO: check if user wants email notifcations. If yes, send one.
                 *TODO: ADD notification column to user table.
                 */
 

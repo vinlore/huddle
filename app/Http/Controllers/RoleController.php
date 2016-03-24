@@ -10,8 +10,6 @@ use Cartalyst\Sentinel\Roles\EloquentRole;
 use App\Http\Requests;
 use App\Models\User;
 
-require app_path().'/helpers.php';
-
 class RoleController extends Controller
 {
     /**
@@ -21,7 +19,15 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        return EloquentRole::all();
+        try {
+            $role = EloquentRole::all();
+            if (!$role) {
+                return response()->success("Rabbit" , "No Roles Found");
+            }
+            return $role;
+        } catch (Exception $e) {
+            return response()->error("Rheia" , $e);
+        }
     }
 
     /**
@@ -41,25 +47,11 @@ class RoleController extends Controller
         $response =json_decode($request);
         */
 
-        //Check for permissions - role.store
-        if(!checkPermission($request->header('X-Auth-Token'),['role.store']))
-        {
-            return \Response::json(array(
-                'status' => 'error',
-                'code' => 'Permissions',
-                'message' => 'You have no permissions to access this'
-            ));
-        }
-
         $slug = strtolower($request->name);
         $name = $request->name;
 
         if (\Sentinel::findRoleBySlug($slug) || \Sentinel::findRoleByName($name)) {
-            return \Response::json(array(
-                'status' => 'error',
-                'code' => 'Role Permissions',
-                'message' => 'Role name already exists'
-            ));
+            return response()->error("Rhea", "Role name already exists");
         }
 
         $role = \Sentinel::getRoleRepository()->createModel()->create([
@@ -104,27 +96,12 @@ class RoleController extends Controller
          $response = json_decode($request);
          */
 
-         //Check for permissions - role.update
-         if(!checkPermission($request->header('X-Auth-Token'),['role.update']))
-         {
-             return \Response::json(array(
-                 'status' => 'error',
-                 'code' => 'Permissions',
-                 'message' => 'You have no permissions to access this'
-             ));
-         }
-
          //Check if Role Id exists
-         if(!\Sentinel::findRoleById($request->role_id))
-         {
-             return \Response::json(array(
-                 'status' => 'error',
-                 'code' => 'Remi',
-                 'message' => 'Unable to find Role with role_id '.$request->role_id
-             ));
+         if (!\Sentinel::findRoleById($request->role_id)) {
+             return response()->error("Remi" , "Unable to find Role with role_id ".$request->role_id);
          }
 
-        $role = \Sentinel::findRoleById($request->id);
+         $role = \Sentinel::findRoleById($request->id);
 
          //Convert into String, then back into array
          //Place array into the roles permissions
@@ -150,40 +127,20 @@ class RoleController extends Controller
 
          $response = json_decode($request);
          */
-         //Check for permissions - role.store
-         if(!checkPermission($request->header('X-Auth-Token'),['role.destroy']))
-         {
-             return \Response::json(array(
-                 'status' => 'error',
-                 'code' => 'Permissions',
-                 'message' => 'You have no permissions to access this'
-             ));
-         }
 
         //Check if Role Id exists
-        if(!\Sentinel::findRoleById($roles))
-        {
-            return \Response::json(array(
-                'status' => 'error',
-                'code' => 'Remus',
-                'message' => 'Unable to find Role with role_id '.$roles
-            ));
+        if (!\Sentinel::findRoleById($roles)) {
+            return response()->error("Remus" , "'Unable to find Role with role_id '.$roles");
         }
 
         //Check if Users have this role_id
         $role = \Sentinel::findRoleById($roles);
-        if($role->users()->with('roles')->first())
-        {
-            return \Response::json(array(
-                'status' => 'error',
-                'code' => 'Roma',
-                'message' => 'Users are assigned to this role, unable to delete role, Make sure to remove this role from all Users',
-            ));
+        if($role->users()->with('roles')->first()) {
+            return response()->error("Roma" , "Users are assigned to this role, unable to delete role, Make sure to remove this role from all Users");
         }
+
         //Destroy Role
         Sentinel::findRoleById($response->role_id)->delete();
-        return \Response::json(array(
-            'status' => 'success',
-        ));
+        return response()->success();
     }
 }
