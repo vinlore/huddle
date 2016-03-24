@@ -71,6 +71,15 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $profile = Profile::findorfail($id);
+        if ($profile->is_owner == 1) {
+            return response()->error("409" , "Owner accounts cannot be deleted");
+        } else {
+            Profile::destroy($id);
+            return response()->success();
+        }
+
+
+
     }
 }

@@ -102,5 +102,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        //Not Allowed to destroy
     }
 }

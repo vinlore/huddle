@@ -86,6 +86,16 @@ class AccommodationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $accom = Accommodation::findorfail($id);
+            if ($accom->rooms()->count()){
+                return response->error("409" , "Rooms still in this Accomodation");
+            }
+            Accomodation::destroy($id);
+            return response->success();
+        } catch (Exception $e) {
+            return response()->error("500" , $e);
+        }
     }
+
 }

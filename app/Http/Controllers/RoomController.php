@@ -97,6 +97,11 @@ class RoomController extends Controller
      */
     public function destroy($id)
     {
-        //Soft Delete
+        try {
+            Room::destroy($id);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("500" , $e);
+        }
     }
 }

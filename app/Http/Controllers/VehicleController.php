@@ -96,6 +96,15 @@ class VehicleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $vehicle = Vehicle::findorfail($id);
+            if ($vehicle->passengers()->count()){
+                return response->error("409" , "Passengers still in this Vehicle")
+            }
+            Vehicle::destroy($id);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("500" , $e);
+        }
     }
 }

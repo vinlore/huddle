@@ -96,6 +96,11 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Item::destroy($id);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("500" , $e);
+        }
     }
 }
