@@ -38,6 +38,23 @@ angular.module( 'profileCtrl', [] )
             })
     };
 
+    $scope.saveAddressChanges = function () {
+        var profile = {
+            city: $scope.user.City,
+            country: $scope.user.Country
+        };
+        Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
+            .$promise.then( function ( response ) {
+                if ( response.status == 'success' ) {
+                    popup.alert( 'success', 'Contact information successfully changed.' );
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    };
+
     $scope.savePasswordChanges = function () {
         var password = {
             password: $scope.user.NewPassword
