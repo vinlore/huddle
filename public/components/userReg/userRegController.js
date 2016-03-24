@@ -13,7 +13,8 @@ angular.module( 'userRegCtrl', [] )
         city: null,
         email: null,
         phone: null,
-        gender: null
+        gender: null,
+        receive: false
     };
 
     $scope.countries = Countries;
@@ -71,7 +72,8 @@ angular.module( 'userRegCtrl', [] )
             city: city,
             email: $scope.user.email,
             phone: $scope.user.phone,
-            gender: $scope.user.gender
+            gender: $scope.user.gender,
+            receive_email: $scope.user.receive
         };
 
         if ($scope.regForm.$valid) {

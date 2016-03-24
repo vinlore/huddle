@@ -70,9 +70,8 @@ angular.module( 'profileCtrl', [] )
     $scope.loadProfile = function () {
         Profile.get( { uid: $rootScope.user.id } )
             .$promise.then( function ( response ) {
-                if ( response.status == 'success' && response.profile) {
-                    console.log(response);
-                    var profile = response.profile;
+                if ( response ) {
+                    var profile = response;
                     $scope.user = {
                         id: profile.id,
                         Username: $rootScope.user.name,
