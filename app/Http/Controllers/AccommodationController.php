@@ -49,7 +49,7 @@ class AccommodationController extends Controller
     public function show($id)
     {
         try {
-            return Accomodation::find($id);
+            return Accommodation::find($id);
         } catch (Exception $e){
             return response()->error("Acheloisthe", $e);
         }
@@ -71,7 +71,7 @@ class AccommodationController extends Controller
                 'city' => $request->city,
                 'country' => $request->country
             );
-            Accomodation::where('id',$id)->update($new_accomodation_data);
+            Accommodation::where('id',$id)->update($new_accomodation_data);
             return response()->success();
         } catch (Exception $e) {
             return response()->error("Achelous", $e);
@@ -89,10 +89,10 @@ class AccommodationController extends Controller
         try {
             $accom = Accommodation::findorfail($id);
             if ($accom->rooms()->count()){
-                return response->error("409" , "Rooms still in this Accomodation");
+                return response()->error("409" , "Rooms still in this Accomodation");
             }
-            Accomodation::destroy($id);
-            return response->success();
+            Accommodation::destroy($id);
+            return response()->success();
         } catch (Exception $e) {
             return response()->error("500" , $e);
         }

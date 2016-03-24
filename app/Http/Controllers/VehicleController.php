@@ -99,7 +99,7 @@ class VehicleController extends Controller
         try {
             $vehicle = Vehicle::findorfail($id);
             if ($vehicle->passengers()->count()){
-                return response->error("409" , "Passengers still in this Vehicle")
+                return response()->error("409" , "Passengers still in this Vehicle");
             }
             Vehicle::destroy($id);
             return response()->success();
