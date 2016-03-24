@@ -37,7 +37,8 @@ angular.module('cms', [
     'ngMap',
     'ui.router',
     'manageRequestsCtrl',
-    'ngTable'
+    'ngTable',
+    'reportsCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
@@ -216,6 +217,15 @@ angular.module('cms', [
         url: '/requests',
         templateUrl: 'components/manageRequests/manageRequestsView.html',
         controller: 'manageRequestsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'reports', {
+        url: '/reports-:conferenceId',
+        templateUrl: 'components/reports/reportsView.html',
+        controller: 'reportsController',
         resolve: {
             loginRequired: loginRequired
         }

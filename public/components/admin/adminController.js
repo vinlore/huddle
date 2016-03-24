@@ -52,13 +52,6 @@ angular.module('adminCtrl', [])
 			events.show = true;
 		}
 	}
-	$scope.goInventory = function(id, event){
-			if (event) {
-					event.preventDefault();
-					event.stopPropagation();
-			}
-			$location.url('/manage-inventory-' + id);
-	}
 
     $scope.goAccommodations = function(id, event){
         if (event) {
@@ -75,5 +68,21 @@ angular.module('adminCtrl', [])
         }
         $location.url('/manage-transportation-' + id);
     }
+
+		$scope.goInventory = function(id, event){
+				if (event) {
+						event.preventDefault();
+						event.stopPropagation();
+				}
+				$location.url('/manage-inventory-' + id);
+		}
+
+		$scope.goReports = function(id, event){
+				if (event) {
+						event.preventDefault();
+						event.stopPropagation();
+				}
+				$location.url('/reports-' + id);
+		}
 
 })
