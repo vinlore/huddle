@@ -1,8 +1,9 @@
 angular.module('adminCtrl', [])
-.controller('adminController', function($scope) {
+.controller('adminController', function($scope, $location, $log) {
 	
 	$scope.conferences = [
         {
+            conferenceId: 1,
             name: "India Conference",
             address: "Sansad Marg, Connaught Place, New Delhi, Delhi 110001, India",
             startDate: "Feb 10, 2016",
@@ -24,6 +25,7 @@ angular.module('adminCtrl', [])
             ]
         },
         {
+            conferenceId: 2,
             name: "Canada Conference",
             address: "1055 Canada Pl, Vancouver, BC, V6C 0C3, Canada",
             startDate: "Feb 16, 2016",
@@ -33,6 +35,7 @@ angular.module('adminCtrl', [])
             ]
         },
         {
+            conferenceId: 3,
             name: "France Conference",
             address: " 17 Boulevard Saint Jacques,  Paris,  75014,  France  ",
             startDate: "Feb 22, 2016",
@@ -49,5 +52,21 @@ angular.module('adminCtrl', [])
 			events.show = true;
 		}
 	}
+
+    $scope.goAccommodations = function(id, event){  
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $location.url('/manage-accommodations-' + id);
+    }
+
+    $scope.goTransportation = function(id, event){  
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $location.url('/manage-transportation-' + id);
+    }
 
 })

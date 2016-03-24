@@ -44,13 +44,6 @@ class ConferenceRequest extends Request
                         return false;
                    }
 
-                case 'GET':
-                    if($user_to_check->hasAccess(['conference.show'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
                 default:
                     return false;
             }

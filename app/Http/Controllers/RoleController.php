@@ -60,7 +60,7 @@ class RoleController extends Controller
                 'permissions' => json_decode(json_encode($request->permissions), true)
             ]);
 
-        return $role;
+        return response()->success();
     }
 
 
@@ -108,7 +108,7 @@ class RoleController extends Controller
          $role->permissions = json_decode(json_encode($request->permissions), True);
          $role->save();
 
-         return $role;
+         return response()->success();
     }
 
 

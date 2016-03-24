@@ -61,17 +61,17 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ConferenceRequest $id){
+    public function show($conferences){
         try{ 
-                $conference = Conference::find($id);
+            $conference = Conference::find($conferences);
 
-                if(!$conference){
-                    return response()->error("No conference found.");
-                }
+            if(!$conference){
+                return response()->error(null, "No conference found.");
+            }
 
-                return $conference;
+            return $conference;
 
-            } catch (Exception $e) {
+        } catch (Exception $e) {
             return response()->error($e);
         }
     }

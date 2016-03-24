@@ -28,7 +28,9 @@ angular.module('cms', [
     'signupConfCtrl',
     'signupEventCtrl',
     'ng-fusioncharts',
+    'manageAccommodationsCtrl',
     'manageInventoryCtrl',
+    'manageRoomsCtrl',
     'manageTransportationCtrl',
     'ngStorage',
     'popupServices',
@@ -38,7 +40,7 @@ angular.module('cms', [
     'ngTable'
 ])
 
-.run( function( $rootScope, $auth, $localStorage, $http ) {
+.run( function( $rootScope, $auth, $localStorage, $http, popup ) {
     $rootScope.auth = $auth.isAuthenticated();
 
     $rootScope.$on('$stateChangeStart', 
@@ -58,7 +60,7 @@ angular.module('cms', [
                 }
             }).success( function ( response ) {
                 if ( response.status == 'error' ) {
-                    // You have been logged out alert
+                    popup.alert('danger', 'You have been logged out.');
                     $auth.removeToken();
                     $rootScope.auth = null;
                     $rootScope.user = null;
@@ -174,6 +176,15 @@ angular.module('cms', [
         }
     })
 
+    .state( '/manage-accommodations', {
+        url: '/manage-accommodations-:conferenceId',
+        templateUrl: 'components/manageAccommodations/manageAccommodationsView.html',
+        controller: 'manageAccommodationsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
     .state( 'manage-inventory', {
         url: '/manage-inventory',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
@@ -183,14 +194,26 @@ angular.module('cms', [
         }
     })
 
+    .state( '/manage-rooms', {
+        url: '/manage-rooms-:accommodationId',
+        templateUrl: 'components/manageRooms/manageRoomsView.html',
+        controller: 'manageRoomsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
     .state( '/manage-transportation', {
-        url: '/manage-transportation',
+        url: '/manage-transportation-:conferenceId',
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
-        controller: 'manageTransportationController'
+        controller: 'manageTransportationController',
+        resolve: {
+            loginRequired: loginRequired
+        }
     })
 
     .state( 'requests', {
-        url: '/manage-requests',
+        url: '/requests',
         templateUrl: 'components/manageRequests/manageRequestsView.html',
         controller: 'manageRequestsController',
         resolve: {

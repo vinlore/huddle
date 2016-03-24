@@ -23,11 +23,14 @@
   <link rel="stylesheet" href="components/profile/profile.css">
   <link rel="stylesheet" href="components/signupConference/signupConference.css">
   <link rel="stylesheet" href="components/signupEvent/signupEvent.css">
+  <link rel="stylesheet" href="components/manageAccommodations/manageAccommodations.css">
   <link rel="stylesheet" href="components/manageInventory/manageInventory.css">
+  <link rel="stylesheet" href="components/manageRooms/manageRooms.css">
   <link rel="stylesheet" href="components/manageTransportation/manageTransportation.css">
   <link rel="stylesheet" href="components/manageRequests/manageRequests.css">
   <link rel="stylesheet" href="assets/css/animate.css">
   <link rel="stylesheet" href="components/manageAccounts/manageAccounts.css">
+  <link rel="stylesheet" href="assets/libs/ng-table/dist/ng-table.min.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -37,6 +40,7 @@
   <script src="assets/libs/angular-resource/angular-resource.min.js"></script>
   <script src="assets/libs/satellizer/satellizer.min.js"></script>
   <script src="assets/libs/angular-google-places-autocomplete/dist/autocomplete.min.js"></script>
+  <script src="assets/libs/ng-table/dist/ng-table.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1Pmv3HdlO7MufSCHtByXYIfiuRzhc1mg&libraries=places"></script>
   <script type="text/javascript" src="assets/js/fusioncharts/fusioncharts.js"></script>
   <script type="text/javascript" src="assets/js/fusioncharts/angular-fusioncharts.min.js"></script>
@@ -58,7 +62,9 @@
   <script src="components/manageAccounts/manageAccountsController.js"></script>
   <script src="components/signupConference/signupConferenceController.js"></script>
   <script src="components/signupEvent/signupEventController.js"></script>
+  <script src="components/manageAccommodations/manageAccommodationsController.js"></script>
   <script src="components/manageInventory/manageInventoryController.js"></script>
+  <script src="components/manageRooms/manageRoomsController.js"></script>
   <script src="components/manageTransportation/manageTransportationController.js"></script>
   <script src="components/manageRequests/manageRequestsController.js"></script>
 
