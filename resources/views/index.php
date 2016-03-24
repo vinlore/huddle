@@ -42,6 +42,7 @@
   <script type="text/javascript" src="assets/js/fusioncharts/angular-fusioncharts.min.js"></script>
   <script text="text/javascript" src="assets/libs/ngstorage/ngStorage.min.js"></script>
   <script text="text/javascript" src="assets/libs/ngmap/build/scripts/ng-map.min.js"></script>
+  <script type="text/javascript" src="assets/libs/ng-table/dist/ng-table.min.js"></script>
 
   <!-- CONTROLLERS -->
   <script src="components/home/homeController.js"></script>

@@ -35,6 +35,7 @@ angular.module('cms', [
     'ngMap',
     'ui.router',
     'manageRequestsCtrl',
+    'ngTable'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http ) {

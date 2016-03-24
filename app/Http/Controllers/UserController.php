@@ -18,7 +18,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = \Sentinel::getUserRepository()->with('roles')->get();
+        return $users;
     }
 
     /**
@@ -50,7 +51,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $users)
     {
         /* Example JSON of request
         *
@@ -63,51 +64,42 @@ class UserController extends Controller
              ),
              'role_id' => 1,
          ));
-         $response = json_decode($request);
+         $request = json_decode($request);
          */
 
-         //Check for permissions - user.update
-         if(!checkPermission($request->header('X-Auth-Token'),['user.update']))
-         {
-             return \Response::json(array(
-                 'status' => 'error',
-                 'code' => 'Permissions',
-                 'message' => 'You have no permissions to access this'
-             ));
-         }
-
-
          //Check if Role Id exists
-         if(!\Sentinel::findRoleById($response->role_id))
+         if(!\Sentinel::findRoleById($request->role_id))
          {
              return \Response::json(array(
                  'status' => 'error',
                  'code' => 'Unta',
-                 'message' => 'Unable to find Role with role_id '.$response->role_id
+                 'message' => 'Unable to find Role with role_id '.$request->role_id
              ));
          }
 
          //Check if User Id Exists
-         if(!\Sentinel::findUserById($response->user_id))
+         if(!\Sentinel::findUserById($users))
          {
              return \Response::json(array(
                  'status' => 'error',
                  'code' => 'Umesh',
-                 'message' => 'Unable to find User with user_id '.$response->user_id
+                 'message' => 'Unable to find User with user_id '.$users
              ));
          }
 
-
          //Update Role first
-         $user = Sentinel::findById($response->user_id);
-         $role = Sentinel::findRoleById($response->role_id);
+         $user = \Sentinel::findById($users);
+         $role = \Sentinel::findRoleById($request->role_id);
 
          $user->roles()->sync([$role->id]);
 
          //Update Permissions next
-         $user = \Sentinel::findById($response->user_id);
-         $user->permissions = json_decode(json_encode($response->permissions), True);
+         $user->permissions = json_decode(json_encode($request->permissions), True);
          $user->save();
+
+        return \Response::json(array(
+            'status' => 'success'
+        ));
     }
 
     /**
