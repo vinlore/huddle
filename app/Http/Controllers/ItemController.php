@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 
@@ -17,7 +18,16 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $item = Item::all();
+            //Check if Items exists
+            if (!$item) {
+                return response()->success("Iris" , "No Items Exist");
+            }
+            return $item;
+        } catch (Exception $e) {
+            return response()->error("Irene" , $e);
+        }
     }
 
     /**
@@ -28,8 +38,12 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        Item::create($request->all());
-        return \Response::json(array('status' => 'success'));
+        try{
+            Item::create($request->all());
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("Ion", $e);
+        }
     }
 
     /**
@@ -40,7 +54,16 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $item = Item::find($id);
+            //Check if the the item exists
+            if (!$item) {
+                return response()->success("Iris","No Item Exist");
+            }
+            return $item;
+        } catch (Exception $e) {
+            return response()->error("Icelos", $e);
+        }
     }
 
     /**
@@ -52,7 +75,17 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $newItemData = array(
+                'name' => $request->name,
+                'conference_id' => $request->conference_id,
+                'quantity' => $request->quantity
+            );
+            Item::where('id',$id)->update($newItemData);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("Ino", $e);
+        }
     }
 
     /**
@@ -63,6 +96,11 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Item::destroy($id);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("500" , $e);
+        }
     }
 }

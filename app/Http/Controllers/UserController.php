@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 use App\Models\User;
-
-require app_path().'/helpers.php';
 
 class UserController extends Controller
 {
@@ -18,6 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        // TODO pagination
         $users = \Sentinel::getUserRepository()->with('roles')->get();
         return $users;
     }
@@ -67,39 +67,33 @@ class UserController extends Controller
          $request = json_decode($request);
          */
 
-         //Check if Role Id exists
-         if(!\Sentinel::findRoleById($request->role_id))
-         {
-             return \Response::json(array(
-                 'status' => 'error',
-                 'code' => 'Unta',
-                 'message' => 'Unable to find Role with role_id '.$request->role_id
-             ));
-         }
+        try {
+            //Check if Role Id exists
+            if(!\Sentinel::findRoleById($request->role_id))
+            {
+                return response()->error("Unta" , "Unable to find Role with role_id ".$request->role_id);
+            }
 
-         //Check if User Id Exists
-         if(!\Sentinel::findUserById($users))
-         {
-             return \Response::json(array(
-                 'status' => 'error',
-                 'code' => 'Umesh',
-                 'message' => 'Unable to find User with user_id '.$users
-             ));
-         }
+            //Check if User Id Exists
+            if(!\Sentinel::findUserById($users))
+            {
+                return response()->error("Umesh" ,"Unable to find User with user_id ".$users);
+            }
 
-         //Update Role first
-         $user = \Sentinel::findById($users);
-         $role = \Sentinel::findRoleById($request->role_id);
+            //Update Role first
+            $user = \Sentinel::findById($users);
+            $role = \Sentinel::findRoleById($request->role_id);
 
-         $user->roles()->sync([$role->id]);
+            $user->roles()->sync([$role->id]);
 
-         //Update Permissions next
-         $user->permissions = json_decode(json_encode($request->permissions), True);
-         $user->save();
+            //Update Permissions next
+            $user->permissions = json_decode(json_encode($request->permissions), True);
+            $user->save();
 
-        return \Response::json(array(
-            'status' => 'success'
-        ));
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error("Ulysses" , $e);
+        }
     }
 
     /**
@@ -110,5 +104,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        //Not Allowed to destroy
     }
 }
