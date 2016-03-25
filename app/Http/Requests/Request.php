@@ -20,7 +20,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Retrieve the logged in user.
+     * Retrieve the authenticated user.
      */
     public function getUser()
     {
@@ -29,5 +29,17 @@ abstract class Request extends FormRequest
             $apiToken = $this->header('X-Auth-Token');
             return User::find($userId);
         }
+    }
+
+    /**
+     * Check if the authenticated user is a System Administrator.
+     */
+    public function isSuperuser()
+    {
+        $role = $this->getUser()->roles()->first();
+        if ($role->name == 'System Administrator') {
+            return true;
+        }
+        return false;
     }
 }
