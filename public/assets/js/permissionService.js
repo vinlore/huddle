@@ -5,7 +5,6 @@ app.service('checkPermissions', function ($rootScope) {
         var p = $rootScope.user.permissions;
         switch (type) {
             case 'accommodations':
-            console.log(p['accommodations.store'])
                 return p['accommodations.store'] || p['accommodations.update'] || p['accommodations.destroy'] || p['accommodations.show'];
                 break;
             case 'conference_vehicles':

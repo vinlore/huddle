@@ -87,7 +87,7 @@ angular.module('adminCtrl', [])
         $state.go('create-event', {conferenceId: cid});
     }
 
-    $scope.goAccommodations = function(id, event){  
+    $scope.goAccommodations = function(id, event){
         if (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -95,12 +95,28 @@ angular.module('adminCtrl', [])
         $state.go('manage-accommodations', {conferenceId: id});
     }
 
-    $scope.goTransportation = function(id, event){  
+    $scope.goTransportation = function(id, event){
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
         $state.go('manage-transportation', {conferenceId: id});
     }
+
+	$scope.goInventory = function(id, event){
+		if (event) {
+				event.preventDefault();
+				event.stopPropagation();
+		}
+		$location.url('/manage-inventory-' + id);
+	}
+
+	$scope.goReports = function(id, event){
+		if (event) {
+				event.preventDefault();
+				event.stopPropagation();
+		}
+		$location.url('/reports-' + id);
+	}
 
 })

@@ -1,0 +1,14 @@
+<div id="profile" class="container has-header">
+  <h1 class="page-header text-center">Huddle Insights &trade;</h1>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div ng-if="auth" class="col-md-12">
+        <div fusioncharts width="100%" height="55%" type="doughnut3d" dataSource="{{dataset1}}">
+        </div>
+        <hr>
+        <div fusioncharts width="100%" height="55%" type="column3d" dataSource="{{dataset2}}">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

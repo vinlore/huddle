@@ -37,14 +37,16 @@ angular.module('cms', [
     'ui.router',
     'manageRequestsCtrl',
     'ngTable',
-    'permissionService'
+    'permissionService',
+    'reportsCtrl',
+    'angular-timeline'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
     $rootScope.auth = $auth.isAuthenticated();
 
-    $rootScope.$on('$stateChangeStart', 
-        function () { 
+    $rootScope.$on('$stateChangeStart',
+        function () {
             var user;
             if ($rootScope.user) {
                 user = $rootScope.user.id;
@@ -213,7 +215,7 @@ angular.module('cms', [
     })
 
     .state( 'manage-inventory', {
-        url: '/manage-inventory',
+        url: '/manage-inventory-:conferenceId',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
         controller: 'manageInventoryController',
         resolve: {
@@ -243,6 +245,15 @@ angular.module('cms', [
         url: '/requests',
         templateUrl: 'components/manageRequests/manageRequestsView.html',
         controller: 'manageRequestsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'reports', {
+        url: '/reports-:conferenceId',
+        templateUrl: 'components/reports/reportsView.html',
+        controller: 'reportsController',
         resolve: {
             loginRequired: loginRequired
         }
@@ -291,6 +302,6 @@ angular.module('cms', [
             }
             $http.defaults.headers.common["ID"]=id;
             return response || $q.when(response);
-        }  
+        }
     };
 });
