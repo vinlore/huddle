@@ -1,50 +1,60 @@
 angular.module('adminCtrl', [])
-.controller('adminController', function($scope, $location, $log) {
+.controller('adminController', function($scope, $location, $log, Conferences, Events, popup, $state, checkPermissions) {
+	
+    $scope.conferences = [];
+    $scope.events = []; // array of arrays of events
 
-	$scope.conferences = [
-        {
-            conferenceId: 1,
-            name: "India Conference",
-            address: "Sansad Marg, Connaught Place, New Delhi, Delhi 110001, India",
-            startDate: "Feb 10, 2016",
-            endDate: "Feb 11, 2016",
-            image: "assets/img/india-flag.gif",
-            events: [
-            	{
-            		name: "Opening Ceremony",
-            		address: "Sansad Marg, Connaught Place, New Delhi, Delhi 110001, India",
-            		startDateTime: "Feb 10, 2016 9:00 AM",
-            		endDateTime: "Feb 10, 2016 10:00 AM"
-            	},
-            	{
-            		name: "Closing Ceremony",
-            		address: "Sansad Marg, Connaught Place, New Delhi, Delhi 110001, India",
-            		startDateTime: "Feb 11, 2016 5:00 PM",
-            		endDateTime: "Feb 11, 2016 6:00 PM"
-            	}
-            ]
-        },
-        {
-            conferenceId: 2,
-            name: "Canada Conference",
-            address: "1055 Canada Pl, Vancouver, BC, V6C 0C3, Canada",
-            startDate: "Feb 16, 2016",
-            endDate: "Feb 17, 2016",
-            image: "assets/img/canada-flag.gif",
-            events: [
-            ]
-        },
-        {
-            conferenceId: 3,
-            name: "France Conference",
-            address: " 17 Boulevard Saint Jacques,  Paris,  75014,  France  ",
-            startDate: "Feb 22, 2016",
-            endDate: "Feb 23, 2016",
-            image: "assets/img/world-flag.gif",
-            events: [
-            ]
-        }
-    ];
+    $scope.checkPermissions = function(type) {
+        return checkPermissions(type);
+    }
+
+	$scope.loadConferences = function () {
+        Conferences.fetch().query()
+            .$promise.then( function ( response ) {
+                if ( response ) {
+                    $scope.conferences = response;
+                    for ( var i = 0; i < response.length; i++ ) {
+                        Events.fetch().query( {cid: $scope.conferences[i].id} )
+                            .$promise.then( function ( events ) {
+                                if ( events ) {
+                                    $scope.events[i] = events;
+                                } else {
+                                    $scope.events = [];
+                                }
+                            }, function () {
+                                popup.connection();
+                            })
+                    }
+                } else {
+                    $scoope.conferences = [];
+                }
+            }, function () {
+                popup.connection();
+            })
+    };
+
+    $scope.loadConferences();
+
+    $scope.deleteConference = function ( cid, e ) {
+        e.preventDefault();
+        e.stopPropagation();
+        var modalInstance = popup.prompt('Delete', 'Are you sure you want to delete this conference?');
+
+        modalInstance.result.then( function ( result ) {
+            if (result) {
+                Conferences.fetch().delete({cid: cid})
+                    .$promise.then( function ( response ) {
+                        if (response.status == 'success') {
+                            popup.alert('success', 'Conference successfully deleted');
+                        } else {
+                            popup.error('Error');
+                        }
+                    }, function () {
+                        popup.connection();
+                    })
+            }
+        })
+    };
 
     show = function(events) {
     	alert("hi");
@@ -53,12 +63,36 @@ angular.module('adminCtrl', [])
 		}
 	}
 
+    $scope.goConferenceManagers = function (cid, event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $state.go('conference-managers', {conferenceId: cid});
+    }
+
+    $scope.goEventManagers = function (eid, event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $state.go('event-managers', {eventId: cid});
+    }
+
+    $scope.goCreateEvent = function (cid, event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $state.go('create-event', {conferenceId: cid});
+    }
+
     $scope.goAccommodations = function(id, event){
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
-        $location.url('/manage-accommodations-' + id);
+        $state.go('manage-accommodations', {conferenceId: id});
     }
 
     $scope.goTransportation = function(id, event){
@@ -66,23 +100,23 @@ angular.module('adminCtrl', [])
             event.preventDefault();
             event.stopPropagation();
         }
-        $location.url('/manage-transportation-' + id);
+        $state.go('manage-transportation', {conferenceId: id});
     }
 
-		$scope.goInventory = function(id, event){
-				if (event) {
-						event.preventDefault();
-						event.stopPropagation();
-				}
-				$location.url('/manage-inventory-' + id);
+	$scope.goInventory = function(id, event){
+		if (event) {
+				event.preventDefault();
+				event.stopPropagation();
 		}
+		$location.url('/manage-inventory-' + id);
+	}
 
-		$scope.goReports = function(id, event){
-				if (event) {
-						event.preventDefault();
-						event.stopPropagation();
-				}
-				$location.url('/reports-' + id);
+	$scope.goReports = function(id, event){
+		if (event) {
+				event.preventDefault();
+				event.stopPropagation();
 		}
+		$location.url('/reports-' + id);
+	}
 
 })

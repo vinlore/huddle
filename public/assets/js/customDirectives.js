@@ -29,3 +29,25 @@ angular.module( 'customDirs', [] )
         })
     }
 })
+
+.directive('isApproved', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            status: '='
+        },
+        link: function (scope, element, attrs) {
+            switch (scope.status) {
+                case 'approved': 
+                    element[0].className = "alert status-approved";
+                    break;
+                case 'denied':
+                    element[0].className = "alert status-denied";
+                    break;
+                default:
+                    element[0].className = "alert status-pending";
+                    break;
+            }
+        }
+    }
+} )

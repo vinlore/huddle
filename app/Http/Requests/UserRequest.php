@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\User as User;
 
 class UserRequest extends Request
 {
@@ -14,43 +13,28 @@ class UserRequest extends Request
      */
     public function authorize()
     {
-        $user_id = $this->header('ID');
-        $api_token = $this->header('X-Auth-Token');
-            
-        $user_to_check = User::find($user_id);
+        if ($this->isSuperuser()) {
+            return true;
+        }
 
-
-        if($user_to_check->api_token == $api_token){
-
+        if ($this->authenticate()) {
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
-                        return true;
-                  
-                  
-                case 'PUT':
-                //TODO check if user to update is current user
-                    if($user_to_check->hasAccess(['user.update'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'DESTROY':
-                        return false;
-                   
-
+                    return $this->getUser()->hasAccess(['user.store']);
+                    break;
                 case 'GET':
-                //TODO: user to get == current user check
-                        return true;
-                   
-
+                    return $this->getUser()->hasAccess(['user.show']);
+                    break;
+                case 'PUT':
+                    return $this->getUser()->hasAccess(['user.update']);
+                    break;
+                case 'DELETE':
+                    return $this->getUser()->hasAccess(['user.destroy']);
+                    break;
                 default:
                     return false;
+                    break;
             }
-
-        }else{
-
-            return false;
         }
     }
 

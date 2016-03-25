@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\User as User;
 
 class EventRequest extends Request
 {
@@ -14,50 +13,28 @@ class EventRequest extends Request
      */
     public function authorize()
     {
-       $user_id = $this->header('ID');
-        $api_token = $this->header('X-Auth-Token');
-            
-        $user_to_check = User::find($user_id);
+        if ($this->isSuperuser()) {
+            return true;
+        }
 
-
-        if($user_to_check->api_token == $api_token){
-
+        if ($this->authenticate()) {
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
-                   if($user_to_check->hasAccess(['event.store'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-                  
-                case 'PUT':
-                    if($user_to_check->hasAccess(['event.update'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'DESTROY':
-                    if($user_to_check->hasAccess(['event.destroy'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
+                    return $this->getUser()->hasAccess(['event.store']);
+                    break;
                 case 'GET':
-                    if($user_to_check->hasAccess(['event.show'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
+                    return $this->getUser()->hasAccess(['event.show']);
+                    break;
+                case 'PUT':
+                    return $this->getUser()->hasAccess(['event.update']);
+                    break;
+                case 'DELETE':
+                    return $this->getUser()->hasAccess(['event.destroy']);
+                    break;
                 default:
                     return false;
+                    break;
             }
-
-        }else{
-
-            return false;
         }
     }
 

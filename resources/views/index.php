@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="components/manageAccounts/manageAccounts.css">
   <link rel="stylesheet" href="assets/libs/ng-table/dist/ng-table.min.css">
   <link rel="stylesheet" href="components/reports/reports.css">
-  <link rel="stylesheet" href="assets/js/angular-timeline/dist/angular-timeline.css"/>
+  <link rel="stylesheet" href="assets/css/angular-timeline.css"/>
   <link rel="stylesheet" href="components/activityLog/activityLog.css">
 
   <!-- LIBRARIES -->
@@ -50,7 +50,7 @@
   <script text="text/javascript" src="assets/libs/ngstorage/ngStorage.min.js"></script>
   <script text="text/javascript" src="assets/libs/ngmap/build/scripts/ng-map.min.js"></script>
   <script type="text/javascript" src="assets/libs/ng-table/dist/ng-table.min.js"></script>
-  <script text="text/javascript" src="assets/js/angular-timeline/dist/angular-timeline.js"></script>
+  <script text="text/javascript" src="assets/libs/angular-timeline/dist/angular-timeline.js"></script>
 
   <!-- CONTROLLERS -->
   <script src="components/home/homeController.js"></script>
@@ -71,15 +71,15 @@
   <script src="components/manageRooms/manageRoomsController.js"></script>
   <script src="components/manageTransportation/manageTransportationController.js"></script>
   <script src="components/manageRequests/manageRequestsController.js"></script>
+  <script src="components/manageManagers/manageManagersController.js"></script>
   <script src="components/reports/reportsController.js"></script>
 
   <!-- SERVICES -->
-  <script src="assets/js/conferenceService.js"></script>
-  <script src="assets/js/eventService.js"></script>
   <script src="assets/js/mapService.js"></script>
   <script src="assets/js/countryService.js"></script>
   <script src="assets/js/apiService.js"></script>
   <script src="assets/js/popupServices.js"></script>
+  <script src="assets/js/permissionService.js"></script>
 
   <!-- DIRECTIVES -->
   <script src="assets/js/customDirectives.js"></script>

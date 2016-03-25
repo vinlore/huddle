@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\User as User;
 
 class ConferenceRequest extends Request
 {
@@ -14,47 +13,29 @@ class ConferenceRequest extends Request
      */
     public function authorize()
     {
-        $user_id = $this->header('ID');
-        $api_token = $this->header('X-Auth-Token');
-            
-        $user_to_check = User::find($user_id);
-
-
-        if($user_to_check->api_token == $api_token){
-
-            switch (strtoupper($this->getMethod())) {
-                case 'POST':
-                   if($user_to_check->hasAccess(['conference.store'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-                  
-                case 'PUT':
-                    if($user_to_check->hasAccess(['conference.update'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'DESTROY':
-                    if($user_to_check->hasAccess(['conference.destroy'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                default:
-                    return false;
-            }
-
-        }else{
-
-            return false;
+        if ($this->isSuperuser()) {
+            return true;
         }
 
-
-
+        if ($this->authenticate()) {
+            switch (strtoupper($this->getMethod())) {
+                case 'POST':
+                    return $this->getUser()->hasAccess(['conference.store']);
+                    break;
+                case 'GET':
+                    return $this->getUser()->hasAccess(['conference.show']);
+                    break;
+                case 'PUT':
+                    return $this->getUser()->hasAccess(['conference.update']);
+                    break;
+                case 'DELETE':
+                    return $this->getUser()->hasAccess(['conference.destroy']);
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
     }
 
     /**
