@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\User as User;
 
 class ProfileRequest extends Request
 {
@@ -14,51 +13,25 @@ class ProfileRequest extends Request
      */
     public function authorize()
     {
-        //TODO: must check profile belongs to user
-        $user_id = $this->header('ID');
-        $api_token = $this->header('X-Auth-Token');
-            
-        $user_to_check = User::find($user_id);
-
-
-        if($user_to_check->api_token == $api_token){
-
+        if ($this->authenticate()) {
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
-                   return true;
-                  
-                case 'PUT':
-                    if($user_to_check->hasAccess(['profile.update'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'DESTROY':
-                    if($user_to_check->hasAccess(['profile.destroy'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
+                    return $this->getUser()->hasAccess(['profile.store']);
+                    break;
                 case 'GET':
-                //TODO check if profile to show belongs to current user
-                    if($user_to_check->hasAccess(['profile.show'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
+                    return $this->getUser()->hasAccess(['profile.show']);
+                    break;
+                case 'PUT':
+                    return $this->getUser()->hasAccess(['profile.update']);
+                    break;
+                case 'DELETE':
+                    return $this->getUser()->hasAccess(['profile.destroy']);
+                    break;
                 default:
                     return false;
+                    break;
             }
-
-        }else{
-
-            return false;
         }
-
-
     }
 
     /**
