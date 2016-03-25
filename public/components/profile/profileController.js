@@ -112,40 +112,59 @@ angular.module( 'profileCtrl', [] )
                 popup.connection();
             } )
     }
-
     $scope.loadProfile();
 
     $scope.conferences = [
-      {Time: "01:00:00",
-      Date: "Monday March 7, 2016",
-      Log: "James created a conference name India"},
-
-      {Time: "02:00:00",
-      Date: "Tuesday March 8, 2016",
-      Log: "Gabby is requesting to attend Canada conference"},
-
-      {Time: "03:00:00",
-      Date: "Wednesday March 9, 2016",
-      Log: "Viggy editted France conference"},
-
-      {Time: "04:00:00",
-      Date: "Wednesday March 9, 2016",
-      Log: "Chris approved Martin's conference attendance"},
-      {Time: "01:00:00",
-      Date: "Monday March 7, 2016",
-      Log: "James created a conference name India"},
-
-      {Time: "02:00:00",
-      Date: "Tuesday March 8, 2016",
-      Log: "Gabby is requesting to attend Canada conference"},
-
-      {Time: "03:00:00",
-      Date: "Wednesday March 9, 2016",
-      Log: "Viggy editted France conference"},
-
-      {Time: "04:00:00",
-      Date: "Wednesday March 9, 2016",
-      Log: "Chris approved Martin's conference attendance"},
+        {
+            id: 123,
+            name: "Bill Gates",
+            conference_name: "India",
+            startDate: "Feb 20, 2016",
+            endDate: "Feb 27, 2016",
+            status: "pending"
+        },
+        {
+            id: 234,
+            name: "Tony Montana",
+            conference_name: "Canada",
+            startDate: "Jan 29, 2016",
+            endDate: "Feb 3, 2016",
+            status: "approved"
+        },
+        {
+            id: 1,
+            name: "Michael Jackson",
+            conference_name: "France",
+            startDate: "Jan 5, 2016",
+            endDate: "Jan 12, 2016",
+            status: "declined"
+        }
     ];
 
+    $scope.events = [
+        {
+            id: 123,
+            name: "Bill Gates",
+            event_name: "India",
+            startDate: "Feb 20, 2016",
+            endDate: "Feb 27, 2016",
+            status: "pending"
+        },
+        {
+            id: 234,
+            name: "Tony Montana",
+            event_name: "Canada",
+            startDate: "Jan 29, 2016",
+            endDate: "Feb 3, 2016",
+            status: "approved"
+        },
+        {
+            id: 1,
+            name: "Michael Jackson",
+            event_name: "France",
+            startDate: "Jan 5, 2016",
+            endDate: "Jan 12, 2016",
+            status: "declined"
+        }
+    ];
 } );

@@ -24,7 +24,7 @@ angular.module('manageAccommodationsCtrl',[])
 
 	$scope.tableParams = new ngTableParams(
 	{
-	}, 
+	},
 	{
 		counts: [],
 		getData: function ($defer, params) {

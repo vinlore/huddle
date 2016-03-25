@@ -132,7 +132,40 @@
   <h1 class="page-header">Conferences and Events</h1>
   <div class="panel panel-default">
     <div class="panel-body">
-      <h1>Space to inform user what conferences and events they would be attending<h1/>
+      <div class="col-md-6">
+         <h3 class="text-center">Conferences</h3>
+         <hr>
+         <!-- Conferences -->
+         <div class="col-sm-12" ng-if="conferences" ng-repeat="con in conferences">
+            <div class="col-sm-12">
+               <div class="card card-success card-block">
+                  <h4 class="card-title">Conference: {{con.conference_name}}</h4>
+                  <h5 class="card-text">Status: {{con.status}}</h5>
+                  <h5 class="card-text">Start: {{con.startDate}}</h5>
+                  <h5 class="card-text">End: {{con.endDate}}</h5>
+                  <button class="btn btn-primary btn-xs" ng-click="viewConfApplication($index)">Edit Application</button>
+                  <button class="btn btn-danger btn-xs" ng-click="cancelConfApplication($index)">Cancel Application</button>
+               </div>
+            </div>
+         </div>
+      </div>
+        <div class="col-md-6">
+           <h3 class="text-center">Events</h3>
+           <hr>
+           <!-- Events -->
+           <div class="col-sm-12" ng-if="events" ng-repeat="eve in events">
+              <div class="col-sm-12">
+                 <div class="card card-warning card-block">
+                    <h4 class="card-title">Event: {{eve.event_name}}</h4>
+                    <h5 class="card-text">Status: {{eve.status}}</h5>
+                    <h5 class="card-text">End: {{eve.startDate}}</h5>
+                    <h5 class="card-text">End: {{eve.endDate}}</h5>
+                    <button class="btn btn-primary btn-xs" ng-click="viewEventApplication($index)">Edit Application</button>
+                    <button class="btn btn-danger btn-xs" ng-click="cancelEventApplication($index)">Cancel Application</button>
+                 </div>
+              </div>
+           </div>
+        </div>
     </div>
   </div>
 
