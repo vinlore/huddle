@@ -1,40 +1,44 @@
-<div class="rooms">
-	<div class="container">
-		<h1>Rooms for {{accommodation.name}}</h1>
-		<h5>{{accommodation.address}}</h3>
-		<h5>{{accommodation.city}}</h3>
-		<h5>{{accommodation.country}}</h3>
-	</div>
+<div id="requests" class="container has-header">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="container">
+				<h1>Rooms for {{accommodation.name}}</h1>
+				<h5>{{accommodation.address}}</h3>
+					<h5>{{accommodation.city}}</h3>
+						<h5>{{accommodation.country}}</h3>
+						</div>
 
 
-	<div class="margin-top-25" ng-controller="manageRoomsController as rooms">
-		<div class="brn-group pull-right">
-        	<button class="btn btn-default" ng-if="rooms.isEditing" ng-click="rooms.cancelChanges()">
-          		<span class="glyphicon glyphicon-remove"></span>
-        	</button>
-        	<button class="btn btn-primary" ng-if="!rooms.isEditing" ng-click="rooms.isEditing = true">
-          		<span class="glyphicon glyphicon-pencil"></span>
-        	</button>
-        	<button class="btn btn-primary" ng-if="rooms.isEditing" ng-disabled="!rooms.hasChanges() || rooms.tableTracker.$invalid" ng-click="rooms.saveChanges()">
-          		<span class="glyphicon glyphicon-ok"></span>
-        	</button>
-        	<button class="btn btn-default" ng-click="demo.add()">
-          		<span class="glyphicon glyphicon-plus"></span>
-        	</button>
-      	</div>
+						<div class="margin-top-25" ng-controller="manageRoomsController as rooms">
+							<div class="brn-group pull-right">
+								<button class="btn btn-default" ng-if="rooms.isEditing" ng-click="rooms.cancelChanges()">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+								<button class="btn btn-primary" ng-if="!rooms.isEditing" ng-click="rooms.isEditing = true">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</button>
+								<button class="btn btn-primary" ng-if="rooms.isEditing" ng-disabled="!rooms.hasChanges() || rooms.tableTracker.$invalid" ng-click="rooms.saveChanges()">
+									<span class="glyphicon glyphicon-ok"></span>
+								</button>
+								<button class="btn btn-default" ng-click="demo.add()">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
+								<hr>
+							</div>
 
-		<table ng-table="tableParams" class="table table-condensed table-bordered table-striped" show-filter="true">
-			<tr ng-repeat="r in $data">
-				<td title="'Room'" filter="{ 'room_no': 'text'}" sortable="'room_no'">
-            		{{r.room_no}}
-        		</td>
-        		<td title="'Guests'" filter="{ 'guest_count': 'number'}" sortable="'guest_count'">
-            		{{r.guest_count}}
-        		</td>
-        		<td title="'Capacity'" filter="{ 'capacity': 'number'}" sortable="'capacity'">
-            		{{r.capacity}}
-        		</td>
-			</tr>
-		</table>
-	</div>
-</div>
+
+							<table ng-table="tableParams" class="table table-condensed table-bordered table-striped" show-filter="true">
+								<tr ng-repeat="r in $data">
+									<td title="'Room'" filter="{ 'room_no': 'text'}" sortable="'room_no'">
+										{{r.room_no}}
+									</td>
+									<td title="'Guests'" filter="{ 'guest_count': 'number'}" sortable="'guest_count'">
+										{{r.guest_count}}
+									</td>
+									<td title="'Capacity'" filter="{ 'capacity': 'number'}" sortable="'capacity'">
+										{{r.capacity}}
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
