@@ -16,7 +16,7 @@ class ConferenceRequest extends Request
     {
         $user_id = $this->header('ID');
         $api_token = $this->header('X-Auth-Token');
-            
+
         $user_to_check = User::find($user_id);
 
 
@@ -29,7 +29,7 @@ class ConferenceRequest extends Request
                    }else{
                         return false;
                    }
-                  
+
                 case 'PUT':
                     if($user_to_check->hasAccess(['conference.update'])){
                         return true;

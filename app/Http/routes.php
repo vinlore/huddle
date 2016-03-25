@@ -22,6 +22,12 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
+    Route::resource('profile.conference' , 'ProfileAttendsConferenceController' , ['only' => [
+            'index' , 'store' , 'show' ,'update', 'destroy',
+    ]]);
+
+    Route::post('profile.conference.status', 'ProfileAttendsConferenceController@profileConferenceStatusUpdate');
+
     Route::resource('users', 'UserController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);

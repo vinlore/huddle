@@ -17,15 +17,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        // TODO pagination
+        // TODO pagination - Should only get certain columns
         try {
-            $users = \Sentinel::getUserRepository()->with('roles')->get();
+            $users = \Sentinel::getUserRepository()->with('roles')->get(['username']);
             return $users;
         } catch (Exception $e) {
         return response()->error("500" , $e);
         }
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
