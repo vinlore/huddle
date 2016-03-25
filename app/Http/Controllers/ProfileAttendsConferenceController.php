@@ -118,15 +118,5 @@ class ProfileAttendsConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(ConferenceRequest $request){
-        try{
-            //Saving to profile_attends_conference Table
-            $profile =  Profile::find($request->profile_id);
-            Conference::find($request->conference_id)
-                        ->attendees()
-                        ->detach($profile);
-            return response()->success();
-        } catch (Exception $e) {
-                return response()->error($e);
-        }
     }
 }

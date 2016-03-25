@@ -118,15 +118,5 @@ class ProfileAttendsEventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request){
-        try{
-            //Saving to profile_attends_Event Table
-            $profile =  Profile::find($request->profile_id);
-            Event::find($request->event_id)
-                        ->attendees()
-                        ->detach($profile);
-            return response()->success();
-        } catch (Exception $e) {
-            return response()->error($e);
-        }
     }
 }
