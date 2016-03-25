@@ -5,12 +5,12 @@
             <h4>A non-for-profit spiritual learning institute with locations across Canada, USA, UK, France, India...</h4>
         </div>
     </div>
-    <div class="body-container" id="home-conferences">
+    <div  ng-show="conferences.length"class="body-container" id="home-conferences">
         <div class="box">
             <h1>Upcoming Conferences</h1>
             <hr>
             <div class="row">
-                <div class="col-sm-4" ng-if="conferences" ng-repeat="con in conferences">
+                <div  class="col-sm-4" ng-if="conferences" ng-repeat="con in conferences">
                     <a href="/conference-{{con.id}}">
                         <div class="card card-inverse" ng-style="{'background-image': 'url(assets/img/{{con.country}}/small/{{3 | randomize}}.jpg)'}">
                             <div class="card-img-overlay">
@@ -23,9 +23,9 @@
                 </div>
                 <h4 class="upcoming" ng-if="!conferences">No upcoming conferences. Sign up for notifications about new conferences <a href="">here</a>.</h4>
             </div>
-            <h1>Past Conferences</h1>
+            <h1 ng-show="pastConferences.length">Past Conferences</h1>
             <hr>
-            <div class="row">
+            <div ng-show="pastConferences.length" class="row">
                 <div class="col-sm-4" ng-if="pastConferences" ng-repeat="con in pastConferences">
                     <a href="/conference-{{con.id}}">
                         <div class="card card-inverse" ng-style="{'background-image': 'url(assets/img/{{con.country}}/small/{{3 | randomize}}.jpg)'}">

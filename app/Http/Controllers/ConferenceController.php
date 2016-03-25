@@ -127,15 +127,18 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ConferenceRequest $request){
-        try{
-            if (!Conference::find($request->id)) {
-                return response()->success("204","No conferences found.");
-            }
-            Conference::destroy($request->id);
-            return response()->success();
-        } catch (Exception $e) {
-                return response()->error($e);
+    public function destroy(ConferenceRequest $request, $conferences){
+
+    try{
+        if(!Conference::find($conferences)){
+             return response()->error("No conferences found.");
+        }
+
+        Conference::destroy($conferences);
+
+        return response()->success();
+     }catch (Exception $e) {
+            return response()->error($e);
         }
     }
 }

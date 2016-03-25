@@ -1,10 +1,10 @@
 angular.module ( 'homeCtrl', [] )
 .controller ( 'homeController', function ( $scope, Conferences, popup ) {
-	
+
 	$scope.conferences = [];
     console.log($scope.conferences);
 
-    /*$scope.pastConferences = [
+    $scope.pastConferences = [
         {
             id: 123,
             name: "India Conference",
@@ -26,7 +26,7 @@ angular.module ( 'homeCtrl', [] )
             startDate: "Jan 5, 2016",
             endDate: "Jan 12, 2016"
         }
-    ];*/
+    ];
 
     $scope.loadConferences = function () {
         Conferences.fetch().query()

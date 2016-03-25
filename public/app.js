@@ -10,13 +10,12 @@ angular.module('cms', [
     'userRegCtrl',
     'conferenceCtrl',
     'loginCtrl',
+    'managersCtrl',
     'createConferenceCtrl',
     'profileCtrl',
     'activityCtrl',
     'manageAccountsCtrl',
     'apiService',
-    'conferenceService',
-    'eventService',
     'mapService',
     'countryService',
     'satellizer',
@@ -37,14 +36,17 @@ angular.module('cms', [
     'ngMap',
     'ui.router',
     'manageRequestsCtrl',
-    'ngTable'
+    'ngTable',
+    'permissionService',
+    'reportsCtrl',
+    'angular-timeline'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
     $rootScope.auth = $auth.isAuthenticated();
 
-    $rootScope.$on('$stateChangeStart', 
-        function () { 
+    $rootScope.$on('$stateChangeStart',
+        function () {
             var user;
             if ($rootScope.user) {
                 user = $rootScope.user.id;
@@ -140,6 +142,15 @@ angular.module('cms', [
         }
     })
 
+    .state( 'create-event', {
+        url: '/conference-:conferenceId/create-event',
+        templateUrl: 'components/createEvent/createEventView.html',
+        controller: 'createEventController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
     .state( 'event-signup', {
         url: '/event-:eventId/signup?name',
         templateUrl: 'components/signupEvent/signupEventView.html',
@@ -176,7 +187,25 @@ angular.module('cms', [
         }
     })
 
-    .state( '/manage-accommodations', {
+    .state( 'conference-managers', {
+        url: '/conference-:conferenceId/managers',
+        templateUrl: 'components/manageManagers/manageManagersView.html',
+        controller: 'conferenceManagersController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'event-managers', {
+        url: '/conference-:eventId/managers',
+        templateUrl: 'components/manageManagers/manageManagersView.html',
+        controller: 'eventManagersController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'manage-accommodations', {
         url: '/manage-accommodations-:conferenceId',
         templateUrl: 'components/manageAccommodations/manageAccommodationsView.html',
         controller: 'manageAccommodationsController',
@@ -186,7 +215,7 @@ angular.module('cms', [
     })
 
     .state( 'manage-inventory', {
-        url: '/manage-inventory',
+        url: '/manage-inventory-:conferenceId',
         templateUrl: 'components/manageInventory/manageInventoryView.html',
         controller: 'manageInventoryController',
         resolve: {
@@ -194,7 +223,7 @@ angular.module('cms', [
         }
     })
 
-    .state( '/manage-rooms', {
+    .state( 'manage-rooms', {
         url: '/manage-rooms-:accommodationId',
         templateUrl: 'components/manageRooms/manageRoomsView.html',
         controller: 'manageRoomsController',
@@ -203,7 +232,7 @@ angular.module('cms', [
         }
     })
 
-    .state( '/manage-transportation', {
+    .state( 'manage-transportation', {
         url: '/manage-transportation-:conferenceId',
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
         controller: 'manageTransportationController',
@@ -216,6 +245,15 @@ angular.module('cms', [
         url: '/requests',
         templateUrl: 'components/manageRequests/manageRequestsView.html',
         controller: 'manageRequestsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'reports', {
+        url: '/reports-:conferenceId',
+        templateUrl: 'components/reports/reportsView.html',
+        controller: 'reportsController',
         resolve: {
             loginRequired: loginRequired
         }
@@ -264,6 +302,6 @@ angular.module('cms', [
             }
             $http.defaults.headers.common["ID"]=id;
             return response || $q.when(response);
-        }  
+        }
     };
 });

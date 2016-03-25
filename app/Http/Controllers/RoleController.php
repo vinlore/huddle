@@ -79,10 +79,10 @@ class RoleController extends Controller
      * Update the permissions of a role
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $roles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $roles)
     {
         /* EXAMPLE OF JSON REQUEST
         $request =json_encode(array(
@@ -97,11 +97,11 @@ class RoleController extends Controller
          */
 
          //Check if Role Id exists
-         if (!\Sentinel::findRoleById($request->role_id)) {
-             return response()->error("Remi" , "Unable to find Role with role_id ".$request->role_id);
+         if (!\Sentinel::findRoleById($roles)) {
+             return response()->error("Remi" , "Unable to find Role with role_id ".$roles);
          }
 
-         $role = \Sentinel::findRoleById($request->id);
+         $role = \Sentinel::findRoleById($roles);
 
          //Convert into String, then back into array
          //Place array into the roles permissions
@@ -140,7 +140,7 @@ class RoleController extends Controller
         }
 
         //Destroy Role
-        Sentinel::findRoleById($response->role_id)->delete();
+        \Sentinel::findRoleById($roles)->delete();
         return response()->success();
     }
 }
