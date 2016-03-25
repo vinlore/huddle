@@ -25,6 +25,6 @@ class Accommodation extends Model
 
     public function conferences()
     {
-        return $this->belongsToMany('App\Models\Conference', 'conference_accommodations');
+        return $this->belongsToMany('App\Models\Conference', 'conference_accommodations')->withTimestamps();
     }
 }

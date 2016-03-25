@@ -32,21 +32,21 @@ class Profile extends Model
 
     public function conferences()
     {
-        return $this->belongsToMany('App\Models\Conference', 'profile_attends_conferences');
+        return $this->belongsToMany('App\Models\Conference', 'profile_attends_conferences')->withTimestamps();
     }
 
     public function events()
     {
-        return $this->belongsToMany('App\Models\Event', 'profile_attends_events');
+        return $this->belongsToMany('App\Models\Event', 'profile_attends_events')->withTimestamps();
     }
 
     public function rooms()
     {
-        return $this->belongsToMany('App\Models\Room', 'profile_stays_in_rooms');
+        return $this->belongsToMany('App\Models\Room', 'profile_stays_in_rooms')->withTimestamps();
     }
 
     public function vehicles()
     {
-        return $this->belongsToMany('App\Models\Vehicle', 'profile_rides_vehicles');
+        return $this->belongsToMany('App\Models\Vehicle', 'profile_rides_vehicles')->withTimestamps();
     }
 }

@@ -22,11 +22,29 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
+    // Profile Attend Conference
     Route::resource('profile.conference' , 'ProfileAttendsConferenceController' , ['only' => [
             'index' , 'store' , 'show' ,'update', 'destroy',
     ]]);
 
     Route::post('profile.conference.status', 'ProfileAttendsConferenceController@profileConferenceStatusUpdate');
+
+    //Profile Attend Event
+    Route::resource('profile.event' , 'ProfileAttendsEventController' , ['only' => [
+            'index' , 'store' , 'show' ,'update', 'destroy',
+    ]]);
+
+    Route::post('profile.event.status', 'ProfileAttendsEventController@profileEventStatusUpdate');
+
+    //User Manages Conference
+    Route::resource('user.conference' , 'UserManagesConferenceController' , ['only' => [
+            'index' , 'store' , 'show' ,'update', 'destroy',
+    ]]);
+
+    //User Manages Events
+    Route::resource('user.event' , 'UserManagesEventsController' , ['only' => [
+            'index' , 'store' , 'show' ,'update', 'destroy',
+    ]]);
 
     Route::resource('users', 'UserController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',

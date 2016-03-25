@@ -46,7 +46,14 @@ class ConferenceRequest extends Request
     public function rules()
     {
         return [
-            //
+            'name'        => ['required', 'string', 'max:255'],
+            'description' => ['string'],
+            'start_date'  => ['required', 'date', 'after:yesterday'],
+            'end_date'    => ['required', 'date', 'after:start_date'],
+            'address'     => ['required', 'string', 'max:255'],
+            'city'        => ['required', 'string', 'max:255'],
+            'country'     => ['required', 'string', 'max:255'],
+            'capacity'    => ['required', 'integer', 'min:1'],
         ];
     }
 }
