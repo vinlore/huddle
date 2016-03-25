@@ -46,8 +46,7 @@ class ItemRequest extends Request
     public function rules()
     {
         return [
-            'name'     => ['required', 'string', 'max:255'],
-            'quantity' => ['required', 'string', 'min:0'],
+            //
         ];
     }
 }

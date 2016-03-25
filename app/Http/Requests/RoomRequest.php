@@ -46,8 +46,7 @@ class RoomRequest extends Request
     public function rules()
     {
         return [
-            'room_no'  => ['required', 'string', 'max:255'],
-            'capacity' => ['required', 'integer', 'min:1'],
+            //
         ];
     }
 }

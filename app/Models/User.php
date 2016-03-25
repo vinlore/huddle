@@ -27,11 +27,11 @@ class User extends EloquentUser
 
     public function conferences()
     {
-        return $this->belongsToMany('App\Models\Conference', 'user_manages_conferences')->withTimestamps();
+        return $this->belongsToMany('App\Models\Conference', 'user_manages_conferences');
     }
 
     public function events()
     {
-        return $this->belongsToMany('App\Models\Event', 'user_manages_events')->withTimestamps();
+        return $this->belongsToMany('App\Models\Event', 'user_manages_events');
     }
 }

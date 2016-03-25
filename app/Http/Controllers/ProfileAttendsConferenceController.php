@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests;
-use App\Http\Requests\EventRequest;
+use App\Http\Requests\ConferenceRequest;
 
-use App\Models\Event as Event;
+use App\Models\Conference as Conference;
 use App\Models\Profile as Profile;
 
 
-class ProfileAttendsEventController extends Controller
+class ProfileAttendsConferenceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,11 +30,11 @@ class ProfileAttendsEventController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(EventRequest $request){
+    public function store(ConferenceRequest $request){
         try{
-            //Saving to profile_attends_event Table
+            //Saving to profile_attends_conference Table
             $profile =  Profile::find($request->profile_id);
-            Event::find($request->event_id)
+            Conference::find($request->conference_id)
                         ->attendees()
                         ->attach($profile, $request->all());
             return response()->success();
@@ -51,11 +51,11 @@ class ProfileAttendsEventController extends Controller
      */
     public function show($id){
         try{
-            $event = Event::find($id)->attendees()->get();
-            if(!$event){
-                return response()->success("204", "No Event found.");
+            $conference = Conference::find($id)->attendees()->get();
+            if(!$conference){
+                return response()->success("204", "No conference found.");
             }
-            return $event;
+            return $conference;
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -68,9 +68,9 @@ class ProfileAttendsEventController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function profileEventStatusUpdate(Request $request){
+     public function profileConferenceStatusUpdate(Request $request){
         try{
-            Event::find($requset->event_id)
+            Conference::find($requset->conference_id)
                     ->attendees()
                     ->updateExistingPivot($request->profile_id,['status' => $request->status]);
             /*
@@ -94,10 +94,10 @@ class ProfileAttendsEventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
+    public function update(ConferenceRequest $request, $id){
         try {
             //Update
-            Event::find($requset->event_id)
+            Conference::find($requset->conference_id)
                     ->attendees()
                     ->updateExistingPivot($request->profile_id,$request->all());
             /*
@@ -117,6 +117,16 @@ class ProfileAttendsEventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request){
+    public function destroy(ConferenceRequest $request){
+        try{
+            //Saving to profile_attends_conference Table
+            $profile =  Profile::find($request->profile_id);
+            Conference::find($request->conference_id)
+                        ->attendees()
+                        ->detach($profile);
+            return response()->success();
+        } catch (Exception $e) {
+                return response()->error($e);
+        }
     }
 }

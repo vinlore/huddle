@@ -19,16 +19,16 @@ class Vehicle extends Model
 
     public function conferences()
     {
-        return $this->belongsToMany('App\Models\Conference', 'conference_vehicles')->withTimestamps();
+        return $this->belongsToMany('App\Models\Conference', 'conference_vehicles');
     }
 
     public function events()
     {
-        return $this->belongsToMany('App\Models\Event', 'event_vehicles')->withTimestamps();
+        return $this->belongsToMany('App\Models\Event', 'event_vehicles');
     }
 
     public function passengers()
     {
-        return $this->belongsToMany('App\Models\Profile', 'profile_rides_vehicles')->withTimestamps();
+        return $this->belongsToMany('App\Models\Profile', 'profile_rides_vehicles');
     }
 }

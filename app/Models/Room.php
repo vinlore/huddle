@@ -25,6 +25,6 @@ class Room extends Model
 
     public function guests()
     {
-        return $this->belongsToMany('App\Models\Profile', 'profile_stays_in_rooms')->withTimestamps();
+        return $this->belongsToMany('App\Models\Profile', 'profile_stays_in_rooms');
     }
 }
