@@ -13,6 +13,10 @@ class ConferenceRequest extends Request
      */
     public function authorize()
     {
+        if ($this->isSuperuser()) {
+            return true;
+        }
+
         if ($this->authenticate()) {
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
