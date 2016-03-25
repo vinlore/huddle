@@ -2,7 +2,7 @@
     <div class="container">
         <div class="margin-top-25">
             <div class="pull-right">
-                <a class="btn btn-success" type="button" href="create-conference">
+                <a class="btn btn-success" type="button" ui-sref="create-conference" ng-if="user.permissions['conference.store']">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Conference
                 </a>
             </div>
@@ -17,38 +17,44 @@
                     <p>{{c.start_date | date}} - {{c.end_date | date}}</p>
                     <p>{{c.attendee_count}}/{{c.capacity}}</p>
                     <div class="btn-group">
-                        <button class="btn btn-sm btn-success margin-top-35" ng-click="goCreateEvent(c.id, $event)">
+                        <button class="btn btn-sm btn-success margin-top-35" ng-click="goCreateEvent(c.id, $event)" ng-if="user.permissions['event.store']">
                             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbspCreate Event
                         </button>
-                        <button class="btn btn-sm btn-danger margin-top-35" ng-click="deleteConference(c.id, $event)">
+                        <button class="btn btn-sm btn-danger margin-top-35" ng-click="deleteConference(c.id, $event)" ng-if="user.permissions['conference.destroy']">
                             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>&nbspDelete
                         </button>
                     </div>
                     <div class="pull-right hidden-xs margin-top-35">
-                        <button class="btn btn-sm btn-default" ng-click="goAccommodations(c.id, $event)">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Accommodations
+                        <button class="btn btn-sm btn-default" ng-click="goConferenceManagers(c.id, $event)">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Managers
                         </button>
-                        <button class="btn btn-sm btn-default">
+                        <button class="btn btn-sm btn-default" ng-if="checkPermissions('accommodations')" ng-click="goAccommodations(c.id, $event)">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Accommodations
+                        </button>
+                        <button class="btn btn-sm btn-default" ng-if="checkPermissions('item')">
                             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Inventory
                         </button>
-                        <button class="btn btn-sm btn-default" ng-click="goTransportation(c.id, $event)">
+                        <button class="btn btn-sm btn-default" ng-if="checkPermissions('conference_vehicles')" ng-click="goTransportation(c.id, $event)">
                             <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Vehicles
                         </button>
-                        <button class="btn btn-sm btn-default">
+                        <button class="btn btn-sm btn-default" ng-if="checkPermissions('conference_attendees')">
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Attendees
                         </button>
                     </div>
                     <div class="visible-xs btn-group pull-right margin-top-35">
-                        <button class="btn btn-default">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        <button class="btn btn-sm btn-default" ng-click="goConferenceManagers(c.id, $event)">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                         </button>
-                        <button class="btn btn-default">
+                        <button class="btn btn-default" ng-if="checkPermissions('accommodations')" ng-click="goAccommodations(c.id, $event)">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-default" ng-if="checkPermissions('item')">
                             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
                         </button>
-                        <button class="btn btn-default">
+                        <button class="btn btn-default" ng-if="checkPermissions('conference_vehicles')" ng-click="goTransportation(c.id, $event)">
                             <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
                         </button>
-                        <button class="btn btn-default">
+                        <button class="btn btn-default" ng-if="checkPermissions('conference_attendees')">
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                         </button>
                     </div>
@@ -60,22 +66,28 @@
                         <div class="title-status"><h3>{{e.name}}</h3><label class="alert" is-approved status="e.status">{{e.status | uppercase}}</label></div>
                         <p class="event-text">{{e.address}}</p>
                         <p class="event-text">{{e.start_time | time}} - {{e.end_time | time}}</p>
-                        <button class="btn btn-sm btn-danger margin-top-35">
+                        <button class="btn btn-sm btn-danger margin-top-35" ng-if="checkPermissions('event.destroy')">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbspDelete
                         </button>
                         <div class="hidden-xs pull-right margin-top-35">
-                            <button class="btn btn-sm btn-default">
+                            <button class="btn btn-sm btn-default" ng-click="goEventManagers(e.id, $event)">
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Managers
+                            </button>
+                            <button class="btn btn-sm btn-default" ng-if="checkPermissions('event_vehicles')">
                                 <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Vehicles
                             </button>
-                            <button class="btn btn-sm btn-default">
+                            <button class="btn btn-sm btn-default" ng-if="checkPermissions('event_attendees')">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Attendees
                             </button>
                         </div>
                         <div class="visible-xs btn-group pull-right margin-top-35">
-                            <button class="btn btn-default">
+                            <button class="btn btn-sm btn-default" ng-click="goEventManagers(e.id, $event)">
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            </button>
+                            <button class="btn btn-default" ng-if="checkPermissions('event_vehicles')">
                                 <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
                             </button>
-                            <button class="btn btn-default">
+                            <button class="btn btn-default" ng-if="checkPermissions('event_attendees')">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                             </button>
                         </div>

@@ -67,12 +67,14 @@
   <script src="components/manageRooms/manageRoomsController.js"></script>
   <script src="components/manageTransportation/manageTransportationController.js"></script>
   <script src="components/manageRequests/manageRequestsController.js"></script>
+  <script src="components/manageManagers/manageManagersController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/mapService.js"></script>
   <script src="assets/js/countryService.js"></script>
   <script src="assets/js/apiService.js"></script>
   <script src="assets/js/popupServices.js"></script>
+  <script src="assets/js/permissionService.js"></script>
 
   <!-- DIRECTIVES -->
   <script src="assets/js/customDirectives.js"></script>

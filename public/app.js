@@ -10,6 +10,7 @@ angular.module('cms', [
     'userRegCtrl',
     'conferenceCtrl',
     'loginCtrl',
+    'managersCtrl',
     'createConferenceCtrl',
     'profileCtrl',
     'activityCtrl',
@@ -35,7 +36,8 @@ angular.module('cms', [
     'ngMap',
     'ui.router',
     'manageRequestsCtrl',
-    'ngTable'
+    'ngTable',
+    'permissionService'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
@@ -178,6 +180,24 @@ angular.module('cms', [
         url: '/accounts',
         templateUrl: 'components/manageAccounts/manageAccountsView.html',
         controller: 'manageAccountsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'conference-managers', {
+        url: '/conference-:conferenceId/managers',
+        templateUrl: 'components/manageManagers/manageManagersView.html',
+        controller: 'conferenceManagersController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'event-managers', {
+        url: '/conference-:eventId/managers',
+        templateUrl: 'components/manageManagers/manageManagersView.html',
+        controller: 'eventManagersController',
         resolve: {
             loginRequired: loginRequired
         }

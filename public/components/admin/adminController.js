@@ -1,8 +1,12 @@
 angular.module('adminCtrl', [])
-.controller('adminController', function($scope, $location, $log, Conferences, Events, popup, $state) {
+.controller('adminController', function($scope, $location, $log, Conferences, Events, popup, $state, checkPermissions) {
 	
     $scope.conferences = [];
     $scope.events = []; // array of arrays of events
+
+    $scope.checkPermissions = function(type) {
+        return checkPermissions(type);
+    }
 
 	$scope.loadConferences = function () {
         Conferences.fetch().query()
@@ -58,6 +62,22 @@ angular.module('adminCtrl', [])
 			events.show = true;
 		}
 	}
+
+    $scope.goConferenceManagers = function (cid, event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $state.go('conference-managers', {conferenceId: cid});
+    }
+
+    $scope.goEventManagers = function (eid, event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $state.go('event-managers', {eventId: cid});
+    }
 
     $scope.goCreateEvent = function (cid, event) {
         if (event) {

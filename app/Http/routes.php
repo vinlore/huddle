@@ -38,28 +38,44 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 
     Route::post('event.status', 'EventController@eventStatusUpdate');
 
-    Route::resource('events', 'EventController', ['only' => [
+    Route::resource('conferences.accommodations', 'AccommodationController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('accommodations', 'AccommodationController', ['only' => [
+    Route::resource('conferences.accommodations.rooms', 'RoomController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('rooms', 'RoomController', ['only' => [
+    Route::resource('conferences.inventory', 'ItemController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('inventories', 'InventoryController', ['only' => [
+    Route::resource('conferences.vehicles', 'ConferenceVehicleController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('items', 'ItemController', ['only' => [
+    Route::resource('conferences.attendees', 'ConferenceAttendeeController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('vehicles', 'VehicleController', ['only' => [
+    Route::resource('conferences.managers', 'ConferenceManagerController', ['only' => [
+        'index', 'store', 'show', 'destroy',
+    ]]);
+
+    Route::resource('conferences.events', 'EventController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('events.attendees', 'EventAttendeeController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('events.vehicles', 'EventVehicleController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('events.managers', 'EventManagerController', ['only' => [
+        'index', 'store', 'show', 'destroy',
     ]]);
 });
 
