@@ -35,7 +35,18 @@ angular.module ( 'activityCtrl', [] )
     Log: "Chris approved Martin's conference attendance"},
   ];
 
-  $scope.getLogs = function(){
-    
-  }
+  // $scope.loadActivityLog = function () {
+  //     Conferences.attendees().get( {cid: $stateParams.conferenceId} )
+  //         .$promise.then( function( response ) {
+  //             if ( response.status == 'success' && response.logs ) {
+  //                 $scope.logs = response.logs;
+  //             } else {
+  //                 popup.error( 'Error', response.message );
+  //             }
+  //         }, function () {
+  //             popup.connection();
+  //         })
+  // }
+  //
+  // $scope.loadActivityLog();
 });
