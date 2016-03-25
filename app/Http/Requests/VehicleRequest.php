@@ -46,7 +46,8 @@ class VehicleRequest extends Request
     public function rules()
     {
         return [
-            //
+            'name'     => ['required', 'string', 'max:255'],
+            'capacity' => ['required', 'integer', 'min:1'],
         ];
     }
 }
