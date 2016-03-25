@@ -1,18 +1,20 @@
-<div id="activityLog" class="container has-header">
-  <h1 class="page-header text-center">Activity Logs</h1>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <div class="col-mdd-12">
-        <div id="selection">
-          <label>Filter by:</label>
-          <label class="checkbox-inline"><input type="checkbox" value="">Conference</label>
-          <label class="checkbox-inline"><input type="checkbox" value="">Event</label>
-          <label class="checkbox-inline"><input type="checkbox" value="">User</label>
-        </div>
-        <div>
-          <p ng-repeat="log in logs">{{log.Time + "-" + log.Date + "-" + log.Log}}</p>
-        </div>
-      </div>
+<div class="container">
+    <div class="page-header">
+        <h1 id="timeline">Activiy Log</h1>
     </div>
+    <div class="col-md-12">
+    <ul class="timeline">
+        <li class="{{['timeline', 'timeline-inverted'][$index %2]}}" ng-repeat="log in logs">
+          <div class="{{['timeline-badge success', 'timeline-badge warning'][$index %2]}}"></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">{{log.Date}}</h4>
+            </div>
+            <div class="timeline-body">
+              <p>{{log.Log}}</p>
+            </div>
+          </div>
+        </li>
+    </ul>
   </div>
 </div>

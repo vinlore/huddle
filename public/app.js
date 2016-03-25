@@ -38,7 +38,8 @@ angular.module('cms', [
     'ui.router',
     'manageRequestsCtrl',
     'ngTable',
-    'reportsCtrl'
+    'reportsCtrl',
+    'angular-timeline'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
