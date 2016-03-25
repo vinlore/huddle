@@ -1,5 +1,5 @@
 angular.module( 'conferenceCtrl', [] )
-.controller( 'conferenceController', function( $scope, $filter, Conferences, Gmap, Event, $stateParams, $resource, popup, Events ) {
+.controller( 'conferenceController', function( $scope, $filter, Conferences, Gmap, $stateParams, $resource, popup, Events ) {
 
     $scope.citiesOnly = {
         types: ['(cities)']
@@ -80,7 +80,7 @@ angular.module( 'conferenceCtrl', [] )
         }
     ]
 
-    $scope.events = Events.all();
+    $scope.events = []
     var eventBackup = {};
 
     $scope.editEvent = [];
@@ -199,7 +199,7 @@ angular.module( 'conferenceCtrl', [] )
 
     /*
     $scope.loadEvents = function () {
-        Event.fetch().query( {cid: $stateParams.conferenceId} )
+        Events.fetch().query( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' && response.events ) {
                     $scope.events = response.events;

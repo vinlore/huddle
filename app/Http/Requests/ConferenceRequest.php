@@ -37,7 +37,7 @@ class ConferenceRequest extends Request
                         return false;
                    }
 
-                case 'DESTROY':
+                case 'DELETE':
                     if($user_to_check->hasAccess(['conference.destroy'])){
                         return true;
                    }else{

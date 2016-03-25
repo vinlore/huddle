@@ -1460,3 +1460,27 @@ fieldset[disabled] .btn-link:focus {
   width: 80%;
   margin: 0 auto;
 }
+
+.title-status .alert {
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    height: 25px;
+}
+
+.status-approved {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #4caf50;
+}
+
+.status-pending {
+  background-color: #ffe0b2;
+  border-color: #ffc599;
+  color: #ff9800;
+}
+
+.status-denied {
+  background-color: #f9bdbb;
+  border-color: #f7a4af;
+  color: #e51c23;
+}

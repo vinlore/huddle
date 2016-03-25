@@ -15,8 +15,6 @@ angular.module('cms', [
     'activityCtrl',
     'manageAccountsCtrl',
     'apiService',
-    'conferenceService',
-    'eventService',
     'mapService',
     'countryService',
     'satellizer',
@@ -140,6 +138,15 @@ angular.module('cms', [
         }
     })
 
+    .state( 'create-event', {
+        url: '/conference-:conferenceId/create-event',
+        templateUrl: 'components/createEvent/createEventView.html',
+        controller: 'createEventController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
     .state( 'event-signup', {
         url: '/event-:eventId/signup?name',
         templateUrl: 'components/signupEvent/signupEventView.html',
@@ -176,7 +183,7 @@ angular.module('cms', [
         }
     })
 
-    .state( '/manage-accommodations', {
+    .state( 'manage-accommodations', {
         url: '/manage-accommodations-:conferenceId',
         templateUrl: 'components/manageAccommodations/manageAccommodationsView.html',
         controller: 'manageAccommodationsController',
@@ -194,7 +201,7 @@ angular.module('cms', [
         }
     })
 
-    .state( '/manage-rooms', {
+    .state( 'manage-rooms', {
         url: '/manage-rooms-:accommodationId',
         templateUrl: 'components/manageRooms/manageRoomsView.html',
         controller: 'manageRoomsController',
@@ -203,7 +210,7 @@ angular.module('cms', [
         }
     })
 
-    .state( '/manage-transportation', {
+    .state( 'manage-transportation', {
         url: '/manage-transportation-:conferenceId',
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
         controller: 'manageTransportationController',

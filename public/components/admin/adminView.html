@@ -9,23 +9,29 @@
         </div>
     </div>
     <div uib-accordion class="container" id="admin-conferences" close-others="false">
-        <uib-accordion-group class="margin-top-25" ng-repeat="c in conferences">
+        <uib-accordion-group class="margin-top-25" ng-repeat="c in conferences track by $index">
             <uib-accordion-heading is-open="isCollapsed">
                 <div class="panel-body">
-                    <h2>{{c.name}}</h2>
-                    <p class="con_text">{{c.address}}</p>
-                    <p class="con_text">{{c.startDate}} - {{c.endDate}}</p>
-                    <button class="btn btn-sm btn-danger margin-top-35">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbspDelete
-                    </button>
+                    <div class="title-status"><h2 class="con-title">{{c.name}}&nbsp</h2><label class="alert" is-approved status="c.status">{{c.status | uppercase}}</label></div>
+                    <p>{{c.address}}</p>
+                    <p>{{c.start_date | date}} - {{c.end_date | date}}</p>
+                    <p>{{c.attendee_count}}/{{c.capacity}}</p>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-success margin-top-35" ng-click="goCreateEvent(c.id, $event)">
+                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbspCreate Event
+                        </button>
+                        <button class="btn btn-sm btn-danger margin-top-35" ng-click="deleteConference(c.id, $event)">
+                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>&nbspDelete
+                        </button>
+                    </div>
                     <div class="pull-right hidden-xs margin-top-35">
-                        <button class="btn btn-sm btn-default" ng-click="goAccommodations(c.conferenceId, $event)">
+                        <button class="btn btn-sm btn-default" ng-click="goAccommodations(c.id, $event)">
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Accommodations
                         </button>
                         <button class="btn btn-sm btn-default">
                             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Inventory
                         </button>
-                        <button class="btn btn-sm btn-default" ng-click="goTransportation(c.conferenceId, $event)">
+                        <button class="btn btn-sm btn-default" ng-click="goTransportation(c.id, $event)">
                             <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Vehicles
                         </button>
                         <button class="btn btn-sm btn-default">
@@ -48,12 +54,12 @@
                     </div>
                 </div>
             </uib-accordion-heading>
-            <div ng-if="c.events.length">
-                <div class="events" ng-repeat="e in c.events">
+            <div ng-if="events[$index]">
+                <div class="events" ng-repeat="e in events[$index]">
                     <div class="panel-body">
-                        <h3>{{e.name}}</h3>
-                        <p class="event_text">{{e.address}}</p>
-                        <p class="event_text">{{e.startDateTime}} - {{e.endDateTime}}</p>
+                        <div class="title-status"><h3>{{e.name}}</h3><label class="alert" is-approved status="e.status">{{e.status | uppercase}}</label></div>
+                        <p class="event-text">{{e.address}}</p>
+                        <p class="event-text">{{e.start_time | time}} - {{e.end_time | time}}</p>
                         <button class="btn btn-sm btn-danger margin-top-35">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbspDelete
                         </button>
@@ -78,7 +84,7 @@
                 </div>
             </div>
             <div ng-if="!c.events.length">
-                <p class="event_text">No events scheduled yet!</p>
+                <p class="event-text">No events scheduled yet!</p>
             </div>
         </uib-accordion-group>
     </div>

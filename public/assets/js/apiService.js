@@ -53,7 +53,7 @@ angular.module( 'apiService', [] )
     }
 })
 
-.factory( 'Event', function ( $resource ) {
+.factory( 'Events', function ( $resource ) {
     return {
 
         status: function () {

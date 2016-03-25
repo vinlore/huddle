@@ -69,8 +69,6 @@
   <script src="components/manageRequests/manageRequestsController.js"></script>
 
   <!-- SERVICES -->
-  <script src="assets/js/conferenceService.js"></script>
-  <script src="assets/js/eventService.js"></script>
   <script src="assets/js/mapService.js"></script>
   <script src="assets/js/countryService.js"></script>
   <script src="assets/js/apiService.js"></script>
