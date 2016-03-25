@@ -23,12 +23,21 @@ class RegisterUserRequest extends Request
      */
     public function rules()
     {
+        // No space at either end and no consecutive spaces.
+        $PASSWORD_SPACES = 'regex:/^\S+(?: \S+)*$/';
+
+        // At least one number.
+        $PASSWORD_NUMBER = 'regex:/.*[0-9]+.*/';
+
+        // Allow non-consecutive hyphens and commas.
+        $NAME = 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/';
+
         return [
             'username'      => ['required', 'min:4', 'alpha_dash', 'unique:users'],
-            'password'      => ['required', 'confirmed', 'min:8', 'alpha_dash', 'regex:/^\S+(?: \S+)*$/', 'regex:/.*[0-9]+.*/'],
-            'first_name'    => ['required', 'string', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
-            'middle_name'   => ['string', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
-            'last_name'     => ['required', 'string', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
+            'password'      => ['required', 'confirmed', 'min:8', 'alpha_dash', $PASSWORD_SPACES, $PASSWORD_NUMBER],
+            'first_name'    => ['required', 'string', $NAME],
+            'middle_name'   => ['string', $NAME],
+            'last_name'     => ['required', 'string', $NAME],
             'gender'        => ['string'],
             'birthdate'     => ['date'],
             'country'       => ['string'],

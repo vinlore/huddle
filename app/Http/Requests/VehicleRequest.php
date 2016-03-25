@@ -13,7 +13,29 @@ class VehicleRequest extends Request
      */
     public function authorize()
     {
-        return false;
+        if ($this->isSuperuser()) {
+            return true;
+        }
+
+        if ($this->authenticate()) {
+            switch (strtoupper($this->getMethod())) {
+                case 'POST':
+                    return $this->getUser()->hasAccess(['vehicle.store']);
+                    break;
+                case 'GET':
+                    return $this->getUser()->hasAccess(['vehicle.show']);
+                    break;
+                case 'PUT':
+                    return $this->getUser()->hasAccess(['vehicle.update']);
+                    break;
+                case 'DELETE':
+                    return $this->getUser()->hasAccess(['vehicle.destroy']);
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
     }
 
     /**
