@@ -40,7 +40,7 @@ class InitialMigration extends Migration
         Schema::create('conferences', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->string('address');
@@ -57,8 +57,8 @@ class InitialMigration extends Migration
             $table->integer('id', true);
             $table->integer('conference_id')->index('conference_id');
             $table->string('name');
-            $table->text('description');
-            $table->string('facilitator');
+            $table->text('description')->nullable();
+            $table->string('facilitator')->nullable();
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
