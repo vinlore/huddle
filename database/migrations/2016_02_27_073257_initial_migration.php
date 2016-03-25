@@ -40,14 +40,14 @@ class InitialMigration extends Migration
         Schema::create('conferences', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->string('address');
             $table->string('city');
             $table->string('country');
-            $table->integer('attendee_count')->default(0);
-            $table->integer('capacity');
+            $table->integer('attendee_count')->unsigned()->default(0);
+            $table->integer('capacity')->unsigned();
             $table->enum('status', ['pending', 'approved', 'denied'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
@@ -57,8 +57,8 @@ class InitialMigration extends Migration
             $table->integer('id', true);
             $table->integer('conference_id')->index('conference_id');
             $table->string('name');
-            $table->text('description');
-            $table->string('facilitator');
+            $table->text('description')->nullable();
+            $table->string('facilitator')->nullable();
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
@@ -67,8 +67,8 @@ class InitialMigration extends Migration
             $table->string('country');
             $table->string('age_limit')->nullable();
             $table->string('gender_limit')->nullable();
-            $table->integer('attendee_count')->default(0);
-            $table->integer('capacity');
+            $table->integer('attendee_count')->unsigned()->default(0);
+            $table->integer('capacity')->unsigned();
             $table->enum('status', ['pending', 'approved', 'denied'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
@@ -89,9 +89,9 @@ class InitialMigration extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('accommodation_id')->index('accommodation_id');
-            $table->integer('room_no');
-            $table->integer('guest_count')->default(0);
-            $table->integer('capacity');
+            $table->string('room_no');
+            $table->integer('guest_count')->unsigned()->default(0);
+            $table->integer('capacity')->unsigned();
             $table->timestamps();
             $table->softDeletes();
 
@@ -102,7 +102,7 @@ class InitialMigration extends Migration
             $table->integer('id', true);
             $table->integer('conference_id')->index('conference_id');
             $table->string('name');
-            $table->integer('quantity')->default(0);
+            $table->integer('quantity')->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();
 
@@ -114,8 +114,8 @@ class InitialMigration extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('name');
-            $table->integer('passenger_count')->default(0);
-            $table->integer('capacity');
+            $table->integer('passenger_count')->unsigned()->default(0);
+            $table->integer('capacity')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });

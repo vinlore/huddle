@@ -20,16 +20,13 @@ class EventController extends Controller
      */
     public function index()
     {
-       try{ 
+       try{
             $events = Event::all();
-
             if (!$events) {
                 return response()->error("No events found.");
             }
-
             return $events;
-
-         } catch (Exception $e) {
+        } catch (Exception $e) {
             return response()->error($e);
         }
     }
@@ -42,11 +39,11 @@ class EventController extends Controller
      */
     public function store(EventRequest $request)
     {
-        try{
+        try {
             Event::create($request->all());
             return response()->success();
-         } catch (Exception $e) {
-            return response()->error($e);
+        } catch (Exception $e) {
+            return response()->error("500",$e);
         }
     }
 
@@ -57,16 +54,14 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
         try{
             $event = Event::find($id);
-
             if(!$event){
-                return response()->error("No event found.");
+                return response()->success("204","No event found.");
             }
-
             return $event;
-         } catch (Exception $e) {
+        } catch (Exception $e) {
             return response()->error($e);
         }
     }
@@ -83,16 +78,11 @@ class EventController extends Controller
         try{
             $user_to_check = User::find($request->header('ID'));
 
-            if($user_to_check->api_token == $api_key && $user_to_check->hasAccess(['event.status'])){
-
-                $event = Event::find($request->id);
-
-                if(!$event){
-                     return response()->error("No event found.");
-                }
-
-                $conference->update(['status' => $request->status]);
-
+            $event = Event::find($request->id);
+            if(!$event){
+                 return response()->success("204","No event found.");
+            }
+            $conference->update(['status' => $request->status]);
                /*
 
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
@@ -101,13 +91,7 @@ class EventController extends Controller
             }elseif($request->Status == 'declined' && user_to_check->receive_email == 1){
                 //TODO SEND DECLINED EMAIL
             }    */
-
-
-                return response()->success();
-
-            }else{
-                return response()->error("no access.");
-            }
+            return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -125,19 +109,15 @@ class EventController extends Controller
     {
         try{
             $event = Event::find($id);
-
             if(!$event){
-                 return response()->error("No event found.");
+                 return response()->success("204","No event found.");
             }
-        
             $event->update($request->all());
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
             */
-
             return response()->success();
-
          } catch (Exception $e) {
             return response()->error($e);
         }
@@ -153,14 +133,12 @@ class EventController extends Controller
     {
         try{
            if(!Event::find($id)){
-                 return response()->error("No Event found");
+               return response()->success("204","No Event found");
             }
-
             Event::destroy($id);
-
             return response()->success();
          } catch (Exception $e) {
-            return response()->error($e);
+             return response()->error($e);
         }
     }
 }

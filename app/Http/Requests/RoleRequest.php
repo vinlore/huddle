@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\User as User;
 
 class RoleRequest extends Request
 {
@@ -14,50 +13,29 @@ class RoleRequest extends Request
      */
     public function authorize()
     {
-        $user_id = $this->header('ID');
-        $api_token = $this->header('X-Auth-Token');
-            
-        $user_to_check = User::find($user_id);
-
-
-        if($user_to_check->api_token == $api_token){
-
-            switch (strtoupper($this->getMethod())) {
-                case 'POST':
-                   if($user_to_check->hasAccess(['role.store'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-                  
-                case 'PUT':
-                    if($user_to_check->hasAccess(['role.update'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'DESTROY':
-                    if($user_to_check->hasAccess(['role.destroy'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'GET':
-                        return true;
-                   
-
-                default:
-                    return false;
-            }
-
-        }else{
-
-            return false;
+        if ($this->isSuperuser()) {
+            return true;
         }
 
-
+        if ($this->authenticate()) {
+            switch (strtoupper($this->getMethod())) {
+                case 'POST':
+                    return $this->getUser()->hasAccess(['role.store']);
+                    break;
+                case 'GET':
+                    return $this->getUser()->hasAccess(['role.show']);
+                    break;
+                case 'PUT':
+                    return $this->getUser()->hasAccess(['role.update']);
+                    break;
+                case 'DELETE':
+                    return $this->getUser()->hasAccess(['role.destroy']);
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
     }
 
     /**
@@ -68,7 +46,9 @@ class RoleRequest extends Request
     public function rules()
     {
         return [
-            //
+            'slug'        => ['required', 'string', 'max:255', 'unique:roles'],
+            'name'        => ['required', 'string', 'max:255', 'unique:roles'],
+            'permissions' => ['required', 'string', 'unique:roles'],
         ];
     }
 }

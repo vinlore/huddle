@@ -14,11 +14,11 @@
 	margin-right: 25px;
 }
 
-.con_title {
+.con-title {
     font-size: 150%;
 }
 
-.event_text {
+.event-text {
 	font-size: 100%;
 }
 
@@ -34,4 +34,9 @@
 #admin .events hr {
     margin-top: 5px;
     margin-bottom: 15px;
+}
+
+#admin .title-status {
+    display: flex;
+    flex-flow: row wrap;
 }

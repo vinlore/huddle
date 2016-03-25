@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\User as User;
 
 class RoomRequest extends Request
 {
@@ -14,50 +13,28 @@ class RoomRequest extends Request
      */
     public function authorize()
     {
-        $user_id = $this->header('ID');
-        $api_token = $this->header('X-Auth-Token');
-            
-        $user_to_check = User::find($user_id);
+        if ($this->isSuperuser()) {
+            return true;
+        }
 
-
-        if($user_to_check->api_token == $api_token){
-
+        if ($this->authenticate()) {
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
-                   if($user_to_check->hasAccess(['accommodations.store'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-                  
-                case 'PUT':
-                    if($user_to_check->hasAccess(['accommodations.update'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'DESTROY':
-                    if($user_to_check->hasAccess(['accommodations.destroy'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
+                    return $this->getUser()->hasAccess(['room.store']);
+                    break;
                 case 'GET':
-                    if($user_to_check->hasAccess(['accommodations.show'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
+                    return $this->getUser()->hasAccess(['room.show']);
+                    break;
+                case 'PUT':
+                    return $this->getUser()->hasAccess(['room.update']);
+                    break;
+                case 'DELETE':
+                    return $this->getUser()->hasAccess(['room.destroy']);
+                    break;
                 default:
                     return false;
+                    break;
             }
-
-        }else{
-
-            return false;
         }
     }
 
@@ -69,7 +46,8 @@ class RoomRequest extends Request
     public function rules()
     {
         return [
-            //
+            'room_no'  => ['required', 'string', 'max:255'],
+            'capacity' => ['required', 'integer', 'min:1'],
         ];
     }
 }
