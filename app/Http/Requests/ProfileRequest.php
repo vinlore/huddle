@@ -45,8 +45,19 @@ class ProfileRequest extends Request
      */
     public function rules()
     {
+        // Allow non-consecutive hyphens and commas.
+        $NAME = 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/';
+
         return [
-            //
+            'email'       => ['email', 'max:255'],
+            'phone'       => ['integer'],
+            'first_name'  => ['required', 'string', 'max:255', $NAME],
+            'middle_name' => ['string', 'max:255', $NAME],
+            'last_name'   => ['required', 'string', 'max:255', $NAME],
+            'city'        => ['string', 'max:255'],
+            'country'     => ['string', 'max:255'],
+            'birthdate'   => ['required', 'date', 'before:today'],
+            'gender'      => ['required', 'string', 'max:255'],
         ];
     }
 }

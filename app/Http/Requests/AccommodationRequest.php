@@ -46,7 +46,10 @@ class AccommodationRequest extends Request
     public function rules()
     {
         return [
-            //
+            'name'    => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'city'    => ['required', 'string', 'max:255'],
+            'country' => ['required', 'string', 'max:255'],
         ];
     }
 }

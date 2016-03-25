@@ -36,16 +36,16 @@ class Event extends Model
 
     public function vehicles()
     {
-        return $this->belongsToMany('App\Models\Vehicle', 'event_vehicles');
+        return $this->belongsToMany('App\Models\Vehicle', 'event_vehicles')->withTimestamps();
     }
 
     public function managers()
     {
-        return $this->belongsToMany('App\Models\User', 'user_manages_events');
+        return $this->belongsToMany('App\Models\User', 'user_manages_events')->withTimestamps();
     }
 
     public function attendees()
     {
-        return $this->belongsToMany('App\Models\Profile', 'profile_attends_events');
+        return $this->belongsToMany('App\Models\Profile', 'profile_attends_events')->withTimestamps();
     }
 }
