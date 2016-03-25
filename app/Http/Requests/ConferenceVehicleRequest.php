@@ -24,14 +24,14 @@ class ConferenceVehicleRequest extends Request
 
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
-                   if($user_to_check->hasAccess(['conferenceVehicles.store'])){
+                   if($user_to_check->hasAccess(['conference_vehicle.store'])){
                         return true;
                    }else{
                         return false;
                    }
                   
                 case 'PUT':
-                    if($user_to_check->hasAccess(['conferenceVehicles.update'])){
+                    if($user_to_check->hasAccess(['conference_vehicle.update'])){
                         return true;
                    }else{
                         return false;

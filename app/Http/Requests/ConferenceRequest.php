@@ -20,7 +20,7 @@ class ConferenceRequest extends Request
         $user_to_check = User::find($user_id);
 
 
-        if($user_to_check->api_token == $api_token){
+        if(/*$user_to_check->api_token == $api_token*/true){
 
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
@@ -37,7 +37,7 @@ class ConferenceRequest extends Request
                         return false;
                    }
 
-                case 'DESTROY':
+                case 'DELETE':
                     if($user_to_check->hasAccess(['conference.destroy'])){
                         return true;
                    }else{
