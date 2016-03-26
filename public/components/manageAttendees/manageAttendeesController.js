@@ -1,5 +1,5 @@
-angular.module( 'manageRequestsCtrl', [] )
-.controller( 'manageRequestsController', function ($scope) {
+angular.module( 'manageAttendeesCtrl', [] )
+.controller( 'manageAttendeesController', function ($scope) {
 
   $scope.conferencePendingCreations = [
       {
@@ -89,36 +89,36 @@ angular.module( 'manageRequestsCtrl', [] )
     $scope.eventsPendingCreations.splice(index, 1);
   }
 
-  // $scope.conferences = []
-  //
-  // $scope.loadConferences = function () {
-  //     Conferences.fetch().query()
-  //         .$promise.then( function ( response ) {
-  //             if ( response ) {
-  //                 $scope.conferences = response;
-  //             } else {
-  //                 popup.error( 'Error', response.message );
-  //             }
-  //         }, function () {
-  //             popup.connection();
-  //         })
-  // };
-  // $scope.loadConferences();
-  //
-  // $scope.events = []
-  //
-  // $scope.loadEvents = function () {
-  //     Events.fetch().query()
-  //         .$promise.then( function ( response ) {
-  //             if ( response ) {
-  //                 $scope.events = response;
-  //             } else {
-  //                 popup.error( 'Error', response.message );
-  //             }
-  //         }, function () {
-  //             popup.connection();
-  //         })
-  // };
-  // $scope.loadEvents();
+  $scope.conferences = []
+
+  $scope.loadConferenceAttendees = function () {
+      Conferences.fetch().query()
+          .$promise.then( function ( response ) {
+              if ( response ) {
+                  $scope.conferences = response;
+              } else {
+                  popup.error( 'Error', response.message );
+              }
+          }, function () {
+              popup.connection();
+          })
+  };
+  $scope.loadConferences();
+
+  $scope.events = []
+
+  $scope.loadConferenceAttendees = function () {
+      Events.fetch().query()
+          .$promise.then( function ( response ) {
+              if ( response ) {
+                  $scope.events = response;
+              } else {
+                  popup.error( 'Error', response.message );
+              }
+          }, function () {
+              popup.connection();
+          })
+  };
+  $scope.loadEvents();
 
 });

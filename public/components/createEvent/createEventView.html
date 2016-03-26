@@ -1,0 +1,131 @@
+<div id="create-event" class="container has-header">
+  <h1 class="page-header">Create New Event</h1>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="col-lg-6">
+        <form name="ce-form" class="form-horizontal" ng-submit="submit()">
+          <div class="form-group">
+            <label for="ce-name" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="ce-name" ng-model="event.name" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ce-country" class="col-sm-3 control-label">Country</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="ce-country" ng-model="event.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0" required typeahead-on-select="changeCountry($item)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ce-city" class="col-sm-3 control-label">City</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="ce-city" ng-model="event.city" g-places-autocomplete options="citiesOnly" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ce-address" class="col-sm-3 control-label">Address</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="ce-address" ng-model="event.address" g-places-autocomplete required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ce-date" class="col-sm-3 control-label">Date</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" class="form-control" id="ce-start-date" ng-model="event.date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen1" required>
+                <span class="input-group-btn">
+                  <button class="btn btn-link" type="button" ng-click="calendar.isOpen1 = !calendar.isOpen1">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+              <label for="ce-end_time" class="col-sm-3 control-label">Start Time</label>
+              <div class="col-sm-9">
+                  <input type="time" class="form-control" id="ce-start_time" placeholder="Start Time" ng-model="event.start_time" required>
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="ce-end_time" class="col-sm-3 control-label">End Time</label>
+              <div class="col-sm-9">
+                  <input type="time" class="form-control" id="ce-end_time" placeholder="End Time" ng-model="event.end_time" required>
+              </div>
+          </div>
+          <div class="form-group">
+            <label for="ce-age_limit" class="col-sm-3 control-label">Age Limit</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="ce-age_limit" ng-model="event.age_limit" g-places-autocomplete required>
+            </div>
+          </div>
+          <div class="form-group" ng-class="{'has-error': regForm.gender.$submitted}">
+              <label for="ce-gender" class="col-sm-3 control-label">Gender</label>
+              <div class="col-sm-9">
+                  <select class="form-control" id="ce-gender" name="gender" ng-model="event.gender_limit" required>
+                      <option value="" disabled>Select a gender ...</option>
+                      <option value="males">Males</option>
+                      <option value="females">Females</option>
+                      <option value="all">All</option>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group">
+            <label for="ce-capacity" class="col-sm-3 control-label">Capacity</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="ce-capacity" ng-model="event.capacity" g-places-autocomplete required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ce-facilitator" class="col-sm-3 control-label">Facilitator</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="ce-facilitator" ng-model="event.facilitator" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ce-description" class="col-sm-3 control-label">Description</label>
+            <div class="col-sm-9">
+              <textarea rows="5" type="text" id="ce-description" class="form-control" ng-model="event.description" maxlength="300" required></textarea>
+              <span class="help-block">Max 300 characters</span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-6">
+        <div class="row" id="ce-arrTransport">
+          <label>
+            <input type="checkbox" ng-model="isArrival"> Arrival Transportation
+          </label>
+          <div class="panel panel-default" ng-if="isArrival">
+            <div class="panel-body form-inline">
+              <div ng-repeat="vehicle in arrTransport track by $index" class="padding-top-5">
+                <input type="text" class="form-control name-col" ng-model="vehicle.name" placeholder="Type">
+                <input type="text" class="form-control num-col" ng-model="vehicle.num" placeholder="#">
+                <button class="btn btn-link" ng-click="addArrival()" ng-if="$index==arrTransport.length-1"><i class="glyphicon glyphicon-plus"></i></button>
+                <button class="btn btn-link" ng-click="removeArrival($index)" ng-if="arrTransport.length!=1 || $index!=0"><i class="glyphicon glyphicon-minus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="ce-depTransport">
+          <label>
+            <input type="checkbox" ng-model="isDeparture"> Departure Transportation
+          </label>
+          <div class="panel panel-default" ng-if="isDeparture">
+            <div class="panel-body form-inline">
+              <div ng-repeat="vehicle in depTransport track by $index" class="padding-top-5">
+                <input type="text" class="form-control name-col" ng-model="vehicle.name" placeholder="Type">
+                <input type="text" class="form-control num-col" ng-model="vehicle.num" placeholder="#">
+                <button class="btn btn-link" ng-click="addDeparture()" ng-if="$index==depTransport.length-1"><i class="glyphicon glyphicon-plus"></i></button>
+                <button class="btn btn-link" ng-click="removeDeparture($index)" ng-if="depTransport.length!=1 || $index!=0"><i class="glyphicon glyphicon-minus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-lg btn-success center-block" type="submit" ng-click="submit()">Create Request</button>
+    <div><hr></div>
+  </div>
+</div>
