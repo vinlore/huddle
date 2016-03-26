@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests;
+use App\Http\Requests\EventRequest;
 
 use App\Models\Event as Event;
 
@@ -17,10 +18,10 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($conferences)
     {
        try{
-            $events = Event::all();
+            $events = Event::where('conference_id', $conferences)->get();
             if (!$events) {
                 return response()->error("No events found.");
             }

@@ -39,7 +39,8 @@ angular.module('cms', [
     'ngTable',
     'permissionService',
     'reportsCtrl',
-    'angular-timeline'
+    'angular-timeline',
+    'ui.mask'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
@@ -75,13 +76,15 @@ angular.module('cms', [
     $rootScope.alerts = [];
 })
 
-.config( function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider ) {
+.config(function( $stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider, uiMaskConfigProvider ) {
     $authProvider.loginUrl = 'api/auth/login';
     $authProvider.httpInterceptor = false;
 
     $httpProvider.interceptors.push('tokenInterceptor');
-
     $httpProvider.defaults.headers.common["Accept"] = 'application/json';
+
+    var maskDefinitions = uiMaskConfigProvider.$get().maskDefinitions;
+    angular.extend(maskDefinitions, {'2': /[0-2]/, '6': /[0-6]/});
 
     $stateProvider
 

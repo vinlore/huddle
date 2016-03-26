@@ -86,8 +86,6 @@ angular.module( 'conferenceCtrl', [] )
     $scope.editEvent = [];
 
     $scope.editEvent = function ( event, $index, e ) {
-        e.preventDefault();
-        e.stopPropagation();
         $scope.editEvent[$index] = true;
         angular.extend( eventBackup, event );
     }
@@ -125,21 +123,27 @@ angular.module( 'conferenceCtrl', [] )
 
         var eventDetails = {
             name: $scope.events[$index].name,
-            date: $filter('date')($scope.events[$index].startDate, 'yyyy-MM-dd'),
+            date: $filter('date')($scope.events[$index].date, 'yyyy-MM-dd'),
             address: address,
             description: $scope.events[$index].description,
             capacity: $scope.events[$index].capacity,
+            start_time: $filter('time')($scope.events[$index].start_time),
+            end_time: $filter('time')($scope.events[$index].end_time),
+            country: $scope.events[$index].country,
             city: city,
             capacity: $scope.events[$index].capacity,
-            age_limit: $scope.events[$index].ageLimit,
-            gender_limit: $scope.events[$index].genderLimit,
+            age_limit: $scope.events[$index].age_limit,
+            gender_limit: $scope.events[$index].gender_limit,
             facilitator: $scope.events[$index].facilitator
         }
-        Event.fetch().update( {cid: $stateParams.conferenceId, eid: $scope.event[index].eventId}, eventDetails )
+        console.log(eventDetails.start_time);
+        console.log(eventDetails.end_time)
+        Events.fetch().update( {cid: $stateParams.conferenceId, eid: $scope.events[$index].id}, eventDetails )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' ) {
-                    console.log( 'Changes saved to conference' );
-                    // TODO success alert
+                    $scope.editEvent[$index] = false;
+                    eventBackup = {};
+                    popup.alert('success', 'Changes have been saved.');
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -178,7 +182,6 @@ angular.module( 'conferenceCtrl', [] )
         Conferences.fetch().update( {cid: $stateParams.conferenceId}, confDetails )
             .$promise.then( function( response ) {
                 if ( response.status == 'success' ) {
-                    console.log( 'Changes saved to conference' );
                     $scope.editConference = false;
                     conferenceBackup = {};
                     popup.alert( 'success', 'Changes have been saved.' );
@@ -197,12 +200,19 @@ angular.module( 'conferenceCtrl', [] )
         conferenceBackup = {};
     }
 
-    /*
+    
     $scope.loadEvents = function () {
         Events.fetch().query( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' && response.events ) {
-                    $scope.events = response.events;
+                if ( response ) {
+                    $scope.events = response;
+                    for (var i = 0; i < response.length; i++) {
+                        $scope.events[i].date = new Date($scope.events[i].date);
+                        var time1 = $scope.events[i].start_time.split(':');
+                        $scope.events[i].start_time = time1[0]+time1[1];
+                        var time2 = $scope.events[i].end_time.split(':');
+                        $scope.events[i].end_time = time2[0]+time2[1];
+                    }
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -213,6 +223,7 @@ angular.module( 'conferenceCtrl', [] )
 
     $scope.loadEvents();
 
+    /*
     $scope.loadInventory = function () {
         Conferences.inventory().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
