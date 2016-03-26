@@ -3,6 +3,8 @@ angular.module('manageRoomsCtrl',[])
 
 	var aId = $stateParams.accommodationId;
 
+	//////// Data Structures ////////
+
 	$scope.accommodation = {
 		accommodationId: 1,
 		name: "Hotel-1",
@@ -31,11 +33,18 @@ angular.module('manageRoomsCtrl',[])
 	}
 	]
 
+	// initial input data
+	$scope.room = {
+    	room_no: null,
+    	guest_count: null,
+    	capacity: null
+    }
+
+    //////// Intial State ////////
+
 	// copy actual data into a temp array for protection
 	$scope.temp = $scope.rooms.slice();
 	$scope.hasChanges = false;
-
-	//$log.log($scope.room.$dirty);
 
 	$scope.tableParams = new ngTableParams(
 	{
@@ -49,24 +58,16 @@ angular.module('manageRoomsCtrl',[])
 		}
 	});
 
-    //////////
+    //////// Button Functions ////////
 
-    $scope.room = {
-    	room_no: null,
-    	guest_count: null,
-    	capacity: null
-    }
-
-    $scope.add = function(user) {
+    $scope.add = function(room) {
     	$scope.hasChanges = true;
 
     	// add new row to temp array
-    	$scope.temp.push(user);
+    	$scope.temp.push(room);
 
     	// clear input data
     	$scope.room = null;
-
-    	$log.log($scope.room);
 
     	// refresh tableParams to reflect changes
     	$scope.tableParams.reload();
@@ -90,5 +91,9 @@ angular.module('manageRoomsCtrl',[])
   		$scope.hasChanges = false;
   		$scope.rooms = $scope.temp.slice();
   	}
+
+  	$scope.export = function() {
+    
+  }
 
 });
