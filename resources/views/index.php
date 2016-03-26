@@ -53,6 +53,7 @@
   <script text="text/javascript" src="assets/libs/ngmap/build/scripts/ng-map.min.js"></script>
   <script type="text/javascript" src="assets/libs/ng-table/dist/ng-table.min.js"></script>
   <script text="text/javascript" src="assets/libs/angular-timeline/dist/angular-timeline.js"></script>
+  <script text="text/javascript" src="assets/libs/angular-ui-mask/dist/mask.min.js"></script>
 
   <!-- CONTROLLERS -->
   <script src="components/home/homeController.js"></script>

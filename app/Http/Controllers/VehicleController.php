@@ -8,6 +8,8 @@ use Illuminate\Http\Response;
 use App\Http\Requests;
 
 use App\Models\Vehicle as Vehicle;
+use App\Models\Conference as Conference;
+use App\Models\Event as Event;
 
 class VehicleController extends Controller
 {
@@ -22,11 +24,11 @@ class VehicleController extends Controller
             $vehicle = Vehicle::all();
             //Check if Vehicles Exists
             if (!$vehicle) {
-                return response()->success("Sabazius" , "No Vehicles Found.");
+                return response()->success("204" , "No Vehicles Found.");
             }
             return $vehicle;
         } catch (Exception $e){
-            return response()->error("Salmoneus" , $e);
+            return response()->error("500" , $e);
         }
     }
 
@@ -36,10 +38,26 @@ class VehicleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $type)
     {
         try {
-            Vehicle::create($request->all());
+            $vehicle = Vehicle::create($request->all());
+
+            //Storing new objects into pivot table.
+            if ($type == 'conference') {
+                //Creating the pivot between conf & vehicle
+                Conference::find($request->conference_id)
+                            ->vehicles()
+                            ->attach($vehicle, ['type' => $request->type]);
+            } elseif ($type == 'event') {
+                //Creating the pivot between event & vehicle
+                Event::find($request->event_id)
+                        ->vehicles()
+                        ->attach($vehicle, ['type' => $request->type]);
+            } else {
+                return response()->error("400" , "What are you creating for?");
+            }
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error("Viper" , $e);
@@ -73,7 +91,7 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $type)
     {
         try {
             $newVehicleData = array (
@@ -82,9 +100,22 @@ class VehicleController extends Controller
                 'capacity' => $request->capacity
             );
             Vehicle::where('id', $id)->update($newVehicleData);
+
+            //Updating Pivot Table
+            if ($type == 'conference') {
+                Conference::find($request->conference_id)
+                            ->vehicles()
+                            ->updateExistingPivot($id,['type' => $request->type]);
+            } elseif ($type == 'event') {
+                Event::find($request->event_id)
+                        ->vehicles()
+                        ->updateExistingPivot($id , ['type' => $request->type]);
+            } else {
+                response()->error("400" , "What are you trying to update?");
+            }
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("Violet" , $e);
+            return response()->error("500" , $e);
         }
     }
 
@@ -101,6 +132,16 @@ class VehicleController extends Controller
             if ($vehicle->passengers()->count()){
                 return response()->error("409" , "Passengers still in this Vehicle");
             }
+
+            //Remove the Pivot Row - From Conference/Event - Vehicles
+            Vehicle::find($id)
+                    ->conferences()
+                    ->detach();
+
+            Vehicle::find($id)
+                    ->events()
+                    ->detach();
+
             Vehicle::destroy($id);
             return response()->success();
         } catch (Exception $e) {

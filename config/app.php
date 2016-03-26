@@ -158,6 +158,7 @@ return [
         App\Providers\ResponseServiceProvider::class,
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
 
