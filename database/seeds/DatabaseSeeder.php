@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesSeeder::class);
         $this->call(UsersSeeder::class);
         $this->call(ConferencesSeeder::class);
+        $this->call(AccommodationsSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         Model::reguard();
@@ -349,5 +350,91 @@ class ConferencesSeeder extends Seeder
         $event = new Event($event);
         $event->conference()->associate($conference);
         $event->save();
+    }
+}
+
+class AccommodationsSeeder extends Seeder
+{
+    public function run()
+    {
+        $accommodation = [
+            'name'          => 'Hotel-1',
+            'address'       => '1128 West Georgia Street',
+            'city'          => 'Vancouver',
+            'country'       => 'Canada'
+        ];
+
+        $room1 = [
+            'room_no'       => "1000",
+            'guest_count'   => 0,
+            'capacity'      => 2
+        ];
+
+        $room2 = [
+            'room_no'       => "1001",
+            'guest_count'   => 1,
+            'capacity'      => 2
+        ];
+
+        $room3 = [
+            'room_no'       => "1002",
+            'guest_count'   => 2,
+            'capacity'      => 2
+        ];
+
+        $accommodation = Accommodation::create($accommodation);
+        $accommodation->conferences()->attach(Conference::find(2));
+
+        $room = new Room($room1);
+        $room->accommodation()->associate($accommodation);
+        $room->save();
+
+        $room = new Room($room2);
+        $room->accommodation()->associate($accommodation);
+        $room->save();
+
+        $room = new Room($room3);
+        $room->accommodation()->associate($accommodation);
+        $room->save();
+
+        $accommodation = [
+            'name'          => 'Hotel-2',
+            'address'       => '5911 Minoru Blvd',
+            'city'          => 'Richmond',
+            'country'       => 'Canada'
+        ];
+
+        $room1 = [
+            'room_no'       => "A250",
+            'guest_count'   => 0,
+            'capacity'      => 2
+        ];
+
+        $room2 = [
+            'room_no'       => "B350",
+            'guest_count'   => 4,
+            'capacity'      => 4
+        ];
+
+        $room3 = [
+            'room_no'       => "C450",
+            'guest_count'   => 2,
+            'capacity'      => 3
+        ];
+
+        $accommodation = Accommodation::create($accommodation);
+        $accommodation->conferences()->attach(Conference::find(2));
+
+        $room = new Room($room1);
+        $room->accommodation()->associate($accommodation);
+        $room->save();
+
+        $room = new Room($room2);
+        $room->accommodation()->associate($accommodation);
+        $room->save();
+
+        $room = new Room($room3);
+        $room->accommodation()->associate($accommodation);
+        $room->save();
     }
 }
