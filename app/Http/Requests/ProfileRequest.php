@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\User as User;
 
 class ProfileRequest extends Request
 {
@@ -14,51 +13,29 @@ class ProfileRequest extends Request
      */
     public function authorize()
     {
-        //TODO: must check profile belongs to user
-        $user_id = $this->header('ID');
-        $api_token = $this->header('X-Auth-Token');
-            
-        $user_to_check = User::find($user_id);
-
-
-        if($user_to_check->api_token == $api_token){
-
-            switch (strtoupper($this->getMethod())) {
-                case 'POST':
-                   return true;
-                  
-                case 'PUT':
-                    if($user_to_check->hasAccess(['profile.update'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'DESTROY':
-                    if($user_to_check->hasAccess(['profile.destroy'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'GET':
-                //TODO check if profile to show belongs to current user
-                    if($user_to_check->hasAccess(['profile.show'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                default:
-                    return false;
-            }
-
-        }else{
-
-            return false;
+        if ($this->isSuperuser()) {
+            return true;
         }
 
-
+        if ($this->authenticate()) {
+            switch (strtoupper($this->getMethod())) {
+                case 'POST':
+                    return $this->getUser()->hasAccess(['profile.store']);
+                    break;
+                case 'GET':
+                    return $this->getUser()->hasAccess(['profile.show']);
+                    break;
+                case 'PUT':
+                    return $this->getUser()->hasAccess(['profile.update']);
+                    break;
+                case 'DELETE':
+                    return $this->getUser()->hasAccess(['profile.destroy']);
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
     }
 
     /**
@@ -68,8 +45,19 @@ class ProfileRequest extends Request
      */
     public function rules()
     {
+        // Allow non-consecutive hyphens and commas.
+        $NAME = 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/';
+
         return [
-            //
+            'email'       => ['email', 'max:255'],
+            'phone'       => ['integer'],
+            'first_name'  => ['required', 'string', 'max:255', $NAME],
+            'middle_name' => ['string', 'max:255', $NAME],
+            'last_name'   => ['required', 'string', 'max:255', $NAME],
+            'city'        => ['string', 'max:255'],
+            'country'     => ['string', 'max:255'],
+            'birthdate'   => ['required', 'date', 'before:today'],
+            'gender'      => ['required', 'string', 'max:255'],
         ];
     }
 }

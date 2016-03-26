@@ -9,10 +9,10 @@ use App\Http\Requests;
 use App\Http\Requests\ConferenceRequest;
 
 use App\Models\Conference as Conference;
-use App\Models\User as User;
+use App\Models\Profile as Profile;
 
 
-class ConferenceController extends Controller
+class ProfileAttendsConferenceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,18 +21,7 @@ class ConferenceController extends Controller
      */
     public function index()
     {
-        try {
-            $conferences = Conference::all();
-            if (!$conferences) {
-                return response()->error("No conferences found.");
-            }
-            return $conferences;
-        } catch (Exception $e) {
-            return response()->error("500" , $e);
-        }
     }
-
-   //MAKE SEPARATE METHOD FOR STATUS
 
     /**
      * Store a newly created resource in storage.
@@ -43,7 +32,11 @@ class ConferenceController extends Controller
 
     public function store(ConferenceRequest $request){
         try{
-            Conference::create($request->all());
+            //Saving to profile_attends_conference Table
+            $profile =  Profile::find($request->profile_id);
+            Conference::find($request->conference_id)
+                        ->attendees()
+                        ->attach($profile, $request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -56,9 +49,9 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($conferences){
+    public function show($id){
         try{
-            $conference = Conference::find($conferences);
+            $conference = Conference::find($id)->attendees()->get();
             if(!$conference){
                 return response()->success("204", "No conference found.");
             }
@@ -75,19 +68,18 @@ class ConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function conferenceStatusUpdate(Request $request){
+     public function profileConferenceStatusUpdate(Request $request){
         try{
-            $conference = Conference::find($request->id);
-            if(!$conference){
-                return response()->success("204","No conference found.");
-            }
-            $conference->update(['status' => $request->status]);
+            Conference::find($requset->conference_id)
+                    ->attendees()
+                    ->updateExistingPivot($request->profile_id,['status' => $request->status]);
             /*
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
                 //TODO SEND APPROVED EMAIL
             }elseif($request->Status == 'declined' && user_to_check->receive_email == 1){
                 //TODO SEND DECLINED EMAIL
-            }    */
+            }
+            */
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -103,13 +95,11 @@ class ConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(ConferenceRequest $request, $id){
-
         try {
-            $conference = Conference::find($id);
-            if(!$conference){
-                return response()->success("204","No conference found.");
-            }
-            $conference->update($request->all());
+            //Update
+            Conference::find($requset->conference_id)
+                    ->attendees()
+                    ->updateExistingPivot($request->profile_id,$request->all());
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
@@ -127,18 +117,6 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ConferenceRequest $request, $conferences){
-
-    try{
-        if(!Conference::find($conferences)){
-             return response()->error("No conferences found.");
-        }
-
-        Conference::destroy($conferences);
-
-        return response()->success();
-     }catch (Exception $e) {
-            return response()->error($e);
-        }
+    public function destroy(ConferenceRequest $request){
     }
 }

@@ -32,8 +32,5 @@
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor e2e-tests/protractor.conf.js",
     "launch": "php artisan serve"
-  },
-  "dependencies": {
-    "angular-timeline": "^1.2.1"
   }
 }

@@ -73,6 +73,7 @@ class AuthController extends Controller
             'status'  => 'success',
             'token'   => $token,
             'user_id' => $user->id,
+            'permissions' => $user->permissions
         ]);
     }
 

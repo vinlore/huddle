@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\User as User;
 
 class AccommodationRequest extends Request
 {
@@ -14,50 +13,28 @@ class AccommodationRequest extends Request
      */
     public function authorize()
     {
-        $user_id = $this->header('ID');
-        $api_token = $this->header('X-Auth-Token');
-            
-        $user_to_check = User::find($user_id);
+        if ($this->isSuperuser()) {
+            return true;
+        }
 
-
-        if($user_to_check->api_token == $api_token){
-
+        if ($this->authenticate()) {
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
-                   if($user_to_check->hasAccess(['accommodation.store'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-                  
-                case 'PUT':
-                    if($user_to_check->hasAccess(['accommodation.update'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
-                case 'DESTROY':
-                    if($user_to_check->hasAccess(['accommodation.destroy'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
+                    return $this->getUser()->hasAccess(['accommodation.store']);
+                    break;
                 case 'GET':
-                    if($user_to_check->hasAccess(['accommodation.show'])){
-                        return true;
-                   }else{
-                        return false;
-                   }
-
+                    return $this->getUser()->hasAccess(['accommodation.show']);
+                    break;
+                case 'PUT':
+                    return $this->getUser()->hasAccess(['accommodation.update']);
+                    break;
+                case 'DELETE':
+                    return $this->getUser()->hasAccess(['accommodation.destroy']);
+                    break;
                 default:
                     return false;
+                    break;
             }
-
-        }else{
-
-            return false;
         }
     }
 
@@ -69,7 +46,10 @@ class AccommodationRequest extends Request
     public function rules()
     {
         return [
-            //
+            'name'    => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'city'    => ['required', 'string', 'max:255'],
+            'country' => ['required', 'string', 'max:255'],
         ];
     }
 }

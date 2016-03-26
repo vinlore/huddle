@@ -32,7 +32,7 @@
     </div>
     <div class="body-container">
         <div class="box">
-            <div class="btn-container">
+            <div class="btn-container" ng-if="auth && user.permissions['conference.update']">
                 <button type="button" class="btn btn-primary no-animate" ng-click="edit()" ng-if="!editConference && auth">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </button>
@@ -50,6 +50,7 @@
                 <a type="button" class="btn btn-info attendance no-animate" ui-sref="conference-signup({conferenceId: conference.conferenceId, name: conference.name})" ng-if="auth">
                     <span class="glyphicon glyphicon-ok"></span> Attend
                 </a>
+                <!-- TODO show attending if attendee profile status -->
                 <button type="button" class="btn btn-info attendance attend-leave" ng-if="false">
                     <span class="attending">
                         <span class="glyphicon glyphicon-ok"></span> Attending
@@ -69,7 +70,7 @@
                             <uib-accordion-heading>
                                 <div class="accordion-heading">
                                     <h4>{{event.name}}</h4>
-                                    <div class="btn-container">
+                                    <div class="btn-container" ng-if="auth && user.permissions['event.update']">
                                         <div ng-if="editEvent[$index] && auth">
                                             <button type="button" class="btn btn-success" ng-click="updateEvent( event, $index, $event )">
                                                 <span class="glyphicon glyphicon-ok"></span> Save Changes

@@ -17,6 +17,10 @@
     "ngstorage": "^0.3.10",
     "ngmap": "^1.16.7",
     "angular-ui-router": "^0.2.18",
-    "ng-table": "^0.8.3"
+    "ng-table": "^0.8.3",
+    "angular-timeline": "^1.6.2"
+  },
+  "resolutions": {
+    "angular": "^1.3.15"
   }
 }

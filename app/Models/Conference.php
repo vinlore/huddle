@@ -31,21 +31,21 @@ class Conference extends Model
 
     public function accommodations()
     {
-        return $this->belongsToMany('App\Models\Accommodation', 'conference_accommodations');
+        return $this->belongsToMany('App\Models\Accommodation', 'conference_accommodations')->withTimestamps();
     }
 
     public function vehicles()
     {
-        return $this->belongsToMany('App\Models\Vehicle', 'conference_vehicles');
+        return $this->belongsToMany('App\Models\Vehicle', 'conference_vehicles')->withTimestamps();
     }
 
     public function managers()
     {
-        return $this->belongsToMany('App\Models\User', 'user_manages_conferences');
+        return $this->belongsToMany('App\Models\User', 'user_manages_conferences')->withTimestamps();
     }
 
     public function attendees()
     {
-        return $this->belongsToMany('App\Models\Profile', 'profile_attends_conferences');
+        return $this->belongsToMany('App\Models\Profile', 'profile_attends_conferences')->withTimestamps();
     }
 }
