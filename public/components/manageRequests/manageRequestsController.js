@@ -65,7 +65,7 @@ angular.module( 'manageRequestsCtrl', [] )
 
   // change conference from pending to publish
   $scope.publishConference = function (index) {
-    $scope.conferences.splice(index, 1);
+
   }
 
   // decline creation requests
@@ -78,7 +78,7 @@ angular.module( 'manageRequestsCtrl', [] )
 
   // show events creation application
   $scope.viewEventApplication = function(index){
-    $scope.events(index, 1);
+
   }
 
   $scope.publishEvent = function (index) {
