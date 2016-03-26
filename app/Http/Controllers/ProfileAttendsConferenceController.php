@@ -103,7 +103,7 @@ class ProfileAttendsConferenceController extends Controller
     public function update(ConferenceRequest $request, $id){
         try {
             //Update
-            $attendees = Conference::find($requset->conference_id)
+            $attendees = Conference::find($request->conference_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,$request->all());
 
