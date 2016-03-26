@@ -1,30 +1,30 @@
 <div id="requests" class="container has-header">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<div class="container">
-				<h1>Accommodations for Conference {{conferenceId}}</h1>
-			</div>
+	<div class="container">
+		<h1>Accommodations for Conference {{conferenceId}}</h1>
+	</div>
 
-			<div class="margin-top-25">
-				<table ng-table="tableParams" class="table table-condensed table-bordered table-striped" show-filter="true">
-					<tr ng-repeat="a in $data">
-						<td title="'Name'" filter="{ 'name': 'text'}" sortable="'name'">
-							{{a.name}}
-							
-						</td>
-						<td title="'Address'" filter="{ 'address': 'text'}" sortable="'address'">
-							{{a.address}}
-						</td>
-						<td title="'City'" filter="{ 'city': 'text'}" sortable="'city'">
-							{{a.city}}
-						</td>
-						<td title="'Country'" filter="{ 'country': 'text'}" sortable="'country'">
-							{{a.country}}
-						</td>
-						<td>
-							<button class="btn btn-sm btn-primary" ng-click="open(a.accommodationId)">Rooms</button>
-							<button class="btn btn-danger btn-sm" ng-click="del($index)">
-								<span class="glyphicon glyphicon-trash"></span></button>
+	<div class="panel panel-default margin-top-25">
+		<div class="panel-body">
+
+			<table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
+				<tr ng-repeat="a in $data">
+					<td title="'Name'" filter="{ 'name': 'text'}" sortable="'name'">
+						{{a.name}}
+
+					</td>
+					<td title="'Address'" filter="{ 'address': 'text'}" sortable="'address'">
+						{{a.address}}
+					</td>
+					<td title="'City'" filter="{ 'city': 'text'}" sortable="'city'">
+						{{a.city}}
+					</td>
+					<td title="'Country'" filter="{ 'country': 'text'}" sortable="'country'">
+						{{a.country}}
+					</td>
+					<td>
+						<button class="btn btn-sm btn-primary" ng-click="open(a.accommodationId)">Rooms</button>
+						<button class="btn btn-danger" ng-click="del($index)">
+							<span class="glyphicon glyphicon-trash"></span></button>
 						</td>
 					</tr>
 
@@ -42,24 +42,23 @@
 					</td>
 					<td>
 						<!-- Disable add buttion unless theres values in the input
-						-->
-						<button type="button" class="btn btn-default" ng-disabled="!accom.name || !accom.address || !accom.city || !accom.country" ng-click="add(accom)">
-							<span class="glyphicon glyphicon-plus"></span>
-						</button>
-					</td>
-				</table>
+					-->
+					<button type="button" class="btn btn-success" ng-disabled="!accom.name || !accom.address || !accom.city || !accom.country" ng-click="add(accom)">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</td>
+			</table>
 
 
-				<div class="pull-right" ng-show="hasChanges">
-					<button class="btn btn-success" ng-click="save()">
-							<span class="glyphicon glyphicon-ok"></span>
-							Save
-					</button>
-					<button class="btn btn-default" ng-click="cancel()">
-							<span class="glyphicon glyphicon-remove"></span>
-							Cancel
-					</button>
-				</div>
+			<div class="pull-right" ng-show="hasChanges">
+				<button class="btn btn-success" ng-click="save()">
+					<span class="glyphicon glyphicon-ok"></span>
+					Save
+				</button>
+				<button class="btn btn-default" ng-click="cancel()">
+					<span class="glyphicon glyphicon-remove"></span>
+					Cancel
+				</button>
 			</div>
 		</div>
 	</div>
