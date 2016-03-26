@@ -1,46 +1,54 @@
 <div id="inventory" class="container has-header">
-  <h1 id="title">Inventory</h1>
-  <!-- Addition of Inventory -->
-  <div class="panel panel-default">
+  
+  <div class="container">
+    <h1>Inventory for {{conferenceId}}</h1>
+  </div>
+
+  <div class="panel panel-default margin-top-25">
     <div class="panel-body">
-      <div class="col-md-12">
-        <fieldset id="item" data-ng-repeat="item in items">
-          <div>
-            <div class="col-md-4 col-md-offset-2 form-group">
-              <input type="text" class="form-control" id="inputUser" placeholder="Enter Item" ng-model="item.Name">
-            </div>
 
-            <div class="col-sm-4 form-group">
-              <input type="text" class="form-control" id="inputUser" placeholder="Enter Quantity" ng-model="item.Quantity">
-            </div>
+      <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
+        <tr ng-repeat="i in $data">
+          <td title="'Item'" filter="{ 'name': 'text'}" sortable="'name'">
+            {{i.name}}
+          </td>
+          <td title="'Quantity'" filter="{ 'quantity': 'number'}" sortable="'quantity'">
+            {{i.quantity}}
+          </td>
+          <td>
+            <button class="btn btn-danger" ng-click="del($index)">
+              <span class="glyphicon glyphicon-trash"></span></button>
+            </td>
+          </tr>
 
-            <div class="col-md-2 form-group">
-              <button class="btn btn-danger btn-md" ng-click="removeItem($index)">
-                <span class="glyphicon glyphicon-minus">
-                </button>
-              </div>
-            </div>
-          </fieldset>
-          <div class="col-md-4 col-md-offset-2">
-            <button class="btn btn-primary btn-md" id="add" ng-click="addItem()">
-              <span class="glyphicon glyphicon-plus">
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+          <td title="'Item'">
+            <input type="text" ng-model="item.name" class="editable-input form-control input-sm" required />
+          </td>
+          <td title="'Quantity'">
+            <input type="number" ng-model="item.quantity" class="editable-input form-control input-sm" required />
+          </td>
+          <td>
+            <!-- Disable add buttion unless theres values in the input-->
+          <button type="button" class="btn btn-success" ng-disabled="!item.name || !item.quantity" ng-click="add(item)">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+        </td>
+      </table>
 
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="col-md-4">
-            <button type="submit" class="btn btn-half-block btn-primary center-block" ng-click="export()">Export</button>
-          </div>
-          <div class="col-md-4">
-            <button type="submit" class="btn btn-half-block btn-success center-block" ng-click="saveChanges()">Save</button>
-          </div>
-          <div class="col-md-4">
-            <button type="submit" class="btn btn-half-block btn-danger center-block" ng-click="cancel()">Cancel</button>
-          </div>
-        </div>
+      <div class="pull-right">
+        <button class="btn btn-success" ng-show="hasChanges" ng-click="save()">
+          <span class="glyphicon glyphicon-ok"></span>
+          Save
+        </button>
+        <button class="btn btn-default" ng-show="hasChanges" ng-click="cancel()">
+          <span class="glyphicon glyphicon-remove"></span>
+          Cancel
+        </button>
+         <button class="btn btn-info" ng-click="export()">
+          <span class="glyphicon glyphicon-download"></span>
+          Export
+        </button>
       </div>
     </div>
+  </div>
+</div>
