@@ -29,7 +29,7 @@ angular.module ( 'homeCtrl', [] )
     ];
 
     $scope.loadConferences = function () {
-        Conferences.fetch().query()
+        Conferences.status().query({status:'approved'})
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.conferences = response;

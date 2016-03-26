@@ -1,44 +1,62 @@
 <div id="requests" class="container has-header">
-	<div class="panel panel-default">
+	<div class="container">
+		<h1>Rooms for {{accommodation.name}}</h1>
+		<h5>{{accommodation.address}}</h5>
+		<h5>{{accommodation.city}}</h5>
+		<h5>{{accommodation.country}}</h5>
+	</div>
+
+	<div class="panel panel-default margin-top-25">
 		<div class="panel-body">
-			<div class="container">
-				<h1>Rooms for {{accommodation.name}}</h1>
-				<h5>{{accommodation.address}}</h3>
-					<h5>{{accommodation.city}}</h3>
-						<h5>{{accommodation.country}}</h3>
-						</div>
 
+			<table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
+				<tr ng-repeat="r in $data">
+					<td title="'Room'" filter="{ 'room_no': 'text'}" sortable="'room_no'">
+						{{r.room_no}}
+					</td>
+					<td title="'Guests'" filter="{ 'guest_count': 'number'}" sortable="'guest_count'">
+						{{r.guest_count}}
+					</td>
+					<td title="'Capacity'" filter="{ 'capacity': 'number'}" sortable="'capacity'">
+						{{r.capacity}}
+					</td>
+					<td>
+						<button class="btn btn-danger" ng-click="del($index)">
+							<span class="glyphicon glyphicon-trash"></span></button>
+						</td>
+					</tr>
 
-						<div class="margin-top-25" ng-controller="manageRoomsController as rooms">
-							<div class="brn-group pull-right">
-								<button class="btn btn-default" ng-if="rooms.isEditing" ng-click="rooms.cancelChanges()">
-									<span class="glyphicon glyphicon-remove"></span>
-								</button>
-								<button class="btn btn-primary" ng-if="!rooms.isEditing" ng-click="rooms.isEditing = true">
-									<span class="glyphicon glyphicon-pencil"></span>
-								</button>
-								<button class="btn btn-primary" ng-if="rooms.isEditing" ng-disabled="!rooms.hasChanges() || rooms.tableTracker.$invalid" ng-click="rooms.saveChanges()">
-									<span class="glyphicon glyphicon-ok"></span>
-								</button>
-								<button class="btn btn-default" ng-click="demo.add()">
-									<span class="glyphicon glyphicon-plus"></span>
-								</button>
-								<hr>
-							</div>
+					<td title="'Room'">
+						<input type="text" ng-model="room.room_no" class="editable-input form-control input-sm" required />
+					</td>
+					<td title="'Guests'">
+						<input type="number" ng-model="room.guest_count" class="editable-input form-control input-sm" required />
+					</td>
+					<td title="'Capacity'">
+						<input type="number" ng-model="room.capacity" class="editable-input form-control input-sm" required />
+					</td>
+					<td>
+						<!-- Disable add buttion unless theres values in the input-->
+					<button type="button" class="btn btn-success" ng-disabled="!room.room_no || !room.guest_count || !room.capacity" ng-click="add(room)">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</td>
+			</table>
 
-
-							<table ng-table="tableParams" class="table table-condensed table-bordered table-striped" show-filter="true">
-								<tr ng-repeat="r in $data">
-									<td title="'Room'" filter="{ 'room_no': 'text'}" sortable="'room_no'">
-										{{r.room_no}}
-									</td>
-									<td title="'Guests'" filter="{ 'guest_count': 'number'}" sortable="'guest_count'">
-										{{r.guest_count}}
-									</td>
-									<td title="'Capacity'" filter="{ 'capacity': 'number'}" sortable="'capacity'">
-										{{r.capacity}}
-									</td>
-								</tr>
-							</table>
-						</div>
-					</div>
+			<div class="pull-right">
+        		<button class="btn btn-success" ng-show="hasChanges" ng-click="save()">
+          			<span class="glyphicon glyphicon-ok"></span>
+          			Save
+        		</button>
+        		<button class="btn btn-default" ng-show="hasChanges" ng-click="cancel()">
+          			<span class="glyphicon glyphicon-remove"></span>
+          			Cancel
+        		</button>
+         		<button class="btn btn-info" ng-click="export()">
+          			<span class="glyphicon glyphicon-download"></span>
+          			Export
+        		</button>
+      		</div>
+		</div>
+	</div>
+</div>

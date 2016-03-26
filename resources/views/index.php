@@ -34,6 +34,8 @@
   <link rel="stylesheet" href="components/reports/reports.css">
   <link rel="stylesheet" href="assets/css/angular-timeline.css"/>
   <link rel="stylesheet" href="components/activityLog/activityLog.css">
+  <link rel="stylesheet" href="components/manageAttendees/manageAttendees.css">
+  <link rel="stylesheet" href="components/createEvent/createEvent.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>
@@ -74,6 +76,8 @@
   <script src="components/manageRequests/manageRequestsController.js"></script>
   <script src="components/manageManagers/manageManagersController.js"></script>
   <script src="components/reports/reportsController.js"></script>
+  <script src="components/manageAttendees/manageAttendeesController.js"></script>
+  <script src="components/createEvent/createEventController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/mapService.js"></script>
