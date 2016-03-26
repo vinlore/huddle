@@ -13,6 +13,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::post('auth/logout', 'AuthController@logout');
 });
 
+Route::get('test' , 'ProfileRidesVehicleController@test');
 // Prefix all API routes with 'api'. - TODO - Make sure to add, AuthToken
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
 
@@ -66,6 +67,16 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     //============ Profile Controller ============
     Route::resource('users.profiles', 'ProfileController', ['only' => [
         'index', 'store', 'update', 'destroy',
+    ]]);
+
+    //============ PIVOT - Profile Rides Vehicle ============
+    Route::resource('profile.vehicle', 'ProfileRidesVehicleController', ['only' => [
+         'show', 'update', 'destroy',
+    ]]);
+
+    //============ PIVOT - Profile Stays Room ============
+    Route::resource('profile.room', 'ProfileStaysRoomController', ['only' => [
+         'show' , 'update', 'destroy',
     ]]);
 
     //============ Role Controller ============
