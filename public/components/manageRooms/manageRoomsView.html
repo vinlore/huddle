@@ -7,28 +7,9 @@
 				<h5>{{accommodation.city}}</h5>
 				<h5>{{accommodation.country}}</h5>
 			</div>
-<<<<<<< HEAD
 
 			<div class="margin-top-25">
-=======
-			<div class="margin-top-25" ng-controller="manageRoomsController as rooms">
-				<div class="brn-group pull-right">
-					<button class="btn btn-default" ng-if="rooms.isEditing" ng-click="rooms.cancelChanges()">
-						<span class="glyphicon glyphicon-remove"></span>
-					</button>
-					<button class="btn btn-primary" ng-if="!rooms.isEditing" ng-click="rooms.isEditing = true">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</button>
-					<button class="btn btn-primary" ng-if="rooms.isEditing" ng-disabled="!rooms.hasChanges() || rooms.tableTracker.$invalid" ng-click="rooms.saveChanges()">
-						<span class="glyphicon glyphicon-ok"></span>
-					</button>
-					<button class="btn btn-default" ng-click="demo.add()">
-						<span class="glyphicon glyphicon-plus"></span>
-					</button>
-					<hr>
-				</div>
 
->>>>>>> origin/front-end
 				<table ng-table="tableParams" class="table table-condensed table-bordered table-striped" show-filter="true">
 					<tr ng-repeat="r in $data">
 						<td title="'Room'" filter="{ 'room_no': 'text'}" sortable="'room_no'">
@@ -40,7 +21,6 @@
 						<td title="'Capacity'" filter="{ 'capacity': 'number'}" sortable="'capacity'">
 							{{r.capacity}}
 						</td>
-<<<<<<< HEAD
 						<td>
 							<button class="btn btn-danger btn-sm" ng-click="del($index)">
 								<span class="glyphicon glyphicon-trash"></span></button>
@@ -79,11 +59,3 @@
 		</div>
 	</div>
 </div>
-=======
-					</tr>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
->>>>>>> origin/front-end
