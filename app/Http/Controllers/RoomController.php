@@ -5,103 +5,56 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
-
-use App\Models\Room as Room;
+use App\Http\Requests\RoomRequest;
+use App\Models\Room;
 
 class RoomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index($accommodation)
     {
         try {
-            $room = Room::all();
-            //Check if Rooms exists
-            if (!$room) {
-                return response()->success("Racoon" , "No Rooms Found");
-            }
-            return $room;
+            return Room::where('accommodation_id', $accommodation)->get();
         } catch (Exception $e) {
-                return response()->error("Rattle Snake" , $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(RoomRequest $request)
     {
         try {
             Room::create($request->all());
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("Raven" , $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         try {
-            $room = Room::find($id);
-            //Check if the Room exists
-            if(!$room) {
-                response()->success("Rhino" , "Room could not be found.");
-            }
-            return $room;
+            return Room::findOrFail($id);
         } catch (Exception $e) {
-            return response()->error("Ringtail" , $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(RoomRequest $request, $id)
     {
         try {
-            $newRoomData = array(
-                'accomodation_id' => $request->accomodation_id,
-                'room_no' => $request->room_no,
-                'guest_count' => $request->guest_count,
-                'capacity' => $request->capacity
-            );
-            Room::where('id', $id)->update($newRoomData);
+            Room::findOrFail($id)->update($request->all());
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("Roadrunner" , $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {
-            Room::destroy($id);
+            Room::findOrFail($id)->delete();
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("500" , $e);
+            return response()->error();
         }
     }
 }

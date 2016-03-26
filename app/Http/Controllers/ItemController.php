@@ -5,102 +5,56 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
-
-use App\Models\Item as Item;
+use App\Http\Requests\ItemRequest;
+use App\Models\Item;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         try {
-            $item = Item::all();
-            //Check if Items exists
-            if (!$item) {
-                return response()->success("Iris" , "No Items Exist");
-            }
-            return $item;
+            return Item::all();
         } catch (Exception $e) {
-            return response()->error("Irene" , $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ItemRequest $request)
     {
-        try{
+        try {
             Item::create($request->all());
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("Ion", $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         try {
-            $item = Item::find($id);
-            //Check if the the item exists
-            if (!$item) {
-                return response()->success("Iris","No Item Exist");
-            }
-            return $item;
+            return Item::findOrFail($id);
         } catch (Exception $e) {
-            return response()->error("Icelos", $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(ItemRequest $request, $id)
     {
         try {
-            $newItemData = array(
-                'name' => $request->name,
-                'conference_id' => $request->conference_id,
-                'quantity' => $request->quantity
-            );
-            Item::where('id',$id)->update($newItemData);
+            Item::findOrFail($id)->update($request->all());
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("Ino", $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {
-            Item::destroy($id);
+            Item::findOrFail($id)->delete();
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("500" , $e);
+            return response()->error();
         }
     }
 }

@@ -5,81 +5,60 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-
-use App\Http\Requests;
-
-use App\Models\Profile as Profile;
+use App\Http\Requests\ProfileRequest;
+use App\Models\Profile;
 
 class ProfileController extends Controller
 {
-    /**
-     * Get the resource
-     *
-     * @param  int  $users
-     * @return \Illuminate\Http\Response
-     */
-    public function index($users)
+    public function index($user)
     {
         try {
-            $profile = Profile::where('user_id', '=', $users)->first();
-            return $profile;
+            return Profile::where('user_id', $user)->first();
         } catch (Exception $e) {
-            return response()->error("Paeon" , $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ProfileRequest $request)
     {
         try {
             Profile::create($request->all());
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("Pallas" , $e);
+            return response()->error();
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $users
-     * @param  int  $profiles
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $users, $profiles)
+    public function show($id)
     {
         try {
-            Profile::where('id', $profiles)->update($request->all());
-            return response()->success();
+            return Profile::findOrFail($id);
         } catch (Exception $e) {
-            return response()->error("Pan" , $e);
+            return response()->error();
         }
-
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $user
-     * @return \Illuminate\Http\Response
-     */
+    public function update(ProfileRequest $request, $id)
+    {
+        try {
+            Profile::findOrFail($id)->update($request->all());
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
     public function destroy($id)
     {
-        $profile = Profile::findorfail($id);
-        if ($profile->is_owner == 1) {
-            return response()->error("409" , "Owner accounts cannot be deleted");
-        } else {
-            Profile::destroy($id);
+        try {
+            $profile = Profile::findOrFail($id);
+            if ($profile->is_owner == 1) {
+                return response()->error();
+            }
+            $profile->delete();
             return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
         }
-
-
-
     }
 }
