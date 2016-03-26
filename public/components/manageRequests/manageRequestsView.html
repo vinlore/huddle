@@ -9,36 +9,48 @@
             <div class="col-sm-12" ng-if="conferences" ng-repeat="con in conferences">
                <div class="col-sm-12">
                   <div class="card card-info card-block">
-                     <h4 class="card-title">Billy wants to create a conference {{con.name}}</h4>
+                     <h4 class="card-title">{{con.name}} Conference</h4>
                      <h5 class="card-text">Start: {{con.start_date}}</h5>
                      <h5 class="card-text">End: {{con.end_date}}</h5>
-                     <button class="btn btn-primary btn-sm" ng-click="viewConfCreationRequest($index)">View Application</button>
+                     <button class="btn btn-primary btn-sm" ng-click="viewConferenceApplication($index)">View Application</button>
                      <div class="pull-right">
-                        <button class="btn btn-success btn-sm" ng-click="publishConfCreationRequest($index)">Publish</button>
-                        <button class="btn btn-danger btn-sm" ng-click="declineConfCreationRequest($index)">Decline</button>
+                        <button class="btn btn-success btn-sm" ng-click="publishConference($index)">Publish</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineConference($index)">Decline</button>
                      </div>
                   </div>
                </div>
+            </div>
+            <div ng-show="!conferences.length && events.length" class="row">
+              <h4 class="text-center">No new conferences to publish</h4>
+              <hr>
             </div>
          </div>
          <div class="col-md-6">
             <h3 class="text-center">Event Publish Requests</h3>
             <hr>
             <!-- Requests -->
-            <div class="col-sm-12" ng-if="eventsPendingCreations" ng-repeat="eve in eventsPendingCreations">
+            <div class="col-sm-12" ng-if="events" ng-repeat="eve in events">
                <div class="col-sm-12">
                   <div class="card card-warning card-block">
-                     <h4 class="card-title">{{eve.name}} wants to create an event {{eve.event_name}}</h4>
-                     <h5 class="card-text">Start: {{eve.startDate}}</h5>
-                     <h5 class="card-text">End: {{eve.endDate}}</h5>
-                     <button class="btn btn-primary btn-sm" ng-click="viewEventsCreationApplication($index)">View Application</button>
+                     <h4 class="card-title">{{eve.name}} Event</h4>
+                     <h5 class="card-text">Start Time: {{eve.start_time}}</h5>
+                     <h5 class="card-text">End Time: {{eve.end_time}}</h5>
+                     <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">View Application</button>
                      <div class="pull-right">
-                        <button class="btn btn-success btn-sm" ng-click="publishEventsCreationRequest($index)">Publish</button>
-                        <button class="btn btn-danger btn-sm" ng-click="declineEventsCreationRequest($index)">Decline</button>
+                        <button class="btn btn-success btn-sm" ng-click="publishEvent($index)">Publish</button>
+                        <button class="btn btn-danger btn-sm" ng-click="declineEvent($index)">Decline</button>
                      </div>
                   </div>
                </div>
             </div>
+            <div ng-show="!events.length && conferences.length" class="row">
+              <h4 class="text-center">No new events to publish</h4>
+              <hr>
+            </div>
+         </div>
+         <div ng-show="!conferences.length && !events.length" class="row">
+           <h4 class="text-center">No new conferences or events to publish</h4>
+           <hr>
          </div>
       </div>
    </div>

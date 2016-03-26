@@ -61,7 +61,7 @@ angular.module( 'apiService', [] )
     return {
 
         status: function () {
-            return $resource( '/api/events/status/:status', { status: '@status' } );
+            return $resource( '/api/events-status/', {'update': { method: 'PUT' }} );
         },
 
         fetch: function () {

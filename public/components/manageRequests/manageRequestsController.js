@@ -59,34 +59,34 @@ angular.module( 'manageRequestsCtrl', [] )
   // Conference Creation methods
 
   // show conference creation application
-  $scope.viewConfCreationApplication = function(index){
-    $scope.conferencePendingCreations.splice(index, 1);
+  $scope.viewConferenceApplication = function(index){
+    $scope.conferences.splice(index, 1);
   }
 
   // change conference from pending to publish
-  $scope.publishConfCreationRequest = function (index) {
-    $scope.conferencePendingCreations.splice(index, 1);
+  $scope.publishConference = function (index) {
+    $scope.conferences.splice(index, 1);
   }
 
   // decline creation requests
-  $scope.declineConfCreationRequest = function (index) {
-    $scope.conferencePendingCreations.splice(index, 1);
+  $scope.declineConference = function (index) {
+    $scope.conferences.splice(index, 1);
   }
 
 
   // Event Creation methods
 
   // show events creation application
-  $scope.viewEventsCreationApplication = function(index){
-    $scope.eventsPendingCreationssplice(index, 1);
+  $scope.viewEventApplication = function(index){
+    $scope.events(index, 1);
   }
 
-  $scope.publishEventsCreationRequest = function (index) {
-    $scope.eventsPendingCreations.splice(index, 1);
+  $scope.publishEvent = function (index) {
+    $scope.events.splice(index, 1);
   }
 
-  $scope.declineEventsCreationRequest = function (index) {
-    $scope.eventsPendingCreations.splice(index, 1);
+  $scope.declineEvent = function (index) {
+    $scope.events.splice(index, 1);
   }
 
   $scope.conferencesPending = [
@@ -107,7 +107,7 @@ angular.module( 'manageRequestsCtrl', [] )
   $scope.conferences = []
 
   $scope.loadPendingConferences = function () {
-      Conferences.status().query({status:'pending'})
+      Conferences.status().query({status:'approved'})
           .$promise.then( function ( response ) {
               if ( response ) {
                   $scope.conferences = response;
@@ -120,20 +120,20 @@ angular.module( 'manageRequestsCtrl', [] )
   };
   $scope.loadPendingConferences();
 
-  // $scope.events = []
-  //
-  // $scope.loadPendingEvents = function () {
-  //     Events.status().query({status:'pending'})
-  //         .$promise.then( function ( response ) {
-  //             if ( response ) {
-  //                 $scope.events = response;
-  //             } else {
-  //                 popup.error( 'Error', response.message );
-  //             }
-  //         }, function () {
-  //             popup.connection();
-  //         })
-  // };
-  // $scope.loadPendingEvents();
+  $scope.events = []
+
+  $scope.loadPendingEvents = function () {
+      Events.status().query({status:'approved'})
+          .$promise.then( function ( response ) {
+              if ( response ) {
+                  $scope.events = response;
+              } else {
+                  popup.error( 'Error', response.message );
+              }
+          }, function () {
+              popup.connection();
+          })
+  };
+  $scope.loadPendingEvents();
 
 });

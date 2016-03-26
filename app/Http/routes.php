@@ -103,6 +103,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     ]]);
 
     Route::get('conferences-status' , 'ConferenceController@statusIndex');
+
+    Route::get('events-status' , 'EventController@statusIndex');
 });
 
 // -----------------------------------------------------------------------------
