@@ -10,7 +10,8 @@ use App\Http\Requests\ConferenceRequest;
 
 use App\Models\Conference as Conference;
 use App\Models\Profile as Profile;
-
+use App\Models\Vehicle as Vehicle;
+use App\Models\Rooms as Room;
 
 class ProfileAttendsConferenceController extends Controller
 {
@@ -34,9 +35,12 @@ class ProfileAttendsConferenceController extends Controller
         try{
             //Saving to profile_attends_conference Table
             $profile =  Profile::find($request->profile_id);
-            Conference::find($request->conference_id)
-                        ->attendees()
-                        ->attach($profile, $request->all());
+            $attendees = Conference::find($request->conference_id)
+                          ->attendees()
+                          ->attach($profile, $request->all());
+
+           $this->addActivity($request->header('ID'),'request', $attendees->id, 'conference attendence');
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -70,9 +74,29 @@ class ProfileAttendsConferenceController extends Controller
 
      public function profileConferenceStatusUpdate(Request $request){
         try{
-            Conference::find($requset->conference_id)
-                    ->attendees()
-                    ->updateExistingPivot($request->profile_id,['status' => $request->status]);
+            $attendees = Conference::find($requset->conference_id)
+                         ->attendees()
+                         ->updateExistingPivot($request->profile_id,['status' => $request->status]);
+
+
+            $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'conference attendence');
+
+            if ($request->vehicle_id != NULL) {
+                // Link up profile with the vehicle
+                $profile = Profile::find($request->profile_id);
+                Vehicle::find($request->vehicle_id)
+                        ->passengers()
+                        ->attach($profile);
+            }
+
+            if ($request->room_id != NULL) {
+                //Link up the profile with the room
+                $profile = Profile::find($request->profile_id);
+                Room::find($request->room_id)
+                        ->guests()
+                        ->attach($profile);
+            }
+
             /*
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
                 //TODO SEND APPROVED EMAIL
@@ -97,9 +121,11 @@ class ProfileAttendsConferenceController extends Controller
     public function update(ConferenceRequest $request, $id){
         try {
             //Update
-            Conference::find($requset->conference_id)
-                    ->attendees()
-                    ->updateExistingPivot($request->profile_id,$request->all());
+            $attendees = Conference::find($request->conference_id)
+                         ->attendees()
+                         ->updateExistingPivot($request->profile_id,$request->all());
+
+            $this->addActivity($request->header('ID'),'update', $attendees->id, 'conference attendence');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
