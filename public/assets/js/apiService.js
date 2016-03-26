@@ -44,7 +44,7 @@ angular.module( 'apiService', [] )
         },
 
         accommodations: function () {
-            return $resource( '/api/conferences/:cid/accommodations/:aid', {cid: '@cid', accId: '@aid'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences/:cid/accommodations/:aid', {cid: '@cid', aid: '@aid'}, {'update': { method: 'PUT' }} );
         },
 
         rooms: function () {

@@ -1,42 +1,10 @@
 angular.module('manageAccommodationsCtrl',[])
-.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $location, $log){
+.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $location, $log, Conferences, popup, $uibModal){
 
+	// Conference ID
 	$scope.conferenceId = $stateParams.conferenceId;
 
-	//////// Data Structures ////////
-
-	$scope.accommodations = [
-	{
-		accommodationId: 1,
-		name: "Hotel-1",
-		address: "1128 West Georgia Street",
-		city: "Vancouver",
-		country: "Canada",
-	},
-	{
-		accomodationId: 2,
-		name: "Hotel-2",
-		address: "5911 Minoru Blvd",
-		city: "Richmond",
-		country: "Canada"
-	}
-	]
-
-	$scope.temp = []
-
-	// initial input data
-	$scope.accom = {
-    	name: null,
-    	address: null,
-    	city: null,
-    	country: null
-    }
-
-    //////// Intial State ////////
-
-	// copy actual data into a temp array for protection
-	$scope.temp = $scope.accommodations.slice();
-	$scope.hasChanges = false;
+    //////// Load Data ////////
 
 	$scope.tableParams = new ngTableParams(
 	{
@@ -44,9 +12,20 @@ angular.module('manageAccommodationsCtrl',[])
 	{
 		counts: [],
 		getData: function ($defer, params) {
-			$scope.data = params.sorting() ? $filter('orderBy') ($scope.temp, params.orderBy()) : $scope.temp;
-			$scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
-			$defer.resolve($scope.data);
+			Conferences.accommodations().query( {cid: $scope.conferenceId} )
+			.$promise.then( function( response ) {
+				if ( response ) {
+					$scope.data = response;
+					$scope.data = params.sorting() ? $filter('orderBy') ($scope.data, params.orderBy()) : $scope.data;
+					$scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
+					$defer.resolve($scope.data);
+				} else {
+					popup.error( 'Error', response.message );
+				}
+			}, function () {
+				popup.connection();
+			})
+			
 		}
 	});
 
@@ -56,25 +35,46 @@ angular.module('manageAccommodationsCtrl',[])
 		$location.url('/manage-rooms-' + id);
 	}
 
-    $scope.add = function(accom) {
-    	$scope.hasChanges = true;
+	$scope.add = function(accom) {
 
-    	// add new row to temp array
-    	$scope.temp.push(accom);
-
-    	// clear input data
-    	$scope.accom = null;
-
-    	$log.log($scope.temp);
+		// Adds acommodation to db
+		Conferences.accommodations().save( {cid: $scope.conferenceId}, accom )
+		.$promise.then( function( response ) {
+			if ( response.status == 'success' ) {
+				console.log( 'Changes saved to accommodations' );
+				popup.alert( 'success', 'Changes have been saved.' );
+			} else {
+				popup.error( 'Error', response.message );
+			}
+		}, function () {
+			popup.connection();
+		})
 
     	// refresh tableParams to reflect changes
     	$scope.tableParams.reload();
     }
 
-    $scope.del = function(index) {
-    	$scope.hasChanges = true;
-    	$scope.temp.splice(index, 1);
-    	$scope.tableParams.reload();
+    $scope.del = function(id) {
+    	var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
+
+    	modalInstance.result.then( function ( result ) {
+    		if ( result ) {
+    			Conferences.accommodations().delete( {cid: $scope.conferenceId, aid: id} )
+    			.$promise.then( function( response ) {
+    				if ( response.status == 'success' ) {
+    					console.log( 'Accommodation has been successfully deleted' );
+    					popup.alert( 'success', 'Accommodation has been successfully deleted.' );
+    				} else {
+    					popup.error( 'Error', response.message );
+    				}
+    			}, function () {
+    				popup.connection();
+    			})
+
+    			$scope.tableParams.reload();
+
+    		}
+    	} )
     }
 
     $scope.cancel = function() {
@@ -91,7 +91,7 @@ angular.module('manageAccommodationsCtrl',[])
   	}
 
   	$scope.export = function() {
-    
-  }
 
-})
+  	}
+
+  })
