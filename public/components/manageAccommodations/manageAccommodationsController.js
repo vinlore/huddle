@@ -90,4 +90,8 @@ angular.module('manageAccommodationsCtrl',[])
   		$scope.accommodations = $scope.temp.slice();
   	}
 
+  	$scope.export = function() {
+    
+  }
+
 })

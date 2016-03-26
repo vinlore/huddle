@@ -92,4 +92,8 @@ angular.module('manageRoomsCtrl',[])
   		$scope.rooms = $scope.temp.slice();
   	}
 
+  	$scope.export = function() {
+    
+  }
+
 });

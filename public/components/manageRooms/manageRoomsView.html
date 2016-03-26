@@ -36,24 +36,27 @@
 						<input type="number" ng-model="room.capacity" class="editable-input form-control input-sm" required />
 					</td>
 					<td>
-						<!-- Disable add buttion unless theres values in the input
-					-->
+						<!-- Disable add buttion unless theres values in the input-->
 					<button type="button" class="btn btn-success" ng-disabled="!room.room_no || !room.guest_count || !room.capacity" ng-click="add(room)">
 						<span class="glyphicon glyphicon-plus"></span>
 					</button>
 				</td>
 			</table>
 
-			<div class="pull-right" ng-show="hasChanges">
-				<button class="btn btn-success" ng-click="save()">
-					<span class="glyphicon glyphicon-ok"></span>
-					Save
-				</button>
-				<button class="btn btn-default" ng-click="cancel()">
-					<span class="glyphicon glyphicon-remove"></span>
-					Cancel
-				</button>
-			</div>
+			<div class="pull-right">
+        		<button class="btn btn-success" ng-show="hasChanges" ng-click="save()">
+          			<span class="glyphicon glyphicon-ok"></span>
+          			Save
+        		</button>
+        		<button class="btn btn-default" ng-show="hasChanges" ng-click="cancel()">
+          			<span class="glyphicon glyphicon-remove"></span>
+          			Cancel
+        		</button>
+         		<button class="btn btn-info" ng-click="export()">
+          			<span class="glyphicon glyphicon-download"></span>
+          			Export
+        		</button>
+      		</div>
 		</div>
 	</div>
 </div>
