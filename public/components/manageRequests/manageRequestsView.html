@@ -3,15 +3,15 @@
    <div class="panel panel-default">
       <div class="panel-body">
          <div class="col-md-6">
-            <h3 class="text-center">Conference Creation Requests</h3>
+            <h3 class="text-center">Conference Publish Requests</h3>
             <hr>
             <!-- Requests -->
-            <div class="col-sm-12" ng-if="conferencePendingCreations" ng-repeat="con in conferencePendingCreations">
+            <div class="col-sm-12" ng-if="conferences" ng-repeat="con in conferences">
                <div class="col-sm-12">
                   <div class="card card-info card-block">
-                     <h4 class="card-title">{{con.name}} wants to create a conference {{con.conference_name}}</h4>
-                     <h5 class="card-text">Start: {{con.startDate}}</h5>
-                     <h5 class="card-text">End: {{con.endDate}}</h5>
+                     <h4 class="card-title">Billy wants to create a conference {{con.name}}</h4>
+                     <h5 class="card-text">Start: {{con.start_date}}</h5>
+                     <h5 class="card-text">End: {{con.end_date}}</h5>
                      <button class="btn btn-primary btn-sm" ng-click="viewConfCreationRequest($index)">View Application</button>
                      <div class="pull-right">
                         <button class="btn btn-success btn-sm" ng-click="publishConfCreationRequest($index)">Publish</button>
@@ -22,7 +22,7 @@
             </div>
          </div>
          <div class="col-md-6">
-            <h3 class="text-center">Event Creation Requests</h3>
+            <h3 class="text-center">Event Publish Requests</h3>
             <hr>
             <!-- Requests -->
             <div class="col-sm-12" ng-if="eventsPendingCreations" ng-repeat="eve in eventsPendingCreations">

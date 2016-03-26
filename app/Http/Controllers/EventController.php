@@ -66,6 +66,19 @@ class EventController extends Controller
         }
     }
 
+    //MAKE SEPARATE METHOD FOR STATUS
+   public function statusIndex(Request $request)
+   {
+       try {
+           $events = Event::where('status' , $request->status)->get();
+           if (!$events) {
+               return response()->error(null,"No events found.");
+           }
+           return $events;
+       } catch (Exception $e) {
+           return response()->error("500" , $e);
+       }
+   }
      /**
      * Update the status of the specified resource in storage.
      *

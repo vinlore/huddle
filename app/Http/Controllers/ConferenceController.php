@@ -32,8 +32,19 @@ class ConferenceController extends Controller
         }
     }
 
-   //MAKE SEPARATE METHOD FOR STATUS
-
+    //MAKE SEPARATE METHOD FOR STATUS
+   public function statusIndex(Request $request)
+   {
+       try {
+           $conferences = Conference::where('status' , $request->status)->get();
+           if (!$conferences) {
+               return response()->error(null,"No conferences found.");
+           }
+           return $conferences;
+       } catch (Exception $e) {
+           return response()->error("500" , $e);
+       }
+   }
     /**
      * Store a newly created resource in storage.
      *

@@ -28,7 +28,7 @@ angular.module( 'apiService', [] )
         },
 
         status: function () {
-            return $resource( '/api/conferences/status/:status', {status: '@status'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences-status/', {'update': { method: 'PUT' }} );
         },
 
         attendees: function () {

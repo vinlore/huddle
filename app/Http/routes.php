@@ -101,6 +101,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::resource('events.managers', 'EventManagerController', ['only' => [
         'index', 'store', 'show', 'destroy',
     ]]);
+
+    Route::get('conferences-status' , 'ConferenceController@statusIndex');
 });
 
 // -----------------------------------------------------------------------------
