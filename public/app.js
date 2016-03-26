@@ -40,7 +40,9 @@ angular.module('cms', [
     'permissionService',
     'reportsCtrl',
     'angular-timeline',
-    'ui.mask'
+    'ui.mask',
+    'manageAttendeesCtrl',
+    'createEventCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
@@ -257,6 +259,15 @@ angular.module('cms', [
         url: '/reports-:conferenceId',
         templateUrl: 'components/reports/reportsView.html',
         controller: 'reportsController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'manage-attendees', {
+        url: '/manage-attendees-:conferenceId',
+        templateUrl: 'components/manageAttendees/manageAttendeesView.html',
+        controller: 'manageAttendeesController',
         resolve: {
             loginRequired: loginRequired
         }

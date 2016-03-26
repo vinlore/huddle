@@ -28,7 +28,7 @@ angular.module( 'apiService', [] )
         },
 
         status: function () {
-            return $resource( '/api/conferences/status/:status', {status: '@status'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences-status/', {'update': { method: 'PUT' }} );
         },
 
         attendees: function () {
@@ -44,7 +44,7 @@ angular.module( 'apiService', [] )
         },
 
         accommodations: function () {
-            return $resource( '/api/conferences/:cid/accommodations/:aid', {cid: '@cid', accId: '@aid'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences/:cid/accommodations/:aid', {cid: '@cid', aid: '@aid'}, {'update': { method: 'PUT' }} );
         },
 
         rooms: function () {
@@ -61,7 +61,7 @@ angular.module( 'apiService', [] )
     return {
 
         status: function () {
-            return $resource( '/api/events/status/:status', { status: '@status' } );
+            return $resource( '/api/events-status/', {'update': { method: 'PUT' }} );
         },
 
         fetch: function () {

@@ -28,6 +28,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 
     //============ Conference Controller ============
     Route::post('conference.status', 'ConferenceController@conferenceStatusUpdate');
+    Route::get('conferences-status' , 'ConferenceController@statusIndex');
 
     Route::resource('conferences', 'ConferenceController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
@@ -62,6 +63,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     ]]);
 
     Route::post('profile.event.status', 'ProfileAttendsEventController@profileEventStatusUpdate');
+    Route::get('events-status' , 'EventController@statusIndex');
     //============
 
     //============ Profile Controller ============
