@@ -4,6 +4,7 @@
 // API
 // -----------------------------------------------------------------------------
 
+Route::get('syslogs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 // Routes that don't require the user to be logged in.
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
