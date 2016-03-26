@@ -12,11 +12,12 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::post('auth/logout', 'AuthController@logout');
 });
 
-
 // Prefix all API routes with 'api'. - TODO - Make sure to add, AuthToken
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
 
     Route::post('auth/confirm', 'AuthController@confirm');
+
+    Route::get('auth/activity', 'ActivityController@get');
 
     Route::resource('roles' , 'RoleController', ['only' =>[
         'index', 'store', 'show', 'update', 'destroy',
