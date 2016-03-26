@@ -38,7 +38,7 @@ class ProfileAttendsEventController extends Controller
                          ->attendees()
                          ->attach($profile, $request->all());
 
-            addActivity($request->header('ID'),'request', $attendees->id, 'event attendence');
+            $this->addActivity($request->header('ID'),'request', $attendees->id, 'event attendence');
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -76,7 +76,7 @@ class ProfileAttendsEventController extends Controller
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
-            addActivity($request->header('ID'),$request->status, $attendees->id, 'event attendence');
+            $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'event attendence');
             /*
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
                 //TODO SEND APPROVED EMAIL
@@ -104,7 +104,7 @@ class ProfileAttendsEventController extends Controller
             $attendees = Event::find($requset->event_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,$request->all());
-            addActivity($request->header('ID'),'update', $attendees->id, 'event attendence');
+            $this->addActivity($request->header('ID'),'update', $attendees->id, 'event attendence');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.

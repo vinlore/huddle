@@ -9,7 +9,6 @@ use App\Http\Requests;
 
 use App\Models\Event as Event;
 
-require app_path().'/helpers.php';
 
 class EventController extends Controller
 {
@@ -41,7 +40,7 @@ class EventController extends Controller
     {
         try {
             $event = Event::create($request->all());
-            addActivity($request->header('ID'), 'create', $event->id, 'event');
+            $this->addActivity($request->header('ID'), 'create', $event->id, 'event');
 
             return response()->success();
         } catch (Exception $e) {
@@ -85,7 +84,7 @@ class EventController extends Controller
                  return response()->success("204","No event found.");
             }
             $conference->update(['status' => $request->status]);
-            addActivity($request->header('ID'), $request->status, $event->id, 'event');
+            $this->addActivity($request->header('ID'), $request->status, $event->id, 'event');
                /*
 
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
@@ -115,8 +114,8 @@ class EventController extends Controller
             if(!$event){
                  return response()->success("204","No event found.");
             }
-            $event->update($request->all()); 
-            addActivity($request->header('ID'), 'update', $id, 'event');
+            $event->update($request->all());
+            $this->addActivity($request->header('ID'), 'update', $id, 'event');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
@@ -140,7 +139,7 @@ class EventController extends Controller
                return response()->success("204","No Event found");
             }
             Event::destroy($id);
-            addActivity($request->header('ID'), 'delete', $id, 'event');
+            $this->addActivity($request->header('ID'), 'delete', $id, 'event');
 
             return response()->success();
          } catch (Exception $e) {

@@ -11,8 +11,6 @@ use App\Http\Requests\ConferenceRequest;
 use App\Models\Conference as Conference;
 use App\Models\Profile as Profile;
 
-require app_path().'/helpers.php';
-
 class ProfileAttendsConferenceController extends Controller
 {
     /**
@@ -39,7 +37,7 @@ class ProfileAttendsConferenceController extends Controller
                           ->attendees()
                           ->attach($profile, $request->all());
 
-           addActivity($request->header('ID'),'request', $attendees->id, 'conference attendence');
+           $this->addActivity($request->header('ID'),'request', $attendees->id, 'conference attendence');
 
             return response()->success();
         } catch (Exception $e) {
@@ -78,7 +76,7 @@ class ProfileAttendsConferenceController extends Controller
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
-            addActivity($request->header('ID'),$request->status, $attendees->id, 'conference attendence');
+            $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'conference attendence');
             /*
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
                 //TODO SEND APPROVED EMAIL
@@ -107,7 +105,7 @@ class ProfileAttendsConferenceController extends Controller
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,$request->all());
 
-            addActivity($request->header('ID'),'update', $attendees->id, 'conference attendence');
+            $this->addActivity($request->header('ID'),'update', $attendees->id, 'conference attendence');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.

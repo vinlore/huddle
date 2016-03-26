@@ -12,7 +12,6 @@ use App\Models\Conference as Conference;
 use App\Models\User as User;
 use App\Models\Activity as Activity;
 
-require app_path().'/helpers.php';
 
 
 class ConferenceController extends Controller
@@ -47,7 +46,7 @@ class ConferenceController extends Controller
     public function store(ConferenceRequest $request){
         try{
             $conference = Conference::create($request->all());
-            addActivity($request->header('ID'), 'create', $conference->id, 'conference');
+            $this->addActivity($request->header('ID'), 'create', $conference->id, 'conference');
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -86,7 +85,7 @@ class ConferenceController extends Controller
                 return response()->success("204","No conference found.");
             }
             $conference->update(['status' => $request->status]);
-            addActivity($request->header('ID'), $request->status, $conference->id, 'conference');
+            $this->addActivity($request->header('ID'), $request->status, $conference->id, 'conference');
 
             /*
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
@@ -116,7 +115,7 @@ class ConferenceController extends Controller
                 return response()->success("204","No conference found.");
             }
             $conference->update($request->all());
-           addActivity($request->header('ID'), 'update', $conference->id, 'conference');
+           $this->addActivity($request->header('ID'), 'update', $conference->id, 'conference');
 
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
@@ -143,7 +142,7 @@ class ConferenceController extends Controller
             }
             Conference::destroy($conferences);
 
-            addActivity($request->header('ID'), 'delete', $conference->id, 'conference');
+            $this->addActivity($request->header('ID'), 'delete', $conference->id, 'conference');
 
             return response()->success();
         } catch (Exception $e) {
