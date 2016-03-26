@@ -105,7 +105,7 @@ angular.module( 'manageRequestsCtrl', [] )
     },
   ];
   $scope.conferences = []
-
+  // Need to change approved to pending
   $scope.loadPendingConferences = function () {
       Conferences.status().query({status:'approved'})
           .$promise.then( function ( response ) {
