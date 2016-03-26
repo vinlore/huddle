@@ -17,9 +17,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        // TODO pagination - Should only get certain columns
+        // TODO pagination - Should only get certain rows
         try {
-            $users = \Sentinel::getUserRepository()->with('roles')->get(['username']);
+            $users = \Sentinel::getUserRepository()->with('roles')->get();
             return $users;
         } catch (Exception $e) {
         return response()->error("500" , $e);

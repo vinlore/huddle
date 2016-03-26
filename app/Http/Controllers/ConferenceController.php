@@ -10,6 +10,8 @@ use App\Http\Requests\ConferenceRequest;
 
 use App\Models\Conference as Conference;
 use App\Models\User as User;
+use App\Models\Activity as Activity;
+
 
 
 class ConferenceController extends Controller
@@ -43,7 +45,8 @@ class ConferenceController extends Controller
 
     public function store(ConferenceRequest $request){
         try{
-            Conference::create($request->all());
+            $conference = Conference::create($request->all());
+            $this->addActivity($request->header('ID'), 'create', $conference->id, 'conference');
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -82,6 +85,8 @@ class ConferenceController extends Controller
                 return response()->success("204","No conference found.");
             }
             $conference->update(['status' => $request->status]);
+            $this->addActivity($request->header('ID'), $request->status, $conference->id, 'conference');
+
             /*
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
                 //TODO SEND APPROVED EMAIL
@@ -110,6 +115,8 @@ class ConferenceController extends Controller
                 return response()->success("204","No conference found.");
             }
             $conference->update($request->all());
+           $this->addActivity($request->header('ID'), 'update', $conference->id, 'conference');
+
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
@@ -127,18 +134,19 @@ class ConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy(ConferenceRequest $request, $conferences){
+        try{
+            if (!Conference::find($conferences)) {
+                return response()->error("No conferences found.");
+            }
+            Conference::destroy($conferences);
 
-    try{
-        if(!Conference::find($conferences)){
-             return response()->error("No conferences found.");
-        }
+            $this->addActivity($request->header('ID'), 'delete', $conference->id, 'conference');
 
-        Conference::destroy($conferences);
-
-        return response()->success();
-     }catch (Exception $e) {
-            return response()->error($e);
+            return response()->success();
+        } catch (Exception $e) {
+                return response()->error($e);
         }
     }
 }

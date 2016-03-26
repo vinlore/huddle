@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests;
+use App\Http\Requests\EventRequest;
 
 use App\Models\Event as Event;
 
-require app_path().'/helpers.php';
 
 class EventController extends Controller
 {
@@ -18,10 +18,10 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($conferences)
     {
        try{
-            $events = Event::all();
+            $events = Event::where('conference_id', $conferences)->get();
             if (!$events) {
                 return response()->error("No events found.");
             }
@@ -40,7 +40,9 @@ class EventController extends Controller
     public function store(EventRequest $request)
     {
         try {
-            Event::create($request->all());
+            $event = Event::create($request->all());
+            $this->addActivity($request->header('ID'), 'create', $event->id, 'event');
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error("500",$e);
@@ -83,6 +85,7 @@ class EventController extends Controller
                  return response()->success("204","No event found.");
             }
             $conference->update(['status' => $request->status]);
+            $this->addActivity($request->header('ID'), $request->status, $event->id, 'event');
                /*
 
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
@@ -113,6 +116,7 @@ class EventController extends Controller
                  return response()->success("204","No event found.");
             }
             $event->update($request->all());
+            $this->addActivity($request->header('ID'), 'update', $id, 'event');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
@@ -136,6 +140,8 @@ class EventController extends Controller
                return response()->success("204","No Event found");
             }
             Event::destroy($id);
+            $this->addActivity($request->header('ID'), 'delete', $id, 'event');
+
             return response()->success();
          } catch (Exception $e) {
              return response()->error($e);

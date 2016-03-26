@@ -90,7 +90,7 @@
                                 <h4>{{event.address}}</h4>
                                 <h4>{{event.city}}</h4>
                                 <h4>{{event.date | date}}</h4>
-                                <h4>{{event.startTime | time}} to {{event.endTime | time}}</h4>
+                                <h4>{{event.start_time | time}} to {{event.end_time | time}}</h4>
                                 <h4>{{event.facilitator}}</h4>
                                 <h4>{{event.description}}</h4>
                             </div>
@@ -98,32 +98,36 @@
                                 <input type="text" class="input-xlg" ng-model="event.name" required>
                                 <input type="text" class="input-lg" ng-model="event.address" placeholder="Address" ng-model-options="{debounce: 800}" g-places-autocomplete required>
                                 <input type="text" class="input-lg" ng-model="event.city" placeholder="City" g-places-autocomplete options="citiesOnly" required>
-                                <div class="input-group">
-                                    <input type="custom-date" class="form-control input-lg" uib-datepicker-popup="yyyy-MM-dd" ng-model="event.date" is-open="eventCalendar[$index]" placeholder="Event Date" required>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-link" ng-click="eventCalendar[$index] = !eventCalendar[$index]"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
+                                <div class="form-inline">
+                                    <input type="text" class="form-control input-lg" ng-model="event.start_time" ui-mask="?29:69" required>
+                                    <input type="text" class="form-control input-lg" ng-model="event.end_time" ui-mask="?29:69" required>
+                                    <div class="input-group">
+                                        <input type="custom-date" class="form-control input-lg" uib-datepicker-popup="yyyy-MM-dd" ng-model="event.date" is-open="eventCalendar[$index]" placeholder="Event Date" required>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-link" ng-click="eventCalendar[$index] = !eventCalendar[$index]"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </div>
                                 </div>
                                 <input type="text" class="input-lg" ng-model="event.facilitator" placeholder="Speaker" required>
                                 <div class="row">
                                 <label class="col-sm-3"><input type="number" class="input-lg" ng-model="event.capacity" placeholder="Capacity" required></label>
                                 <label class="col-sm-3">
-                                    <select type="text" class="input-lg" ng-model="event.genderLimit" placeholder="Gender Restriction">
+                                    <select type="text" class="input-lg" ng-model="event.gender_limit" placeholder="Gender Restriction">
                                         <option value="">Gender Restriction</option>
                                         <option value="M">Male</option>
                                         <option value="F">Female</option>
                                     </select>
                                 </label>
-                                <label class="col-sm-3"><input type="number" class="input-lg" ng-model="event.ageLimit" placeholder="Age Limit"></label>
+                                <label class="col-sm-3"><input type="number" class="input-lg" ng-model="event.age_limit" placeholder="Age Limit"></label>
                                 </div>
                                 <textarea type="text" class="textarea-lg" ng-model="event.description" rows="3" wrap="soft" placeholder="Event Description"></textarea>
                             </div>
                         </uib-accordion-group>
                         <div class="panel panel-heading accordion-footer">
-                            <span ng-if="event.genderLimit">Gender: <strong>{{event.genderLimit}}</strong>&nbsp|&nbsp</span>
-                            <span ng-if="event.ageLimit">Ages: <strong>{{event.ageLimit}}+</strong> |</span>
+                            <span ng-if="event.genderLimit">Gender: <strong>{{event.gender_limit}}</strong>&nbsp|&nbsp</span>
+                            <span ng-if="event.ageLimit">Ages: <strong>{{event.age_limit}}+</strong> |</span>
                             <span ng-if="!event.ageLimit && !event.genderLimit">No restrictions |</span>
-                            <span>&nbspSeats: <strong>{{event.attendeeCount}}/{{event.capacity}}</strong></span>
+                            <span>&nbspSeats: <strong>{{event.attendee_count}}/{{event.capacity}}</strong></span>
                             <a type="button" class="btn btn-info" ui-sref="event-signup({eventId: event.eventId, name: event.name})" ng-if="auth">
                                 <span class="glyphicon glyphicon-ok"></span> Attend
                             </a>
@@ -138,7 +142,7 @@
                         </div>
                     </uib-accordion>
                 </div>
-                <h4 class="upcoming" ng-if="!events">No events have been registered yet. Sign up for notifications about events for this conference
+                <h4 class="upcoming" ng-if="events.length <= 0">No events have been registered yet. Sign up for notifications about events for this conference
                     <a href="">here</a>.</h4>
             </div>
             <h1>Services</h1>

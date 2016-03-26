@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Requests;
 
 use App\Models\Accommodation as Accommodation;
+use App\Models\Conference as Conference;
 
 class AccommodationController extends Controller
 {
@@ -31,7 +32,14 @@ class AccommodationController extends Controller
     public function store(Request $request)
     {
         try{
-            Accommodation::create($request->all());
+            //Store the new Accomodation into accomodation table
+            $accom = Accommodation::create($request->all());
+
+            //Update the Pivot Conference - Accomodation table
+            Conference::find($request->conference_id)
+                        ->accommodations()
+                        ->attach($accom);
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error("Aceso", $e);
@@ -91,6 +99,12 @@ class AccommodationController extends Controller
             if ($accom->rooms()->count()){
                 return response()->error("409" , "Rooms still in this Accomodation");
             }
+
+            //Remove the pivot row - From the conference_accomodation table
+            Accomodation::find($id)
+                        ->conferences()
+                        ->detach();
+
             Accommodation::destroy($id);
             return response()->success();
         } catch (Exception $e) {
