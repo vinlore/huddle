@@ -34,4 +34,9 @@ class User extends EloquentUser
     {
         return $this->belongsToMany('App\Models\Event', 'user_manages_events')->withTimestamps();
     }
+
+    public function activities()
+    {
+        return $this->hasMany('App\Models\Activity');
+    }
 }
