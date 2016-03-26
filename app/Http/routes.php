@@ -19,89 +19,85 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 
     Route::get('auth/activity', 'ActivityController@get');
 
-    Route::resource('roles' , 'RoleController', ['only' =>[
+    //============ Accomodation Controller ============
+    Route::resource('accommodation', 'AccomodationController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    // Profile Attend Conference
-    Route::resource('profile.conference' , 'ProfileAttendsConferenceController' , ['only' => [
-            'index' , 'store' , 'show' ,'update', 'destroy',
-    ]]);
-
-    Route::post('profile.conference.status', 'ProfileAttendsConferenceController@profileConferenceStatusUpdate');
-
-    //Profile Attend Event
-    Route::resource('profile.event' , 'ProfileAttendsEventController' , ['only' => [
-            'index' , 'store' , 'show' ,'update', 'destroy',
-    ]]);
-
-    Route::post('profile.event.status', 'ProfileAttendsEventController@profileEventStatusUpdate');
-
-    //User Manages Conference
-    Route::resource('user.conference' , 'UserManagesConferenceController' , ['only' => [
-            'index' , 'store' , 'show' ,'update', 'destroy',
-    ]]);
-
-    //User Manages Events
-    Route::resource('user.event' , 'UserManagesEventsController' , ['only' => [
-            'index' , 'store' , 'show' ,'update', 'destroy',
-    ]]);
-
-    Route::resource('users', 'UserController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
-    ]]);
-
-    Route::resource('users.profiles', 'ProfileController', ['only' => [
-        'index', 'store', 'update', 'destroy',
-    ]]);
-
+    //============ Conference Controller ============
     Route::post('conference.status', 'ConferenceController@conferenceStatusUpdate');
 
     Route::resource('conferences', 'ConferenceController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
+    //============
 
-    Route::post('event.status', 'EventController@eventStatusUpdate');
-
-    Route::resource('conferences.accommodations', 'AccommodationController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
-    ]]);
-
-    Route::resource('conferences.accommodations.rooms', 'RoomController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
-    ]]);
-
-    Route::resource('conferences.inventory', 'ItemController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
-    ]]);
-
-    Route::resource('conferences.vehicles', 'ConferenceVehicleController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
-    ]]);
-
-    Route::resource('conferences.attendees', 'ConferenceAttendeeController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
-    ]]);
-
-    Route::resource('conferences.managers', 'ConferenceManagerController', ['only' => [
-        'index', 'store', 'show', 'destroy',
-    ]]);
-
+    //============ Event Controller ============
     Route::resource('conferences.events', 'EventController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('events.attendees', 'EventAttendeeController', ['only' => [
+    Route::post('event.status', 'EventController@eventStatusUpdate');
+    //============
+
+    //============ Item Controller ============
+    Route::resource('conferences.inventory', 'ItemController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('events.vehicles', 'EventVehicleController', ['only' => [
+
+    //============ PIVOT - Profile Attend Conference =====
+    Route::resource('profile.conference' , 'ProfileAttendsConferenceController' , ['only' => [
+            'index' , 'store' , 'show' ,'update', 'destroy',
+    ]]);
+
+    Route::post('profile.conference.status', 'ProfileAttendsConferenceController@profileConferenceStatusUpdate');
+    //============
+
+    //============ PIVOT - Profile Attend Event ========
+    Route::resource('profile.event' , 'ProfileAttendsEventController' , ['only' => [
+            'index' , 'store' , 'show' ,'update', 'destroy',
+    ]]);
+
+    Route::post('profile.event.status', 'ProfileAttendsEventController@profileEventStatusUpdate');
+    //============
+
+    //============ Profile Controller ============
+    Route::resource('users.profiles', 'ProfileController', ['only' => [
+        'index', 'store', 'update', 'destroy',
+    ]]);
+
+    //============ Role Controller ============
+    Route::resource('roles' , 'RoleController', ['only' =>[
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('events.managers', 'EventManagerController', ['only' => [
-        'index', 'store', 'show', 'destroy',
+    //============ Room Controller ============
+    Route::resource('conferences.accommodations.rooms', 'RoomController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
     ]]);
+
+    //============ User Controller ============
+    Route::resource('users', 'UserController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+
+    //============ PIVOT -  User Manages Conference ============
+    Route::resource('user.conference' , 'UserManagesConferenceController' , ['only' => [
+            'index' , 'store' , 'show' ,'update', 'destroy',
+    ]]);
+
+    //============ PIVOT -  User Manages Events============
+    Route::resource('user.event' , 'UserManagesEventsController' , ['only' => [
+            'index' , 'store' , 'show' ,'update', 'destroy',
+    ]]);
+
+    //============ Vehicle Controller ============
+    Route::resource('vehicle', 'VehicleController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
 });
 
 // -----------------------------------------------------------------------------
