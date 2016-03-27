@@ -1,5 +1,5 @@
 angular.module( 'profileCtrl', [] )
-.controller( 'profileController', function ( $scope, Profile, $filter, popup, Users, $rootScope ) {
+.controller( 'profileController', function ( $scope, Profile, Conferences, Events, $filter, popup, Users, $rootScope ) {
 
     $scope.user = {};
 
@@ -115,57 +115,35 @@ angular.module( 'profileCtrl', [] )
     $scope.loadProfile();
 
 
-    $scope.conferences = [
-        {
-            id: 123,
-            name: "Bill Gates",
-            conference_name: "India",
-            startDate: "Feb 20, 2016",
-            endDate: "Feb 27, 2016",
-            status: "pending"
-        },
-        {
-            id: 234,
-            name: "Tony Montana",
-            conference_name: "Canada",
-            startDate: "Jan 29, 2016",
-            endDate: "Feb 3, 2016",
-            status: "approved"
-        },
-        {
-            id: 1,
-            name: "Michael Jackson",
-            conference_name: "France",
-            startDate: "Jan 5, 2016",
-            endDate: "Jan 12, 2016",
-            status: "declined"
-        }
-    ];
+    $scope.conferences = []
+    // TODO: Need to change approved --> pending
+    $scope.loadPendingConferences = function () {
+        Conferences.status().query({status:'pending'})
+            .$promise.then( function ( response ) {
+                if ( response ) {
+                    $scope.conferences = response;
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    };
+    $scope.loadPendingConferences();
 
-    $scope.events = [
-        {
-            id: 123,
-            name: "Bill Gates",
-            event_name: "India",
-            startDate: "Feb 20, 2016",
-            endDate: "Feb 27, 2016",
-            status: "pending"
-        },
-        {
-            id: 234,
-            name: "Tony Montana",
-            event_name: "Canada",
-            startDate: "Jan 29, 2016",
-            endDate: "Feb 3, 2016",
-            status: "approved"
-        },
-        {
-            id: 1,
-            name: "Michael Jackson",
-            event_name: "France",
-            startDate: "Jan 5, 2016",
-            endDate: "Jan 12, 2016",
-            status: "declined"
-        }
-    ];
+    $scope.events = []
+    // TODO: Need to change approved --> pending
+    $scope.loadPendingEvents = function () {
+        Events.status().query({status:'approved'})
+            .$promise.then( function ( response ) {
+                if ( response ) {
+                    $scope.events = response;
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    };
+    $scope.loadPendingEvents();
 } );
