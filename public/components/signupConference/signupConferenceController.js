@@ -66,7 +66,7 @@ angular.module('signupConfCtrl',[])
   /*$scope.loadAccommodations = function () {
     Conference.accommodations().query( {cid: $stateParams.conferenceId} )
         .$promise.then( function( response ) {
-            if ( response.status == 'success' ) {
+            if ( response.status == 200 ) {
                 $scope.accommodations = response.accommodations;
             } else {
                 // TODO - error
@@ -121,7 +121,7 @@ angular.module('signupConfCtrl',[])
             }
             Conference.attendees().save( {cid: $stateParams.conferenceId} )
                 .$promise.then( function( response ) {
-                    if ( response.status == 'success' ) {
+                    if ( response.status == 200 ) {
                         console.log( 'User successfully registered to attend conference' );
                         // TODO change attending button to pending approval
                     } else {

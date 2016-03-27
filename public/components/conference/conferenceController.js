@@ -140,7 +140,7 @@ angular.module( 'conferenceCtrl', [] )
         console.log(eventDetails.end_time)
         Events.fetch().update( {cid: $stateParams.conferenceId, eid: $scope.events[$index].id}, eventDetails )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     $scope.editEvent[$index] = false;
                     eventBackup = {};
                     popup.alert('success', 'Changes have been saved.');
@@ -181,7 +181,7 @@ angular.module( 'conferenceCtrl', [] )
         }
         Conferences.fetch().update( {cid: $stateParams.conferenceId}, confDetails )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     $scope.editConference = false;
                     conferenceBackup = {};
                     popup.alert( 'success', 'Changes have been saved.' );
@@ -200,7 +200,7 @@ angular.module( 'conferenceCtrl', [] )
         conferenceBackup = {};
     }
 
-    
+
     $scope.loadEvents = function () {
         Events.fetch().query( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
@@ -227,7 +227,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadInventory = function () {
         Conferences.inventory().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' && response.inventory ) {
+                if ( response.status == 200 && response.inventory ) {
                     $scope.inventory = response.inventory;
                 } else {
                     popup.error( 'Error', response.message );
@@ -242,7 +242,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadAccommodations = function () {
         Conferences.accommodations().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' && response.accommodations ) {
+                if ( response.status == 200 && response.accommodations ) {
                     $scope.accommodations = response.accommodations;
                 } else {
                     popup.error( 'Error', response.message );
@@ -257,7 +257,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadArrivalVehicles = function () {
         Conferences.vehicles().get( {cid: $stateParams.conferenceId, type: 'arrival'} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' && response.vehicles ) {
+                if ( response.status == 200 && response.vehicles ) {
                     $scope.arrivalVehicles = response.vehicles;
                 } else {
                     popup.error( 'Error', response.message );
@@ -272,7 +272,7 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadDepartVehicles = function () {
         Conferences.vehicles().get( {cid: $stateParams.conferenceId, type: 'departure'} )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' && response.vehicles ) {
+                if ( response.status == 200 && response.vehicles ) {
                     console.log( 'Retrieved departure vehicles' ); console.log( response.vehicles );
                     $scope.departVehicles = response.vehicles;
                 } else {

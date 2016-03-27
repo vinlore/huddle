@@ -144,7 +144,7 @@ angular.module( 'manageRequestsCtrl', [] )
       };
       Conferences.status().update(conference)
           .$promise.then( function ( response ) {
-              if ( response.status == 'success' ) {
+              if ( response.status == 200 ) {
                   $scope.events.splice(index, 1);
                   popup.alert( 'success', 'Conference successfully published.' );
               } else {
@@ -163,7 +163,7 @@ angular.module( 'manageRequestsCtrl', [] )
   //     };
   //     Events.status().update( _event )
   //         .$promise.then( function ( response ) {
-  //             if ( response.status == 'success' ) {
+  //             if ( response.status == 200 ) {
   //                 $scope.conferences.splice(index, 1);
   //                 popup.alert( 'success', 'Event successfully published.' );
   //             } else {
@@ -182,7 +182,7 @@ angular.module( 'manageRequestsCtrl', [] )
   //     };
   //     Conferences.status().update(conference)
   //         .$promise.then( function ( response ) {
-  //             if ( response.status == 'success' ) {
+  //             if ( response.status == 200 ) {
   //                 $scope.events.splice(index, 1);
   //                 popup.alert( 'success', 'Event declined.' );
   //             } else {
@@ -201,7 +201,7 @@ angular.module( 'manageRequestsCtrl', [] )
   //     };
   //     Events.status().update( _event )
   //         .$promise.then( function ( response ) {
-  //             if ( response.status == 'success' ) {
+  //             if ( response.status == 200 ) {
   //                 $scope.conferences.splice(index, 1);
   //                 popup.alert( 'success', 'Event declined.' );
   //             } else {

@@ -15,21 +15,16 @@ class ResponseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //response()->success("code", "message")
-        Response::macro('success', function ($code = NULL, $message = NULL) {
+        Response::macro('success', function ($status = 200, $message = 'OK') {
             return Response::json([
-                'status'  => 'success',
-                'code'    => $code,
+                'status'  => $status,
                 'message' => $message,
             ]);
         });
 
-
-        //response()->error("code", "message")
-        Response::macro('error', function ($code, $message) {
+        Response::macro('error', function ($status = 500, $message = 'Internal Server Error') {
             return Response::json([
-                'status'  => 'error',
-                'code'    => $code,
+                'status'  => $status,
                 'message' => $message,
             ]);
         });
