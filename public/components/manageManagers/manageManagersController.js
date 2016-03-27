@@ -1,26 +1,20 @@
 angular.module('managersCtrl', [])
-.controller('conferenceManagersController', function ($scope, Conferences, $stateParams, popup, Users) {
+.controller('conferenceManagersController', function ($scope, Managers, $stateParams, popup, Users) {
     
     $scope.managers = [];
     $scope.users = [];
     $scope.selectedUser = null;
 
-    $scope.loadUsers = function () {
-        Users.query().$promise.then(function(response) {
+    $scope.loadUsers = function (val) {
+        return Users.query({username: val}).$promise.then(function(response) {
             if (response) {
-                $scope.users = response;
-            } else {
-                popup.error('Error', response.message);
+                return response;
             }
-        }, function () {
-            popup.connection();
         })
     }
 
-    $scope.loadUsers();
-
     $scope.loadManagers = function () {
-        Conferences.managers().query({cid: $stateParams.conferenceId})
+        Managers.conferences().query({cid: $stateParams.conferenceId})
             .$promise.then(function(response) {
                 if (response) {
                     $scope.managers = response;
@@ -32,45 +26,62 @@ angular.module('managersCtrl', [])
             })   
     }
 
-    //$scope.loadManagers();
+    $scope.loadManagers();
     
     $scope.addManager = function (user) {
-        Conferences.managers().save({cid: $stateParams.conferenceId}, user.id)
+        if (user)
+        Managers.conferences().save({cid: $stateParams.conferenceId}, {user_id: user.id})
             .$promise.then(function(response) {
                 if (response.status == 'success') {
+                    $scope.selectedUser = null;
                     popup.alert('success', user.username + 'is now managing this conference.');
                     $scope.loadManagers();
                 } else {
                     popup.error('Error', response.message);
                 }
             }, function () {
-                popup.connection();
+                popup.error('Error', 'User is already managing this conference.');
             })
     }
 
     $scope.removeManager = function (id) {
-        Conferences.managers().delete({cid: $stateParams.conferenceId, mid: id})
-            .$promise.then(function(response) {
-                if (response.status == 'success') {
-                    popup.alert('success', 'User is no longer managing this conference.');
-                    $scope.loadManagers();
-                } else {
-                    popup.error('Error', response.message);
-                }
-            }, function () {
-                popup.connection();
-            })
+        var modalInstance = popup.prompt('Remove Manager', 'Are you sure you want to remove this user from managing this conference?');
+
+        modalInstance.result.then( function(result) {
+            if (result) {
+                Managers.conferences().delete({cid: $stateParams.conferenceId, uid: id})
+                    .$promise.then(function(response) {
+                        if (response.status == 'success') {
+                            popup.alert('success', 'User is no longer managing this conference.');
+                            $scope.loadManagers();
+                        } else {
+                            popup.error('Error', response.message);
+                        }
+                    }, function () {
+                        popup.connection();
+                    })
+            }
+        })
     }
 
 })
 
-.controller('eventManagersController', function ($scope, Events, popup, $stateParams) {
+.controller('eventManagersController', function ($scope, Managers, popup, $stateParams, Users) {
 
     $scope.managers = [];
+    $scope.users = [];
     $scope.selectedUser = null;
 
+    $scope.loadUsers = function (val) {
+        return Users.query({username: val}).$promise.then(function(response) {
+            if (response) {
+                return response;
+            }
+        })
+    }
+
     $scope.loadManagers = function () {
-        Events.managers().query({cid: $stateParams.conferenceId, eid: $stateParams.eventId})
+        Managers.events().query({eid: $stateParams.eventId})
             .$promise.then(function(response) {
                 if (response) {
                     $scope.managers = response;
@@ -82,34 +93,43 @@ angular.module('managersCtrl', [])
             })   
     }
 
-    //$scope.loadManagers();
+    $scope.loadManagers();
     
     $scope.addManager = function (user) {
-        Events.managers().save({cid: $stateParams.conferenceId, eid: $stateParams.eventId}, user.id)
+        if (user)
+        Managers.events().save({eid: $stateParams.eventId}, {user_id: user.id})
             .$promise.then(function(response) {
                 if (response.status == 'success') {
-                    popup.alert('success', 'User is now managing this event.');
+                    $scope.selectedUser = null;
+                    popup.alert('success', user.username + 'is now managing this event.');
                     $scope.loadManagers();
                 } else {
                     popup.error('Error', response.message);
                 }
             }, function () {
-                popup.connection();
+                popup.error('Error', 'User is already managing this conference.');
             })
     }
 
     $scope.removeManager = function (id) {
-        Conferences.managers().delete({cid: $stateParams.conferenceId, eid: $stateParams.eventId, mid: id})
-            .$promise.then(function(response) {
-                if (response.status == 'success') {
-                    popup.alert('success', 'User is no longer managing this event.');
-                    $scope.loadManagers();
-                } else {
-                    popup.error('Error', response.message);
-                }
-            }, function () {
-                popup.connection();
-            })
+        var modalInstance = popup.prompt('Remove Manager', 'Are you sure you want to remove this user from managing this event?');
+
+        modalInstance.result.then( function(result) {
+            if (result) {
+                Managers.events().delete({eid: $stateParams.eventId, uid: id})
+                    .$promise.then(function(response) {
+                        if (response.status == 'success') {
+                            popup.alert('success', 'User is no longer managing this event.');
+                            $scope.loadManagers();
+                        } else {
+                            popup.error('Error', response.message);
+                        }
+                    }, function () {
+                        popup.connection();
+                    })
+            }
+        })
+        
     }
 
 })

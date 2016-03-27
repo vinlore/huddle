@@ -13,20 +13,11 @@ angular.module('adminCtrl', [])
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.conferences = response;
-                    for ( var i = 0; i < response.length; i++ ) {
-                        Events.fetch().query( {cid: $scope.conferences[i].id} )
-                            .$promise.then( function ( events ) {
-                                if ( events ) {
-                                    $scope.events[i] = events;
-                                } else {
-                                    $scope.events = [];
-                                }
-                            }, function () {
-                                popup.connection();
-                            })
+                    for (var i=0; i<response.length; i++) {
+                        $scope.loadEvents($scope.conferences[i].id, i);
                     }
                 } else {
-                    $scoope.conferences = [];
+                    $scope.conferences = [];
                 }
             }, function () {
                 popup.connection();
@@ -34,6 +25,26 @@ angular.module('adminCtrl', [])
     };
 
     $scope.loadConferences();
+
+    $scope.loadEvents = function(cid, index) {
+        Events.fetch().query( {cid: cid} )
+            .$promise.then( function ( events ) {
+                if ( events ) {
+                    for (var i=0; i<events.length; i++) {
+                        events[i].date = new Date(events[i].date);
+                        var time1 = events[i].start_time.split(':');
+                        events[i].start_time = time1[0]+time1[1];
+                        var time2 = events[i].end_time.split(':');
+                        events[i].end_time = time2[0]+time2[1];
+                    }
+                    $scope.events[index] = events;
+                } else {
+                    $scope.events[index] = [];
+                }
+            }, function () {
+                popup.connection();
+            })
+    }
 
     $scope.deleteConference = function ( cid, e ) {
         e.preventDefault();
@@ -76,7 +87,7 @@ angular.module('adminCtrl', [])
             event.preventDefault();
             event.stopPropagation();
         }
-        $state.go('event-managers', {eventId: cid});
+        $state.go('event-managers', {eventId: eid});
     }
 
     $scope.goCreateEvent = function (cid, event) {

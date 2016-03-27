@@ -1,11 +1,7 @@
 angular.module( 'manageAccountsCtrl', [] )
-.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, Users, ngTableParams ) {
+.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, UsersRoles, Users, ngTableParams ) {
 
-    $scope.search = null;
-    $scope.selectedConference = null;
-    $scope.selectedEvent = null;
-    $scope.conferenceSpecific = false;
-    $scope.eventSpecific = false;
+    $scope.search = {selectedUser: null};
 
     $scope.selectedRole = [];
 
@@ -34,7 +30,8 @@ angular.module( 'manageAccountsCtrl', [] )
         {
             total: 0,
             getData: function($defer, params) {
-                Users.query().$promise.then( function (response) {
+                console.log($scope.selectedUser)
+                UsersRoles.query({username: $scope.search.selectedUser}).$promise.then( function (response) {
                     if (response) {
                         $scope.users = response;
                         params.total(response.length);
@@ -95,14 +92,14 @@ angular.module( 'manageAccountsCtrl', [] )
             "event.update": false,
             "event.status": false,
             "event.destroy": false,
-            "conference_attendees.status": false,
-            "conference_attendees.show": false,
-            "conference_attendees.update": false,
-            "conference_attendees.destroy": false,
-            "event_attendees.status": false,
-            "event_attendees.show": false,
-            "event_attendees.update": false,
-            "event_attendees.destroy": false,
+            "conference_attendee.status": false,
+            "conference_attendee.show": false,
+            "conference_attendee.update": false,
+            "conference_attendee.destroy": false,
+            "event_attendee.status": false,
+            "event_attendee.show": false,
+            "event_attendee.update": false,
+            "event_attendee.destroy": false,
             "profile.show": false,
             "profile.update": false,
             "profile.destroy": false,
@@ -110,18 +107,18 @@ angular.module( 'manageAccountsCtrl', [] )
             "item.show": false,
             "item.update": false,
             "item.destroy": false,
-            "conference_vehicles.store": false,
-            "conference_vehicles.show": false,
-            "conference_vehicles.update": false,
-            "conference_vehicles.destroy": false,
-            "event_vehicles.store": false,
-            "event_vehicles.show": false,
-            "event_vehicles.update": false,
-            "event_vehicles.destroy": false,
-            "accommodations.store": false,
-            "accommodations.show": false,
-            "accommodations.update": false,
-            "accommodations.destroy": false,
+            "conference_vehicle.store": false,
+            "conference_vehicle.show": false,
+            "conference_vehicle.update": false,
+            "conference_vehicle.destroy": false,
+            "event_vehicle.store": false,
+            "event_vehicle.show": false,
+            "event_vehicle.update": false,
+            "event_vehicle.destroy": false,
+            "accommodation.store": false,
+            "accommodation.show": false,
+            "accommodation.update": false,
+            "accommodation.destroy": false,
             "room.show": false,
             "room.store": false,
             "room.update": false,

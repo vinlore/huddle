@@ -2,25 +2,26 @@ var app = angular.module('permissionService', []);
 
 app.service('checkPermissions', function ($rootScope) {
     return function (type) {
+        if (!$rootScope.user) return false;
         var p = $rootScope.user.permissions;
         switch (type) {
-            case 'accommodations':
-                return p['accommodations.store'] || p['accommodations.update'] || p['accommodations.destroy'] || p['accommodations.show'];
+            case 'accommodation':
+                return p['accommodation.show'] || p['accommodation.store'] || p['accommodation.update'] || p['accommodation.destroy'] || p['accommodation.show'];
                 break;
-            case 'conference_vehicles':
-                return p['conference_vehicles.store'] || p['conference_vehicles.update'] || p['conference_vehicles.destroy'] || p['conference_vehicles.show'];
+            case 'conference_vehicle':
+                return p['conference_vehicle.show'] || p['conference_vehicle.store'] || p['conference_vehicle.update'] || p['conference_vehicle.destroy'] || p['conference_vehicle.show'];
                 break;
-            case 'conference_attendees':
-                return p['conference_attendees.store'] || p['conference_attendees.update'] || p['conference_attendees.destroy'] || p['conference_attendees.show'];
+            case 'conference_attendee':
+                return p['conference_attendee.show'] || p['conference_attendee.store'] || p['conference_attendee.update'] || p['conference_attendee.destroy'] || p['conference_attendee.show'];
                 break;
             case 'item':
-                return p['item.store'] || p['item.update'] || p['item.destroy'] || p['item.show'];
+                return p['item.show'] || p['item.store'] || p['item.update'] || p['item.destroy'] || p['item.show'];
                 break;
-            case 'event_vehicles':
-                return p['event_vehicles.store'] || p['event_vehicles.update'] || p['event_vehicles.destroy'] || p['event_vehicles.show'];
+            case 'event_vehicle':
+                return p['event_vehicle.show'] || p['event_vehicle.store'] || p['event_vehicle.update'] || p['event_vehicle.destroy'] || p['event_vehicle.show'];
                 break;
-            case 'event_attendees':
-                return p['event_attendees.store'] || p['event_attendees.update'] || p['event_attendees.destroy'] || p['event_attendees.show'];
+            case 'event_attendee':
+                return p['event_attendee.show'] || p['event_attendee.store'] || p['event_attendee.update'] || p['event_attendee.destroy'] || p['event_attendee.show'];
                 break;
             default:
                 return false; 

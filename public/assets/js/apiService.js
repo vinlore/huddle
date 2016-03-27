@@ -16,6 +16,24 @@ angular.module( 'apiService', [] )
     return $resource( '/api/users/:id', { id: '@id' }, { 'update': { method: 'PUT' } } );
 })
 
+.factory( 'UsersRoles', function ( $resource ) {
+    return $resource( '/api/users-roles/' );
+})
+
+.factory( 'Managers', function ( $resource ) {
+    return {
+
+        conferences: function () {
+            return $resource( '/api/conferences/:cid/managers/:uid', { uid: '@uid', cid: '@cid'} );
+        },
+
+        events: function () {
+            return $resource( '/api/events/:eid/managers/:uid', {uid: '@uid', eid: '@eid'} );
+        }
+
+    }
+})
+
 .factory( 'Roles', function ( $resource ) {
     return $resource( '/api/roles/:id', { id: '@id' }, { 'update': { method: 'PUT' } } );
 })
@@ -49,10 +67,6 @@ angular.module( 'apiService', [] )
 
         rooms: function () {
             return $resource( '/api/conferences/:cid/accommodations/:aid/:rid', {cid: '@cid', accId: '@aid', rid: '@rid'}, {'update': { method: 'PUT' }} );
-        },
-
-        managers: function() {
-            return $resource( '/api/conferences/:cid/managers/:mid', {cid: '@cid', mid: '@mid'});
         }
     }
 })
@@ -74,10 +88,6 @@ angular.module( 'apiService', [] )
 
         vehicles: function () {
             return $resource( '/api/events/:eid/vehicles/:type/:vid', { eid: '@eid', type: '@type', vid: '@vid' }, { 'update': { method: 'PUT' } } );
-        },
-
-        managers: function() {
-            return $resource( '/api/events/:eid/managers/:mid', {cid: '@cid', eid: '@eid', mid: '@mid'});
         }
 
     }

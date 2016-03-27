@@ -65,7 +65,7 @@ angular.module( 'manageRequestsCtrl', [] )
 
   // change conference from pending to publish
   $scope.publishConference = function (index) {
-    $scope.conferences.splice(index, 1);
+
   }
 
   // decline creation requests
@@ -78,11 +78,11 @@ angular.module( 'manageRequestsCtrl', [] )
 
   // show events creation application
   $scope.viewEventApplication = function(index){
-    $scope.events(index, 1);
+
   }
 
   $scope.publishEvent = function (index) {
-    $scope.events.splice(index, 1);
+
   }
 
   $scope.declineEvent = function (index) {
@@ -135,5 +135,81 @@ angular.module( 'manageRequestsCtrl', [] )
           })
   };
   $scope.loadPendingEvents();
+
+  // Need to test
+  $scope.publishConference = function (index) {
+      var conference = {
+          id: $scope.conferences[index].id,
+          status: 'approved'
+      };
+      Conferences.status().update(conference)
+          .$promise.then( function ( response ) {
+              if ( response.status == 'success' ) {
+                  $scope.events.splice(index, 1);
+                  popup.alert( 'success', 'Conference successfully published.' );
+              } else {
+                  popup.error( 'Error', response.message );
+              }
+          }, function () {
+              popup.connection();
+          })
+  };
+
+  // // Need to test
+  // $scope.publishEvent = function (index) {
+  //     var _event = {
+  //       id: $scope.events[index].id,
+  //       status: 'approved'
+  //     };
+  //     Events.status().update( _event )
+  //         .$promise.then( function ( response ) {
+  //             if ( response.status == 'success' ) {
+  //                 $scope.conferences.splice(index, 1);
+  //                 popup.alert( 'success', 'Event successfully published.' );
+  //             } else {
+  //                 popup.error( 'Error', response.message );
+  //             }
+  //         }, function () {
+  //             popup.connection();
+  //         })
+  // };
+  //
+  // // Need to test
+  // $scope.declineConference = function (index) {
+  //     var conference = {
+  //         id: $scope.conferences[index].id,
+  //         status: 'denied'
+  //     };
+  //     Conferences.status().update(conference)
+  //         .$promise.then( function ( response ) {
+  //             if ( response.status == 'success' ) {
+  //                 $scope.events.splice(index, 1);
+  //                 popup.alert( 'success', 'Event declined.' );
+  //             } else {
+  //                 popup.error( 'Error', response.message );
+  //             }
+  //         }, function () {
+  //             popup.connection();
+  //         })
+  // };
+  //
+  // // Need to test
+  // $scope.declineEvent = function (index) {
+  //     var _event = {
+  //       id: $scope.events[index].id,
+  //       status: 'denied'
+  //     };
+  //     Events.status().update( _event )
+  //         .$promise.then( function ( response ) {
+  //             if ( response.status == 'success' ) {
+  //                 $scope.conferences.splice(index, 1);
+  //                 popup.alert( 'success', 'Event declined.' );
+  //             } else {
+  //                 popup.error( 'Error', response.message );
+  //             }
+  //         }, function () {
+  //             popup.connection();
+  //         })
+  // };
 
 });

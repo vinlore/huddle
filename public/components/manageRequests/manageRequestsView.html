@@ -9,16 +9,14 @@
         <div class="col-sm-12" ng-if="conferences" ng-repeat="con in conferences">
           <div class="col-sm-12">
             <div class="card">
-              <h3 class="card-header">{{con.name}} Conference</h3>
+              <h3 class="card-header">{{con.name}}</h3>
               <div class="card-block">
-                <h5 class="card-text">Location: {{con.city}},{{con.country}}</h5>
+                <h4 class="card-text">Location: {{con.city}},{{con.country}}</h4>
                 <h5 class="card-text">Start: {{con.start_date}}</h5>
                 <h5 class="card-text">End: {{con.end_date}}</h5>
                 <button class="btn btn-primary btn-sm" ng-click="viewConferenceApplication($index)">View Application</button>
-                <div class="pull-right">
-                  <button class="btn btn-success btn-sm" ng-click="publishConference($index)">Publish</button>
-                  <button class="btn btn-danger btn-sm" ng-click="declineConference($index)">Decline</button>
-                </div>
+                <button class="btn btn-success btn-sm" ng-click="publishConference($index)">Publish</button>
+                <button class="btn btn-danger btn-sm" ng-click="declineConference($index)">Decline</button>
               </div>
             </div>
           </div>
@@ -41,10 +39,8 @@
                 <h5 class="card-text">From: {{eve.start_time}} to {{eve.end_time}}</h5>
                 <h5 class="card-text">Date: {{eve.date}}</h5>
                 <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">View Application</button>
-                <div class="pull-right">
-                  <button class="btn btn-success btn-sm" ng-click="publishEvent($index)">Publish</button>
-                  <button class="btn btn-danger btn-sm" ng-click="declineEvent($index)">Decline</button>
-                </div>
+                <button class="btn btn-success btn-sm" ng-click="publishEvent($index)">Publish</button>
+                <button class="btn btn-danger btn-sm" ng-click="declineEvent($index)">Decline</button>
               </div>
             </div>
           </div>

@@ -96,14 +96,15 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
+    Route::get('users-roles', 'UserController@indexWithRoles');
 
     //============ PIVOT -  User Manages Conference ============
-    Route::resource('user.conference' , 'UserManagesConferenceController' , ['only' => [
+    Route::resource('conferences.managers' , 'UserManagesConferenceController' , ['only' => [
             'index' , 'store' , 'show' ,'update', 'destroy',
     ]]);
 
     //============ PIVOT -  User Manages Events============
-    Route::resource('user.event' , 'UserManagesEventsController' , ['only' => [
+    Route::resource('events.managers' , 'UserManagesEventsController' , ['only' => [
             'index' , 'store' , 'show' ,'update', 'destroy',
     ]]);
 

@@ -15,14 +15,29 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // TODO pagination - Should only get certain rows
         try {
-            $users = \Sentinel::getUserRepository()->with('roles')->get();
-            return $users;
+            // Search users by username if $request->username is provided, then eliminate everything but letters and numbers
+            $username = preg_replace('/[^A-Za-z0-9]/', '', $request->username);
+            if ($username) {
+                return User::where('username', 'like', '%'.$username.'%')->get(['id', 'username', 'email']);
+            }
         } catch (Exception $e) {
-        return response()->error("500" , $e);
+            return response()->error("500" , $e);
+        }
+    }
+
+    public function indexWithRoles(Request $request)
+    {
+        // TODO pagination - Should only get certain rows
+        try {
+            // Search users by username if $request->username is provided, then eliminate everything but letters and numbers
+            $username = preg_replace('/[^A-Za-z0-9]/', '', $request->username);
+            return User::where('username', 'like', '%'.$username.'%')->with('roles')->get(['id', 'username', 'email', 'permissions']);
+        } catch (Exception $e) {
+            return response()->error("500" , $e);
         }
     }
     

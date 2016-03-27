@@ -114,6 +114,7 @@ angular.module( 'profileCtrl', [] )
     }
     $scope.loadProfile();
 
+
     $scope.conferences = [
         {
             id: 123,
