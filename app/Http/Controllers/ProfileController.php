@@ -29,15 +29,6 @@ class ProfileController extends Controller
         }
     }
 
-    public function show($id)
-    {
-        try {
-            return Profile::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
-
     public function update(ProfileRequest $request, $id)
     {
         try {
