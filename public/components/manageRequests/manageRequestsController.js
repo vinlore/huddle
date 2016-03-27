@@ -1,61 +1,6 @@
 angular.module( 'manageRequestsCtrl', [] )
 .controller( 'manageRequestsController', function ($scope, Conferences, Events, popup) {
 
-  $scope.conferencePendingCreations = [
-    {
-      id: 123,
-      name: "Bill Gates",
-      conference_name: "India",
-      startDate: "Feb 20, 2016",
-      endDate: "Feb 27, 2016",
-    },
-    {
-      id: 234,
-      name: "Tony Montana",
-      conference_name: "Canada",
-      startDate: "Jan 29, 2016",
-      endDate: "Feb 3, 2016"
-    },
-    {
-      id: 1,
-      name: "Michael Jackson",
-      conference_name: "France",
-      startDate: "Jan 5, 2016",
-      endDate: "Jan 12, 2016"
-    }
-  ];
-
-  $scope.eventsPendingCreations = [
-    {
-      id: 123,
-      name: "Bill Gates",
-      event_name: "Event1",
-      startDate: "Feb 20, 2016",
-      endDate: "Feb 27, 2016",
-    },
-    {
-      id: 234,
-      name: "Felix",
-      event_name: "Event2",
-      startDate: "Jan 29, 2016",
-      endDate: "Feb 3, 2016"
-    },
-    {
-      id: 1,
-      name: "Freddy",
-      event_name: "Event3",
-      startDate: "Jan 5, 2016",
-      endDate: "Jan 12, 2016"
-    },
-    {
-      id: 1,
-      name: "Jessica",
-      event_name: "Event4",
-      startDate: "Jan 5, 2016",
-      endDate: "Jan 12, 2016"
-    }
-  ];
-
   // Conference Creation methods
 
   // show conference creation application
@@ -63,49 +8,14 @@ angular.module( 'manageRequestsCtrl', [] )
     $scope.conferences.splice(index, 1);
   }
 
-  // change conference from pending to publish
-  $scope.publishConference = function (index) {
-
-  }
-
-  // decline creation requests
-  $scope.declineConference = function (index) {
-    $scope.conferences.splice(index, 1);
-  }
-
-
-  // Event Creation methods
 
   // show events creation application
   $scope.viewEventApplication = function(index){
 
   }
 
-  $scope.publishEvent = function (index) {
-
-  }
-
-  $scope.declineEvent = function (index) {
-    $scope.events.splice(index, 1);
-  }
-
-  $scope.conferencesPending = [
-    {
-      id: null,
-      name: null,
-      description: null,
-      start_date: null,
-      end_date: null,
-      address: null,
-      city: null,
-      country: null,
-      attendee_count: null,
-      capacity: null,
-      status: null
-    },
-  ];
   $scope.conferences = []
-  // Need to change approved to pending
+  // TODO: Need to change approved --> pending
   $scope.loadPendingConferences = function () {
       Conferences.status().query({status:'approved'})
           .$promise.then( function ( response ) {
@@ -121,7 +31,7 @@ angular.module( 'manageRequestsCtrl', [] )
   $scope.loadPendingConferences();
 
   $scope.events = []
-
+  // TODO: Need to change approved --> pending
   $scope.loadPendingEvents = function () {
       Events.status().query({status:'approved'})
           .$promise.then( function ( response ) {
@@ -136,16 +46,16 @@ angular.module( 'manageRequestsCtrl', [] )
   };
   $scope.loadPendingEvents();
 
-  // Need to test
+  // ================ Update Conference Status Methods ============== //
   $scope.publishConference = function (index) {
       var conference = {
           id: $scope.conferences[index].id,
           status: 'approved'
       };
-      Conferences.status().update({cid: 1}, conference)
-          .$promise.then( function ( response ) {
+      Conferences.status().update({cid: conference.id },{status: conference.status})
+          .$promise.then( function (response) {
               if ( response.status == 200 ) {
-                  $scope.events.splice(index, 1);
+                  $scope.loadPendingConferences();
                   popup.alert( 'success', 'Conference successfully published.' );
               } else {
                   popup.error( 'Error', response.message );
@@ -155,61 +65,60 @@ angular.module( 'manageRequestsCtrl', [] )
           })
   };
 
-  // // Need to test
-  // $scope.publishEvent = function (index) {
-  //     var _event = {
-  //       id: $scope.events[index].id,
-  //       status: 'approved'
-  //     };
-  //     Events.status().update( _event )
-  //         .$promise.then( function ( response ) {
-  //             if ( response.status == 200 ) {
-  //                 $scope.conferences.splice(index, 1);
-  //                 popup.alert( 'success', 'Event successfully published.' );
-  //             } else {
-  //                 popup.error( 'Error', response.message );
-  //             }
-  //         }, function () {
-  //             popup.connection();
-  //         })
-  // };
-  //
-  // // Need to test
-  // $scope.declineConference = function (index) {
-  //     var conference = {
-  //         id: $scope.conferences[index].id,
-  //         status: 'denied'
-  //     };
-  //     Conferences.status().update(conference)
-  //         .$promise.then( function ( response ) {
-  //             if ( response.status == 200 ) {
-  //                 $scope.events.splice(index, 1);
-  //                 popup.alert( 'success', 'Event declined.' );
-  //             } else {
-  //                 popup.error( 'Error', response.message );
-  //             }
-  //         }, function () {
-  //             popup.connection();
-  //         })
-  // };
-  //
-  // // Need to test
-  // $scope.declineEvent = function (index) {
-  //     var _event = {
-  //       id: $scope.events[index].id,
-  //       status: 'denied'
-  //     };
-  //     Events.status().update( _event )
-  //         .$promise.then( function ( response ) {
-  //             if ( response.status == 200 ) {
-  //                 $scope.conferences.splice(index, 1);
-  //                 popup.alert( 'success', 'Event declined.' );
-  //             } else {
-  //                 popup.error( 'Error', response.message );
-  //             }
-  //         }, function () {
-  //             popup.connection();
-  //         })
-  // };
+  $scope.declineConference = function (index) {
+      var conference = {
+          id: $scope.conferences[index].id,
+          status: 'denied'
+      };
+      Conferences.status().update({cid: conference.id },{status: conference.status})
+          .$promise.then( function (response) {
+              if ( response.status == 200 ) {
+                  $scope.loadPendingConferences();
+                  popup.alert( 'success', 'Conference request denied.' );
+              } else {
+                  popup.error( 'Error', response.message );
+              }
+          }, function () {
+              popup.connection();
+          })
+  };
+
+// ================ Update Event Status Methods ============== //
+  $scope.publishEvent = function (index) {
+      var _event = {
+        id: $scope.events[index].id,
+        status: 'approved'
+      };
+      Events.status().update( {eid: _event.id },{status: _event.status})
+          .$promise.then( function ( response ) {
+              if ( response.status == 200 ) {
+                  $scope.loadPendingEvents();
+                  popup.alert( 'success', 'Event successfully published.' );
+              } else {
+                  popup.error( 'Error', response.message );
+              }
+          }, function () {
+              popup.connection();
+          })
+  };
+
+
+  $scope.declineEvent = function (index) {
+      var _event = {
+        id: $scope.events[index].id,
+        status: 'denied'
+      };
+      Events.status().update( {eid: _event.id },{status: _event.status})
+          .$promise.then( function ( response ) {
+              if ( response.status == 200 ) {
+                  $scope.loadPendingEvents();
+                  popup.alert( 'success', 'Event request denied.' );
+              } else {
+                  popup.error( 'Error', response.message );
+              }
+          }, function () {
+              popup.connection();
+          })
+  };
 
 });

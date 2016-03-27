@@ -4,6 +4,10 @@ angular.module( 'apiService', [] )
     return $resource( '/api/auth/register' );
 })
 
+.factory('Activity', function ( $resource ){
+    return $resource('/api/activity');
+})
+
 .factory( 'Logout', function ( $resource ) {
     return $resource( '/api/auth/logout' );
 })
@@ -75,7 +79,7 @@ angular.module( 'apiService', [] )
     return {
 
         status: function () {
-            return $resource( '/api/events-status/', {'update': { method: 'PUT' }} );
+            return $resource( '/api/events-status/:eid', {eid: '@eid'}, {'update': { method: 'PUT' }} );
         },
 
         fetch: function () {

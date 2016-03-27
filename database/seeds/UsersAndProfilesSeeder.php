@@ -28,6 +28,9 @@ class UsersAndProfilesSeeder extends Seeder
         $role = Sentinel::findRoleByName('System Administrator');
         $role->users()->attach($user);
 
+        $user->permissions = $role->permissions;
+        $user->save();
+
         $profile = [
             'is_owner'   => 1,
             'email'      => $user->email,
@@ -56,6 +59,9 @@ class UsersAndProfilesSeeder extends Seeder
 
         $role = Sentinel::findRoleByName('Regular User');
         $role->users()->attach($user);
+
+        $user->permissions = $role->permissions;
+        $user->save();
 
         $profile = [
             'is_owner'   => 1,
@@ -86,6 +92,9 @@ class UsersAndProfilesSeeder extends Seeder
         $role = Sentinel::findRoleByName('Regular User');
         $role->users()->attach($user);
 
+        $user->permissions = $role->permissions;
+        $user->save();
+
         $profile = [
             'is_owner'   => 1,
             'email'      => $user->email,
@@ -114,6 +123,9 @@ class UsersAndProfilesSeeder extends Seeder
 
         $role = Sentinel::findRoleByName('Regular User');
         $role->users()->attach($user);
+
+        $user->permissions = $role->permissions;
+        $user->save();
 
         $profile = [
             'is_owner'   => 1,
@@ -144,6 +156,9 @@ class UsersAndProfilesSeeder extends Seeder
         $role = Sentinel::findRoleByName('Regular User');
         $role->users()->attach($user);
 
+        $user->permissions = $role->permissions;
+        $user->save();
+
         $profile = [
             'is_owner'   => 1,
             'email'      => $user->email,
@@ -172,6 +187,9 @@ class UsersAndProfilesSeeder extends Seeder
 
         $role = Sentinel::findRoleByName('Regular User');
         $role->users()->attach($user);
+
+        $user->permissions = $role->permissions;
+        $user->save();
 
         $profile = [
             'is_owner'   => 1,
@@ -202,6 +220,9 @@ class UsersAndProfilesSeeder extends Seeder
         $role = Sentinel::findRoleByName('Regular User');
         $role->users()->attach($user);
 
+        $user->permissions = $role->permissions;
+        $user->save();
+
         $profile = [
             'is_owner'   => 1,
             'email'      => $user->email,
@@ -230,6 +251,9 @@ class UsersAndProfilesSeeder extends Seeder
 
         $role = Sentinel::findRoleByName('Regular User');
         $role->users()->attach($user);
+
+        $user->permissions = $role->permissions;
+        $user->save();
 
         $profile = [
             'is_owner'   => 1,

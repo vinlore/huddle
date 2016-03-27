@@ -25,6 +25,9 @@ class AuthController extends Controller
         $role = Sentinel::findRoleByName('Regular User');
         $role->users()->attach($user);
 
+        $user->permissions = $role->permissions;
+        $user->save();
+
         $profile = [
             'is_owner'    => 1,
             'email'       => $request->email,

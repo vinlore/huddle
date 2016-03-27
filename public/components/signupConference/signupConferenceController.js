@@ -18,20 +18,57 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
         types: ['(cities)']
     };
 
-    $scope.user = {
-        id: null,
+    $scope.emergencyContact = {
+        FirstName: null,
+        LastName: null,
+        PhoneNumber: null,
+        Email: null
+    }
+
+    $scope.conference = {
+        conferenceId: $stateParams.conferenceId,
+        name: $stateParams.name
+    }
+
+    $scope.arrival = {
+        RideRequired: false,
+        FlightCode: null,
+        Airport: null,
+        ArrivalDate: null,
+        ArrivalTime: null
+    }
+
+    $scope.departure = {
+        RideRequired: false,
+        FlightCode: null,
+        Airport: null,
+        DepartureDate: null,
+        DepartureTime: null
+    }
+
+    $scope.accommodations = [];
+
+    /*$scope.loadAccommodations = function () {
+      Conference.accommodations().query( {cid: $stateParams.conferenceId} )
+          .$promise.then( function( response ) {
+              if ( response.status == 200 ) {
+                  $scope.accommodations = response.accommodations;
+              } else {
+                  // TODO - error
+              }
+          })
+    }*/
+
+    $scope.familymembers = [{
+        id: 'member1',
         FirstName: null,
         MiddleName: null,
         LastName: null,
-        Birthdate: null,
+        Age: null,
         Gender: null,
         Country: null,
-        City: null,
-        Email: null,
-        HomePhone: null,
-        OtherPhone: null,
-        MedicalConditions: null
-    };
+        City: null
+    }]
 
     $scope.loadProfile = function() {
         Profile.get({ uid: $rootScope.user.id })
@@ -48,7 +85,7 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
                         Country: profile.country,
                         City: profile.city,
                         Email: profile.email,
-                        HomePhone: profile.phone
+                        HomePhone: parseInt(profile.phone)
                     };
                 }
             })
