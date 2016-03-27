@@ -30,7 +30,7 @@ angular.module( 'reportsCtrl', [] )
   // $scope.loadAttendees = function () {
   //     Conferences.attendees().get( {cid: $stateParams.conferenceId} )
   //         .$promise.then( function( response ) {
-  //             if ( response.status == 'success' && response.attendees ) {
+  //             if ( response.status == 200 && response.attendees ) {
   //                 $scope.attendees = response.attendees;
   //             } else {
   //                 popup.error( 'Error', response.message );

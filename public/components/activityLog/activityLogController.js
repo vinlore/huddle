@@ -44,7 +44,7 @@ angular.module ( 'activityCtrl', [] )
                   $scope.logz = response;
                   //console.log(logz);
               } else {
-                  popup.error( 'Error', "Bull shit" );
+                  popup.error( 'Error', response.message );
               }
           }, function () {
               popup.connection();

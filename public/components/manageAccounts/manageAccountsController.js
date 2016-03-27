@@ -166,7 +166,7 @@ angular.module( 'manageAccountsCtrl', [] )
     	var newRole = $scope.newRole;
         Roles.save( newRole )
             .$promise.then( function ( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     popup.alert( 'success', 'Role successfully added.' );
                     $scope.loadRoles();
                 } else {
@@ -188,7 +188,7 @@ angular.module( 'manageAccountsCtrl', [] )
             if (result) {
             	Roles.update( {id: role.id}, updateRole )
             		.$promise.then( function ( response ) {
-            			if ( response.status == 'success' ) {
+            			if ( response.status == 200 ) {
             				popup.alert( 'success', 'Role successfully updated.' );
             			} else {
             				popup.error( 'Error', response.message );
@@ -207,7 +207,7 @@ angular.module( 'manageAccountsCtrl', [] )
     	   if (result) {
                 Roles.delete( {id: id} )
                 .$promise.then( function ( response ) {
-                    if ( response.status == 'success' ) {
+                    if ( response.status == 200 ) {
                         popup.alert( 'success', 'Role successfully deleted.' );
                         $scope.loadRoles();
                     } else {
@@ -231,7 +231,7 @@ angular.module( 'manageAccountsCtrl', [] )
             if ( result ) {
                 Users.update( {id: user.id}, updateUser )
                     .$promise.then( function ( response ) {
-                        if ( response.status == 'success' ) {
+                        if ( response.status == 200 ) {
                             popup.alert( 'success', 'User\'s permissions have been changed.' );
                         } else {
                             popup.error( 'Error', response.message );
@@ -241,7 +241,7 @@ angular.module( 'manageAccountsCtrl', [] )
                     })
             }
         } )
-    	
+
     }
 
     $scope.deleteUser = function ( user ) {
@@ -251,7 +251,7 @@ angular.module( 'manageAccountsCtrl', [] )
     	   if (result) {
                 Users.delete( user )
             		.$promise.then( function ( response ) {
-            			if ( response.status == 'success' ) {
+            			if ( response.status == 200 ) {
             				popup.alert( 'success', 'User successfully deleted.' );
             			} else {
             				popup.error( 'Error', response.message );

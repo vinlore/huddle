@@ -25,7 +25,7 @@ angular.module('manageAccommodationsCtrl',[])
 			}, function () {
 				popup.connection();
 			})
-			
+
 		}
 	});
 
@@ -40,7 +40,7 @@ angular.module('manageAccommodationsCtrl',[])
 		// Adds acommodation to db
 		Conferences.accommodations().save( {cid: $scope.conferenceId}, accom )
 		.$promise.then( function( response ) {
-			if ( response.status == 'success' ) {
+			if ( response.status == 200 ) {
 				console.log( 'Changes saved to accommodations' );
 				popup.alert( 'success', 'Changes have been saved.' );
 			} else {
@@ -61,7 +61,7 @@ angular.module('manageAccommodationsCtrl',[])
     		if ( result ) {
     			Conferences.accommodations().delete( {cid: $scope.conferenceId, aid: id} )
     			.$promise.then( function( response ) {
-    				if ( response.status == 'success' ) {
+    				if ( response.status == 200 ) {
     					console.log( 'Accommodation has been successfully deleted' );
     					popup.alert( 'success', 'Accommodation has been successfully deleted.' );
     				} else {

@@ -1,6 +1,6 @@
 angular.module('adminCtrl', [])
 .controller('adminController', function($scope, $location, $log, Conferences, Events, popup, $state, checkPermissions) {
-	
+
     $scope.conferences = [];
     $scope.events = []; // array of arrays of events
 
@@ -55,7 +55,7 @@ angular.module('adminCtrl', [])
             if (result) {
                 Conferences.fetch().delete({cid: cid})
                     .$promise.then( function ( response ) {
-                        if (response.status == 'success') {
+                        if (response.status == 200) {
                             popup.alert('success', 'Conference successfully deleted');
                         } else {
                             popup.error('Error');

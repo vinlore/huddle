@@ -54,7 +54,7 @@ angular.module( 'apiService', [] )
         },
 
         attendees: function () {
-            return $resource( '/api/conferences/:cid/attendees/:aid', {cid: '@cid', attId: '@aid'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences/:cid/profiles/:pid', {cid: '@cid', pid: '@pid'}, {'update': { method: 'PUT' }} );
         },
 
         vehicles: function () {

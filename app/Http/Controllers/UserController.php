@@ -40,7 +40,7 @@ class UserController extends Controller
             return response()->error("500" , $e);
         }
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *

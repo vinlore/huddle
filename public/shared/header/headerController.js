@@ -11,7 +11,7 @@ angular.module( 'headerCtrl', [] )
         Logout.save( {token: $auth.getToken()} )
             .$promise.then( function ( response ) { // OK
                 console.log( response );
-                if ( response.status == 'success' ) { // If logout on server was successful
+                if ( response.status == 200 ) { // If logout on server was successful
                     $auth.logout().then( function ( result ) { // If logout on front-end was successful
                         $rootScope.auth = $auth.isAuthenticated();
                         delete $localStorage.user;

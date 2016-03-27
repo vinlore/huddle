@@ -29,14 +29,6 @@ class EventController extends Controller
         }
     }
 
-    public function show($id)
-    {
-        try {
-            return Event::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
 
     public function update(EventRequest $request, $id)
     {

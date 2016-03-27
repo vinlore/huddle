@@ -45,7 +45,6 @@
   <script src="assets/libs/angular-resource/angular-resource.min.js"></script>
   <script src="assets/libs/satellizer/satellizer.min.js"></script>
   <script src="assets/libs/angular-google-places-autocomplete/dist/autocomplete.min.js"></script>
-  <script src="assets/libs/ng-table/dist/ng-table.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1Pmv3HdlO7MufSCHtByXYIfiuRzhc1mg&libraries=places"></script>
   <script type="text/javascript" src="assets/js/fusioncharts/fusioncharts.js"></script>
   <script type="text/javascript" src="assets/js/fusioncharts/angular-fusioncharts.min.js"></script>

@@ -31,15 +31,15 @@ class ProfileAttendsConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(ConferenceRequest $request){
+    public function store(Request $request, $conferences){
         try{
             //Saving to profile_attends_conference Table
             $profile =  Profile::find($request->profile_id);
-            $attendees = Conference::find($request->conference_id)
+            $attendees = Conference::find($conferences)
                           ->attendees()
                           ->attach($profile, $request->all());
 
-           $this->addActivity($request->header('ID'),'request', $attendees->id, 'conference attendence');
+           $this->addActivity($request->header('ID'),'request', $request->profile_id, 'conference attendence');
 
             return response()->success();
         } catch (Exception $e) {
