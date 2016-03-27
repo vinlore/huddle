@@ -11,8 +11,6 @@ use App\Http\Requests\ConferenceRequest;
 use App\Models\Profile as Profile;
 use App\Models\Vehicle as Vehicle;
 
-require app_path().'/helpers.php';
-
 class ProfileRidesVehicleController extends Controller
 {
     /**
