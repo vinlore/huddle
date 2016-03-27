@@ -11,7 +11,7 @@ angular.module( 'profileCtrl', [] )
         };
         Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     popup.alert( 'success', 'Name successfully changed.' );
                 } else {
                     popup.error( 'Error', response.message );
@@ -28,7 +28,7 @@ angular.module( 'profileCtrl', [] )
         };
         Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     popup.alert( 'success', 'Contact information successfully changed.' );
                 } else {
                     popup.error( 'Error', response.message );
@@ -45,7 +45,7 @@ angular.module( 'profileCtrl', [] )
         };
         Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     popup.alert( 'success', 'Contact information successfully changed.' );
                 } else {
                     popup.error( 'Error', response.message );
@@ -61,7 +61,7 @@ angular.module( 'profileCtrl', [] )
         };
         Users.update( { id: $rootScope.user.id }, password )
             .$promise.then( function ( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     popup.alert( 'success', 'Password successfully changed.' );
                 } else {
                     popup.error( 'Error', response.message );
@@ -74,7 +74,7 @@ angular.module( 'profileCtrl', [] )
     $scope.deleteAccount = function () {
         Users.delete( user )
             .$promise.then( function ( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     popup.alert( 'success', 'User successfully deleted.' );
                 } else {
                     popup.error( 'Error', response.message );

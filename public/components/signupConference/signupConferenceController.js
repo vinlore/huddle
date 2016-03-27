@@ -33,10 +33,10 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
         MedicalConditions: null
     };
 
-    $scope.loadProfile = function () {
-        Profile.get( { uid: $rootScope.user.id } )
-            .$promise.then( function ( response ) {
-                if ( response ) {
+    $scope.loadProfile = function() {
+        Profile.get({ uid: $rootScope.user.id })
+            .$promise.then(function(response) {
+                if (response) {
                     var profile = response;
                     $scope.user = {
                         id: profile.id,
@@ -60,16 +60,40 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
         accomPref: null
     }
 
+    $scope.conference = {
+        conferenceId: $stateParams.conferenceId,
+        name: $stateParams.name
+    }
+
+    $scope.accommodations = [];
+
+    /*$scope.loadAccommodations = function () {
+      Conference.accommodations().query( {cid: $stateParams.conferenceId} )
+          .$promise.then( function( response ) {
+              if ( response.status == 200 ) {
+                  $scope.accommodations = response.accommodations;
+              } else {
+                  // TODO - error
+              }
+          })
+    }*/
+
+    $scope.familymembers = [{
+        id: 'member1',
+        FirstName: null,
+        MiddleName: null,
+        LastName: null,
+        Age: null,
+        Gender: null,
+        Country: null,
+        City: null
+    }]
+
     $scope.emergencyContact = {
         FirstName: null,
         LastName: null,
         PhoneNumber: null,
         Email: null
-    }
-
-    $scope.conference = {
-        conferenceId: $stateParams.conferenceId,
-        name: $stateParams.name
     }
 
     $scope.arrival = {
@@ -100,17 +124,6 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
               }
           })
     }*/
-
-    $scope.familymembers = [{
-        id: 'member1',
-        FirstName: null,
-        MiddleName: null,
-        LastName: null,
-        Age: null,
-        Gender: null,
-        Country: null,
-        City: null
-    }]
 
     $scope.addFamilyMember = function() {
         var newFamMem = $scope.familymembers.length + 1;
@@ -154,7 +167,7 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
                 .$promise.then(function(response) {
                     if (response.status == 200) {
                         popup.alert('success', 'You have been successfully signed up for approval to attend this conference.');
-                        $state.go('conference', {conferenceId: $scope.conference.conferenceId});
+                        $state.go('conference', { conferenceId: $scope.conference.conferenceId });
                     } else {
                         popup.error('Error', response.message);
                     }

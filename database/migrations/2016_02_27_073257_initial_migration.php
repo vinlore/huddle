@@ -32,8 +32,6 @@ class InitialMigration extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['user_id', 'is_owner']);
-
             $table->foreign('user_id', 'profiles_ibfk_1')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
 

@@ -8,9 +8,9 @@ Route::get('syslogs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')
 
 // Routes that don't require the user to be logged in.
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
-    Route::post('auth/register', 'AuthController@register');
-    Route::post('auth/login', 'AuthController@login');
-    Route::post('auth/logout', 'AuthController@logout');
+    Route::post('auth/register', 'AuthController@signup');
+    Route::post('auth/login', 'AuthController@signin');
+    Route::post('auth/logout', 'AuthController@signout');
 });
 
 Route::get('test' , 'ProfileRidesVehicleController@test');
@@ -22,8 +22,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::get('auth/activity', 'ActivityController@get');
 
     //============ Accomodation Controller ============
-    Route::resource('accommodation', 'AccomodationController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+    Route::resource('accommodation', 'AccommodationController', ['only' => [
+        'store', 'show', 'update', 'destroy',
     ]]);
 
     //============ Conference Controller ============
@@ -37,9 +37,10 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 
     //============ Event Controller ============
     Route::resource('conferences.events', 'EventController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+        'index', 'store', 'update', 'destroy',
     ]]);
 
+    Route::get('events-status' , 'EventController@indexWithStatus');
     Route::post('event.status', 'EventController@updateWithStatus');
     //============
 
@@ -63,7 +64,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     ]]);
 
     Route::post('profile.event.status', 'ProfileAttendsEventController@profileEventStatusUpdate');
-    Route::get('events-status' , 'EventController@indexWithStatus');
+
     //============
 
     //============ Profile Controller ============

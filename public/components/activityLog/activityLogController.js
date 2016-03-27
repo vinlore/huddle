@@ -38,7 +38,7 @@ angular.module ( 'activityCtrl', [] )
   // $scope.loadActivityLog = function () {
   //     Conferences.attendees().get( {cid: $stateParams.conferenceId} )
   //         .$promise.then( function( response ) {
-  //             if ( response.status == 'success' && response.logs ) {
+  //             if ( response.status == 200 && response.logs ) {
   //                 $scope.logs = response.logs;
   //             } else {
   //                 popup.error( 'Error', response.message );

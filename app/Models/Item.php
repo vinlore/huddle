@@ -17,7 +17,7 @@ class Item extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function inventory()
+    public function conference()
     {
         return $this->belongsTo('App\Models\Conference');
     }

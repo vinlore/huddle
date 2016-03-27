@@ -113,7 +113,7 @@ angular.module( 'createEventCtrl', [])
 
         Events.fetch().save( _event )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     $location.path('/admin');
                 } else {
                     popup.error( 'Error', response.message );
@@ -124,7 +124,7 @@ angular.module( 'createEventCtrl', [])
             //
             // Events.vehicles().save( {eid: $stateParams.conferenceId} )
             //     .$promise.then( function( response ) {
-            //         if ( response.status == 'success' ) {
+            //         if ( response.status == 200 ) {
             //             console.log( 'User successfully registered to attend conference' );
             //             // TODO change attending button to pending approval
             //         } else {
