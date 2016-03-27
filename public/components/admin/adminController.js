@@ -87,7 +87,7 @@ angular.module('adminCtrl', [])
             event.preventDefault();
             event.stopPropagation();
         }
-        $state.go('event-managers', {eventId: cid});
+        $state.go('event-managers', {eventId: eid});
     }
 
     $scope.goCreateEvent = function (cid, event) {

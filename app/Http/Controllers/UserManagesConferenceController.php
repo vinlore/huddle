@@ -19,8 +19,9 @@ class UserManagesConferenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($conferences)
     {
+        return Conference::find($conferences)->managers()->get(['username', 'id', 'email']);
     }
 
     /**
@@ -30,10 +31,10 @@ class UserManagesConferenceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(ConferenceRequest $request){
+    public function store(Request $request){
         try{
             //Saving to user_Manages_conference Table
-            $conference = Conference::find($request->conference_id);
+            $conference = Conference::find($request->conferences);
             User::find($request->user_id)
                         ->conferences()
                         ->attach($conference);
@@ -78,11 +79,11 @@ class UserManagesConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request){
+    public function destroy($conferences, $managers){
         try{
             //Deleting from the user_manages_conferences table
-            $conference =  Conference::find($request->conference_id);
-            User::find($request->user_id)
+            $conference =  Conference::find($conferences);
+            User::find($managers)
                         ->conferences()
                         ->detach($conference);
             return response()->success();

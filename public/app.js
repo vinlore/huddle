@@ -202,7 +202,7 @@ angular.module('cms', [
     })
 
     .state( 'event-managers', {
-        url: '/conference-:eventId/managers',
+        url: '/event-:eventId/managers',
         templateUrl: 'components/manageManagers/manageManagersView.html',
         controller: 'eventManagersController',
         resolve: {

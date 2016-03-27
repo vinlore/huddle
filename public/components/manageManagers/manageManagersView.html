@@ -4,26 +4,30 @@
             <thead>
                 <tr>
                     <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>Email</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="m in managers">
                     <td>{{m.username}}</td>
-                    <td>{{m.first_name}}</td>
-                    <td>{{m.last_name}}</td>
+                    <td>{{m.email}}</td>
                     <td>
-                        <button class="btn btn-danger" ng-click="removeManager(m.user_id)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                        <button class="btn btn-danger" ng-click="removeManager(m.id)"><i class="glyphicon glyphicon-remove-sign"></i></button>
                     </td>
                 </tr>
             </tbody>
         </table>
         <div class="input-group">
-            <input type="text" class="form-control" uib-typeahead="user.username for user in users | filter:{username:$viewValue}" ng-model="selectedUser">
+            <input type="text" class="form-control" uib-typeahead="user as user.username for user in loadUsers($viewValue)" ng-model="selectedUser" typeahead-no-results="noResults" typeahead-loading="loadingUsers" ng-model-options="{debounce:500}">
             <div class="input-group-btn">
-                <button class="btn btn-success" ng-click="addManager(user)"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                <button class="btn btn-success" ng-click="addManager(selectedUser)" ng-disabled="!selectedUser"><i class="glyphicon glyphicon-plus-sign"></i></button>
+            </div>
+        </div>
+        <div class="pull-right">
+            <i ng-show="loadingUsers" class="glyphicon glyphicon-refresh"></i>
+            <div ng-show="noResults">
+              <i class="glyphicon glyphicon-remove"></i> No Results Found
             </div>
         </div>
     </div>

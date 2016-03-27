@@ -269,12 +269,16 @@
                 <uib-accordion-heading>
                     <div>Users</div>
                 </uib-accordion-heading>
-                <table ng-table="tableParams" class="table table-condensed" id="role-table">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="search.selectedUser" ng-model-options="{debounce:500}" ng-change="tableParams.reload()">
+                    <div class="input-group-btn">
+                        <button class="btn btn-danger" ng-click="search.selectedUser = null"><i class="glyphicon glyphicon-remove"></i></button>
+                    </div>
+                </div>
+                <table ng-table="tableParams" class="table table-condensed margin-top-25" id="role-table">
                     <tr ng-repeat="user in $data">
-                        <td title="'Name'" sortable="'username'" filter="{username: 'text'}" id="role-name">
-                            <div>{{user.username}}</div>
-                            <div>{{user.firstName}}</div>
-                            <div>{{user.lastName}}</div>
+                        <td title="'Name'" id="role-name">
+                            <p class="lead">{{user.username}}</p>
                             <select class="form-control" ng-options="role.id as role.name for role in roles" ng-model="user.roles['0'].pivot.role_id" ng-change="givePermissions(user)">
                                 <option value="" disabled>Role</option>
                             </select>
@@ -378,6 +382,11 @@
                                 <button class="btn btn-warning" ng-click="updateUserRole(user)"><i class="glyphicon glyphicon-edit"></i></button>
                                 <button class="btn btn-danger" ng-click="deleteUser(user.id)"><i class="glyphicon glyphicon-minus"></i></button>
                             </div>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length <= 0">
+                        <td col-span="14">
+                            <h4>No users found for this query.</h4>
                         </td>
                     </tr>
                 </table>

@@ -19,8 +19,9 @@ class UserManagesEventsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($events)
     {
+        return Event::find($events)->managers()->get(['username', 'id', 'email']);
     }
 
 
@@ -31,10 +32,10 @@ class UserManagesEventsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(EventRequest $request){
+    public function store(Request $request){
         try{
             //Saving to user_Manages_Event Table
-            $event = Event::find($request->event_id);
+            $event = Event::find($request->events);
             User::find($request->user_id)
                         ->Events()
                         ->attach($event);
@@ -79,11 +80,11 @@ class UserManagesEventsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request){
+    public function destroy($events, $managers){
         try{
             //Deleting from the user_manages_Events table
-            $event =  Event::find($request->event_id);
-            User::find($request->user_id)
+            $event = Event::find($events);
+            User::find($managers)
                         ->Events()
                         ->detach($event);
             return response()->success();

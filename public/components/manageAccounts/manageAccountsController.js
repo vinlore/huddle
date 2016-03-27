@@ -1,11 +1,7 @@
 angular.module( 'manageAccountsCtrl', [] )
-.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, Users, ngTableParams ) {
+.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, UsersRoles, Users, ngTableParams ) {
 
-    $scope.search = null;
-    $scope.selectedConference = null;
-    $scope.selectedEvent = null;
-    $scope.conferenceSpecific = false;
-    $scope.eventSpecific = false;
+    $scope.search = {selectedUser: null};
 
     $scope.selectedRole = [];
 
@@ -34,7 +30,8 @@ angular.module( 'manageAccountsCtrl', [] )
         {
             total: 0,
             getData: function($defer, params) {
-                Users.query().$promise.then( function (response) {
+                console.log($scope.selectedUser)
+                UsersRoles.query({username: $scope.search.selectedUser}).$promise.then( function (response) {
                     if (response) {
                         $scope.users = response;
                         params.total(response.length);
