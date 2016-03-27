@@ -7,20 +7,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
 {
-     use SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'user_id',
         'activity_type',
         'source_id',
-        'source_type'
+        'source_type',
     ];
 
     protected $dates = ['deleted_at'];
 
-      public function user()
+    public function user()
     {
-        return $this->hasOne('App\Models\User');
+        return $this->belongsTo('App\Models\User');
     }
-
 }
