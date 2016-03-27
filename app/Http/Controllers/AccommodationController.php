@@ -6,20 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\AccommodationRequest;
-use App\Models\Accommodation as Accomodation;
-use App\Models\Conference as Conference;
+use App\Models\Accommodation;
 
 class AccommodationController extends Controller
 {
-    public function index()
+    public function index($conference)
     {
-        /*NO NEED TO SHOW ALL ACCOMODATIONS
         try {
-            return Conference::find($conference)->accommodation()->get();
+            return Accommodation::where('conference_id', $conference)->get();
         } catch (Exception $e) {
             return response()->error();
         }
-        */
     }
 
     public function store(AccommodationRequest $request)
@@ -36,7 +33,7 @@ class AccommodationController extends Controller
     public function show($id)
     {
         try {
-            return Conference::find($id)->accommodations()->get();
+            return Accommodation::findOrFail($id);
         } catch (Exception $e) {
             return response()->error();
         }
