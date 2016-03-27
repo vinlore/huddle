@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
+use App\Models\Conference;
 
 class ProfileController extends Controller
 {
@@ -52,4 +53,16 @@ class ProfileController extends Controller
             return response()->error();
         }
     }
+
+    public function allProfileConferences($id)
+    {
+        try {
+            return Profile::find($id)
+                        ->conferences()
+                        ->get();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
 }
