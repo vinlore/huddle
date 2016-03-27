@@ -12,7 +12,7 @@ angular.module( 'loginCtrl', [] )
     $scope.login = function() {
         $auth.login( $scope.user ).then( function( response ) {
             console.log("Logging in...");
-            if ( response.data.status == "success" && response.data.token && response.data.user_id && response.data.permissions ) {
+            if ( response.data.status == 200 && response.data.token && response.data.user_id && response.data.permissions ) {
                 $rootScope.auth = $auth.isAuthenticated();
                 $scope.invalid = false;
                 $scope.valid = true;

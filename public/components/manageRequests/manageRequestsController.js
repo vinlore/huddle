@@ -54,7 +54,7 @@ angular.module( 'manageRequestsCtrl', [] )
       };
       Conferences.status().update({cid: conference.id },{status: conference.status})
           .$promise.then( function (response) {
-              if ( response.status == 'success' ) {
+              if ( response.status == 200 ) {
                   $scope.loadPendingConferences();
                   popup.alert( 'success', 'Conference successfully published.' );
               } else {
@@ -65,7 +65,6 @@ angular.module( 'manageRequestsCtrl', [] )
           })
   };
 
-
   $scope.declineConference = function (index) {
       var conference = {
           id: $scope.conferences[index].id,
@@ -73,7 +72,7 @@ angular.module( 'manageRequestsCtrl', [] )
       };
       Conferences.status().update({cid: conference.id },{status: conference.status})
           .$promise.then( function (response) {
-              if ( response.status == 'success' ) {
+              if ( response.status == 200 ) {
                   $scope.loadPendingConferences();
                   popup.alert( 'success', 'Conference request denied.' );
               } else {
@@ -92,7 +91,7 @@ angular.module( 'manageRequestsCtrl', [] )
       };
       Events.status().update( {eid: _event.id },{status: _event.status})
           .$promise.then( function ( response ) {
-              if ( response.status == 'success' ) {
+              if ( response.status == 200 ) {
                   $scope.loadPendingEvents();
                   popup.alert( 'success', 'Event successfully published.' );
               } else {
@@ -111,7 +110,7 @@ angular.module( 'manageRequestsCtrl', [] )
       };
       Events.status().update( {eid: _event.id },{status: _event.status})
           .$promise.then( function ( response ) {
-              if ( response.status == 'success' ) {
+              if ( response.status == 200 ) {
                   $scope.loadPendingEvents();
                   popup.alert( 'success', 'Event request denied.' );
               } else {

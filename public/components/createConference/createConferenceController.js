@@ -1,6 +1,6 @@
 angular.module( 'createConferenceCtrl', [])
 .controller( 'createConferenceController', function( $scope, Countries, Conferences, $filter, $location, popup ) {
-    
+
     $scope.conference = {
         name: null,
         country: null,
@@ -169,7 +169,7 @@ angular.module( 'createConferenceCtrl', [])
 
         Conferences.fetch().save( conference )
             .$promise.then( function( response ) {
-                if ( response.status == 'success' ) {
+                if ( response.status == 200 ) {
                     $location.path('/admin');
                 } else {
                     popup.error( 'Error', response.message );

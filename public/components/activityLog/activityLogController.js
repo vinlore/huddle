@@ -44,12 +44,11 @@ angular.module ( 'activityCtrl', [] )
                   $scope.logz = response;
                   //console.log(logz);
               } else {
-                  popup.error( 'Error', 'Error in activity log' );
+                  popup.error( 'Error', response.message );
               }
           }, function () {
               popup.connection();
           })
   }
   $scope.loadActivityLog();
-
 });
