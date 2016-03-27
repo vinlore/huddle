@@ -1,5 +1,5 @@
 angular.module ( 'activityCtrl', [] )
-.controller('activityLogController', function ( $scope ) {
+.controller('activityLogController', function ( $scope, Activity, popup ) {
 
 
   $scope.logs = [
@@ -35,18 +35,21 @@ angular.module ( 'activityCtrl', [] )
     Log: "Chris approved Martin's conference attendance"},
   ];
 
-  // $scope.loadActivityLog = function () {
-  //     Conferences.attendees().get( {cid: $stateParams.conferenceId} )
-  //         .$promise.then( function( response ) {
-  //             if ( response.status == 'success' && response.logs ) {
-  //                 $scope.logs = response.logs;
-  //             } else {
-  //                 popup.error( 'Error', response.message );
-  //             }
-  //         }, function () {
-  //             popup.connection();
-  //         })
-  // }
-  //
-  // $scope.loadActivityLog();
+  $scope.logz = []
+
+  $scope.loadActivityLog = function () {
+      Activity.query()
+          .$promise.then( function( response ) {
+              if (response) {
+                  $scope.logz = response;
+                  //console.log(logz);
+              } else {
+                  popup.error( 'Error', "Bull shit" );
+              }
+          }, function () {
+              popup.connection();
+          })
+  }
+  $scope.loadActivityLog();
+
 });

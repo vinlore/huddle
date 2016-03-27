@@ -19,7 +19,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 
     Route::post('auth/confirm', 'AuthController@confirm');
 
-    Route::get('auth/activity', 'ActivityController@get');
+    Route::get('activity', 'ActivityController@get');
 
     //============ Accomodation Controller ============
     Route::resource('accommodation', 'AccomodationController', ['only' => [
@@ -27,7 +27,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     ]]);
 
     //============ Conference Controller ============
-    Route::post('conference.status', 'ConferenceController@updateWithStatus');
+    Route::put('conferences-status/{id}', 'ConferenceController@updateWithStatus');
     Route::get('conferences-status' , 'ConferenceController@indexWithStatus');
 
     Route::resource('conferences', 'ConferenceController', ['only' => [
@@ -40,7 +40,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::post('event.status', 'EventController@updateWithStatus');
+    Route::put('events-status/{id}', 'EventController@updateWithStatus');
+    Route::get('events-status' , 'EventController@indexWithStatus');
     //============
 
     //============ Item Controller ============
@@ -63,7 +64,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     ]]);
 
     Route::post('profile.event.status', 'ProfileAttendsEventController@profileEventStatusUpdate');
-    Route::get('events-status' , 'EventController@indexWithStatus');
+
     //============
 
     //============ Profile Controller ============
