@@ -142,8 +142,8 @@ angular.module( 'manageRequestsCtrl', [] )
           id: $scope.conferences[index].id,
           status: 'approved'
       };
-      Conferences.status().update(conference)
-          .$promise.then( function ( response ) {
+      Conferences.status().update({cid: conference.id },{status: conference.status})
+          .$promise.then( function (response) {
               if ( response.status == 'success' ) {
                   $scope.events.splice(index, 1);
                   popup.alert( 'success', 'Conference successfully published.' );
