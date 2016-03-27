@@ -8,10 +8,9 @@ class UserTest extends TestCase{
 
      use WithoutMiddleware;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
+
+     /*
+     * Finding certain user
      */
     public function testUserIndex()
     {
@@ -20,18 +19,24 @@ class UserTest extends TestCase{
             ->seeJson([
                 'id' => 1,
                 'username' => 'admin',
-                'email' => NULL,
+                'email' => 'admin@huddle.com',
             ]);
     }
 
 
+    /*
+    * Testing finding an unexisting user
+    */
     public function testEmptyUserIndex()
     {
         $this->json('GET','/api/users',
-                    ['username' => 'empty'])
+                    ['username' => 'xoxoadminxoxo'])
             ->seeJson([]);
     }
 
+    /*
+    * Finding certain users -> returns WITH permissions/roles info
+    */
     public function testUsersRoles()
     {
         $this->json('GET' , '/api/users-roles',
@@ -39,7 +44,9 @@ class UserTest extends TestCase{
                     ->seeJson([
                         'id' => 1,
                         'username' => 'admin',
-                        'email' => NULL,
+                        'email' => 'admin@huddle.com',
+                        'permissions' => [],
                     ]);
+
     }
 }

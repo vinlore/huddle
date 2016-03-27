@@ -22,8 +22,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::get('auth/activity', 'ActivityController@get');
 
     //============ Accomodation Controller ============
-    Route::resource('accommodation', 'AccomodationController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+    Route::resource('accommodation', 'AccommodationController', ['only' => [
+        'store', 'show', 'update', 'destroy',
     ]]);
 
     //============ Conference Controller ============
