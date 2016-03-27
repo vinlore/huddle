@@ -46,11 +46,11 @@ angular.module( 'apiService', [] )
         },
 
         status: function () {
-            return $resource( '/api/conferences-status/', {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences-status/:cid', {cid: '@cid'}, {'update': { method: 'PUT' }} );
         },
 
         attendees: function () {
-            return $resource( '/api/conferences/:cid/attendees/:aid', {cid: '@cid', attId: '@aid'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences/:cid/profiles/:pid', {cid: '@cid', pid: '@pid'}, {'update': { method: 'PUT' }} );
         },
 
         vehicles: function () {

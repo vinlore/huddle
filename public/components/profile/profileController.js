@@ -98,7 +98,7 @@ angular.module( 'profileCtrl', [] )
                         FirstName: profile.first_name,
                         MiddleName: profile.middle_name,
                         LastName: profile.last_name,
-                        Birthdate: $filter('date')(profile.birthdate, 'yyyy-MM-dd'),
+                        Birthdate: new Date(profile.birthdate),
                         Gender: profile.gender,
                         Country: profile.country,
                         City: profile.city,
