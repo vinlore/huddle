@@ -24,19 +24,12 @@ class AccommodationController extends Controller
         }
     }
 
-<<<<<<< Updated upstream
+
     public function store(AccommodationRequest $request, $conferences)
     {
         try {
             $accommodation = Accommodation::create($request->all());
             $accommodation->conferences()->attach($conferences);
-=======
-    public function store(AccommodationRequest $request, $id)
-    {
-        try {
-            $accommodation = Accommodation::create($request->all());
-            $accommodation->conferences()->attach($id);
->>>>>>> Stashed changes
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
