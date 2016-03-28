@@ -60,7 +60,8 @@ class Profile extends Model
                                 'contact_last_name',
                                 'contact_email',
                                 'contact_phone',
-                                'medical_conditions');
+                                'medical_conditions',
+                                'status');
     }
 
     public function events()

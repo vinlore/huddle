@@ -13,9 +13,13 @@ class ProfileAttendConferenceTest extends TestCase{
      */
     public function testProfileShow()
     {
-        $this->json('GET','/api/conferences/2/profiles')
+        $this->json('GET','/api/conferences/2/profiles/0')
             ->seeJson([
-            
+            'email' => 'admin@huddle.com',
+            'phone' => '6040000111',
+            'first_name' => 'Jane',
+            'email' => 'hantino@huddle.com',
+            'status' => 'approved',
             ]);
     }
 }

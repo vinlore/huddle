@@ -60,7 +60,7 @@ class ProfileController extends Controller
 
             $profile = Profile::find($id);
             if (!$profile) {
-                return response()->error("204","Profile not found");
+                return response()->success("204","Profile not found");
             }
             return $profile->conferences;
 
@@ -74,7 +74,7 @@ class ProfileController extends Controller
         try {
             $profile = Profile::find($id);
             if (!$profile) {
-                return response()->error("204","Profile not found");
+                return response()->success("204","Profile not found");
             }
             return $profile->events;
         } catch (Exception $e) {
