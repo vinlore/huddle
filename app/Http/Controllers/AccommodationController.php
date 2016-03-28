@@ -14,17 +14,29 @@ class AccommodationController extends Controller
     public function index($conferences)
     {
         try {
-            return Conference::find($conferences)->accommodations()->get();
+            $conf = Conference::find($conferences);
+            if (!$conf) {
+                return response()->success("204" , "No Conference Found");
+            }
+            return $conf->accommodations()->get();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
+<<<<<<< Updated upstream
     public function store(AccommodationRequest $request, $conferences)
     {
         try {
             $accommodation = Accommodation::create($request->all());
             $accommodation->conferences()->attach($conferences);
+=======
+    public function store(AccommodationRequest $request, $id)
+    {
+        try {
+            $accommodation = Accommodation::create($request->all());
+            $accommodation->conferences()->attach($id);
+>>>>>>> Stashed changes
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -34,7 +46,11 @@ class AccommodationController extends Controller
     public function show($id)
     {
         try {
-            return Accommodation::findOrFail($id);
+            $accom = Accommodation::find($id);
+            if (!$accom) {
+                return response()->success("204" , "No Accomodation found");
+            }
+            return $accom;
         } catch (Exception $e) {
             return response()->error();
         }
@@ -43,7 +59,11 @@ class AccommodationController extends Controller
     public function update(AccommodationRequest $request, $id)
     {
         try {
-            Accommodation::findOrFail($id)->update($request->all());
+            $accom = Accommodation::find($id);
+            if(!$accom) {
+                return response()->error("204" , "Unable to find the accommodation to update");
+            }
+            $accom->update($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -53,9 +73,9 @@ class AccommodationController extends Controller
     public function destroy($id)
     {
         try {
-            $accommodation = Accommodation::findOrFail($id);
+            $accommodation = Accommodation::find($id);
             if ($accommodation->rooms()->guests()->count()) {
-                return response()->error();
+                return response()->error("There are still guests in this accommodation");
             }
             $accommodation->conferences()->detach();
             $accommodation->delete();
