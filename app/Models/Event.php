@@ -46,8 +46,14 @@ class Event extends Model
 
     public function attendees()
     {
+        return $this->belongsToMany('App\Models\Profile', 'profile_attends_events')->withTimestamps();
+    }
+
+    public function attendee($user_id)
+    {
         return $this->belongsToMany('App\Models\Profile', 'profile_attends_events')
                     ->withTimestamps()
+                    ->where('user_id', $user_id)
                     ->withPivot('arrv_ride_req',
                                 'dept_ride_req',
                                 'status');

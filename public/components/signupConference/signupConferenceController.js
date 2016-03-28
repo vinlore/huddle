@@ -80,7 +80,7 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
                         FirstName: profile.first_name,
                         MiddleName: profile.middle_name,
                         LastName: profile.last_name,
-                        Birthdate: new Date(profile.birthdate),
+                        Birthdate: new Date(profile.birthdate+'T00:00:00'),
                         Gender: profile.gender,
                         Country: profile.country,
                         City: profile.city,
