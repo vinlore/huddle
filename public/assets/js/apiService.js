@@ -16,7 +16,11 @@ angular.module( 'apiService', [] )
   return {
     fetch: function () {
         return $resource( '/api/profile/:pid/conferences', { pid: '@pid'});
-    }
+    },
+
+    status: function () {
+        return $resource( '/api/conferences/:cid/attendees/:pid', {cid: '@cid', pid: '@pid'}, {'update': { method: 'PUT' }} );
+    },
   }
 })
 

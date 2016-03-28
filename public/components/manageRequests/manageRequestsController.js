@@ -5,13 +5,13 @@ angular.module( 'manageRequestsCtrl', [] )
 
   // show conference creation application
   $scope.viewConferenceApplication = function(index){
-    $scope.conferences.splice(index, 1);
+      // route to conference application
   }
 
 
   // show events creation application
   $scope.viewEventApplication = function(index){
-
+      // route to event application
   }
 
   $scope.conferences = []
@@ -52,7 +52,7 @@ angular.module( 'manageRequestsCtrl', [] )
           id: $scope.conferences[index].id,
           status: 'approved'
       };
-      Conferences.status().update({cid: conference.id },{status: conference.status})
+      Conferences.fetch().update({cid: conference.id },{status: conference.status})
           .$promise.then( function (response) {
               if ( response.status == 200 ) {
                   $scope.loadPendingConferences();
@@ -70,7 +70,7 @@ angular.module( 'manageRequestsCtrl', [] )
           id: $scope.conferences[index].id,
           status: 'denied'
       };
-      Conferences.status().update({cid: conference.id },{status: conference.status})
+      Conferences.fetch().update({cid: conference.id },{status: conference.status})
           .$promise.then( function (response) {
               if ( response.status == 200 ) {
                   $scope.loadPendingConferences();
@@ -86,10 +86,11 @@ angular.module( 'manageRequestsCtrl', [] )
 // ================ Update Event Status Methods ============== //
   $scope.publishEvent = function (index) {
       var _event = {
-        id: $scope.events[index].id,
+        eid: $scope.events[index].id,
+        cid: $scope.events[index].conference_id,
         status: 'approved'
       };
-      Events.status().update( {eid: _event.id },{status: _event.status})
+      Events.fetch().update( {cid: _event.cid, eid: _event.eid },{status: _event.status})
           .$promise.then( function ( response ) {
               if ( response.status == 200 ) {
                   $scope.loadPendingEvents();
@@ -105,10 +106,11 @@ angular.module( 'manageRequestsCtrl', [] )
 
   $scope.declineEvent = function (index) {
       var _event = {
-        id: $scope.events[index].id,
+        eid: $scope.events[index].id,
+        cid: $scope.events[index].conference_id,
         status: 'denied'
       };
-      Events.status().update( {eid: _event.id },{status: _event.status})
+      Events.fetch().update( {cid: _event.cid, eid: _event.eid },{status: _event.status})
           .$promise.then( function ( response ) {
               if ( response.status == 200 ) {
                   $scope.loadPendingEvents();

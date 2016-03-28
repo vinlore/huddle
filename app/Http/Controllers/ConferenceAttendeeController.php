@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests;
-use App\Http\Requests\ConferenceRequest;
+use App\Http\Requests\ConferenceAttendeeRequest;
 
 use App\Models\Conference as Conference;
 use App\Models\Profile as Profile;
@@ -119,12 +119,12 @@ class ConferenceAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ConferenceRequest $request, $id){
+    public function update(ConferenceAttendeeRequest $request, $conference_id, $profile_id){
         try {
             //Update
-            $attendees = Conference::find($request->conference_id)
+            $attendees = Conference::find($conference_id)
                          ->attendees()
-                         ->updateExistingPivot($request->profile_id,$request->all());
+                         ->updateExistingPivot($profile_id,$request->all());
 
             $this->addActivity($request->header('ID'),'update', $attendees->id, 'conference attendence');
             /*

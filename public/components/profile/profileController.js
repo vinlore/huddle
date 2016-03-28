@@ -144,4 +144,22 @@ angular.module( 'profileCtrl', [] )
                 popup.connection();
             })
     };
+
+    $scope.cancelConferenceApplication = function(index){
+          var conference = {
+            id: $scope.conferences[index].id
+          }
+        //console.log($scope.conferences);
+        ProfileAttendsConferences.status().update({cid: conference.id , pid: $scope.user.id},{status: 'cancelled'})
+          .$promise.then( function (response) {
+              if ( response.status == 200 ) {
+                  $scope.loadConferences()
+                  popup.alert( 'success', 'Conference application cancelled' );
+              } else {
+                  popup.error( 'Error', response.message );
+              }
+          }, function () {
+              popup.connection();
+          })
+    };
 } );
