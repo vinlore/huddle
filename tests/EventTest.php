@@ -15,8 +15,9 @@ class EventTest extends TestCase{
      */
     public function testEventIndex()
     {
-          Artisan::call('migrate:refresh');
-          Artisan::call('db:seed');
+        Artisan::call('migrate:refresh');
+        Artisan::call('db:seed');
+
         $this->json('GET','/api/conferences/4/events')
             ->seeJson([
                 'conference_id' => 4,
@@ -98,7 +99,30 @@ class EventTest extends TestCase{
 
     }
 
+    /**
+     * Finding all events within conference 4
+     *
+     * @return void
+     */
+    public function testEventCreateFind()
+    {
+        $this->json('GET','/api/conferences/4/events')
+            ->seeJson([
+                'conference_id' => 4,
+                'name' => "Project 2 Final Demos",
 
+                'name' => 'Project 3 Final Demos',
+
+                'name' => 'Project 1 Final Demos',
+
+                'name' => 'Test Event',
+
+            ]);
+    }
+
+    /*
+    *   Updating Event details
+    */
     public function testEventUpdate(){
       try{
           $response = $this->call('POST', '/api/auth/login', ['username' => 'admin', 'password' => 'password']);
@@ -128,7 +152,29 @@ class EventTest extends TestCase{
         }
     }
 
+    /**
+     * Finding all events within conference 4
+     *
+     */
+    public function testEventUpdateFind()
+    {
+        $this->json('GET','/api/conferences/4/events')
+            ->seeJson([
+                'conference_id' => 4,
+                'name' => "Project 2 Final Demos",
 
+                'name' => 'Project 3 Final Demos',
+
+                'name' => 'Project 1 Final Demos',
+
+                'name' => 'CHANGED',
+
+            ]);
+    }
+
+    /*
+    * Updating event with updating their status
+    */
     public function testEventUpdateWithStatus(){
 
       try{
@@ -162,17 +208,21 @@ class EventTest extends TestCase{
 
     }
 
-
-    public function testEvetIndexWithStatus(){
+    /*
+    * Indexing all events with certain status - approved
+    */
+    public function testEventIndexWithStatus(){
 
 
       try{
           $response = $this->call('POST', '/api/auth/login', ['username' => 'admin', 'password' => 'password']);
           $content = json_decode($response->getContent());
 
-          $this->call('GET','/api/events/pending', ['status'=>'approved'], [], [], ['HTTP_X-Auth-Token' => $content->token, 'HTTP_ID' => 1 ]);
+          $this->call('GET','/api/events/approved', ['status'=>'approved'], [], [], ['HTTP_X-Auth-Token' => $content->token, 'HTTP_ID' => 1 ]);
           $this->seeJson([
-              'country' => 'Canada'
+              'country' => 'Canada',
+              'country' => 'CHANGED',
+              'country' => 'France',
              ]);
         }catch(Exception $e){
           echo '---------';
