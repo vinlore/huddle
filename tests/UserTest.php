@@ -43,7 +43,6 @@ class UserTest extends TestCase{
                         'id' => 1,
                         'username' => 'admin',
                         'email' => 'admin@huddle.com',
-                        'permissions' => [],
                     ]);
     }
 }

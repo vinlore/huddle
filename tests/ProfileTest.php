@@ -33,16 +33,5 @@ class ProfileTest extends TestCase{
             ]);
     }
 
-    /**
-     * Get All Conferences ONE profile is going to
-     */
-    public function testProfileConference()
-    {
-        $this->json('GET','/api/profile/1/conferences')
-            ->seeJson([
-                'name' => "Canada Conference",
-                'description' => "A conference in Canada.",
-            ]);
-    }
 
 }

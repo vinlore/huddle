@@ -57,9 +57,15 @@ class ProfileController extends Controller
     public function allProfileConferences($id)
     {
         try {
-            return Profile::find($id)
-                        ->conferences()
-                        ->get();
+            $conferenceProfiles = [];
+
+            $profile = Profile::findOrFail($id);
+            foreach ($profile->conferences as $conference) {
+                $conferenceProfiles[] = $conference;
+            }
+
+            return $conferenceProfiles;
+
         } catch (Exception $e) {
             return response()->error();
         }
