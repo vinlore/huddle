@@ -1,5 +1,5 @@
 angular.module('manageAccommodationsCtrl',[])
-.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $location, $log, Conferences, popup, $uibModal){
+.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $location, Conferences, popup, $uibModal){
 
 	// Conference ID
 	$scope.conferenceId = $stateParams.conferenceId;
