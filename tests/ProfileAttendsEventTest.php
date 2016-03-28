@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ProfileAttendConferenceTest extends TestCase{
+class ProfileAttendEventTest extends TestCase{
 
      use WithoutMiddleware;
 
@@ -13,13 +13,12 @@ class ProfileAttendConferenceTest extends TestCase{
      */
     public function testProfileShow()
     {
-        $this->json('GET','/api/conferences/2/attendees/0')
+        $this->json('GET','/api/profile/1/event/0')
             ->seeJson([
             'email' => 'admin@huddle.com',
             'phone' => '6040000111',
             'first_name' => 'Jane',
-            'email' => 'hantino@huddle.com',
-            'status' => 'approved',
+            'status' => 'pending',
             ]);
     }
 }
