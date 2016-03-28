@@ -32,7 +32,7 @@ class AccommodationsAndRoomsSeeder extends Seeder
 
         $room = [
             'room_no'     => '100',
-            'guest_count' => 1,
+            'guest_count' => 0,
             'capacity'    => 2,
         ];
         $room = new Room($room);
@@ -41,7 +41,7 @@ class AccommodationsAndRoomsSeeder extends Seeder
 
         $room = [
             'room_no'     => '101',
-            'guest_count' => 3,
+            'guest_count' => 0,
             'capacity'    => 3,
         ];
         $room = new Room($room);
@@ -72,7 +72,7 @@ class AccommodationsAndRoomsSeeder extends Seeder
 
         $room = [
             'room_no'     => '200',
-            'guest_count' => 1,
+            'guest_count' => 0,
             'capacity'    => 2,
         ];
         $room = new Room($room);
@@ -81,7 +81,7 @@ class AccommodationsAndRoomsSeeder extends Seeder
 
         $room = [
             'room_no'     => '201',
-            'guest_count' => 3,
+            'guest_count' => 0,
             'capacity'    => 3,
         ];
         $room = new Room($room);

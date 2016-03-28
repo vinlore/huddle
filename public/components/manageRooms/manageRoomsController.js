@@ -1,5 +1,5 @@
 angular.module('manageRoomsCtrl',[])
-.controller('manageRoomsController', function($scope, ngTableParams, $stateParams, $filter, Conferences, popup){
+.controller('manageRoomsController', function($scope, ngTableParams, $stateParams, $filter, Conferences, popup, $uibModal){
 
 	// Conference ID
 	$scope.conferenceId = $stateParams.conferenceId;
@@ -78,31 +78,35 @@ angular.module('manageRoomsCtrl',[])
 			popup.connection();
 		})
 
-    	// refresh tableParams to reflect changes
+		// refresh tableParams to reflect changes
     	$scope.tableParams.reload();
     }
 
-    $scope.del = function(index) {
-    	$scope.hasChanges = true;
-    	$scope.temp.splice(index, 1);
-    	$scope.tableParams.reload();
+    $scope.del = function(id) {
+    	console.log(id);
+    	var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
+
+    	modalInstance.result.then( function ( result ) {
+    		if ( result ) {
+    			Conferences.rooms().delete( {aid: $scope.accommodationId, rid: id} )
+    			.$promise.then( function( response ) {
+    				if ( response.status == 200 ) {
+    					console.log( 'Room has been successfully deleted' );
+    					popup.alert( 'success', 'Room has been successfully deleted.' );
+    				} else {
+    					popup.error( 'Error', response.message );
+    				}
+    			}, function () {
+    				popup.connection();
+    			})
+
+    			$scope.tableParams.reload();
+    		}
+    	} )
     }
-
-    $scope.cancel = function() {
-    	$scope.hasChanges = false;
-
-  		// revert temp array to the same as original (i.e. row array)
-  		$scope.temp = $scope.rooms.slice();
-  		$scope.tableParams.reload();
-  	}
-
-  	$scope.save = function() {
-  		$scope.hasChanges = false;
-  		$scope.rooms = $scope.temp.slice();
-  	}
 
   	$scope.export = function() {
     
-  }
+  	}
 
 });
