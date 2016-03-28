@@ -34,7 +34,7 @@ class RoomController extends Controller
     }
 
 
-    public function update(RoomRequest $request, $id)
+    public function update(RoomRequest $request, $accommodation, $id)
     {
         try {
             Room::findOrFail($id)->update($request->all());
@@ -44,7 +44,7 @@ class RoomController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($accommodation, $id)
     {
         try {
             Room::findOrFail($id)->delete();
