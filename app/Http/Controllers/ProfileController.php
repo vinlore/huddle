@@ -57,14 +57,12 @@ class ProfileController extends Controller
     public function allProfileConferences($id)
     {
         try {
-            $conferenceProfiles = [];
 
-            $profile = Profile::findOrFail($id);
-            foreach ($profile->conferences as $conference) {
-                $conferenceProfiles[] = $conference;
+            $profile = Profile::find($id);
+            if (!$profile) {
+                return response()->error("204","Profile not found");
             }
-
-            return $conferenceProfiles;
+            return $profile->conferences;
 
         } catch (Exception $e) {
             return response()->error();
@@ -74,15 +72,11 @@ class ProfileController extends Controller
     public function allProfileEvents($id)
     {
         try {
-            $eventProfiles = [];
-
-            $profile = Profile::findOrFail($id);
-            foreach ($profile->events as $event) {
-                $eventProfiles[] = $event;
+            $profile = Profile::find($id);
+            if (!$profile) {
+                return response()->error("204","Profile not found");
             }
-
-            return $eventProfiles;
-
+            return $profile->events;
         } catch (Exception $e) {
             return response()->error();
         }

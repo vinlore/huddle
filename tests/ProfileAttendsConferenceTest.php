@@ -15,8 +15,7 @@ class ProfileAttendConferenceTest extends TestCase{
     {
         $this->json('GET','/api/conferences/2/profiles')
             ->seeJson([
-                'email' => 'admin@huddle',
-                'email' => 'hantino@huddle',
+            
             ]);
     }
 }

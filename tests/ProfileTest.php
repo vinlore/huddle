@@ -33,5 +33,28 @@ class ProfileTest extends TestCase{
             ]);
     }
 
+    /**
+    *   Get ALL Events ONE profile is going to
+    */
+    public function testEventConference()
+    {
+        $this->json('GET','/api/profile/1/events')
+            ->seeJson([
+                'name' => "Opening Ceremony",
+                'description' => "Welcome!",
+            ]);
+    }
+
+    /**
+    *
+    *   Get ALL Events ONE profile is going to
+    *   EMPTY
+    */
+    public function testEventConferenceEmpty()
+    {
+        $this->json('GET','/api/profile/2/events')
+            ->seeJson([]);
+    }
+
 
 }
