@@ -31,7 +31,7 @@ class AccommodationController extends Controller
         }
     }
 
-    public function show($id)
+    public function show($conferences, $id)
     {
         try {
             return Accommodation::findOrFail($id);
@@ -40,7 +40,7 @@ class AccommodationController extends Controller
         }
     }
 
-    public function update(AccommodationRequest $request, $id)
+    public function update(AccommodationRequest $request, $conferneces, $id)
     {
         try {
             Accommodation::findOrFail($id)->update($request->all());
@@ -50,7 +50,7 @@ class AccommodationController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($conferences, $id)
     {
         try {
             $accommodation = Accommodation::findOrFail($id);

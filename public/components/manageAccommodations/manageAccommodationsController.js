@@ -40,7 +40,7 @@ angular.module('manageAccommodationsCtrl',[])
 	//////// Button Functions ////////
 
 	$scope.open = function(id) {
-		$location.url('/manage-rooms-' + id);
+		$location.url('/manage-rooms-' + $scope.conferenceId + '-' + id);
 	}
 
 	$scope.add = function(accom) {

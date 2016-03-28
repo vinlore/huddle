@@ -1,11 +1,11 @@
 angular.module('manageRoomsCtrl',[])
 .controller('manageRoomsController', function($scope, ngTableParams, $stateParams, $filter, Conferences, popup){
 
+	// Conference ID
+	$scope.conferenceId = $stateParams.conferenceId;
+
 	// Accommodation ID
 	$scope.accommodationId = $stateParams.accommodationId;
-
-	console.log($scope.conferenceId);
-	console.log($scope.accommodationId);
 
 	// Initial input data array
 	$scope.room = {
@@ -15,6 +15,22 @@ angular.module('manageRoomsCtrl',[])
     }
 
     //////// Load Data ////////
+
+    $scope.getAccommodation = function () {
+        Conferences.accommodations().get( {cid: $scope.conferenceId, aid: $scope.accommodationId} )
+            .$promise.then( function( response ) {
+                if ( response ) {
+                    $scope.accommodation = response;
+                } else {
+                    popup.error( 'Error', response.message );
+                }
+            }, function () {
+                popup.connection();
+            })
+    }
+
+    $scope.getAccommodation();
+
 
 	$scope.tableParams = new ngTableParams(
 	{
@@ -43,17 +59,39 @@ angular.module('manageRoomsCtrl',[])
     //////// Button Functions ////////
 
     $scope.add = function(room) {
-    	$scope.hasChanges = true;
 
-    	// add new row to temp array
-    	$scope.temp.push(room);
-
-    	// clear input data
-    	$scope.room = null;
+		// Adds acommodation to accommodations table
+		Conferences.rooms().save( {aid: $scope.accommodationId}, room )
+		.$promise.then( function( response ) {
+			if ( response.status == 200 ) {
+				console.log( 'Changes saved to rooms' );
+				popup.alert( 'success', 'Changes have been saved.' );
+				
+				// clear input data
+    			$scope.room = null;
+			} else {
+				popup.error( 'Error', response.message );
+			}
+		}, function () {
+			popup.connection();
+		})
 
     	// refresh tableParams to reflect changes
     	$scope.tableParams.reload();
     }
+
+    // $scope.add = function(room) {
+    // 	$scope.hasChanges = true;
+
+    // 	// add new row to temp array
+    // 	$scope.temp.push(room);
+
+    // 	// clear input data
+    // 	$scope.room = null;
+
+    // 	// refresh tableParams to reflect changes
+    // 	$scope.tableParams.reload();
+    // }
 
     $scope.del = function(index) {
     	$scope.hasChanges = true;
