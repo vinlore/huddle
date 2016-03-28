@@ -38,17 +38,21 @@ class RoleRequest extends Request
         }
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function createRules()
     {
         return [
             'slug'        => ['required', 'string', 'max:255', 'unique:roles'],
             'name'        => ['required', 'string', 'max:255', 'unique:roles'],
-            'permissions' => ['required', 'string'],
+            'permissions' => ['required', 'array'],
+        ];
+    }
+
+    public function updateRules()
+    {
+        return [
+            'slug'        => ['string', 'max:255'],
+            'name'        => ['string', 'max:255'],
+            'permissions' => ['array'],
         ];
     }
 }

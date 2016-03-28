@@ -16,7 +16,7 @@ class AccommodationTest extends TestCase{
 
         $this->assertTrue(true);
         /*
-        $this->json('GET','/api/accommodation/2')
+        $this->json('GET','/api/conferences/2/accommodations')
             ->seeJson([
                 'name' => 'Shangri-La Hotel Vancouver',
                 'address' => '1128 West Georgia Street',

@@ -10,6 +10,8 @@ abstract class Request extends FormRequest
 {
     /**
      * Check if the API token in the request matches the API token in the database.
+     *
+     * @return bool
      */
     public function authenticate()
     {
@@ -21,6 +23,8 @@ abstract class Request extends FormRequest
 
     /**
      * Retrieve the authenticated user.
+     *
+     * @return Eloquent\Model
      */
     public function getUser()
     {
@@ -33,13 +37,62 @@ abstract class Request extends FormRequest
 
     /**
      * Check if the authenticated user is a System Administrator.
+     *
+     * @return bool
      */
     public function isSuperuser()
     {
         $role = $this->getUser()->roles()->first();
-        if ($role->name == 'System Administrator') {
-            return true;
+        return $role->name == 'System Administrator';
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        switch (strtoupper($this->getMethod())) {
+            case 'POST':
+                return array_merge($this->commonRules(), $this->createRules());
+                break;
+            case 'PUT':
+                return array_merge($this->commonRules(), $this->updateRules());
+                break;
+            default:
+                return false;
+                break;
         }
-        return false;
+    }
+
+    /**
+     * Common rules for all requests.
+     *
+     * @return array
+     */
+    public function commonRules()
+    {
+        return [];
+    }
+
+    /**
+     * Rules for create requests.
+     *
+     * @return array
+     */
+    public function createRules()
+    {
+        return [];
+    }
+
+    /**
+     * Rules for update requests.
+     *
+     * @return array
+     */
+    public function updateRules()
+    {
+        return [];
     }
 }

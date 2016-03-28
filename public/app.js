@@ -231,7 +231,7 @@ angular.module('cms', [
     })
 
     .state( 'manage-rooms', {
-        url: '/manage-rooms-:accommodationId',
+        url: '/manage-rooms-:conferenceId-:accommodationId',
         templateUrl: 'components/manageRooms/manageRoomsView.html',
         controller: 'manageRoomsController',
         resolve: {

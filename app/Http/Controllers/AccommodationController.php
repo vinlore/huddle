@@ -20,18 +20,18 @@ class AccommodationController extends Controller
         }
     }
 
-    public function store(AccommodationRequest $request)
+    public function store(AccommodationRequest $request, $conferences)
     {
         try {
             $accommodation = Accommodation::create($request->all());
-            $accommodation->conferences()->attach($request->conference_id);
+            $accommodation->conferences()->attach($conferences);
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function show($id)
+    public function show($conferences, $id)
     {
         try {
             return Accommodation::findOrFail($id);
@@ -40,7 +40,7 @@ class AccommodationController extends Controller
         }
     }
 
-    public function update(AccommodationRequest $request, $id)
+    public function update(AccommodationRequest $request, $conferneces, $id)
     {
         try {
             Accommodation::findOrFail($id)->update($request->all());
@@ -50,7 +50,7 @@ class AccommodationController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($conferences, $id)
     {
         try {
             $accommodation = Accommodation::findOrFail($id);

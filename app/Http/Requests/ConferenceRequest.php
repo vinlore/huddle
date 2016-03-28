@@ -6,6 +6,28 @@ use App\Http\Requests\Request;
 
 class ConferenceRequest extends Request
 {
+    protected $createRules = [
+        'name'        => ['required', 'string', 'max:255'],
+        'description' => ['string'],
+        'start_date'  => ['required', 'date', 'after:yesterday'],
+        'end_date'    => ['required', 'date', 'after:start_date'],
+        'address'     => ['required', 'string', 'max:255'],
+        'city'        => ['required', 'string', 'max:255'],
+        'country'     => ['required', 'string', 'max:255'],
+        'capacity'    => ['required', 'integer', 'min:1'],
+    ];
+
+    protected $updateRules = [
+        'name'        => ['string', 'max:255'],
+        'description' => ['string'],
+        'start_date'  => ['date'],
+        'end_date'    => ['date', 'after:start_date'],
+        'address'     => ['string', 'max:255'],
+        'city'        => ['string', 'max:255'],
+        'country'     => ['string', 'max:255'],
+        'capacity'    => ['integer', 'min:1'],
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -36,25 +58,5 @@ class ConferenceRequest extends Request
                     break;
             }
         }
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [];
-        // return [
-        //     'name'        => ['required', 'string', 'max:255'],
-        //     'description' => ['string'],
-        //     'start_date'  => ['required', 'date', 'after:yesterday'],
-        //     'end_date'    => ['required', 'date', 'after:start_date'],
-        //     'address'     => ['required', 'string', 'max:255'],
-        //     'city'        => ['required', 'string', 'max:255'],
-        //     'country'     => ['required', 'string', 'max:255'],
-        //     'capacity'    => ['required', 'integer', 'min:1'],
-        // ];
     }
 }

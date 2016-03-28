@@ -76,7 +76,7 @@ class ConferenceAttendeeController extends Controller
 
      public function profileConferenceStatusUpdate(Request $request){
         try{
-            $attendees = Conference::find($requset->conference_id)
+            $attendees = Conference::find($request->conference_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 

@@ -86,7 +86,7 @@ angular.module( 'apiService', [] )
         },
 
         rooms: function () {
-            return $resource( '/api/conferences/:cid/accommodations/:aid/:rid', {cid: '@cid', accId: '@aid', rid: '@rid'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/accommodations/:aid/rooms/:rid', {aid: '@aid', rid: '@rid'}, {'update': { method: 'PUT' }} );
         }
     }
 })

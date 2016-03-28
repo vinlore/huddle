@@ -1,8 +1,16 @@
 angular.module('manageAccommodationsCtrl',[])
-.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $location, $log, Conferences, popup, $uibModal){
+.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $location, Conferences, popup, $uibModal){
 
 	// Conference ID
 	$scope.conferenceId = $stateParams.conferenceId;
+
+	// Initial input data
+	$scope.accom = {
+    	name: null,
+    	address: null,
+    	city: null,
+    	country: null
+    }
 
     //////// Load Data ////////
 
@@ -32,17 +40,20 @@ angular.module('manageAccommodationsCtrl',[])
 	//////// Button Functions ////////
 
 	$scope.open = function(id) {
-		$location.url('/manage-rooms-' + id);
+		$location.url('/manage-rooms-' + $scope.conferenceId + '-' + id);
 	}
 
 	$scope.add = function(accom) {
 
-		// Adds acommodation to db
+		// Adds acommodation to accommodations table
 		Conferences.accommodations().save( {cid: $scope.conferenceId}, accom )
 		.$promise.then( function( response ) {
 			if ( response.status == 200 ) {
 				console.log( 'Changes saved to accommodations' );
 				popup.alert( 'success', 'Changes have been saved.' );
+				
+				// clear input data
+    			$scope.accom = null;
 			} else {
 				popup.error( 'Error', response.message );
 			}
