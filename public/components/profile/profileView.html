@@ -122,50 +122,73 @@
         <uib-accordion-group heading="Delete account" panel-class="panel-danger" is-open="delete.open">
           <h4 class="text-center">This option cannot be undone!</h4>
           <div class="col-sm-12 col-sm-offset-5">
-          <button class="btn btn-default btn-sm" ng-click="deleteAccount(user.id)">Delete</button>
-          <button type="button" class="btn btn-danger btn-sm" ng-click="delete.open = !delete.open">Cancel</button>
-        </div>
+            <button class="btn btn-default btn-sm" ng-click="deleteAccount(user.id)">Delete</button>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="delete.open = !delete.open">Cancel</button>
+          </div>
         </uib-accordion-group>
       </uib-accordion>
     </div>
   </div>
-  <h1 class="page-header">Conferences and Events</h1>
+  <h1 class="page-header">Conference Status Updates</h1>
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="col-md-6">
-         <h3 class="text-center">Conferences</h3>
-         <hr>
-         <!-- Conferences -->
-         <div class="col-sm-12" ng-if="conferences" ng-repeat="con in conferences">
-            <div class="col-sm-12">
-               <div class="card card-success card-block">
-                  <h4 class="card-title">Conference: {{con.conference_name}}</h4>
-                  <h5 class="card-text">Status: {{con.status}}</h5>
-                  <h5 class="card-text">Start: {{con.startDate}}</h5>
-                  <h5 class="card-text">End: {{con.endDate}}</h5>
-                  <button class="btn btn-primary btn-xs" ng-click="viewConfApplication($index)">Edit Application</button>
-                  <button class="btn btn-danger btn-xs" ng-click="cancelConfApplication($index)">Cancel Application</button>
-               </div>
-            </div>
-         </div>
-      </div>
-        <div class="col-md-6">
-           <h3 class="text-center">Events</h3>
-           <hr>
-           <!-- Events -->
-           <div class="col-sm-12" ng-if="events" ng-repeat="eve in events">
-              <div class="col-sm-12">
-                 <div class="card card-warning card-block">
-                    <h4 class="card-title">Event: {{eve.event_name}}</h4>
-                    <h5 class="card-text">Status: {{eve.status}}</h5>
-                    <h5 class="card-text">End: {{eve.startDate}}</h5>
-                    <h5 class="card-text">End: {{eve.endDate}}</h5>
-                    <button class="btn btn-primary btn-xs" ng-click="viewEventApplication($index)">Edit Application</button>
-                    <button class="btn btn-danger btn-xs" ng-click="cancelEventApplication($index)">Cancel Application</button>
-                 </div>
+        <h3 class="text-center">Conference Publish Requests</h3>
+        <hr>
+        <!-- Requests -->
+        <div class="col-sm-12" ng-if="conferences" ng-repeat="con in conferences">
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="title-status card-header">
+                <h4>{{con.name}}&nbsp</h4>
+                <label class="alert" is-approved status="con.status">{{con.status | uppercase}}</label>
               </div>
-           </div>
+              <div class="card-block">
+                <h4 class="card-text">Location: {{con.city}},{{con.country}}</h4>
+                <h5 class="card-text">Start: {{con.start_date}}</h5>
+                <h5 class="card-text">End: {{con.end_date}}</h5>
+                <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">Edit Application</button>
+                <button class="btn btn-danger btn-sm" ng-click="cancelEventApplication($index)">Cancel Application</button>
+              </div>
+            </div>
+          </div>
         </div>
+        <div ng-show="!conferences.length && events.length" class="row">
+          <h4 class="text-center">No conference submissions</h4>
+          <hr>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h3 class="text-center">Events</h3>
+        <hr>
+        <!-- Requests -->
+        <div class="col-sm-12" ng-if="events" ng-repeat="eve in events">
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="title-status card-header">
+                <h4>{{eve.name}}&nbsp</h4>
+                <label class="alert" is-approved status="eve.status">{{eve.status | uppercase}}</label>
+              </div>
+              <div class="card-block">
+                <h4 class="card-text">Location: {{eve.city}},{{eve.country}}</h4>
+                <h4 class="card-text">Facilitator: {{eve.facilitator}}</h4>
+                <h5 class="card-text">From: {{eve.start_time}} to {{eve.end_time}}</h5>
+                <h5 class="card-text">Date: {{eve.date}}</h5>
+                <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">Edit Application</button>
+                <button class="btn btn-danger btn-sm" ng-click="cancelEventApplication($index)">Cancel Application</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-show="!events.length && conferences.length" class="row">
+          <h4 class="text-center">No events submissions</h4>
+          <hr>
+        </div>
+      </div>
+      <div ng-show="!conferences.length && !events.length" class="row">
+        <h4 class="text-center">No new conferences or events to submissions</h4>
+        <hr>
+      </div>
     </div>
   </div>
 

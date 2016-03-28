@@ -10,10 +10,10 @@ use App\Models\Item;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index($conferences)
     {
         try {
-            return Item::all();
+            return Item::where('conference_id', $conferences)->get();
         } catch (Exception $e) {
             return response()->error();
         }

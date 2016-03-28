@@ -47,8 +47,8 @@
             </div>
             <div class="page-header">
                 <h1>Events</h1>
-                <a type="button" class="btn btn-info attendance no-animate" ui-sref="conference-signup({conferenceId: conference.id, name: conference.name})" ng-if="auth">
-                    <span class="glyphicon glyphicon-ok"></span> Attend
+                <a type="button" class="btn btn-primary attendance no-animate" ui-sref="conference-signup({conferenceId: conference.id, name: conference.name})" ng-if="auth">
+                    <span class="glyphicon glyphicon-edit"></span> Sign Up
                 </a>
                 <!-- TODO show attending if attendee profile status -->
                 <button type="button" class="btn btn-info attendance attend-leave" ng-if="false">
@@ -128,8 +128,8 @@
                             <span ng-if="event.ageLimit">Ages: <strong>{{event.age_limit}}+</strong> |</span>
                             <span ng-if="!event.ageLimit && !event.genderLimit">No restrictions |</span>
                             <span>&nbspSeats: <strong>{{event.attendee_count}}/{{event.capacity}}</strong></span>
-                            <a type="button" class="btn btn-info" ui-sref="event-signup({eventId: event.eventId, name: event.name})" ng-if="auth">
-                                <span class="glyphicon glyphicon-ok"></span> Attend
+                            <a type="button" class="btn btn-primary" ui-sref="event-signup({eventId: event.eventId, name: event.name})" ng-if="auth">
+                                <span class="glyphicon glyphicon-edit"></span> Sign Up
                             </a>
                             <button type="button" class="btn btn-info attend-leave" ng-if="false">
                                 <span class="attending">
@@ -148,33 +148,33 @@
             <h1>Services</h1>
             <hr>
             <div class="row">
-                <div class="col-sm-3" ng-if="inventory">
+                <div class="col-sm-3" ng-if="inventory.length > 0">
                     <h4>Supplies</h4>
                     <ul class="list-group">
                         <li class="list-group-item" ng-repeat="item in inventory">{{item.name}}</li>
                     </ul>
                 </div>
-                <div class="col-sm-3" ng-if="accommodations">
+                <div class="col-sm-3" ng-if="accommodations.length > 0">
                     <h4>Accommodations</h4>
                     <ul class="list-group">
                         <li class="list-group-item" ng-repeat="accom in accommodations">
-                            <span class="badge">{{accom.capacity}}</span> {{accom.name}}
+                            {{accom.name}}
                         </li>
                     </ul>
                 </div>
-                <div class="col-sm-3" ng-if="arrivalTransport">
+                <div class="col-sm-3" ng-if="arrivalVehicles.length > 0">
                     <h4>Arrival Transportation</h4>
                     <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="type in arrivalTransport">
-                            {{type.name}}
+                        <li class="list-group-item" ng-repeat="vehicle in arrivalVehicles">
+                            {{vehicle.name}} <span class="badge">{{vehicle.capacity}}</span>
                         </li>
                     </ul>
                 </div>
-                <div class="col-sm-3" ng-if="departureTransport">
+                <div class="col-sm-3" ng-if="departVehicles.length > 0">
                     <h4>Departure Transportation</h4>
                     <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="type in departureTransport">
-                            {{type.name}}
+                        <li class="list-group-item" ng-repeat="vehicle in departVehicles">
+                            {{vehicle.name}} <span class="badge">{{vehicle.capacity}}</span>
                         </li>
                     </ul>
                 </div>
