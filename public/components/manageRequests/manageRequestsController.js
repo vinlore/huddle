@@ -17,7 +17,7 @@ angular.module( 'manageRequestsCtrl', [] )
   $scope.conferences = []
   // TODO: Need to change approved --> pending
   $scope.loadPendingConferences = function () {
-      Conferences.status().query({status:'approved'})
+      Conferences.status().query({status:'pending'})
           .$promise.then( function ( response ) {
               if ( response ) {
                   $scope.conferences = response;
@@ -33,7 +33,7 @@ angular.module( 'manageRequestsCtrl', [] )
   $scope.events = []
   // TODO: Need to change approved --> pending
   $scope.loadPendingEvents = function () {
-      Events.status().query({status:'approved'})
+      Events.status().query({status:'pending'})
           .$promise.then( function ( response ) {
               if ( response ) {
                   $scope.events = response;

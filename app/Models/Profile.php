@@ -73,6 +73,7 @@ class Profile extends Model
                                 'status');
     }
 
+
     public function rooms()
     {
         return $this->belongsToMany('App\Models\Room', 'profile_stays_in_rooms')->withTimestamps();
