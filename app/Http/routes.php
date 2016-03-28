@@ -72,6 +72,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'update', 'destroy',
     ]]);
 
+    Route::get('profile/{id}/conferences', 'ProfileController@allProfileConferences');
+
     //============ PIVOT - Profile Rides Vehicle ============
     Route::resource('profile.vehicle', 'ProfileRidesVehicleController', ['only' => [
          'show', 'update', 'destroy',
