@@ -38,7 +38,7 @@ angular.module ( 'activityCtrl', [] )
   $scope.logz = []
 
   $scope.loadActivityLog = function () {
-      Activity.query()
+      Activity.get()
           .$promise.then( function( response ) {
               if (response) {
                   $scope.logz = response;
