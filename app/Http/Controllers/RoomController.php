@@ -32,7 +32,7 @@ class RoomController extends Controller
             return response()->error();
         }
     }
-    
+
 
     public function update(RoomRequest $request, $id)
     {

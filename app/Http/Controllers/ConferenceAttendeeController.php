@@ -76,11 +76,18 @@ class ConferenceAttendeeController extends Controller
 
      public function profileConferenceStatusUpdate(Request $request){
         try{
+
             $attendees = Conference::find($request->conference_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
             $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'conference attendence');
+
+            $count = find($request->conference_id)
+                         ->attendees()
+                         ->where('status','approved')
+                         ->count();
+            Conference::where($request->conference_id)->update(['attendee_count' => $count]);
 
             if ($request->vehicle_id != NULL) {
                 // Link up profile with the vehicle
