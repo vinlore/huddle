@@ -70,11 +70,11 @@ angular.module( 'apiService', [] )
         },
 
         attendees: function () {
-            return $resource( '/api/conferences/:cid/profiles/:pid', {cid: '@cid', pid: '@pid'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences/:cid/attendees/:pid', {cid: '@cid', pid: '@pid'}, {'update': { method: 'PUT' }} );
         },
 
         vehicles: function () {
-            return $resource( '/api/conferences/:cid/vehicles/:type/:vid', {cid: '@cid', type: '@type', vid: '@vid'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences/:cid/vehicles/:vid', {cid: '@cid', vid: '@vid'}, {'update': { method: 'PUT' }} );
         },
 
         inventory: function () {
@@ -107,7 +107,7 @@ angular.module( 'apiService', [] )
         },
 
         vehicles: function () {
-            return $resource( '/api/events/:eid/vehicles/:type/:vid', { eid: '@eid', type: '@type', vid: '@vid' }, { 'update': { method: 'PUT' } } );
+            return $resource( '/api/events/:eid/vehicles/:vid', { eid: '@eid', vid: '@vid' }, { 'update': { method: 'PUT' } } );
         }
 
     }

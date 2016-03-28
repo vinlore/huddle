@@ -30,55 +30,13 @@ angular.module( 'conferenceCtrl', [] )
 
     $scope.background = { 'background-image': 'url(assets/img/overlay.png), url(assets/img/' + $scope.conference.country + '/big/' + $filter( 'randomize' )( 3 ) + '.jpg)' };
 
-    $scope.inventory = [
-        {
-            name: "Water"
-        },
-        {
-            name: "Toothbrush"
-        },
-        {
-            name: "Towel"
-        }
-    ]
+    $scope.inventory = []
 
-    $scope.arrivalTransport = [
-        {
-            vehicleId: 123,
-            name: "Bus",
-            passengerCount: 30,
-            capacity: 40
-        }
-    ]
+    $scope.arrivalTransport = []
 
-    $scope.departureTransport = [
-        {
-            vehicleId: 323,
-            name: "Car",
-            passengerCount: 2,
-            capacity: 4
-        }
-    ]
+    $scope.departureTransport = []
 
-    $scope.accommodations = [
-        {
-            accommodationsId: 123,
-            name: "Some dude's house",
-            address: "1234 Fake street",
-            rooms: [
-                {
-                    roomId: 134,
-                    room_no: 1,
-                    capacity: 4
-                },
-                {
-                    roomId: 135,
-                    room_no: 2,
-                    capacity: 3
-                }
-            ]
-        }
-    ]
+    $scope.accommodations = []
 
     $scope.events = []
     var eventBackup = {};
@@ -223,14 +181,13 @@ angular.module( 'conferenceCtrl', [] )
 
     $scope.loadEvents();
 
-    /*
+    
     $scope.loadInventory = function () {
-        Conferences.inventory().get( {cid: $stateParams.conferenceId} )
+        Conferences.inventory().query( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
-                if ( response.status == 200 && response.inventory ) {
-                    $scope.inventory = response.inventory;
+                if ( response ) {
+                    $scope.inventory = response;
                 } else {
-                    popup.error( 'Error', response.message );
                 }
             }, function () {
                 popup.connection();
@@ -240,12 +197,12 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadInventory();
 
     $scope.loadAccommodations = function () {
-        Conferences.accommodations().get( {cid: $stateParams.conferenceId} )
+        Conferences.accommodations().query( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
-                if ( response.status == 200 && response.accommodations ) {
-                    $scope.accommodations = response.accommodations;
+                if ( response ) {
+                    $scope.accommodations = response;
+                    console.log($scope.accommodations)
                 } else {
-                    popup.error( 'Error', response.message );
                 }
             }, function () {
                 popup.connection();
@@ -255,12 +212,11 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadAccommodations();
 
     $scope.loadArrivalVehicles = function () {
-        Conferences.vehicles().get( {cid: $stateParams.conferenceId, type: 'arrival'} )
+        Conferences.vehicles().query( {cid: $stateParams.conferenceId, type: 'arrival'} )
             .$promise.then( function( response ) {
-                if ( response.status == 200 && response.vehicles ) {
-                    $scope.arrivalVehicles = response.vehicles;
+                if ( response ) {
+                    $scope.arrivalVehicles = response;
                 } else {
-                    popup.error( 'Error', response.message );
                 }
             }, function () {
                 popup.connection();
@@ -270,18 +226,16 @@ angular.module( 'conferenceCtrl', [] )
     $scope.loadArrivalVehicles();
 
     $scope.loadDepartVehicles = function () {
-        Conferences.vehicles().get( {cid: $stateParams.conferenceId, type: 'departure'} )
+        Conferences.vehicles().query( {cid: $stateParams.conferenceId, type: 'departure'} )
             .$promise.then( function( response ) {
-                if ( response.status == 200 && response.vehicles ) {
-                    console.log( 'Retrieved departure vehicles' ); console.log( response.vehicles );
-                    $scope.departVehicles = response.vehicles;
+                if ( response ) {
+                    $scope.departVehicles = response;
                 } else {
-                    popup.error( 'Error', response.message );
                 }
             }, function () {
                 popup.connection();
             })
     }
 
-    $scope.loadDepartVehicles();*/
+    $scope.loadDepartVehicles();
 })

@@ -22,8 +22,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::get('activity', 'ActivityController@get');
 
     //============ Accomodation Controller ============
-    Route::resource('accommodation', 'AccommodationController', ['only' => [
-        'store', 'show', 'update', 'destroy',
+    Route::resource('conferences.accommodations', 'AccommodationController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
     //============ Conference Controller ============
@@ -49,9 +49,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-
     //============ PIVOT - Profile Attend Conference =====
-    Route::resource('conferences.profiles' , 'ProfileAttendsConferenceController' , ['only' => [
+    Route::resource('conferences.attendees' , 'ProfileAttendsConferenceController' , ['only' => [
             'index' , 'store' , 'show' ,'update', 'destroy',
     ]]);
 
@@ -112,7 +111,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     ]]);
 
     //============ Vehicle Controller ============
-    Route::resource('vehicle', 'VehicleController', ['only' => [
+    Route::resource('conferences.vehicles', 'ConferenceVehicleController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('events.vehicles', 'EventVehicleController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
