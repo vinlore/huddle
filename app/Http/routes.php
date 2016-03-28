@@ -73,6 +73,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     ]]);
 
     Route::get('profile/{id}/conferences', 'ProfileController@allProfileConferences');
+    Route::get('profile/{id}/events','ProfileController@allProfileEvents');
 
     //============ PIVOT - Profile Rides Vehicle ============
     Route::resource('profile.vehicle', 'ProfileRidesVehicleController', ['only' => [
