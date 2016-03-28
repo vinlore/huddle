@@ -9,7 +9,30 @@ use App\Models\User;
 abstract class Request extends FormRequest
 {
     /**
+     * Common rules for all requests.
+     *
+     * @var array
+     */
+    protected $rules = [];
+
+    /**
+     * Rules for create requests.
+     *
+     * @var array
+     */
+    protected $createRules = [];
+
+    /**
+     * Rules for update requests.
+     *
+     * @var array
+     */
+    protected $updateRules = [];
+
+    /**
      * Check if the API token in the request matches the API token in the database.
+     *
+     * @return bool
      */
     public function authenticate()
     {
@@ -21,6 +44,8 @@ abstract class Request extends FormRequest
 
     /**
      * Retrieve the authenticated user.
+     *
+     * @return Eloquent\Model
      */
     public function getUser()
     {
@@ -33,13 +58,12 @@ abstract class Request extends FormRequest
 
     /**
      * Check if the authenticated user is a System Administrator.
+     *
+     * @return bool
      */
     public function isSuperuser()
     {
         $role = $this->getUser()->roles()->first();
-        if ($role->name == 'System Administrator') {
-            return true;
-        }
-        return false;
+        return $role->name == 'System Administrator';
     }
 }
