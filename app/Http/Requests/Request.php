@@ -9,27 +9,6 @@ use App\Models\User;
 abstract class Request extends FormRequest
 {
     /**
-     * Common rules for all requests.
-     *
-     * @var array
-     */
-    protected $rules = [];
-
-    /**
-     * Rules for create requests.
-     *
-     * @var array
-     */
-    protected $createRules = [];
-
-    /**
-     * Rules for update requests.
-     *
-     * @var array
-     */
-    protected $updateRules = [];
-
-    /**
      * Check if the API token in the request matches the API token in the database.
      *
      * @return bool
@@ -65,5 +44,55 @@ abstract class Request extends FormRequest
     {
         $role = $this->getUser()->roles()->first();
         return $role->name == 'System Administrator';
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        switch (strtoupper($this->getMethod())) {
+            case 'POST':
+                return array_merge($this->commonRules(), $this->createRules());
+                break;
+            case 'PUT':
+                return array_merge($this->commonRules(), $this->updateRules());
+                break;
+            default:
+                return false;
+                break;
+        }
+    }
+
+    /**
+     * Common rules for all requests.
+     *
+     * @return array
+     */
+    public function commonRules()
+    {
+        return [];
+    }
+
+    /**
+     * Rules for create requests.
+     *
+     * @return array
+     */
+    public function createRules()
+    {
+        return [];
+    }
+
+    /**
+     * Rules for update requests.
+     *
+     * @return array
+     */
+    public function updateRules()
+    {
+        return [];
     }
 }
