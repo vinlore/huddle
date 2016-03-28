@@ -72,7 +72,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function allProfileConferences($id)
+    public function conferences($id)
     {
         try {
 
@@ -87,7 +87,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function allProfileEvents($id)
+    public function events($id)
     {
         try {
             $profile = Profile::find($id);

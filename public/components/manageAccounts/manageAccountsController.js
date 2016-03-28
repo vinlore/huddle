@@ -1,5 +1,5 @@
 angular.module( 'manageAccountsCtrl', [] )
-.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, UsersRoles, Users, ngTableParams ) {
+.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, Users, ngTableParams ) {
 
     $scope.search = {selectedUser: null};
 
@@ -31,7 +31,7 @@ angular.module( 'manageAccountsCtrl', [] )
             total: 0,
             getData: function($defer, params) {
                 console.log($scope.selectedUser)
-                UsersRoles.query({username: $scope.search.selectedUser}).$promise.then( function (response) {
+                Users.query({username: $scope.search.selectedUser}).$promise.then( function (response) {
                     if (response) {
                         $scope.users = response;
                         params.total(response.length);

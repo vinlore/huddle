@@ -36,10 +36,6 @@ angular.module( 'apiService', [] )
     return $resource( '/api/users/:id', { id: '@id' }, { 'update': { method: 'PUT' } } );
 })
 
-.factory( 'UsersRoles', function ( $resource ) {
-    return $resource( '/api/users-roles/' );
-})
-
 .factory( 'Managers', function ( $resource ) {
     return {
 
@@ -66,7 +62,7 @@ angular.module( 'apiService', [] )
         },
 
         status: function () {
-            return $resource( '/api/conferences-status/:cid', {cid: '@cid'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences/status/:status', {status: '@status'}, {'update': { method: 'PUT' }} );
         },
 
         attendees: function () {
@@ -95,7 +91,7 @@ angular.module( 'apiService', [] )
     return {
 
         status: function () {
-            return $resource( '/api/events-status/:eid', {eid: '@eid'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/events/:status', {status: '@status'}, {'update': { method: 'PUT' }} );
         },
 
         fetch: function () {

@@ -6,23 +6,24 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests;
-use App\Http\Requests\ConferenceRequest;
+use App\Http\Requests\EventRequest;
 
-use App\Models\Conference as Conference;
+use App\Models\Event as Event;
 use App\Models\User as User;
 
 
-class UserManagesConferenceController extends Controller
+class EventManagerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($conferences)
+    public function index($events)
     {
-        return Conference::find($conferences)->managers()->get(['username', 'id', 'email']);
+        return Event::find($events)->managers()->get(['username', 'id', 'email']);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -33,11 +34,11 @@ class UserManagesConferenceController extends Controller
 
     public function store(Request $request){
         try{
-            //Saving to user_Manages_conference Table
-            $conference = Conference::find($request->conferences);
+            //Saving to user_Manages_Event Table
+            $event = Event::find($request->events);
             User::find($request->user_id)
-                        ->conferences()
-                        ->attach($conference);
+                        ->Events()
+                        ->attach($event);
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -52,11 +53,11 @@ class UserManagesConferenceController extends Controller
      */
     public function show($id){
         try{
-            $user = User::find($id)->conferences()->get();
-            if(!$conference){
-                return response()->success("204", "No conference found.");
+            $user = User::find($id)->Events()->get();
+            if(!$event){
+                return response()->success("204", "No Event found.");
             }
-            return $conference;
+            return $event;
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -79,13 +80,13 @@ class UserManagesConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($conferences, $managers){
+    public function destroy($events, $managers){
         try{
-            //Deleting from the user_manages_conferences table
-            $conference =  Conference::find($conferences);
+            //Deleting from the user_manages_Events table
+            $event = Event::find($events);
             User::find($managers)
-                        ->conferences()
-                        ->detach($conference);
+                        ->Events()
+                        ->detach($event);
             return response()->success();
         } catch (Exception $e) {
                 return response()->error($e);
