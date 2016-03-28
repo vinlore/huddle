@@ -6,16 +6,6 @@ use App\Http\Requests\Request;
 
 class ItemRequest extends Request
 {
-    protected $createRules = [
-        'name'     => ['required', 'string', 'max:255'],
-        'quantity' => ['required', 'string', 'min:0'],
-    ];
-
-    protected $updateRules = [
-        'name'     => ['string', 'max:255'],
-        'quantity' => ['string', 'min:0'],
-    ];
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -46,5 +36,20 @@ class ItemRequest extends Request
                     break;
             }
         }
+    }
+    public function createRules()
+    {
+        return [
+            'name'     => ['required', 'string', 'max:255'],
+            'quantity' => ['required', 'string', 'min:0'],
+        ];
+    }
+
+    public function updateRules()
+    {
+        return [
+            'name'     => ['string', 'max:255'],
+            'quantity' => ['string', 'min:0'],
+        ];
     }
 }
