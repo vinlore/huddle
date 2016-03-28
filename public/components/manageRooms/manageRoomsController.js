@@ -9,8 +9,9 @@ angular.module('manageRoomsCtrl',[])
 
 	// Initial input data array
 	$scope.room = {
+		accommodation_id: $scope.accommodationId,
     	room_no: null,
-    	guest_count: null,
+    	guest_count: 0,
     	capacity: null
     }
 
@@ -41,7 +42,6 @@ angular.module('manageRoomsCtrl',[])
 			Conferences.rooms().query( {aid: $scope.accommodationId} )
 			.$promise.then( function( response ) {
 				if ( response ) {
-					console.log("here");
 					$scope.data = response;
 					$scope.data = params.sorting() ? $filter('orderBy') ($scope.data, params.orderBy()) : $scope.data;
 					$scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
@@ -64,11 +64,13 @@ angular.module('manageRoomsCtrl',[])
 		Conferences.rooms().save( {aid: $scope.accommodationId}, room )
 		.$promise.then( function( response ) {
 			if ( response.status == 200 ) {
+				console.log(room);
 				console.log( 'Changes saved to rooms' );
 				popup.alert( 'success', 'Changes have been saved.' );
 				
 				// clear input data
-    			$scope.room = null;
+    			$scope.room.room_no = null;
+    			$scope.room.capacity = null;
 			} else {
 				popup.error( 'Error', response.message );
 			}
@@ -79,19 +81,6 @@ angular.module('manageRoomsCtrl',[])
     	// refresh tableParams to reflect changes
     	$scope.tableParams.reload();
     }
-
-    // $scope.add = function(room) {
-    // 	$scope.hasChanges = true;
-
-    // 	// add new row to temp array
-    // 	$scope.temp.push(room);
-
-    // 	// clear input data
-    // 	$scope.room = null;
-
-    // 	// refresh tableParams to reflect changes
-    // 	$scope.tableParams.reload();
-    // }
 
     $scope.del = function(index) {
     	$scope.hasChanges = true;

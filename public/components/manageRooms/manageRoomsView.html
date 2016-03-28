@@ -30,14 +30,14 @@
 						<input type="text" ng-model="room.room_no" class="editable-input form-control input-sm" required />
 					</td>
 					<td title="'Guests'">
-						<input type="number" ng-model="room.guest_count" class="editable-input form-control input-sm" required />
+						{{room.guest_count}}
 					</td>
 					<td title="'Capacity'">
 						<input type="number" ng-model="room.capacity" class="editable-input form-control input-sm" required />
 					</td>
 					<td>
 						<!-- Disable add buttion unless theres values in the input-->
-					<button type="button" class="btn btn-success" ng-disabled="!room.room_no || !room.guest_count || !room.capacity" ng-click="add(room)">
+					<button type="button" class="btn btn-success" ng-disabled="!room.room_no || !room.capacity" ng-click="add(room)">
 						<span class="glyphicon glyphicon-plus"></span>
 					</button>
 				</td>
