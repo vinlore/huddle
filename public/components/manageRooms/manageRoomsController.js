@@ -82,13 +82,16 @@ angular.module('manageRoomsCtrl',[])
     	$scope.tableParams.reload();
     }
 
-    $scope.del = function(id) {
-    	console.log(id);
+    $scope.del = function(room) {
+    	console.log(room.id);
     	var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
 
     	modalInstance.result.then( function ( result ) {
-    		if ( result ) {
-    			Conferences.rooms().delete( {aid: $scope.accommodationId, rid: id} )
+    		if (room.guest_count > 0) {
+    			popup.error( 'Error', 'Cannot delete rooms with guests.' );
+    		}
+    		else if ( result ) {
+    			Conferences.rooms().delete( {aid: $scope.accommodationId, rid: room.id} )
     			.$promise.then( function( response ) {
     				if ( response.status == 200 ) {
     					console.log( 'Room has been successfully deleted' );
