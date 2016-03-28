@@ -30,15 +30,6 @@ class ProfileController extends Controller
         }
     }
 
-    public function show($id)
-    {
-        try {
-            return Profile::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
-
     public function update(ProfileRequest $request, $id)
     {
         try {
@@ -97,4 +88,33 @@ class ProfileController extends Controller
             return response()->error();
         }
     }
+
+    public function allProfileConferences($id)
+    {
+        try {
+
+            $profile = Profile::find($id);
+            if (!$profile) {
+                return response()->success("204","Profile not found");
+            }
+            return $profile->conferences;
+
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
+    public function allProfileEvents($id)
+    {
+        try {
+            $profile = Profile::find($id);
+            if (!$profile) {
+                return response()->success("204","Profile not found");
+            }
+            return $profile->events;
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
 }

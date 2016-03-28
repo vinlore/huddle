@@ -28,15 +28,7 @@ class RoomController extends Controller
             return response()->error();
         }
     }
-
-    public function show($id)
-    {
-        try {
-            return Room::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
+    
 
     public function update(RoomRequest $request, $id)
     {

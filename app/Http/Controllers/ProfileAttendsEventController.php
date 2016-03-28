@@ -51,13 +51,13 @@ class ProfileAttendsEventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
+    public function show($id,$profile_id){
         try{
-            $event = Event::find($id)->attendees()->get();
+            $event = Event::find($id);
             if(!$event){
                 return response()->success("204", "No Event found.");
             }
-            return $event;
+            return $event->attendees;
         } catch (Exception $e) {
             return response()->error($e);
         }

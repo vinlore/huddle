@@ -8,7 +8,6 @@ class UserTest extends TestCase{
 
      use WithoutMiddleware;
 
-
      /*
      * Finding certain user
      */
@@ -22,7 +21,6 @@ class UserTest extends TestCase{
                 'email' => 'admin@huddle.com',
             ]);
     }
-
 
     /*
     * Testing finding an unexisting user
@@ -45,8 +43,6 @@ class UserTest extends TestCase{
                         'id' => 1,
                         'username' => 'admin',
                         'email' => 'admin@huddle.com',
-                        'permissions' => [],
                     ]);
-
     }
 }

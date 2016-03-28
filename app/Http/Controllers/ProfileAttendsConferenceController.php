@@ -53,13 +53,13 @@ class ProfileAttendsConferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
+    public function show($id,$profile_id){
         try{
-            $conference = Conference::find($id)->attendees()->get();
+            $conference = Conference::find($id);
             if(!$conference){
                 return response()->success("204", "No conference found.");
             }
-            return $conference;
+            return $conference->attendees;
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -77,7 +77,6 @@ class ProfileAttendsConferenceController extends Controller
             $attendees = Conference::find($requset->conference_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
-
 
             $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'conference attendence');
 

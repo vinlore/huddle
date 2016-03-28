@@ -32,35 +32,36 @@ class Profile extends Model
 
     public function conferences()
     {
-      return $this->belongsToMany('App\Models\Conference', 'profile_attends_conferences')
-          ->withTimestamps()
-          ->withPivot('email',
-                      'phone',
-                      'phone2',
-                      'first_name',
-                      'middle_name',
-                      'last_name',
-                      'city',
-                      'country',
-                      'birthdate',
-                      'gender',
-                      'accommodation_req',
-                      'accommodation_pref',
-                      'arrv_ride_req',
-                      'arrv_date',
-                      'arrv_time',
-                      'arrv_airport',
-                      'arrv_flight',
-                      'dept_ride_req',
-                      'dept_date',
-                      'dept_time',
-                      'dept_airport',
-                      'dept_flight',
-                      'contact_first_name',
-                      'contact_last_name',
-                      'contact_email',
-                      'contact_phone',
-                      'medical_conditions');
+        return $this->belongsToMany('App\Models\Conference', 'profile_attends_conferences')
+                    ->withTimestamps()
+                    ->withPivot('email',
+                                'phone',
+                                'phone2',
+                                'first_name',
+                                'middle_name',
+                                'last_name',
+                                'city',
+                                'country',
+                                'birthdate',
+                                'gender',
+                                'accommodation_req',
+                                'accommodation_pref',
+                                'arrv_ride_req',
+                                'arrv_date',
+                                'arrv_time',
+                                'arrv_airport',
+                                'arrv_flight',
+                                'dept_ride_req',
+                                'dept_date',
+                                'dept_time',
+                                'dept_airport',
+                                'dept_flight',
+                                'contact_first_name',
+                                'contact_last_name',
+                                'contact_email',
+                                'contact_phone',
+                                'medical_conditions',
+                                'status');
     }
 
     public function events()
