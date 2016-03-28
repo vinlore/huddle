@@ -99,7 +99,7 @@ angular.module( 'apiService', [] )
         },
 
         attendees: function () {
-            return $resource( '/api/events/:eid/attendees/:aid', { eid: '@eid', attId: '@aid' }, { 'update': { method: 'PUT' } } );
+            return $resource( '/api/events/:eid/attendees/:pid', { eid: '@eid', pid: '@pid' }, { 'update': { method: 'PUT' } } );
         },
 
         vehicles: function () {

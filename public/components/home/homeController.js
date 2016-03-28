@@ -1,40 +1,15 @@
 angular.module ( 'homeCtrl', [] )
-.controller ( 'homeController', function ( $scope, Conferences, popup ) {
+.controller ( 'homeController', function ( $scope, Conferences, popup, $filter ) {
 
-	$scope.conferences = [];
-    console.log($scope.conferences);
-
-    $scope.pastConferences = [
-        {
-            id: 123,
-            name: "India Conference",
-            country: "India",
-            startDate: "Feb 20, 2016",
-            endDate: "Feb 27, 2016",
-        },
-        {
-            id: 234,
-            name: "Canada Conference",
-            country: "Canada",
-            startDate: "Jan 29, 2016",
-            endDate: "Feb 3, 2016"
-        },
-        {
-            id: 1,
-            name: "France Conference",
-            country: "France",
-            startDate: "Jan 5, 2016",
-            endDate: "Jan 12, 2016"
-        }
-    ];
+	$scope.conferences = {};
 
     $scope.loadConferences = function () {
         Conferences.status().query({status:'approved'})
             .$promise.then( function ( response ) {
                 if ( response ) {
-                    $scope.conferences = response;
+                    $scope.conferences = $filter('upcoming')(response);
                 } else {
-                    popup.error( 'Error', response.message );
+                    $scope.conferences = {};
                 }
             }, function () {
                 popup.connection();

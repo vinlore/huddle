@@ -1,5 +1,5 @@
 angular.module( 'conferenceCtrl', [] )
-.controller( 'conferenceController', function( $scope, $filter, Conferences, Gmap, $stateParams, $resource, popup, Events ) {
+.controller( 'conferenceController', function( $scope, $filter, Conferences, Gmap, $stateParams, $resource, popup, Events, $rootScope   ) {
 
     $scope.citiesOnly = {
         types: ['(cities)']
@@ -12,8 +12,8 @@ angular.module( 'conferenceCtrl', [] )
             .$promise.then( function( response ) {
                 if ( response ) {
                     var conf = response;
-                    conf.startDate = new Date( conf.start_date );
-                    conf.endDate = new Date( conf.end_date );
+                    conf.startDate = new Date( conf.start_date+'T00:00:00' );
+                    conf.endDate = new Date( conf.end_date+'T00:00:00' );
                     $scope.conference = conf;
                     $scope.background = 'assets/img/' + $scope.conference.country + '/big/' + $filter( 'randomize' )( 3 ) + '.jpg';
                 } else {
@@ -94,8 +94,6 @@ angular.module( 'conferenceCtrl', [] )
             gender_limit: $scope.events[$index].gender_limit,
             facilitator: $scope.events[$index].facilitator
         }
-        console.log(eventDetails.start_time);
-        console.log(eventDetails.end_time)
         Events.fetch().update( {cid: $stateParams.conferenceId, eid: $scope.events[$index].id}, eventDetails )
             .$promise.then( function( response ) {
                 if ( response.status == 200 ) {
@@ -165,7 +163,7 @@ angular.module( 'conferenceCtrl', [] )
                 if ( response ) {
                     $scope.events = response;
                     for (var i = 0; i < response.length; i++) {
-                        $scope.events[i].date = new Date($scope.events[i].date);
+                        $scope.events[i].date = new Date($scope.events[i].date+'T00:00:00');
                         var time1 = $scope.events[i].start_time.split(':');
                         $scope.events[i].start_time = time1[0]+time1[1];
                         var time2 = $scope.events[i].end_time.split(':');
@@ -201,7 +199,6 @@ angular.module( 'conferenceCtrl', [] )
             .$promise.then( function( response ) {
                 if ( response ) {
                     $scope.accommodations = response;
-                    console.log($scope.accommodations)
                 } else {
                 }
             }, function () {
@@ -238,4 +235,36 @@ angular.module( 'conferenceCtrl', [] )
     }
 
     $scope.loadDepartVehicles();
+
+    $scope.checkConferenceAttendance = function () {
+        if ($rootScope.user)
+        Conferences.attendees().query({cid: $stateParams.conferenceId, pid: $rootScope.user.id})
+            .$promise.then( function (response) {
+                if (response) {
+                    $scope.conferenceAttendance = response['0'].pivot.status;
+                } else {
+                    $scope.conferenceAttendance = null;
+                }
+            }, function () {
+                $scope.conferenceAttendance = null;
+            })
+    }
+
+    $scope.checkConferenceAttendance();
+
+    $scope.checkEventAttendance = function () {
+        if ($rootScope.user)
+        Events.attendees().query({cid: $stateParams.conferenceId, pid: $rootScope.user.id})
+            .$promise.then( function (response) {
+                if (response) {
+                    $scope.eventAttendance = response['0'].pivot.status;
+                } else {
+                    $scope.eventAttendance = null;
+                }
+            }, function () {
+                $scope.eventAttendance = null;
+            })
+    }
+
+    //$scope.checkEventAttendance();
 })

@@ -47,16 +47,20 @@
             </div>
             <div class="page-header">
                 <h1>Events</h1>
-                <a type="button" class="btn btn-primary attendance no-animate" ui-sref="conference-signup({conferenceId: conference.id, name: conference.name})" ng-if="auth">
-                    <span class="glyphicon glyphicon-edit"></span> Sign Up
+                <a type="button" class="btn btn-primary attendance no-animate" ui-sref="conference-signup({conferenceId: conference.id, name: conference.name})" ng-if="auth && !conferenceAttendance">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    <label> Sign up</label>
                 </a>
                 <!-- TODO show attending if attendee profile status -->
-                <button type="button" class="btn btn-info attendance attend-leave" ng-if="false">
-                    <span class="attending">
-                        <span class="glyphicon glyphicon-ok"></span> Attending
+                <button type="button" class="btn btn-success attendance attend-leave" ng-if="conferenceAttendance">
+                    <span class="attending" ng-switch="conferenceAttendance">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        <label ng-switch-default> Pending</label>
+                        <label ng-switch-when="approved"> Approved</label>
                     </span>
                     <span class="leave">
-                        <span class="glyphicon glyphicon-remove"></span> Leave
+                        <span class="glyphicon glyphicon-remove"></span>
+                        <label>leave</label>
                     </span>
                 </button>
             </div>
@@ -113,9 +117,9 @@
                                 <label class="col-sm-3"><input type="number" class="input-lg" ng-model="event.capacity" placeholder="Capacity" required></label>
                                 <label class="col-sm-3">
                                     <select type="text" class="input-lg" ng-model="event.gender_limit" placeholder="Gender Restriction">
-                                        <option value="">Gender Restriction</option>
-                                        <option value="M">Male</option>
-                                        <option value="F">Female</option>
+                                        <option value="" disabled>Gender Restriction</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
                                     </select>
                                 </label>
                                 <label class="col-sm-3"><input type="number" class="input-lg" ng-model="event.age_limit" placeholder="Age Limit"></label>
@@ -124,19 +128,23 @@
                             </div>
                         </uib-accordion-group>
                         <div class="panel panel-heading accordion-footer">
-                            <span ng-if="event.genderLimit">Gender: <strong>{{event.gender_limit}}</strong>&nbsp|&nbsp</span>
-                            <span ng-if="event.ageLimit">Ages: <strong>{{event.age_limit}}+</strong> |</span>
-                            <span ng-if="!event.ageLimit && !event.genderLimit">No restrictions |</span>
+                            <span ng-if="event.gender_limit">Gender: <strong>{{event.gender_limit}}</strong>&nbsp|&nbsp</span>
+                            <span ng-if="event.age_limit">Ages: <strong>{{event.age_limit}}+</strong></span>
+                            <span ng-if="!event.age_limit && !event.gender_limit">No restrictions</span>
                             <span>&nbspSeats: <strong>{{event.attendee_count}}/{{event.capacity}}</strong></span>
-                            <a type="button" class="btn btn-primary" ui-sref="event-signup({eventId: event.eventId, name: event.name})" ng-if="auth">
-                                <span class="glyphicon glyphicon-edit"></span> Sign Up
+                            <a type="button" class="btn btn-primary" ui-sref="event-signup({eventId: event.eventId, name: event.name})" ng-if="auth && !eventAttendance">
+                                <span class="glyphicon glyphicon-edit"></span>
+                                <label> Sign Up</label>
                             </a>
-                            <button type="button" class="btn btn-info attend-leave" ng-if="false">
-                                <span class="attending">
-                                    <span class="glyphicon glyphicon-ok"></span> Attending
+                            <button type="button" class="btn btn-success attend-leave" ng-if="eventAttendance">
+                                <span class="attending" ng-switch="eventAttendance">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    <label ng-switch-default> Pending</label>
+                                    <label ng-switch-when="approved"> Approved</label>
                                 </span>
                                 <span class="leave">
-                                    <span class="glyphicon glyphicon-remove"></span> Leave
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                    <label>Leave</label>
                                 </span>
                             </button>
                         </div>

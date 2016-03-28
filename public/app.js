@@ -64,12 +64,14 @@ angular.module('cms', [
                     'ID': user
                 }
             }).success( function ( response ) {
-                if ( response.status == 'error' ) {
+                if ( response.status == 500 ) {
                     popup.alert('danger', 'You have been logged out.');
                     $auth.removeToken();
                     $rootScope.auth = null;
                     $rootScope.user = null;
                     delete $localStorage.user;
+                } else {
+                    $rootScope.user.permissions = response.permissions;
                 }
             })
         });

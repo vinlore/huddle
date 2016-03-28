@@ -6,21 +6,24 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests;
-use App\Http\Requests\EventRequest;
+use App\Http\Requests\ConferenceRequest;
 
-use App\Models\Event as Event;
+use App\Models\Conference as Conference;
 use App\Models\Profile as Profile;
+use App\Models\Vehicle as Vehicle;
+use App\Models\Rooms as Room;
+use App\Models\User as User;
 
-
-class ProfileAttendsEventController extends Controller
+class ConferenceAttendeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($conferences)
     {
+        return Conference::find($conferences)->attendees()->get();
     }
 
     /**
@@ -30,15 +33,16 @@ class ProfileAttendsEventController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(EventRequest $request){
+    public function store(Request $request, $conferences){
         try{
-            //Saving to profile_attends_event Table
+            //Saving to profile_attends_conference Table
             $profile =  Profile::find($request->profile_id);
-            $attendees = Event::find($request->event_id)
-                         ->attendees()
-                         ->attach($profile, $request->all());
+            $attendees = Conference::find($conferences)
+                          ->attendees()
+                          ->attach($profile, $request->all());
 
-            $this->addActivity($request->header('ID'),'request', $attendees->id, 'event attendence');
+           $this->addActivity($request->header('ID'),'request', $request->profile_id, 'conference attendence');
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -51,13 +55,13 @@ class ProfileAttendsEventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id,$profile_id){
+    public function show($id, $user_id){
         try{
-            $event = Event::find($id);
-            if(!$event){
-                return response()->success("204", "No Event found.");
+            $conference = Conference::find($id);
+            if(!$conference){
+                return response()->success("204", "No conference found.");
             }
-            return $event->attendees;
+            return $conference->attendee($user_id)->get();
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -70,13 +74,30 @@ class ProfileAttendsEventController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function profileEventStatusUpdate(Request $request){
+     public function profileConferenceStatusUpdate(Request $request){
         try{
-            $attendees = Event::find($requset->event_id)
+            $attendees = Conference::find($requset->conference_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
-            $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'event attendence');
+            $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'conference attendence');
+
+            if ($request->vehicle_id != NULL) {
+                // Link up profile with the vehicle
+                $profile = Profile::find($request->profile_id);
+                Vehicle::find($request->vehicle_id)
+                        ->passengers()
+                        ->attach($profile);
+            }
+
+            if ($request->room_id != NULL) {
+                //Link up the profile with the room
+                $profile = Profile::find($request->profile_id);
+                Room::find($request->room_id)
+                        ->guests()
+                        ->attach($profile);
+            }
+
             /*
             if($request->Status == 'approved' && user_to_check->receive_email == 1){
                 //TODO SEND APPROVED EMAIL
@@ -98,13 +119,14 @@ class ProfileAttendsEventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
+    public function update(ConferenceRequest $request, $id){
         try {
             //Update
-            $attendees = Event::find($requset->event_id)
+            $attendees = Conference::find($request->conference_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,$request->all());
-            $this->addActivity($request->header('ID'),'update', $attendees->id, 'event attendence');
+
+            $this->addActivity($request->header('ID'),'update', $attendees->id, 'conference attendence');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
@@ -122,6 +144,6 @@ class ProfileAttendsEventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request){
+    public function destroy(ConferenceRequest $request){
     }
 }

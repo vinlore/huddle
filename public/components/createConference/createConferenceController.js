@@ -163,8 +163,7 @@ angular.module( 'createConferenceCtrl', [])
             end_date: $filter('date')($scope.conference.endDate, 'yyyy-MM-dd'),
             description: $scope.conference.description,
             capacity: $scope.conference.capacity,
-            attendee_count: 0,
-            status: 'pending'
+            attendee_count: 0
         }
 
         Conferences.fetch().save( conference )

@@ -12,3 +12,22 @@ angular.module( 'customFilters', [] )
         }
     }
 })
+
+.filter( 'upcoming', function () {
+    return function (input) {
+        var result = {
+            upcoming: [],
+            past: []
+        };
+        for (var i=0; i<input.length; i++) {
+            var today = new Date();
+            var date = new Date(input[i].end_date);
+            if (date >= today) {
+                result.upcoming.push(input[i]);
+            } else {
+                result.past.push(input[i]);
+            }
+        }
+        return result;
+    }
+})
