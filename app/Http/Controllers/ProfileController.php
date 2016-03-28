@@ -40,6 +40,24 @@ class ProfileController extends Controller
         }
     }
 
+    public function allProfileConferences($id)
+    {
+      try {
+        $conferenceProfiles = [];
+
+    $profile = Profile::findOrFail($id);
+    foreach ($profile->conferences as $conference) {
+        $conferenceProfiles[] = $conference;
+    }
+
+    return $conferenceProfiles;
+
+    } catch (Exception $e) {
+        return response()->error();
+    }
+
+  }
+
     public function destroy($id)
     {
         try {

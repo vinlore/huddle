@@ -12,6 +12,22 @@ angular.module( 'apiService', [] )
     return $resource( '/api/auth/logout' );
 })
 
+.factory('ProfileAttendsConferences', function ( $resource ){
+  return {
+    fetch: function () {
+        return $resource( '/api/profile/:pid/conferences', { pid: '@pid'});
+    }
+  }
+})
+
+.factory('ProfileAttendsEvents', function ( $resource ){
+  return {
+    fetch: function () {
+        return $resource( '/api/profile/:pid/events', { pid: '@pid'});
+    }
+  }
+})
+
 .factory( 'Profile', function ( $resource ) {
     return $resource( '/api/users/:uid/profiles/:pid', { uid: '@uid', pid: '@pid' }, { 'update': { method: 'PUT' } } );
 })

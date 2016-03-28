@@ -1,5 +1,5 @@
 angular.module( 'profileCtrl', [] )
-.controller( 'profileController', function ( $scope, Profile, Conferences, Events, $filter, popup, Users, $rootScope ) {
+.controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, Conferences, Events, $filter, popup, Users, $rootScope ) {
 
     $scope.user = {};
 
@@ -105,20 +105,21 @@ angular.module( 'profileCtrl', [] )
                         Email: profile.email,
                         HomePhone: profile.phone
                     };
+                    $scope.loadConferences();
+                    $scope.loadEvents();
                 } else {
                     popup.error('Error', response.error);
                 }
             }, function () {
                 popup.connection();
-            } )
+            })
     }
     $scope.loadProfile();
 
 
     $scope.conferences = []
-    // TODO: Need to change approved --> pending
-    $scope.loadPendingConferences = function () {
-        Conferences.status().query({status:'pending'})
+    $scope.loadConferences = function () {
+        ProfileAttendsConferences.fetch().query({pid: $scope.user.id})
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.conferences = response;
@@ -129,12 +130,10 @@ angular.module( 'profileCtrl', [] )
                 popup.connection();
             })
     };
-    $scope.loadPendingConferences();
 
     $scope.events = []
-    // TODO: Need to change approved --> pending
-    $scope.loadPendingEvents = function () {
-        Events.status().query({status:'approved'})
+    $scope.loadEvents = function () {
+        ProfileAttendsEvents.fetch().query({pid: $scope.user.id})
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.events = response;
@@ -145,5 +144,4 @@ angular.module( 'profileCtrl', [] )
                 popup.connection();
             })
     };
-    $scope.loadPendingEvents();
 } );
