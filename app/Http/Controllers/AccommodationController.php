@@ -20,11 +20,11 @@ class AccommodationController extends Controller
         }
     }
 
-    public function store(AccommodationRequest $request)
+    public function store(AccommodationRequest $request, $conferences)
     {
         try {
             $accommodation = Accommodation::create($request->all());
-            $accommodation->conferences()->attach($request->conference_id);
+            $accommodation->conferences()->attach($conferences);
             return response()->success();
         } catch (Exception $e) {
             return response()->error();

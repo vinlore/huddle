@@ -4,6 +4,14 @@ angular.module('manageAccommodationsCtrl',[])
 	// Conference ID
 	$scope.conferenceId = $stateParams.conferenceId;
 
+	// Initial input data
+	$scope.accom = {
+    	name: null,
+    	address: null,
+    	city: null,
+    	country: null
+    }
+
     //////// Load Data ////////
 
 	$scope.tableParams = new ngTableParams(
@@ -37,12 +45,15 @@ angular.module('manageAccommodationsCtrl',[])
 
 	$scope.add = function(accom) {
 
-		// Adds acommodation to db
+		// Adds acommodation to accommodations table
 		Conferences.accommodations().save( {cid: $scope.conferenceId}, accom )
 		.$promise.then( function( response ) {
 			if ( response.status == 200 ) {
 				console.log( 'Changes saved to accommodations' );
 				popup.alert( 'success', 'Changes have been saved.' );
+				
+				// clear input data
+    			$scope.accom = null;
 			} else {
 				popup.error( 'Error', response.message );
 			}
