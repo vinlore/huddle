@@ -64,8 +64,25 @@ class ProfileController extends Controller
     } catch (Exception $e) {
         return response()->error();
     }
-
   }
+
+  public function allProfileEvents($id)
+  {
+    try {
+        $eventProfiles = [];
+
+        $profile = Profile::findOrFail($id);
+        foreach ($profile->events as $event) {
+            $eventProfiles[] = $event;
+        }
+
+        return $eventProfiles;
+
+    } catch (Exception $e) {
+        return response()->error();
+    }
+  }
+
 
     public function destroy($id)
     {

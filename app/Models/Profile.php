@@ -65,8 +65,13 @@ class Profile extends Model
 
     public function events()
     {
-        return $this->belongsToMany('App\Models\Event', 'profile_attends_events')->withTimestamps();
+        return $this->belongsToMany('App\Models\Event', 'profile_attends_events')
+                    ->withTimestamps()
+                    ->withPivot('arrv_ride_req',
+                                'dept_ride_req',
+                                'status');
     }
+
 
     public function rooms()
     {
