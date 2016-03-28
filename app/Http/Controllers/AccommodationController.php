@@ -7,13 +7,14 @@ use Illuminate\Http\Response;
 
 use App\Http\Requests\AccommodationRequest;
 use App\Models\Accommodation;
+use App\Models\Conference;
 
 class AccommodationController extends Controller
 {
-    public function index($conference)
+    public function index($conferences)
     {
         try {
-            return Accommodation::where('conference_id', $conference)->get();
+            return Conference::find($conferences)->accommodations()->get();
         } catch (Exception $e) {
             return response()->error();
         }
