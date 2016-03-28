@@ -6,6 +6,16 @@ use App\Http\Requests\Request;
 
 class VehicleRequest extends Request
 {
+    protected $createRules = [
+        'name'     => ['required', 'string', 'max:255'],
+        'capacity' => ['required', 'integer', 'min:1'],
+    ];
+
+    protected $updateRules = [
+        'name'     => ['string', 'max:255'],
+        'capacity' => ['integer', 'min:1'],
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -36,18 +46,5 @@ class VehicleRequest extends Request
                     break;
             }
         }
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            'name'     => ['required', 'string', 'max:255'],
-            'capacity' => ['required', 'integer', 'min:1'],
-        ];
     }
 }

@@ -6,6 +6,30 @@ use App\Http\Requests\Request;
 
 class ProfileRequest extends Request
 {
+    protected $createRules = [
+        'email'       => ['email', 'max:255'],
+        'phone'       => ['integer'],
+        'first_name'  => ['required', 'string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
+        'middle_name' => ['string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
+        'last_name'   => ['required', 'string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
+        'city'        => ['string', 'max:255'],
+        'country'     => ['string', 'max:255'],
+        'birthdate'   => ['required', 'date', 'before:today'],
+        'gender'      => ['required', 'string', 'max:255'],
+    ];
+
+    protected $updateRules = [
+        'email'       => ['email', 'max:255'],
+        'phone'       => ['integer'],
+        'first_name'  => ['string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
+        'middle_name' => ['string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
+        'last_name'   => ['string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
+        'city'        => ['string', 'max:255'],
+        'country'     => ['string', 'max:255'],
+        'birthdate'   => ['date', 'before:today'],
+        'gender'      => ['string', 'max:255'],
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -36,28 +60,5 @@ class ProfileRequest extends Request
                     break;
             }
         }
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        // Allow non-consecutive hyphens and commas.
-        $NAME = 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/';
-
-        return [
-            'email'       => ['email', 'max:255'],
-            'phone'       => ['integer'],
-            'first_name'  => ['required', 'string', 'max:255', $NAME],
-            'middle_name' => ['string', 'max:255', $NAME],
-            'last_name'   => ['required', 'string', 'max:255', $NAME],
-            'city'        => ['string', 'max:255'],
-            'country'     => ['string', 'max:255'],
-            'birthdate'   => ['required', 'date', 'before:today'],
-            'gender'      => ['required', 'string', 'max:255'],
-        ];
     }
 }
