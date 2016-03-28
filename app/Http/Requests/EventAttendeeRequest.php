@@ -6,16 +6,6 @@ use App\Http\Requests\Request;
 
 class EventAttendeeRequest extends Request
 {
-    protected $createRules = [
-        'arrv_ride_req' => ['required', 'boolean'],
-        'dept_ride_req' => ['required', 'boolean'],
-    ];
-
-    protected $updateRules = [
-        'arrv_ride_req' => ['boolean'],
-        'dept_ride_req' => ['boolean'],
-    ];
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -46,5 +36,21 @@ class EventAttendeeRequest extends Request
                     break;
             }
         }
+    }
+
+    public function createRules()
+    {
+        return [
+            'arrv_ride_req' => ['required', 'boolean'],
+            'dept_ride_req' => ['required', 'boolean'],
+        ];
+    }
+
+    public function updateRules()
+    {
+        return [
+            'arrv_ride_req' => ['boolean'],
+            'dept_ride_req' => ['boolean'],
+        ];
     }
 }

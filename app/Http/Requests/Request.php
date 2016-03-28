@@ -9,6 +9,27 @@ use App\Models\User;
 abstract class Request extends FormRequest
 {
     /**
+     * Regex that checks for non-consecutive hyphens and commas.
+     *
+     * @var string
+     */
+    protected $NAME = 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/';
+
+    /**
+     * Regex that checks for no space at either end and no consecutive spaces.
+     *
+     * @var string
+     */
+    protected $NUMBER = 'regex:/.*[0-9]+.*/';
+
+    /**
+     * Regex that checks for at least one number.
+     *
+     * @var string
+     */
+    protected $SPACES = 'regex:/^\S+(?: \S+)*$/';
+
+    /**
      * Check if the API token in the request matches the API token in the database.
      *
      * @return bool
@@ -67,7 +88,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Common rules for all requests.
+     * Get the validation rules that apply to all requests.
      *
      * @return array
      */
@@ -77,7 +98,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Rules for create requests.
+     *  Get the validation rules that apply to create requests.
      *
      * @return array
      */
@@ -87,7 +108,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Rules for update requests.
+     *  Get the validation rules that apply to update requests.
      *
      * @return array
      */
