@@ -252,8 +252,9 @@ angular.module( 'profileCtrl', [] )
         eid: $scope.events[index].pivot.event_id,
         name: $scope.events[index].name
       }
+      console.log(_event.eid);
       $state.go('attendee-event-profile', {event_name: _event.name,
-                                            event_id: _event.cid,
+                                            event_id: _event.eid,
                                             profile_id: _event.pid
                                           });
     };

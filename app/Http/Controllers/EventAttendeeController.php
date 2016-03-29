@@ -52,13 +52,13 @@ class EventAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $user_id){
+    public function show($id, $profile_id){
         try{
             $event = Event::find($id);
             if(!$event){
                 return response()->success("204", "No Event found.");
             }
-            return $event->attendee()->where('profile_id', $profile_id)->first();
+            return $event->attendees()->where('profile_id', $profile_id)->first();
         } catch (Exception $e) {
             return response()->error($e);
         }
