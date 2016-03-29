@@ -36,7 +36,7 @@ class ItemRequest extends Request
     {
         return [
             'name'     => ['required', 'string', 'max:255'],
-            'quantity' => ['required', 'string', 'min:0'],
+            'quantity' => ['required', 'integer', 'min:0'],
         ];
     }
 
@@ -44,7 +44,7 @@ class ItemRequest extends Request
     {
         return [
             'name'     => ['string', 'max:255'],
-            'quantity' => ['string', 'min:0'],
+            'quantity' => ['integer', 'min:0'],
         ];
     }
 }

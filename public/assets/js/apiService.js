@@ -78,7 +78,7 @@ angular.module( 'apiService', [] )
         },
 
         inventory: function () {
-            return $resource( '/api/conferences/:cid/inventory/:id', {cid: '@cid', iid: '@id'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences/:cid/inventory/:iid', {cid: '@cid', iid: '@iid'}, {'update': { method: 'PUT' }} );
         },
 
         accommodations: function () {
