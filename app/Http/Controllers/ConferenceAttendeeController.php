@@ -118,13 +118,9 @@ class ConferenceAttendeeController extends Controller
                         ->attach($profile);
             }
 
-            /*
-            if($request->Status == 'approved' && user_to_check->receive_email == 1){
-                //TODO SEND APPROVED EMAIL
-            }elseif($request->Status == 'declined' && user_to_check->receive_email == 1){
-                //TODO SEND DECLINED EMAIL
-            }
-            */
+            //send Email Notification
+            $this->sendAttendeeEmail("conference", $request->conference_id, $request->status, $request->profile_id);
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
