@@ -242,7 +242,7 @@ angular.module( 'conferenceCtrl', [] )
         if ($rootScope.user)
         Conferences.attending().get({cid: $stateParams.conferenceId, uid: $rootScope.user.id})
             .$promise.then( function (response) {
-                if (response) {
+                if (response.pivot) {
                     $scope.conferenceAttendance = response.pivot.status;
                 } else {
                     $scope.conferenceAttendance = null;
@@ -260,7 +260,7 @@ angular.module( 'conferenceCtrl', [] )
         if ($rootScope.user)
         Events.attending().get({eid: eid, uid: $rootScope.user.id})
             .$promise.then( function (response) {
-                if (response) {
+                if (response.pivot) {
                     $scope.eventAttendance[ind] = response.pivot.status;
                 } else {
                     $scope.eventAttendance[ind] = null;
