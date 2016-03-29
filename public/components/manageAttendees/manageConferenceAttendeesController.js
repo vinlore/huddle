@@ -1,5 +1,5 @@
-angular.module( 'manageAttendeesCtrl', [] )
-.controller( 'manageAttendeesController', function ($scope) {
+angular.module( 'manageConferenceAttendeesCtrl', [] )
+.controller( 'manageConferenceAttendeesController', function ($scope) {
 
   $scope.conferencePendingCreations = [
       {
