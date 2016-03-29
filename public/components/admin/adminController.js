@@ -106,6 +106,22 @@ angular.module('adminCtrl', [])
         $state.go('manage-accommodations', {conferenceId: id});
     }
 
+    $scope.goConferenceAttendees = function(id, event){
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $state.go('manage-attendees-conference', {conferenceId: id});
+    }
+
+    $scope.goEventAttendees = function(id, event){
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $state.go('manage-attendees-event', {eventId: id});
+    }
+
     $scope.goTransportation = function(id, event){
         if (event) {
             event.preventDefault();

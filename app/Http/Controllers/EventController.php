@@ -30,17 +30,17 @@ class EventController extends Controller
     }
 
 
-    public function update(EventRequest $request, $id)
+    public function update(EventRequest $request, $conferences, $id)
     {
         try {
-            Event::findOrFail($id)->update($request->all());
+            Event::findorFail($id)->update($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function destroy($id)
+    public function destroy($conferences, $id)
     {
         try {
             Event::findOrFail($id)->delete();

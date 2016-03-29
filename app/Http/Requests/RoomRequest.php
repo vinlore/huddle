@@ -6,16 +6,6 @@ use App\Http\Requests\Request;
 
 class RoomRequest extends Request
 {
-    protected $createRules = [
-        'room_no'  => ['required', 'string', 'max:255'],
-        'capacity' => ['required', 'integer', 'min:1'],
-    ];
-
-    protected $updateRules = [
-        'room_no'  => ['string', 'max:255'],
-        'capacity' => ['integer', 'min:1'],
-    ];
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -46,5 +36,21 @@ class RoomRequest extends Request
                     break;
             }
         }
+    }
+
+    public function createRules()
+    {
+        return [
+            'room_no'  => ['required', 'string', 'max:255'],
+            'capacity' => ['required', 'integer', 'min:1'],
+        ];
+    }
+
+    public function updateRules()
+    {
+        return [
+            'room_no'  => ['string', 'max:255'],
+            'capacity' => ['integer', 'min:1'],
+        ];
     }
 }

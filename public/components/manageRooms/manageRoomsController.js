@@ -1,5 +1,5 @@
 angular.module('manageRoomsCtrl',[])
-.controller('manageRoomsController', function($scope, ngTableParams, $stateParams, $filter, Conferences, popup){
+.controller('manageRoomsController', function($scope, ngTableParams, $stateParams, $filter, Conferences, popup, $uibModal){
 
 	// Conference ID
 	$scope.conferenceId = $stateParams.conferenceId;
@@ -9,8 +9,9 @@ angular.module('manageRoomsCtrl',[])
 
 	// Initial input data array
 	$scope.room = {
+		accommodation_id: $scope.accommodationId,
     	room_no: null,
-    	guest_count: null,
+    	guest_count: 0,
     	capacity: null
     }
 
@@ -41,7 +42,6 @@ angular.module('manageRoomsCtrl',[])
 			Conferences.rooms().query( {aid: $scope.accommodationId} )
 			.$promise.then( function( response ) {
 				if ( response ) {
-					console.log("here");
 					$scope.data = response;
 					$scope.data = params.sorting() ? $filter('orderBy') ($scope.data, params.orderBy()) : $scope.data;
 					$scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
@@ -64,11 +64,13 @@ angular.module('manageRoomsCtrl',[])
 		Conferences.rooms().save( {aid: $scope.accommodationId}, room )
 		.$promise.then( function( response ) {
 			if ( response.status == 200 ) {
+				console.log(room);
 				console.log( 'Changes saved to rooms' );
 				popup.alert( 'success', 'Changes have been saved.' );
 				
 				// clear input data
-    			$scope.room = null;
+    			$scope.room.room_no = null;
+    			$scope.room.capacity = null;
 			} else {
 				popup.error( 'Error', response.message );
 			}
@@ -76,44 +78,38 @@ angular.module('manageRoomsCtrl',[])
 			popup.connection();
 		})
 
-    	// refresh tableParams to reflect changes
+		// refresh tableParams to reflect changes
     	$scope.tableParams.reload();
     }
 
-    // $scope.add = function(room) {
-    // 	$scope.hasChanges = true;
+    $scope.del = function(room) {
+    	console.log(room.id);
+    	var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
 
-    // 	// add new row to temp array
-    // 	$scope.temp.push(room);
+    	modalInstance.result.then( function ( result ) {
+    		if (room.guest_count > 0) {
+    			popup.error( 'Error', 'Cannot delete rooms with guests.' );
+    		}
+    		else if ( result ) {
+    			Conferences.rooms().delete( {aid: $scope.accommodationId, rid: room.id} )
+    			.$promise.then( function( response ) {
+    				if ( response.status == 200 ) {
+    					console.log( 'Room has been successfully deleted' );
+    					popup.alert( 'success', 'Room has been successfully deleted.' );
+    				} else {
+    					popup.error( 'Error', response.message );
+    				}
+    			}, function () {
+    				popup.connection();
+    			})
 
-    // 	// clear input data
-    // 	$scope.room = null;
-
-    // 	// refresh tableParams to reflect changes
-    // 	$scope.tableParams.reload();
-    // }
-
-    $scope.del = function(index) {
-    	$scope.hasChanges = true;
-    	$scope.temp.splice(index, 1);
-    	$scope.tableParams.reload();
+    			$scope.tableParams.reload();
+    		}
+    	} )
     }
-
-    $scope.cancel = function() {
-    	$scope.hasChanges = false;
-
-  		// revert temp array to the same as original (i.e. row array)
-  		$scope.temp = $scope.rooms.slice();
-  		$scope.tableParams.reload();
-  	}
-
-  	$scope.save = function() {
-  		$scope.hasChanges = false;
-  		$scope.rooms = $scope.temp.slice();
-  	}
 
   	$scope.export = function() {
     
-  }
+  	}
 
 });

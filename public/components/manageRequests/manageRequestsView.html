@@ -3,7 +3,7 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="col-md-6">
-        <h3 class="text-center">Conference Publish Requests</h3>
+        <h3 class="text-center">Conferences</h3>
         <hr>
         <!-- Requests -->
         <div class="col-sm-12" ng-if="conferences" ng-repeat="con in conferences">
@@ -14,7 +14,7 @@
                 <h4 class="card-text">Location: {{con.city}},{{con.country}}</h4>
                 <h5 class="card-text">Start: {{con.start_date}}</h5>
                 <h5 class="card-text">End: {{con.end_date}}</h5>
-                <button class="btn btn-primary btn-sm" ng-click="viewConferenceApplication($index)">View Application</button>
+                <button class="btn btn-primary btn-sm" ng-click="viewConferenceDraft($index)">View Draft</button>
                 <button class="btn btn-success btn-sm" ng-click="publishConference($index)">Publish</button>
                 <button class="btn btn-danger btn-sm" ng-click="declineConference($index)">Decline</button>
               </div>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <h3 class="text-center">Event Publish Requests</h3>
+        <h3 class="text-center">Events</h3>
         <hr>
         <!-- Requests -->
         <div class="col-sm-12" ng-if="events" ng-repeat="eve in events">
@@ -38,7 +38,7 @@
                 <h4 class="card-text">Facilitator: {{eve.facilitator}}</h4>
                 <h5 class="card-text">From: {{eve.start_time}} to {{eve.end_time}}</h5>
                 <h5 class="card-text">Date: {{eve.date}}</h5>
-                <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">View Application</button>
+                <button class="btn btn-primary btn-sm" ng-click="viewEventDraft($index)">View Draft</button>
                 <button class="btn btn-success btn-sm" ng-click="publishEvent($index)">Publish</button>
                 <button class="btn btn-danger btn-sm" ng-click="declineEvent($index)">Decline</button>
               </div>

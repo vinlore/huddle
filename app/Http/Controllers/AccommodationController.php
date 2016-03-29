@@ -14,11 +14,16 @@ class AccommodationController extends Controller
     public function index($conferences)
     {
         try {
-            return Conference::find($conferences)->accommodations()->get();
+            $conf = Conference::find($conferences);
+            if (!$conf) {
+                return response()->success("204" , "No Conference Found");
+            }
+            return $conf->accommodations()->get();
         } catch (Exception $e) {
             return response()->error();
         }
     }
+
 
     public function store(AccommodationRequest $request, $conferences)
     {
@@ -34,7 +39,11 @@ class AccommodationController extends Controller
     public function show($conferences, $id)
     {
         try {
-            return Accommodation::findOrFail($id);
+            $accom = Accommodation::find($id);
+            if (!$accom) {
+                return response()->success("204" , "No Accomodation found");
+            }
+            return $accom;
         } catch (Exception $e) {
             return response()->error();
         }
@@ -43,7 +52,11 @@ class AccommodationController extends Controller
     public function update(AccommodationRequest $request, $conferneces, $id)
     {
         try {
-            Accommodation::findOrFail($id)->update($request->all());
+            $accom = Accommodation::find($id);
+            if(!$accom) {
+                return response()->error("204" , "Unable to find the accommodation to update");
+            }
+            $accom->update($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -53,9 +66,9 @@ class AccommodationController extends Controller
     public function destroy($conferences, $id)
     {
         try {
-            $accommodation = Accommodation::findOrFail($id);
-            if ($accommodation->rooms()->guests()->count()) {
-                return response()->error();
+            $accommodation = Accommodation::find($id);
+            if ($accommodation->rooms()->count()) {
+                return response()->error("There are still guests in this accommodation");
             }
             $accommodation->conferences()->detach();
             $accommodation->delete();

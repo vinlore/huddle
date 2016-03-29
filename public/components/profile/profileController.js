@@ -14,8 +14,8 @@ angular.module( 'profileCtrl', [] )
                         if ( response ) {
                             for (var i=0; i < response.length; i++) {
                                 response[i].birthdate = new Date(response[i].birthdate+'T00:00:00');
-                                if (response[i]['is_owner'] == 1) {
-                                    $scope.user = response[i];  
+                                if (response[i]['is_owner']) {
+                                    $scope.user = response[i];
                                     $scope.loadConferences();
                                     $scope.loadEvents();
                                     response.splice(i, i+1);
@@ -34,9 +34,9 @@ angular.module( 'profileCtrl', [] )
 
     $scope.saveNameChanges = function () {
         var profile = {
-            first_name: $scope.user.FirstName,
-            last_name: $scope.user.LastName,
-            middle_name: $scope.user.MiddleName
+            first_name: $scope.user.first_name,
+            last_name: $scope.user.last_name,
+            middle_name: $scope.user.middle_name
         };
         Profile.update( {uid: $scope.user.user_id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
@@ -52,8 +52,8 @@ angular.module( 'profileCtrl', [] )
 
     $scope.saveContactChanges = function () {
         var profile = {
-            email: $scope.user.Email,
-            phone: $scope.user.HomePhone
+            email: $scope.user.email,
+            phone: $scope.user.phone
         };
         Profile.update( {uid: $scope.user.user_id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
@@ -69,8 +69,8 @@ angular.module( 'profileCtrl', [] )
 
     $scope.saveAddressChanges = function () {
         var profile = {
-            city: $scope.user.City,
-            country: $scope.user.Country
+            city: $scope.user.city,
+            country: $scope.user.country
         };
         Profile.update( {uid: $scope.user.user_id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
@@ -86,7 +86,7 @@ angular.module( 'profileCtrl', [] )
 
     $scope.savePasswordChanges = function () {
         var password = {
-            password: $scope.user.NewPassword
+            password: $scope.user.new_password
         };
         Users.update( { id: $rootScope.user.id }, password )
             .$promise.then( function ( response ) {
@@ -184,4 +184,21 @@ angular.module( 'profileCtrl', [] )
         }
     }
 
+    $scope.cancelConferenceApplication = function(index){
+          var conference = {
+            id: $scope.conferences[index].id
+          }
+        //console.log($scope.conferences);
+        ProfileAttendsConferences.status().update({cid: conference.id , pid: $scope.user.id},{status: 'cancelled'})
+          .$promise.then( function (response) {
+              if ( response.status == 200 ) {
+                  $scope.loadConferences()
+                  popup.alert( 'success', 'Conference application cancelled' );
+              } else {
+                  popup.error( 'Error', response.message );
+              }
+          }, function () {
+              popup.connection();
+          })
+    };
 } );

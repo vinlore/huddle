@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 use App\Http\Requests\RoomRequest;
 use App\Models\Room;
+use App\Models\Accommodation;
 
 class RoomController extends Controller
 {
@@ -22,7 +23,10 @@ class RoomController extends Controller
     public function store(RoomRequest $request)
     {
         try {
-            Room::create($request->all());
+            $accommodation = Accommodation::find($request->accommodation_id);
+            $room = new Room($request->all());
+            $room->accommodation()->associate($accommodation);
+            $room->save();
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -30,7 +34,7 @@ class RoomController extends Controller
     }
     
 
-    public function update(RoomRequest $request, $id)
+    public function update(RoomRequest $request, $accommodation, $id)
     {
         try {
             Room::findOrFail($id)->update($request->all());
@@ -40,7 +44,7 @@ class RoomController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($accommodation, $id)
     {
         try {
             Room::findOrFail($id)->delete();

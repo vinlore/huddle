@@ -29,8 +29,10 @@ angular.module('cms', [
     'ng-fusioncharts',
     'manageAccommodationsCtrl',
     'manageInventoryCtrl',
-    'manageRoomsCtrl',
+    'manageConferenceAttendeesCtrl',
+    'manageEventAttendeesCtrl',
     'manageTransportationCtrl',
+    'manageRoomsCtrl',
     'ngStorage',
     'popupServices',
     'ngMap',
@@ -41,7 +43,6 @@ angular.module('cms', [
     'reportsCtrl',
     'angular-timeline',
     'ui.mask',
-    'manageAttendeesCtrl',
     'createEventCtrl'
 ])
 
@@ -268,10 +269,19 @@ angular.module('cms', [
         }
     })
 
-    .state( 'manage-attendees', {
-        url: '/manage-attendees-:conferenceId',
+    .state( 'manage-attendees-conference', {
+        url: '/manage-attendees-conference-:conferenceId',
         templateUrl: 'components/manageAttendees/manageAttendeesView.html',
-        controller: 'manageAttendeesController',
+        controller: 'manageConferenceAttendeesController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'manage-attendees-event', {
+        url: '/manage-attendees-event-:eventId',
+        templateUrl: 'components/manageAttendees/manageAttendeesView.html',
+        controller: 'manageEventAttendeesController',
         resolve: {
             loginRequired: loginRequired
         }

@@ -6,20 +6,6 @@ use App\Http\Requests\Request;
 
 class AccommodationRequest extends Request
 {
-    protected $createRules = [
-        'name'    => ['required', 'string', 'max:255'],
-        'address' => ['required', 'string', 'max:255'],
-        'city'    => ['required', 'string', 'max:255'],
-        'country' => ['required', 'string', 'max:255'],
-    ];
-
-    protected $updateRules = [
-        'name'    => ['string', 'max:255'],
-        'address' => ['string', 'max:255'],
-        'city'    => ['string', 'max:255'],
-        'country' => ['string', 'max:255'],
-    ];
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -50,5 +36,25 @@ class AccommodationRequest extends Request
                     break;
             }
         }
+    }
+
+    public function createRules()
+    {
+        return [
+            'name'    => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'city'    => ['required', 'string', 'max:255'],
+            'country' => ['required', 'string', 'max:255'],
+        ];
+    }
+
+    public function updateRules()
+    {
+        return [
+            'name'    => ['string', 'max:255'],
+            'address' => ['string', 'max:255'],
+            'city'    => ['string', 'max:255'],
+            'country' => ['string', 'max:255'],
+        ];
     }
 }
