@@ -92,17 +92,13 @@ class ConferenceAttendeeController extends Controller
                          ->count();
             Conference::where($request->conference_id)->update(['attendee_count' => $count]);
 
-            if($request->status == "denied") {
-                $profile = Profile::find($request->profile_id);
-
+                //TODO : IF DENIED - WHAT HAPPENS
                 //TODO:Detaching all related Vehicles to this profile for this conference
-                //Check all Vehicle ID related to this profile
 
                 //TODO:Detchaing all rooms related to this profile for this conference
 
                 //TODO:Detach all events related to the conference being rejected
-                return response()->success();
-            }
+
 
 
             if ($request->vehicle_id != NULL) {

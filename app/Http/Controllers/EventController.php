@@ -40,6 +40,13 @@ class EventController extends Controller
             if (!$event) {
                 return response()->error("Event not found");
             }
+            
+            //Check if event manager belongs to this event
+            $userId = $request->header('ID');
+            if (!$event->managers()->where('user_id', $userID)->get()) {
+                return response()->error("403" , "Permission Denied");
+            }
+
             $event->update($request->all());
             return response()->success();
         } catch (Exception $e) {

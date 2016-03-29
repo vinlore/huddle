@@ -94,12 +94,18 @@ class ConferenceController extends Controller
     public function update(ConferenceRequest $request, $id)
     {
         try {
-
             // Check if the Conference exists.
             $conference = Conference::find($id);
             if (!$conference) {
                 return response()->error(404);
             }
+
+            //Check if conference manager belongs to this conference
+            $userId = $request->header('ID');
+            if (!$conference->managers()->where('user_id', $userID)->get()) {
+                return response()->error("403" , "Permission Denied");
+            }
+
 
             // Update the Conference.
             $conference->fill($request->all())->save();
