@@ -1,45 +1,105 @@
-<div id="attendee-requests" class="container has-header">
-   <h1 class="page-header">Attendee Requests</h1>
-   <div class="panel panel-default">
+<div id="attendees" class="container has-header">
+   <div class="container">
+      <div ng-if="conferenceId != null">
+         <h1>Attendees for Conference {{conferenceId}</h1>
+      </div>
+      <div ng-if="eventId != null">
+         <h1>Attendees for Event {{eventId}</h1>
+      </div>
+   </div>
+
+   <div class="panel panel-default margin-top-25">
       <div class="panel-body">
-         <div class="col-md-6">
-            <h3 class="text-center">Conference Attendee Requests</h3>
-            <hr>
-            <!-- Requests -->
-            <div class="col-sm-12" ng-if="conferencePendingCreations" ng-repeat="con in conferences">
-               <div class="col-sm-12">
-                  <div class="card card-warning card-block">
-                     <h4 class="card-title">{{con.name}} wants to attend a conference {{con.conference_name}}</h4>
-                     <h5 class="card-text">Start: {{con.startDate}}</h5>
-                     <h5 class="card-text">End: {{con.endDate}}</h5>
-                     <button class="btn btn-primary btn-sm" ng-click="viewConfPendingApplication($index)">View Application</button>
-                     <div class="pull-right">
-                        <button class="btn btn-success btn-sm" ng-click="acceptConfPendingRequest($index)">Accept</button>
-                        <button class="btn btn-danger btn-sm" ng-click="declineConfPendingRequest($index)">Decline</button>
-                     </div>
-                  </div>
-               </div>
+
+         <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
+
+            <colgroup>
+               <col width="15%" />
+               <col width="10%" />
+               <col width="10%" />
+               <col width="10%" />
+               <col width="5%" />
+               <col width="20%" />
+               <col width="10%" />
+               <col width="10%" />
+               <col width="25%" />
+            </colgroup>
+
+            <tr ng-repeat="a in $data">
+               <td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
+                  <span ng-hide="editMode">
+                     {{a.first_name}}
+                  </span>
+                  <input type="text" ng-model="attend.first_name" class="editable-input form-control input-sm" placeholder="{{attend.first_name}}" ng-show="editMode" required />
+               </td>
+               <td title="'Middle Name'" filter="{ 'middle_name': 'text'}" sortable="'middle_name'">
+                  <span ng-hide="editMode">
+                     {{a.middle_name}}
+                  </span>
+                  <input type="text" ng-model="attend.middle_name" class="editable-input form-control input-sm" placeholder="{{attend.middle_name}}" ng-show="editMode" required />
+               </td>
+               <td title="'Last Name'" filter="{ 'last_name': 'text'}" sortable="'last_name'">
+                  <span ng-hide="editMode">
+                     {{a.last_name}}
+                  </span>
+                  <input type="text" ng-model="attend.last_name" class="editable-input form-control input-sm" placeholder="{{attend.last_name}}" ng-show="editMode" required />
+               </td>
+               <td title="'Birthdate'" filter="{ 'birthdate': 'text'}" sortable="'birthdate'">
+                  <span ng-hide="editMode">
+                     {{a.birthdate}}
+                  </span>
+                  <input type="text" ng-model="attend.birthdate" class="editable-input form-control input-sm" placeholder="{{attend.birthdate}}" ng-show="editMode" required />
+               </td>
+               <td title="'Gender'" filter="{ 'gender': 'text'}" sortable="'gender'">
+                  <span ng-hide="editMode">
+                     {{a.gender}}
+                  </span>
+                  <input type="text" ng-model="attend.gender" class="editable-input form-control input-sm" placeholder="{{attend.gender}}" ng-show="editMode" required />
+               </td>
+               <td title="'Email'" filter="{ 'email': 'text'}" sortable="'email'">
+                  <span ng-hide="editMode">
+                     {{a.email}}
+                  </span>
+                  <input type="text" ng-model="attend.email" class="editable-input form-control input-sm" placeholder="{{attend.email}" ng-show="editMode" required />
+               </td>
+               <td title="'Home Phone'" filter="{ 'phone': 'text'}" sortable="'phone'">
+                  <span ng-hide="editMode">
+                     {{a.phone}}
+                  </span>
+                  <input type="text" ng-model="attend.phone" class="editable-input form-control input-sm" placeholder="{{attend.phone}}" ng-show="editMode" required />
+               </td>
+               <td title="'Mobile Phone'" filter="{ 'phone2': 'text'}" sortable="'phone2'">
+                  <span ng-hide="editMode">
+                     {{a.phone2}}
+                  </span>
+                  <input type="text" ng-model="attend.phone2" class="editable-input form-control input-sm" placeholder="{{attend.phone2}}" ng-show="editMode" required />
+               </td>
+               
+               <td>
+                  <button class="btn btn-sm btn-default" ng-hide="editMode" ng-click="editMode = true">
+                     Edit
+                  </button>
+                  <button class="btn btn-danger" ng-hide="editMode" ng-click="del(a.id)">
+                     <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                  <button class="btn btn-sm btn-success" ng-show="editMode" ng-click="editMode = false; save(a.id, attend)">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        Save
+                  </button>
+                  <button class="btn btn-sm btn-default" ng-show="editMode" ng-click="editMode = false; cancel()">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Cancel
+                  </button>
+               </td>
+            </tr>
+         </table>
+
+         <div class="pull-right">
+               <button class="btn btn-info" ng-click="export()">
+                  <span class="glyphicon glyphicon-download"></span>
+                  Export
+            </button>
             </div>
-         </div>
-         <div class="col-md-6">
-            <h3 class="text-center">Event Attendee Requests</h3>
-            <hr>
-            <!-- Requests -->
-            <div class="col-sm-12" ng-if="eventsPendingCreations" ng-repeat="eve in events">
-               <div class="col-sm-12">
-                  <div class="card card-warning card-block">
-                     <h4 class="card-title">{{eve.name}} wants to attend an event {{eve.event_name}}</h4>
-                     <h5 class="card-text">Start: {{eve.startDate}}</h5>
-                     <h5 class="card-text">End: {{eve.endDate}}</h5>
-                     <button class="btn btn-primary btn-sm" ng-click="viewEventsPendingApplication($index)">View Application</button>
-                     <div class="pull-right">
-                        <button class="btn btn-success btn-sm" ng-click="acceptEventsPendingRequest($index)">Accept</button>
-                        <button class="btn btn-danger btn-sm" ng-click="declineEventsPendingRequest($index)">Decline</button>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
       </div>
    </div>
 </div>
