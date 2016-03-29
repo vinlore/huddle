@@ -29,8 +29,10 @@ angular.module('cms', [
     'ng-fusioncharts',
     'manageAccommodationsCtrl',
     'manageInventoryCtrl',
-    'manageRoomsCtrl',
+    'manageConferenceAttendeesCtrl',
+    'manageEventAttendeesCtrl',
     'manageTransportationCtrl',
+    'manageRoomsCtrl',
     'ngStorage',
     'popupServices',
     'ngMap',
@@ -41,10 +43,9 @@ angular.module('cms', [
     'reportsCtrl',
     'angular-timeline',
     'ui.mask',
-    'manageAttendeesCtrl',
     'createEventCtrl',
     'attendeeConfCtrl',
-    'attendeeEventCtrl'
+    'attendeeEventCtrl',
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
@@ -55,27 +56,29 @@ angular.module('cms', [
             var user;
             if ($rootScope.user) {
                 user = $rootScope.user.id;
+                var token;
+                if ($auth.getToken()) token = $auth.getToken();
+                $http({
+                    method: 'POST',
+                    url: 'api/auth/confirm',
+                    headers: {
+                        'X-Auth-Token': token,
+                        'ID': user
+                    }
+                }).success( function ( response ) {
+                    if ( response.status == 500 ) {
+                        popup.alert('danger', 'You have been logged out.');
+                        $auth.removeToken();
+                        $rootScope.auth = null;
+                        $rootScope.user = null;
+                        delete $localStorage.user;
+                    } else {
+                        if (response.permissions) {
+                            $rootScope.user.permissions = response.permissions;
+                        }
+                    }
+                })
             }
-            var token;
-            if ($auth.getToken()) token = $auth.getToken();
-            $http({
-                method: 'POST',
-                url: 'api/auth/confirm',
-                headers: {
-                    'X-Auth-Token': token,
-                    'ID': user
-                }
-            }).success( function ( response ) {
-                if ( response.status == 500 ) {
-                    popup.alert('danger', 'You have been logged out.');
-                    $auth.removeToken();
-                    $rootScope.auth = null;
-                    $rootScope.user = null;
-                    delete $localStorage.user;
-                } else {
-                    $rootScope.user.permissions = response.permissions;
-                }
-            })
         });
 
     $rootScope.user = $localStorage.user;
@@ -268,10 +271,19 @@ angular.module('cms', [
         }
     })
 
-    .state( 'manage-attendees', {
-        url: '/manage-attendees-:conferenceId',
+    .state( 'manage-attendees-conference', {
+        url: '/manage-attendees-conference-:conferenceId',
         templateUrl: 'components/manageAttendees/manageAttendeesView.html',
-        controller: 'manageAttendeesController',
+        controller: 'manageConferenceAttendeesController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'manage-attendees-event', {
+        url: '/manage-attendees-event-:eventId',
+        templateUrl: 'components/manageAttendees/manageAttendeesView.html',
+        controller: 'manageEventAttendeesController',
         resolve: {
             loginRequired: loginRequired
         }

@@ -69,13 +69,14 @@
   <script src="components/signupConference/signupConferenceController.js"></script>
   <script src="components/signupEvent/signupEventController.js"></script>
   <script src="components/manageAccommodations/manageAccommodationsController.js"></script>
+  <script src="components/manageAttendees/manageConferenceAttendeesController.js"></script>
+  <script src="components/manageAttendees/manageEventAttendeesController.js"></script>
   <script src="components/manageInventory/manageInventoryController.js"></script>
   <script src="components/manageRooms/manageRoomsController.js"></script>
   <script src="components/manageTransportation/manageTransportationController.js"></script>
   <script src="components/manageRequests/manageRequestsController.js"></script>
   <script src="components/manageManagers/manageManagersController.js"></script>
   <script src="components/reports/reportsController.js"></script>
-  <script src="components/manageAttendees/manageAttendeesController.js"></script>
   <script src="components/createEvent/createEventController.js"></script>
   <script src="components/signupConference/attendeeConferenceController.js"></script>
   <script src="components/signupEvent/attendeeEventController.js"></script>

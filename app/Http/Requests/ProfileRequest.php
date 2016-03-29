@@ -57,7 +57,7 @@ class ProfileRequest extends Request
     {
         return [
             'email'       => ['email', 'max:255'],
-            'phone'       => ['integer'],
+            'phone'       => ['string', 'max:255'],
             'first_name'  => ['string', 'max:255', $this->NAME],
             'middle_name' => ['string', 'max:255', $this->NAME],
             'last_name'   => ['string', 'max:255', $this->NAME],

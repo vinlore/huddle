@@ -5,3 +5,11 @@
 #profile .center form {
     display:inline-block;
 }
+
+#profile .ng-table th {
+    text-align: left;
+}
+
+#profile .wide {
+    min-width: 120px;
+}
