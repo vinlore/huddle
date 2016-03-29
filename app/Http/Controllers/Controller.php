@@ -95,7 +95,7 @@ class Controller extends BaseController
                 var_dump($email);
                 $subject = '"'.$name.'" Attendance Request Update';
                 $body = 'Hi, '.$profile->first_name.'!
-                        Your request to attend '.$name.' has been '.$status.'.';
+                        Your request to create '.$name.' has been '.$status.'.';
 
                     \Mail::queue([], [], function ($message) use($email,$subject,$body) {
                         $message->to($email)
