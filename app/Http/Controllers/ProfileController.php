@@ -8,24 +8,22 @@ use Illuminate\Http\Response;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use App\Models\Conference;
-use App\Models\User;
 
 class ProfileController extends Controller
 {
     public function index($user)
     {
         try {
-            return Profile::where('user_id', $user)->get();
+            return Profile::where('user_id', $user)->first();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function store(ProfileRequest $request, $id)
+    public function store(ProfileRequest $request)
     {
         try {
-            $request->is_owner = 0;
-            User::find($id)->profiles()->create($request->all());
+            Profile::create($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -35,35 +33,24 @@ class ProfileController extends Controller
     public function update(ProfileRequest $request, $id)
     {
         try {
-            Profile::findOrFail($id)->update($request->all());
+            $profile = Profile::find($id);
+            if(!$profile) {
+                return response()->error();
+            }
+            $profile->update($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function allProfileConferences($id)
-    {
-      try {
-        $conferenceProfiles = [];
-
-    $profile = Profile::findOrFail($id);
-    foreach ($profile->conferences as $conference) {
-        $conferenceProfiles[] = $conference;
-    }
-
-    return $conferenceProfiles;
-
-    } catch (Exception $e) {
-        return response()->error();
-    }
-
-  }
-
-    public function destroy($users, $profiles)
+    public function destroy($id)
     {
         try {
-            $profile = Profile::findOrFail($profiles);
+            $profile = Profile::find($id);
+            if (!$profile) {
+                return response()->error("Profile not found");
+            }
             if ($profile->is_owner == 1) {
                 return response()->error();
             }

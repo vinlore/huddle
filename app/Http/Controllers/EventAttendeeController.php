@@ -39,7 +39,7 @@ class EventAttendeeController extends Controller
                          ->attendees()
                          ->attach($profile, $request->all());
 
-            $this->addActivity($request->header('ID'),'request', $attendees->id, 'event attendence');
+            $this->addActivity($request->header('ID'),'request', $request->event_id, 'event attendence');
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -73,18 +73,13 @@ class EventAttendeeController extends Controller
 
      public function profileEventStatusUpdate(Request $request){
         try{
-            $attendees = Event::find($requset->event_id)
+            $attendees = Event::find($request->event_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
-            $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'event attendence');
-            /*
-            if($request->Status == 'approved' && user_to_check->receive_email == 1){
-                //TODO SEND APPROVED EMAIL
-            }elseif($request->Status == 'declined' && user_to_check->receive_email == 1){
-                //TODO SEND DECLINED EMAIL
-            }
-            */
+            $this->addActivity($request->header('ID'),$request->status, $request->event_id, 'event attendence');
+
+             $this->sendAttendeeEmail("event", $request->event_id, $request->status, $request->profile_id);
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -105,7 +100,7 @@ class EventAttendeeController extends Controller
             $attendees = Event::find($requset->event_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,$request->all());
-            $this->addActivity($request->header('ID'),'update', $attendees->id, 'event attendence');
+            $this->addActivity($request->header('ID'),'update', $request->event_id, 'event attendence');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
