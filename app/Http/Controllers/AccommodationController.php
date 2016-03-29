@@ -67,7 +67,7 @@ class AccommodationController extends Controller
     {
         try {
             $accommodation = Accommodation::find($id);
-            if ($accommodation->rooms()->guests()->count()) {
+            if ($accommodation->rooms()->count()) {
                 return response()->error("There are still guests in this accommodation");
             }
             $accommodation->conferences()->detach();
