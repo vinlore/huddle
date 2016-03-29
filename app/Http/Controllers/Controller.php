@@ -87,13 +87,12 @@ class Controller extends BaseController
         var_dump($users);
 
         foreach($users as $u){
-            $profile = Profile::where('user_id',$u->user_id)->first();
+            $profile = Profile::where('user_id',$u->user_id)->where('is_owner',1)->first();
             $user= User::where('id', $u->user_id)->first();
-            if(($user->receive_email == 0) || ($user->email == null) || ($profile->is_owner == 0)){
+            if(($user->receive_email == 0) || ($user->email == null)){
                 }else{
                 $email = $user->email;
-                var_dump($email);
-                $subject = '"'.$name.'" Attendance Request Update';
+                $subject = '"'.$name.'" Creation Request Update';
                 $body = 'Hi, '.$profile->first_name.'!
                         Your request to create '.$name.' has been '.$status.'.';
 
