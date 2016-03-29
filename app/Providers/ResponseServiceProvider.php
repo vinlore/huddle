@@ -36,8 +36,20 @@ class ResponseServiceProvider extends ServiceProvider
 
         Response::macro('error', function ($status = 500, $message = NULL) {
             switch ($status) {
+                case 400:
+                    $message = ($message == NULL) ? 'Bad Request' : $message;
+                    break;
+                case 401:
+                    $message = ($message == NULL) ? 'Unauthorized' : $message;
+                    break;
+                case 403:
+                    $message = ($message == NULL) ? 'Forbidden' : $message;
+                    break;
                 case 404:
                     $message = ($message == NULL) ? 'Not Found' : $message;
+                    break;
+                case 405:
+                    $message = ($message == NULL) ? 'Method Not Allowed' : $message;
                     break;
                 case 409:
                     $message = ($message == NULL) ? 'Conflict' : $message;
