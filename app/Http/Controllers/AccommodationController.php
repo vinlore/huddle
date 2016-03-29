@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\AccommodationRequest;
+
 use App\Models\Accommodation;
 use App\Models\Conference;
 
@@ -23,6 +24,7 @@ class AccommodationController extends Controller
             return response()->error();
         }
     }
+
 
     public function store(AccommodationRequest $request, $conferences)
     {

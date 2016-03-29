@@ -86,7 +86,7 @@ class ConferenceAttendeeController extends Controller
             $this->addActivity($request->header('ID'),$request->status, $request->conference_id, 'conference attendence');
 
             //Update attendee count
-            $count = find($request->conference_id)
+            $count = Conference::find($request->conference_id)
                          ->attendees()
                          ->where('status','approved')
                          ->count();
@@ -94,11 +94,14 @@ class ConferenceAttendeeController extends Controller
 
             if($request->status == "denied") {
                 $profile = Profile::find($request->profile_id);
+
                 //TODO:Detaching all related Vehicles to this profile for this conference
+                //Check all Vehicle ID related to this profile
 
                 //TODO:Detchaing all rooms related to this profile for this conference
 
                 //TODO:Detach all events related to the conference being rejected
+                return response()->success();
             }
 
 

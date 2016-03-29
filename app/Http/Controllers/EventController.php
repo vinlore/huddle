@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 use App\Http\Requests\EventRequest;
 use App\Models\Event;
+use App\Models\User;
 
 class EventController extends Controller
 {
@@ -35,7 +36,11 @@ class EventController extends Controller
     public function update(EventRequest $request, $conferences, $id)
     {
         try {
-            Event::findorFail($id)->update($request->all());
+            $event Event::find($id);
+            if (!$event) {
+                return response()->error("Event not found");
+            }
+            $event->update($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -45,6 +50,11 @@ class EventController extends Controller
     public function destroy($conferences, $id)
     {
         try {
+            $event Event::find($id);
+            if (!$event) {
+                return response()->error("Event not found");
+            }
+            $event->delete();
             Event::findOrFail($id)->delete();
             return response()->success();
         } catch (Exception $e) {
@@ -64,7 +74,11 @@ class EventController extends Controller
     public function updateWithStatus(Request $request, $id)
     {
         try {
-            Event::findOrFail($id)->update([
+            $event = Event::find($id)
+            if (!$event) {
+                return response()->error("Event not found");
+            }
+            $event->update([
                 'status' => $request->status,
             ]);
             $this->sendCreationEmail('event', $id, $request->status);

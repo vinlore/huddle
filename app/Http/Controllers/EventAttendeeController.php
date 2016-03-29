@@ -73,12 +73,26 @@ class EventAttendeeController extends Controller
 
      public function profileEventStatusUpdate(Request $request){
         try{
+            //Update Status on pivot
             $attendees = Event::find($request->event_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
             $this->addActivity($request->header('ID'),$request->status, $request->event_id, 'event attendence');
 
+            //Update attendee count
+            $count = Event::find($request->event_id)
+                        ->attendees()
+                        ->where('status','approved')
+                        ->count();
+            Event::where($request->event_id)->update(['attendee_count' => $count]);
+
+            if ($request->status == 'denied') {
+                $profile = Profile::find($request->profile_id)
+                //TODO : Detach all related vehicles to this profile for event
+                
+            }
+            //Send Email Notification
              $this->sendAttendeeEmail("event", $request->event_id, $request->status, $request->profile_id);
             return response()->success();
         } catch (Exception $e) {
