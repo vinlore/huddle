@@ -1,5 +1,5 @@
 angular.module('manageAccommodationsCtrl',[])
-.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, $location, Conferences, popup, $uibModal){
+.controller('manageAccommodationsController', function($scope, ngTableParams, $stateParams, $filter, Conferences, popup, $uibModal){
 
 	// Conference ID
 	$scope.conferenceId = $stateParams.conferenceId;
@@ -49,7 +49,7 @@ angular.module('manageAccommodationsCtrl',[])
 		Conferences.accommodations().save( {cid: $scope.conferenceId}, accom )
 		.$promise.then( function( response ) {
 			if ( response.status == 200 ) {
-				console.log( 'Changes saved to accommodations' );
+				console.log( 'Changes saved to accommodations (add)' );
 				popup.alert( 'success', 'Changes have been saved.' );
 				
 				// clear input data
@@ -89,16 +89,24 @@ angular.module('manageAccommodationsCtrl',[])
     }
 
     $scope.cancel = function() {
-    	$scope.hasChanges = false;
-
-  		// revert temp array to the same as original (i.e. row array)
-  		$scope.temp = $scope.accommodations.slice();
   		$scope.tableParams.reload();
   	}
 
-  	$scope.save = function() {
-  		$scope.hasChanges = false;
-  		$scope.accommodations = $scope.temp.slice();
+  	$scope.save = function(id, ac) {
+  		// Adds acommodation to accommodations table
+		Conferences.accommodations().update( {cid: $scope.conferenceId, aid: id}, ac)
+		.$promise.then( function( response ) {
+			if ( response.status == 200 ) {
+				console.log( 'Changes saved to accommodations (update)' );
+				popup.alert( 'success', 'Changes have been saved.' );
+			} else {
+				popup.error( 'Error', response.message );
+			}
+		}, function () {
+			popup.connection();
+		})
+
+		$scope.tableParams.reload();
   	}
 
   	$scope.export = function() {

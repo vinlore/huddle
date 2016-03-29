@@ -24,7 +24,6 @@ class AccommodationController extends Controller
         }
     }
 
-
     public function store(AccommodationRequest $request, $conferences)
     {
         try {

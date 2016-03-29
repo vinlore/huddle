@@ -8,6 +8,7 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
     };
 
     $scope.countries = Countries;
+    $scope.header = "Signup";
 
     $scope.changeCountry = function(country) {
         $scope.citiesOnly.componentRestrictions = { country: country.code };
@@ -172,6 +173,7 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
     }
 
     $scope.submitRequest = function() {
+
         if ($scope.profileForm.$valid) {
             var profile = {
                 profile_id: $scope.user.id,

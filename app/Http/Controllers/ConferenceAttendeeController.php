@@ -143,6 +143,7 @@ class ConferenceAttendeeController extends Controller
                          ->updateExistingPivot($profile_id,$request->all());
 
             $this->addActivity($request->header('ID'),'update', $conference_id, 'conference attendence');
+
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.

@@ -33,7 +33,6 @@ class RoomController extends Controller
         }
     }
 
-
     public function update(RoomRequest $request, $accommodation, $id)
     {
         try {
