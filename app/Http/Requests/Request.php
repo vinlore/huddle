@@ -39,7 +39,7 @@ abstract class Request extends FormRequest
         $userId = $this->header('ID');
         $apiToken = $this->header('X-Auth-Token');
         $user = User::find($userId);
-        return $user->api_token = $apiToken;
+        return $user->api_token == $apiToken;
     }
 
     /**
@@ -68,16 +68,6 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -92,7 +82,7 @@ abstract class Request extends FormRequest
                 return array_merge($this->commonRules(), $this->updateRules());
                 break;
             default:
-                return false;
+                return [];
                 break;
         }
     }
