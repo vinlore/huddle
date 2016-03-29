@@ -1,7 +1,8 @@
 angular.module( 'profileCtrl', [] )
-.controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, Conferences, Events, $filter, popup, Users, $rootScope ) {
+.controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, Conferences, Events, $filter, popup, Users, $rootScope, $state ) {
 
     $scope.user = {};
+    $scope.animationsEnabled = true;
 
     $scope.saveNameChanges = function () {
         var profile = {
@@ -107,6 +108,7 @@ angular.module( 'profileCtrl', [] )
                     };
                     $scope.loadConferences();
                     $scope.loadEvents();
+                    //console.log($scope.conferences[0].pivot);
                 } else {
                     popup.error('Error', response.error);
                 }
@@ -137,6 +139,7 @@ angular.module( 'profileCtrl', [] )
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.events = response;
+                    console.log($scope.events);
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -162,4 +165,28 @@ angular.module( 'profileCtrl', [] )
               popup.connection();
           })
     };
-} );
+
+    $scope.viewConferenceApplication = function(index){
+      var conference = {
+        pid: $scope.conferences[index].pivot.profile_id,
+        cid: $scope.conferences[index].pivot.conference_id,
+        name: $scope.conferences[index].name,
+      }
+      $state.go('attendee-conference-profile', {conference_name: conference.name,
+                                                conference_id: conference.cid,
+                                                profile_id: conference.pid
+                                              });
+    };
+
+    $scope.viewEventApplication = function(index){
+      var _event = {
+        pid: $scope.events[index].pivot.profile_id,
+        eid: $scope.events[index].pivot.event_id,
+        name: $scope.events[index].name
+      }
+      $state.go('attendee-event-profile', {event_name: _event.name,
+                                            event_id: _event.cid,
+                                            profile_id: _event.pid
+                                          });
+    };
+})

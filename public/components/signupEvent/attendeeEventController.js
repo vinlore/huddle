@@ -1,5 +1,5 @@
-angular.module('signupEventCtrl',[])
-.controller('signupEventController', function($scope, $stateParams){
+angular.module('attendeeEventCtrl',[])
+.controller('attendeeEventController', function($scope, $stateParams, $state){
 
   $scope.user = {
       Username: null,
@@ -17,10 +17,11 @@ angular.module('signupEventCtrl',[])
       HomePhone: null,
       OtherPhone: null,
   };
-  $scope.header = "Sign Up";
+  $scope.header = "Application";
+
 
   $scope.event = {
-      name: $stateParams.name,
+      name: $stateParams.event_name,
   }
 
   $scope.arrival = {
@@ -32,7 +33,7 @@ angular.module('signupEventCtrl',[])
   }
 
   $scope.submitRequest = function () {
-    console.log("pressed");
+
   }
 
 })

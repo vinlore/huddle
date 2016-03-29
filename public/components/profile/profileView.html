@@ -141,7 +141,7 @@
             <div class="card">
               <div class="title-status card-header">
                 <h4>{{con.name}}&nbsp</h4>
-                <label class="alert" is-approved status="con.status">{{con.status | uppercase}}</label>
+                <label class="alert" is-approved status="con.status">{{con.pivot.status | uppercase}}</label>
               </div>
               <div class="card-block">
                 <h4 class="card-text">Location: {{con.city}},{{con.country}}</h4>
@@ -167,7 +167,7 @@
             <div class="card">
               <div class="title-status card-header">
                 <h4>{{eve.name}}&nbsp</h4>
-                <label class="alert" is-approved status="eve.status">{{eve.status | uppercase}}</label>
+                <label class="alert" is-approved status="eve.status">{{eve.pivot.status | uppercase}}</label>
               </div>
               <div class="card-block">
                 <h4 class="card-text">Location: {{eve.city}},{{eve.country}}</h4>
