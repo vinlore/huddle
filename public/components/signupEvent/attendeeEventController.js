@@ -1,5 +1,5 @@
 angular.module('attendeeEventCtrl',[])
-.controller('attendeeEventController', function($scope, $stateParams, $state, ProfileAttendsEvents, Events, Countries){
+.controller('attendeeEventController', function($scope, $stateParams, $state, ProfileAttendsEvents, Events, Countries, popup){
 
   $scope.header = "Application";
   $scope.countries = Countries;

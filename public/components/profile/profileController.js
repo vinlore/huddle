@@ -4,6 +4,7 @@ angular.module( 'profileCtrl', [] )
 
     $scope.user = {};
     $scope.animationsEnabled = true;
+    $scope.members = [];
 
     $scope.tableParams = new ngTableParams (
         {},
@@ -20,11 +21,11 @@ angular.module( 'profileCtrl', [] )
                                     $scope.user = response[i];
                                     $scope.loadConferences();
                                     $scope.loadEvents();
-                                    response.splice(i, i+1);
+                                } else {
+                                    $scope.members.push(response[i]);
                                 }
                             }
-                            $scope.family = response;
-                            $defer.resolve($scope.family);
+                            $defer.resolve($scope.members);
                         } else {
                             popup.error('Error', response.error);
                         }
@@ -88,7 +89,7 @@ angular.module( 'profileCtrl', [] )
 
     $scope.savePasswordChanges = function () {
         var password = {
-            password: $scope.user.new_password
+            password: $scope.user.password
         };
         Users.update( { id: $rootScope.user.id }, password )
             .$promise.then( function ( response ) {
