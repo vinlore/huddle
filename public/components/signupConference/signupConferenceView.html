@@ -64,13 +64,13 @@
           <div class="form-group">
             <label for="c-signup-home-phone" class="col-sm-3 control-label">Home Phone: </label>
             <div class="col-sm-8">
-              <input class="form-control" type="number" id="c-signup-home-phone" placeholder="Home Phone #" ng-model="user.HomePhone" required>
+              <input class="form-control" type="number" id="c-signup-home-phone" placeholder="Home Phone #" ng-model="user.phone" required>
             </div>
           </div>
           <div class="form-group">
             <label for="c-signup-mobile-phone" class="col-sm-3 control-label">Mobile Phone: </label>
             <div class="col-sm-8">
-              <input class="form-control" type="number" id="c-signup-mobile-phone" placeholder="Mobile Phone #" ng-model="user.OtherPhone">
+              <input class="form-control" type="number" id="c-signup-mobile-phone" placeholder="Mobile Phone #" ng-model="user.phone2">
             </div>
           </div>
           <div class="form-group">
@@ -89,32 +89,32 @@
           <div class="form-group">
             <label for="c-signup-ec-first-name" class="col-sm-3 control-label">First Name: </label>
             <div class="col-sm-8">
-              <input class="form-control" id="c-signup-ec-first-name" placeholder="First Name" ng-model="emergencyContact.FirstName">
+              <input class="form-control" id="c-signup-ec-first-name" placeholder="First Name" ng-model="emergencyContact.first_name">
             </div>
           </div>
           <div class="form-group">
             <label for="c-signup-ec-last-name" class="col-sm-3 control-label">Last Name: </label>
             <div class="col-sm-8">
-              <input class="form-control" id="c-signup-ec-last-name" placeholder="Last Name" ng-model="emergencyContact.LastName">
+              <input class="form-control" id="c-signup-ec-last-name" placeholder="Last Name" ng-model="emergencyContact.last_name">
             </div>
           </div>
           <div class="form-group">
             <label for="c-signup-ec-phone" class="col-sm-3 control-label">Phone: </label>
             <div class="col-sm-8">
-              <input class="form-control" type="number" id="c-signup-ec-phone" placeholder="Phone #" ng-model="emergencyContact.Phone">
+              <input class="form-control" type="number" id="c-signup-ec-phone" placeholder="Phone #" ng-model="emergencyContact.phone">
             </div>
           </div>
           <div class="form-group">
             <label for="c-signup-ec-email" class="col-sm-3 control-label">Email: </label>
             <div class="col-sm-8">
-              <input class="form-control" type="email" id="c-signup-ec-email" placeholder="Email" ng-model="emergencyContact.Email">
+              <input class="form-control" type="email" id="c-signup-ec-email" placeholder="Email" ng-model="emergencyContact.email">
             </div>
           </div>
         </form>
         <h3 class="text-center">Medical Conditions</h3>
         <hr>
         <div class="form-group">
-          <textarea class="form-control" rows="3" id="comment" placeholder="Condition(s) and any special requests" ng-model="user.MedicalConditions"></textarea>
+          <textarea class="form-control" rows="3" id="comment" placeholder="Condition(s) and any special requests" ng-model="user.medical_conditions"></textarea>
         </div>
       </div>
     </div>
@@ -128,22 +128,22 @@
         <fieldset data-ng-repeat="family in familymembers">
           <div>
             <div class="col-sm-2 form-group">
-              <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="First Name" ng-model="family.FirstName">
+              <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="First Name" ng-model="family.first_name">
             </div>
             <div class="col-sm-2 form-group">
-              <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Middle Name" ng-model="family.MiddleName">
+              <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Middle Name" ng-model="family.middle_name">
             </div>
             <div class="col-sm-2 form-group">
-              <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="Last Name" ng-model="family.LastName">
+              <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="Last Name" ng-model="family.last_name">
             </div>
             <div class="col-sm-1 form-group">
-              <input type="number" class="col-xs-2 form-control" id="inputUser" placeholder="Age" ng-model="family.Age">
+              <input type="number" class="col-xs-2 form-control" id="inputUser" placeholder="Age" ng-model="family.age">
             </div>
             <div class="col-sm-2 form-group">
-              <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Country" ng-model="family.Country">
+              <input type="text" class="col-xs-2 form-control" id="inputUser" placeholder="Country" ng-model="family.country">
             </div>
             <div class="col-sm-2 form-group">
-              <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="City" ng-model="family.City">
+              <input type="text" class="col-xs-2  form-control" id="inputUser" placeholder="City" ng-model="family.city">
             </div>
             <div class="col-sm-1 form-group">
               <button class="btn btn-danger btn-md" ng-click="removeFamilyMember($index)" ng-show="familymembers.length!=1 || $index!=0">Remove</button>
