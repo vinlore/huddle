@@ -12,71 +12,116 @@ use App\Models\Conference;
 
 class AccommodationController extends Controller
 {
-    public function index($conferences)
+    /**
+     * Retrieve all Accommodations for a Conference.
+     *
+     * @return Collection|Response
+     */
+    public function index($cid)
     {
         try {
-            $conf = Conference::find($conferences);
-            if (!$conf) {
-                return response()->success("204" , "No Conference Found");
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
             }
-            return $conf->accommodations()->get();
+
+            // Try to get its Accommodations.
+            $accommodations = $conference->accommodations()->get();
+            if (!$accommodations->count()) {
+                return response()->success(204);
+            }
+            return $accommodations;
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-
-    public function store(AccommodationRequest $request, $conferences)
+    /**
+     * Create an Accommodation for a Conference.
+     *
+     * @return Response
+     */
+    public function store(AccommodationRequest $request, $cid)
     {
         try {
+
+            // Check if the Conference exists.
+            if (!Conference::find($cid)->exists()) {
+                return response()->error(404);
+            }
+
+            // Create the Accommodation.
             $accommodation = Accommodation::create($request->all());
-            $accommodation->conferences()->attach($conferences);
-            return response()->success();
+            $accommodation->conferences()->attach($cid);
+            return response()->success(201);
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function show($conferences, $id)
+    /**
+     * Retrieve an Accommodation.
+     *
+     * @return Model|Response
+     */
+    public function show($cid, $aid)
     {
         try {
-            $accom = Accommodation::find($id);
-            if (!$accom) {
-                return response()->success("204" , "No Accomodation found");
-            }
-            return $accom;
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
 
-    public function update(AccommodationRequest $request, $conferences, $id)
-    {
-        try {
-            $accom = Accommodation::find($id);
-            if(!$accom) {
-                return response()->error("204" , "Unable to find the accommodation to update");
-            }
-            $accom->update($request->all());
-            return response()->success();
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
-
-    public function destroy($conferences, $id)
-    {
-        try {
-            $accommodation = Accommodation::find($id);
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
-                return response()->error();
-            }
-            if ($accommodation->rooms()->count())
-            {
-                return response()->error("Rooms still belong to accommodation");
+                return response()->error(404);
             }
 
-            $accommodation->conferences()->detach();
+            // Retrieve the Accommodation.
+            return $accommodation;
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
+    /**
+     * Update an Accommodation.
+     *
+     * @return Response
+     */
+    public function update(AccommodationRequest $request, $cid, $aid)
+    {
+        try {
+
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404);
+            }
+
+            // Update the Accommodation.
+            $accommodation->fill($request->all())->save();
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
+    /**
+     * Delete an Accommodation.
+     *
+     * @return Response
+     */
+    public function destroy($cid, $aid)
+    {
+        try {
+
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404);
+            }
+
+            // Delete the Accommodation.
             $accommodation->delete();
             return response()->success();
         } catch (Exception $e) {
