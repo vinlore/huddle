@@ -41,7 +41,7 @@ class ConferenceAttendeeController extends Controller
                           ->attendees()
                           ->attach($profile, $request->all());
 
-           $this->addActivity($request->header('ID'),'request', $request->profile_id, 'conference attendence');
+           $this->addActivity($request->header('ID'),'request', $conferences, 'conference attendence');
 
             return response()->success();
         } catch (Exception $e) {
@@ -81,7 +81,7 @@ class ConferenceAttendeeController extends Controller
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
-            $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'conference attendence');
+            $this->addActivity($request->header('ID'),$request->status, $request->conference_id, 'conference attendence');
 
             $count = find($request->conference_id)
                          ->attendees()
@@ -133,7 +133,7 @@ class ConferenceAttendeeController extends Controller
                          ->attendees()
                          ->updateExistingPivot($profile_id,$request->all());
 
-            $this->addActivity($request->header('ID'),'update', $attendees->id, 'conference attendence');
+            $this->addActivity($request->header('ID'),'update', $conference_id, 'conference attendence');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
