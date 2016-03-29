@@ -8,22 +8,24 @@ use Illuminate\Http\Response;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use App\Models\Conference;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
     public function index($user)
     {
         try {
-            return Profile::where('user_id', $user)->first();
+            return Profile::where('user_id', $user)->get();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function store(ProfileRequest $request)
+    public function store(ProfileRequest $request, $id)
     {
         try {
-            Profile::create($request->all());
+            $request->is_owner = 0;
+            User::find($id)->profiles()->create($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -58,10 +60,10 @@ class ProfileController extends Controller
 
   }
 
-    public function destroy($id)
+    public function destroy($users, $profiles)
     {
         try {
-            $profile = Profile::findOrFail($id);
+            $profile = Profile::findOrFail($profiles);
             if ($profile->is_owner == 1) {
                 return response()->error();
             }

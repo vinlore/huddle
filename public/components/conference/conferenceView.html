@@ -132,7 +132,7 @@
                             <span ng-if="event.age_limit">Ages: <strong>{{event.age_limit}}+</strong></span>
                             <span ng-if="!event.age_limit && !event.gender_limit">No restrictions</span>
                             <span>&nbspSeats: <strong>{{event.attendee_count}}/{{event.capacity}}</strong></span>
-                            <a type="button" class="btn btn-primary" ui-sref="event-signup({eventId: event.eventId, name: event.name})" ng-if="auth && !eventAttendance">
+                            <a type="button" class="btn btn-primary" ui-sref="event-signup({eventId: event.id, name: event.name})" ng-if="auth && !eventAttendance && conferenceAttendance == 'approved'">
                                 <span class="glyphicon glyphicon-edit"></span>
                                 <label> Sign Up</label>
                             </a>

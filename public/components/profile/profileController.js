@@ -1,7 +1,36 @@
 angular.module( 'profileCtrl', [] )
-.controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, Conferences, Events, $filter, popup, Users, $rootScope ) {
+.controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, Conferences, Events, $filter, popup, Users, $rootScope, ngTableParams ) {
 
     $scope.user = {};
+
+    $scope.tableParams = new ngTableParams (
+        {},
+        {
+            counts: [],
+            getData: function($defer, params) {
+                if ($rootScope.user)
+                Profile.query( { uid: $rootScope.user.id } )
+                    .$promise.then( function ( response ) {
+                        if ( response ) {
+                            for (var i=0; i < response.length; i++) {
+                                response[i].birthdate = new Date(response[i].birthdate+'T00:00:00');
+                                if (response[i]['is_owner'] == 1) {
+                                    $scope.user = response[i];  
+                                    $scope.loadConferences();
+                                    $scope.loadEvents();
+                                    response.splice(i, i+1);
+                                }
+                            }
+                            $scope.family = response;
+                            $defer.resolve($scope.family);
+                        } else {
+                            popup.error('Error', response.error);
+                        }
+                    }, function () {
+                        popup.connection();
+                    })
+            }
+        })
 
     $scope.saveNameChanges = function () {
         var profile = {
@@ -9,7 +38,7 @@ angular.module( 'profileCtrl', [] )
             last_name: $scope.user.LastName,
             middle_name: $scope.user.MiddleName
         };
-        Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
+        Profile.update( {uid: $scope.user.user_id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
                 if ( response.status == 200 ) {
                     popup.alert( 'success', 'Name successfully changed.' );
@@ -26,7 +55,7 @@ angular.module( 'profileCtrl', [] )
             email: $scope.user.Email,
             phone: $scope.user.HomePhone
         };
-        Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
+        Profile.update( {uid: $scope.user.user_id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
                 if ( response.status == 200 ) {
                     popup.alert( 'success', 'Contact information successfully changed.' );
@@ -43,7 +72,7 @@ angular.module( 'profileCtrl', [] )
             city: $scope.user.City,
             country: $scope.user.Country
         };
-        Profile.update( {uid: $rootScope.user.id, pid: $scope.user.id}, profile )
+        Profile.update( {uid: $scope.user.user_id, pid: $scope.user.id}, profile )
             .$promise.then( function ( response ) {
                 if ( response.status == 200 ) {
                     popup.alert( 'success', 'Contact information successfully changed.' );
@@ -84,39 +113,6 @@ angular.module( 'profileCtrl', [] )
             })
     };
 
-    $scope.loadProfile = function () {
-        Profile.get( { uid: $rootScope.user.id } )
-            .$promise.then( function ( response ) {
-                if ( response ) {
-                    var profile = response;
-                    $scope.user = {
-                        id: profile.id,
-                        Username: $rootScope.user.name,
-                        OldPassword: null,
-                        NewPassword: null,
-                        ConfirmPassword: null,
-                        FirstName: profile.first_name,
-                        MiddleName: profile.middle_name,
-                        LastName: profile.last_name,
-                        Birthdate: new Date(profile.birthdate),
-                        Gender: profile.gender,
-                        Country: profile.country,
-                        City: profile.city,
-                        Email: profile.email,
-                        HomePhone: profile.phone
-                    };
-                    $scope.loadConferences();
-                    $scope.loadEvents();
-                } else {
-                    popup.error('Error', response.error);
-                }
-            }, function () {
-                popup.connection();
-            })
-    }
-    $scope.loadProfile();
-
-
     $scope.conferences = []
     $scope.loadConferences = function () {
         ProfileAttendsConferences.fetch().query({pid: $scope.user.id})
@@ -144,4 +140,48 @@ angular.module( 'profileCtrl', [] )
                 popup.connection();
             })
     };
+
+    $scope.newMember = {
+        first_name: null,
+        middle_name: null,
+        last_name: null,
+        birthdate: null
+    }
+
+    $scope.addMember = function () {
+        var member = $scope.newMember;
+        member.birthdate = $filter('date')(member.birthdate, 'yyyy-MM-dd');
+        Profile.save({uid: $scope.user.user_id}, member)
+            .$promise.then( function (response) {
+                if (response.status == 200) {
+                    popup.alert('success', 'New member successfully added.');
+                    $scope.resetMember();
+                    $scope.tableParams.reload();
+                } else {
+                    popup.error('Error', response.message);
+                }
+            }) 
+    }
+
+    $scope.removeMember = function (member) {
+        Profile.delete({uid: $scope.user.user_id, pid: member.id})
+            .$promise.then( function (response) {
+                if (response.status == 200) {
+                    popup.alert('success', 'Member has been successfully removed.');
+                    $scope.tableParams.reload();
+                } else {
+                    popup.error('Error', response.message);
+                }
+            }) 
+    }
+
+    $scope.resetMember = function () {
+        $scope.newMember = {
+            first_name: null,
+            middle_name: null,
+            last_name: null,
+            birthdate: null
+        }
+    }
+
 } );
