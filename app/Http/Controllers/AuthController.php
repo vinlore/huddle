@@ -56,7 +56,7 @@ class AuthController extends Controller
         $user = Sentinel::stateless($user);
 
         if (!$user) {
-            return response()->error();
+            return response()->error(401, 'Invalid Credentials');
         } else {
             $apiToken = bcrypt($user);
             $user->api_token = $apiToken;
@@ -78,7 +78,7 @@ class AuthController extends Controller
         $user = User::where('api_token', $apiToken)->first();
 
         if (!$user) {
-            return response()->error();
+            return response()->error(401, 'Invalid Token Error');
         } else {
             $user->api_token = NULL;
             $user->save();
@@ -92,7 +92,7 @@ class AuthController extends Controller
         $user = User::where('api_token', $apiToken)->first();
 
         if (!$user) {
-            return response()->error();
+            return response()->error(401, 'Invalid Token Error');
         } else {
             return response()->json([
                 'status'      => 200,
