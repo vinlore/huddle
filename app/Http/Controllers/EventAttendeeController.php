@@ -88,9 +88,9 @@ class EventAttendeeController extends Controller
             Event::where($request->event_id)->update(['attendee_count' => $count]);
 
             if ($request->status == 'denied') {
-                $profile = Profile::find($request->profile_id)
+                $profile = Profile::find($request->profile_id);
                 //TODO : Detach all related vehicles to this profile for event
-                
+
             }
             //Send Email Notification
              $this->sendAttendeeEmail("event", $request->event_id, $request->status, $request->profile_id);
