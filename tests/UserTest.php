@@ -13,8 +13,6 @@ class UserTest extends TestCase{
      */
     public function testUserIndex()
     {
-        $this->assertTrue(true);
-        /*
         $this->json('GET','/api/users',
                     ['username' => 'admin'])
             ->seeJson([
@@ -22,7 +20,6 @@ class UserTest extends TestCase{
                 'username' => 'admin',
                 'email' => 'admin@huddle.com',
             ]);
-            */
     }
 
     /*
@@ -30,12 +27,9 @@ class UserTest extends TestCase{
     */
     public function testEmptyUserIndex()
     {
-        $this->assertTrue(true);
-        /*
         $this->json('GET','/api/users',
                     ['username' => 'xoxoadminxoxo'])
             ->seeJson([]);
-            */
     }
 
     /*
@@ -43,7 +37,6 @@ class UserTest extends TestCase{
     */
     public function testUsersRoles()
     {
-        $this->assertTrue(true);
         /*
         $this->json('GET' , '/api/users-roles',
                     ['username' => 'admin'])

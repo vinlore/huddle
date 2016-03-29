@@ -60,7 +60,7 @@ class AccommodationTest extends TestCase{
                 'city' => 'Change City',
                 'country' => 'Change Country',
             ];
-            $this->call('PUT', '/api/conferences/3/accommodations/0', $accommodation, [], [], ['HTTP_X-Auth-Token' => $content->token, 'HTTP_ID' => 1]);
+            $this->call('PUT', '/api/conferences/0/accommodations/3', $accommodation, [], [], ['HTTP_X-Auth-Token' => $content->token, 'HTTP_ID' => 1]);
             $this->seeJson([
                 'status' => 200
             ]);
@@ -73,7 +73,7 @@ class AccommodationTest extends TestCase{
 
     public function testUpdatedAccommodationShow()
     {
-        $this->json('GET','/api/conferences/3/accommodations/0')
+        $this->json('GET','/api/conferences/0/accommodations/3')
             ->seeJson([
                 'name' => 'Change Accommodation',
                 'address' => 'Change Address',
@@ -88,7 +88,7 @@ class AccommodationTest extends TestCase{
             $response = $this->call('POST', '/api/auth/login', ['username' => 'admin', 'password' => 'password']);
             $content = json_decode($response->getContent());
 
-            $this->call('DELETE', '/api/conferences/1/accommodations', [], [], [], ['HTTP_X-Auth-Token' => $content->token, 'HTTP_ID' => 1]);
+            $this->call('DELETE', '/api/conferences/0/accommodations/3', [], [], [], ['HTTP_X-Auth-Token' => $content->token, 'HTTP_ID' => 1]);
             $this->seeJson([
                 'status' => 200
             ]);
@@ -96,12 +96,12 @@ class AccommodationTest extends TestCase{
            echo $e->getMessage();
        }
     }
-/*
+
     //Try to find the deleted Accomodation
     public function testFindDeletedAccommodation()
     {
-        $this->json('GET','/api/conferences/1/accommodations')
+        $this->json('GET','/api/conferences/0/accommodations/3')
             ->seeJson([]);
     }
-*/
+
 }

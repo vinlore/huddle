@@ -19,7 +19,8 @@ class Vehicle extends Model
 
     public function conferences()
     {
-        return $this->belongsToMany('App\Models\Conference', 'conference_vehicles')->withTimestamps()->withPivot('type');
+        return $this->belongsToMany('App\Models\Conference', 'conference_vehicles')->withTimestamps()
+                    ->withPivot('type');
     }
 
     public function events()

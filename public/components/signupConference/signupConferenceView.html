@@ -119,55 +119,55 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h3 class="text-center">Arrival Information</h3>
-                <hr>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Ride Required</label>
-                        <div class="radio-inline col-sm-2 control-label">
-                            <label>
-                                <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="true">Yes</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="text-center">Arrival Information</h3>
+                    <hr>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Ride Required</label>
+                            <div class="radio-inline col-sm-2 control-label">
+                                <label>
+                                    <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="true">Yes</label>
+                            </div>
+                            <div class="radio-inline col-sm-2 control-label">
+                                <label>
+                                    <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="false">No</label>
+                            </div>
                         </div>
-                        <div class="radio-inline col-sm-2 control-label">
-                            <label>
-                                <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="false">No</label>
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
+                            <div class="col-sm-7">
+                                <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="arrival.arrv_flight" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
-                        <div class="col-sm-7">
-                            <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="arrival.arrv_flight" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Airport</label>
+                            <div class="col-sm-7">
+                                <input class="form-control" id="inputUser" placeholder="Airport" ng-model="arrival.arrv_airport" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Airport</label>
-                        <div class="col-sm-7">
-                            <input class="form-control" id="inputUser" placeholder="Airport" ng-model="arrival.arrv_airport" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="arrivalDate" class="col-sm-4 control-label">Arrival Date</label>
-                        <div class="col-sm-7">
-                            <div class="input-group">
-                                <input type="text" id="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
-                                <span class="input-group-btn">
+                        <div class="form-group">
+                            <label for="arrivalDate" class="col-sm-4 control-label">Arrival Date</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" id="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-link" type="button" ng-click="calendar.isOpen2 = !calendar.isOpen2">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
                                 </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
-                        <div class="col-sm-7">
-                            <input type="time" class="form-control" id="inputUser" placeholder="Arrival Time" ng-model="arrival.avvr_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
+                            <div class="col-sm-7">
+                                <input type="time" class="form-control" id="inputUser" placeholder="Arrival Time" ng-model="arrival.avvr_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="row">
+                    </form>
+                </div>
                 <div class="col-md-6">
                     <h3 class="text-center">Departure Information</h3>
                     <hr>
@@ -223,107 +223,107 @@
     <h3 class="page-header">Family Members</h3>
     <uib-accordion close-others="false">
         <uib-accordion-group is-disabled="true" is-open="accordionIsOpen[$index]" ng-repeat="member in members track by $index">
-        <uib-accordion-heading>
-            {{member.first_name}}, {{member.last_name}}<i class="glyphicon glyphicon-ok pull-right" ng-class="{'btn-success': familyMembers[$index]}" ng-click="signupMember(member, $index)"></i>
-        </uib-accordion-heading>
-        <div class="row">
-            <div class="col-md-6">
-                <h3 class="text-center">Arrival Information</h3>
-                <hr>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Ride Required</label>
-                        <div class="radio-inline col-sm-2 control-label">
-                            <label>
-                                <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="true">Yes</label>
+            <uib-accordion-heading>
+                {{member.first_name}}, {{member.last_name}}<i class="glyphicon glyphicon-ok pull-right" ng-class="{'btn-success': familyMembers[$index]}" ng-click="signupMember(member, $index)"></i>
+            </uib-accordion-heading>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="text-center">Arrival Information</h3>
+                    <hr>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Ride Required</label>
+                            <div class="radio-inline col-sm-2 control-label">
+                                <label>
+                                    <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="true">Yes</label>
+                            </div>
+                            <div class="radio-inline col-sm-2 control-label">
+                                <label>
+                                    <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="false">No</label>
+                            </div>
                         </div>
-                        <div class="radio-inline col-sm-2 control-label">
-                            <label>
-                                <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="false">No</label>
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
+                            <div class="col-sm-7">
+                                <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="arrival.arrv_flight" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
-                        <div class="col-sm-7">
-                            <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="arrival.arrv_flight" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Airport</label>
+                            <div class="col-sm-7">
+                                <input class="form-control" id="inputUser" placeholder="Airport" ng-model="arrival.arrv_airport" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Airport</label>
-                        <div class="col-sm-7">
-                            <input class="form-control" id="inputUser" placeholder="Airport" ng-model="arrival.arrv_airport" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="arrivalDate" class="col-sm-4 control-label">Arrival Date</label>
-                        <div class="col-sm-7">
-                            <div class="input-group">
-                                <input type="text" id="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
-                                <span class="input-group-btn">
+                        <div class="form-group">
+                            <label for="arrivalDate" class="col-sm-4 control-label">Arrival Date</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" id="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-link" type="button" ng-click="calendar.isOpen2 = !calendar.isOpen2">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
                                 </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
-                        <div class="col-sm-7">
-                            <input type="time" class="form-control" id="inputUser" placeholder="Arrival Time" ng-model="arrival.avvr_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
+                            <div class="col-sm-7">
+                                <input type="time" class="form-control" id="inputUser" placeholder="Arrival Time" ng-model="arrival.avvr_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <h3 class="text-center">Departure Information</h3>
-                <hr>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Ride Required</label>
-                        <div class="radio-inline col-sm-2 control-label">
-                            <label>
-                                <input type="radio" ng-model="departure.dept_ride_req" ng-value="true">Yes</label>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="text-center">Departure Information</h3>
+                    <hr>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Ride Required</label>
+                            <div class="radio-inline col-sm-2 control-label">
+                                <label>
+                                    <input type="radio" ng-model="departure.dept_ride_req" ng-value="true">Yes</label>
+                            </div>
+                            <div class="radio-inline col-sm-2 control-label">
+                                <label>
+                                    <input type="radio" ng-model="departure.dept_ride_req" ng-value="false">No</label>
+                            </div>
                         </div>
-                        <div class="radio-inline col-sm-2 control-label">
-                            <label>
-                                <input type="radio" ng-model="departure.dept_ride_req" ng-value="false">No</label>
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
+                            <div class="col-sm-7">
+                                <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="departure.dept_flight" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
-                        <div class="col-sm-7">
-                            <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="departure.dept_flight" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Airport</label>
+                            <div class="col-sm-7">
+                                <input class="form-control" id="inputUser" placeholder="Airport" ng-model="departure.dept_airport" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Airport</label>
-                        <div class="col-sm-7">
-                            <input class="form-control" id="inputUser" placeholder="Airport" ng-model="departure.dept_airport" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="departureDate" class="col-sm-4 control-label">Departure Date</label>
-                        <div class="col-sm-7">
-                            <div class="input-group">
-                                <input type="text" class="form-control" ng-model="depature.dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen3" placeholder="YYYY-MM-DD" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
-                                <span class="input-group-btn">
+                        <div class="form-group">
+                            <label for="departureDate" class="col-sm-4 control-label">Departure Date</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" ng-model="depature.dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen3" placeholder="YYYY-MM-DD" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-link" type="button" ng-click="calendar.isOpen3 = !calendar.isOpen3">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
                                 </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUser" class="col-sm-4 control-label">Departure Time</label>
-                        <div class="col-sm-7">
-                            <input type="time" class="form-control" id="inputUser" placeholder="Departure Time" ng-model="departure.dept_time" ng-disabled="!departure.dept_ride_req">
+                        <div class="form-group">
+                            <label for="inputUser" class="col-sm-4 control-label">Departure Time</label>
+                            <div class="col-sm-7">
+                                <input type="time" class="form-control" id="inputUser" placeholder="Departure Time" ng-model="departure.dept_time" ng-disabled="!departure.dept_ride_req">
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+                    </form>
+                </div>
+                </div>
         </uib-accordion-group>
     </uib-accordion>
     <div class="panel panel-default">
@@ -355,4 +355,4 @@
             </div>
         </div>
     </div>
-</div>
+    </div>

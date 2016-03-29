@@ -1,126 +1,135 @@
 <div id="profile" class="container has-header">
-    <h1 class="page-header">User Profile</h1>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <uib-accordion>
-                <uib-accordion-group is-open="name.open">
-                    <uib-accordion-heading>
-                        Name: {{user.first_name}} {{user.last_name}}
-                    </uib-accordion-heading>
-                    <form role="form" class="form-horizontal">
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">First</label>
-                            <div class="col-sm-4">
-                                <input class="form-control" id="inputUser" ng-model="user.first_name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">Middle</label>
-                            <div class="col-sm-4">
-                                <input class="form-control" id="inputUser" placeholder="Optional" ng-model="user.middle_name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">Last</label>
-                            <div class="col-sm-4">
-                                <input class="form-control" id="inputUser" ng-model="user.last_name">
-                            </div>
-                        </div>
-                    </form>
-                    <div class="col-sm-8 col-sm-offset-4">
-                        <button type="button" class="btn btn-success btn-sm" ng-click="saveNameChanges()">Save Changes</button>
-                        <button type="button" class="btn btn-danger btn-sm" ng-click="name.open = !name.open">Cancel</button>
-                    </div>
-                </uib-accordion-group>
-                <uib-accordion-group is-open="contact.open">
-                    <uib-accordion-heading>
-                        Contact Information
-                    </uib-accordion-heading>
-                    <form role="form" class="form-horizontal">
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Email</label>
-                            <div class="col-sm-5">
-                                <input class="form-control" id="inputUser" ng-model="user.email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Home Phone</label>
-                            <div class="col-sm-5">
-                                <input class="form-control" id="inputUser" ng-model="user.phone">
-                            </div>
-                        </div>
-                    </form>
-                    <div class="col-sm-8 col-sm-offset-4">
-                        <button type="button" class="btn btn-success btn-sm" ng-click="saveContactChanges()">Save Changes</button>
-                        <button type="button" class="btn btn-danger btn-sm" ng-click="contact.open = !contact.open">Cancel</button>
-                    </div>
-                </uib-accordion-group>
-                <uib-accordion-group is-open="address.open">
-                    <uib-accordion-heading>
-                        Address: {{user.city}}<span ng-if="user.city">,&nbsp</span>{{user.country}}
-                    </uib-accordion-heading>
-                    <form role="form" class="form-horizontal">
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">City</label>
-                            <div class="col-sm-5">
-                                <input class="form-control" id="inputUser" ng-model="user.city">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Country</label>
-                            <div class="col-sm-5">
-                                <input class="form-control" id="inputUser" ng-model="user.country">
-                            </div>
-                        </div>
-                    </form>
-                    <div class="col-sm-8 col-sm-offset-4">
-                        <button type="button" class="btn btn-success btn-sm" ng-click="saveAddressChanges()">Save Changes</button>
-                        <button type="button" class="btn btn-danger btn-sm" ng-click="address.open = !address.open">Cancel</button>
-                    </div>
-                </uib-accordion-group>
-                <uib-accordion-group is-open="password.open">
-                    <uib-accordion-heading>
-                        Password
-                    </uib-accordion-heading>
-                    <!-- Password Change Form -->
-                    <form class="form-horizontal">
-                        <!-- Old password -->
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">Current</label>
-                            <div class="col-sm-4">
-                                <input type="password" class="form-control" id="inputUser" placeholder="Enter Old Password" ng-model="user.old_password">
-                            </div>
-                        </div>
-                        <!-- New Password -->
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">New</label>
-                            <div class="col-sm-4">
-                                <input type="password" class="form-control" id="inputUser" placeholder="Enter New Password" ng-model="user.new_password">
-                            </div>
-                        </div>
-                        <!-- Confirm Password -->
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">Confirm New</label>
-                            <div class="col-sm-4">
-                                <input type="password" class="form-control" id="inputUser" placeholder="Confirm Password" ng-model="confirm_password">
-                            </div>
-                        </div>
-                    </form>
-                    <div class="col-sm-8 col-sm-offset-4">
-                        <button type="button" class="btn btn-success btn-sm" ng-click="savePasswordChanges()">Save Changes</button>
-                        <button type="button" class="btn btn-danger btn-sm" ng-click="password.open = !password.open">Cancel</button>
-                    </div>
-                </uib-accordion-group>
-                <uib-accordion-group heading="Delete account" panel-class="panel-danger" is-open="delete.open">
-                    <h4 class="text-center">This option cannot be undone!</h4>
-                    <div class="col-sm-12 col-sm-offset-5">
-                        <button class="btn btn-default btn-sm" ng-click="deleteAccount(user.id)">Delete</button>
-                        <button type="button" class="btn btn-danger btn-sm" ng-click="delete.open = !delete.open">Cancel</button>
-                    </div>
-                </uib-accordion-group>
-            </uib-accordion>
-        </div>
+  <h1 class="page-header">Profile</h1>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <uib-accordion>
+        <uib-accordion-group is-open="name.open">
+          <uib-accordion-heading>
+            Name: {{user.FirstName}} {{user.LastName}}
+            <div class="pull-right">Edit</div>
+          </uib-accordion-heading>
+          <form role="form" class="form-horizontal">
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">First</label>
+              <div class="col-sm-4">
+                <input class="form-control" id="inputUser" ng-model="user.FirstName">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">Middle</label>
+              <div class="col-sm-4">
+                <input class="form-control" id="inputUser" placeholder="Optional" ng-model="user.MiddleName">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">Last</label>
+              <div class="col-sm-4">
+                <input class="form-control" id="inputUser" ng-model="user.LastName">
+              </div>
+            </div>
+          </form>
+          <div class="col-sm-8 col-sm-offset-4">
+            <button type="button" class="btn btn-success btn-sm" ng-click="saveNameChanges()">Save Changes</button>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="name.open = !name.open">Cancel</button>
+          </div>
+        </uib-accordion-group>
+
+        <uib-accordion-group is-open="contact.open">
+          <uib-accordion-heading>
+            Contact Information
+            <div class="pull-right">Edit</div>
+          </uib-accordion-heading>
+          <form role="form" class="form-horizontal">
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Email</label>
+              <div class="col-sm-5">
+                <input class="form-control" id="inputUser" ng-model="user.Email">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Home Phone</label>
+              <div class="col-sm-5">
+                <input class="form-control" id="inputUser" ng-model="user.HomePhone">
+              </div>
+            </div>
+          </form>
+          <div class="col-sm-8 col-sm-offset-4">
+            <button type="button" class="btn btn-success btn-sm" ng-click="saveContactChanges()">Save Changes</button>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="contact.open = !contact.open">Cancel</button>
+          </div>
+        </uib-accordion-group>
+
+        <uib-accordion-group is-open="address.open">
+          <uib-accordion-heading>
+            Address: {{user.City}}<span ng-if="user.City">,&nbsp</span>{{user.Country}}
+            <div class="pull-right">Edit</div>
+          </uib-accordion-heading>
+          <form role="form" class="form-horizontal">
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">City</label>
+              <div class="col-sm-5">
+                <input class="form-control" id="inputUser" ng-model="user.City">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Country</label>
+              <div class="col-sm-5">
+                <input class="form-control" id="inputUser" ng-model="user.Country">
+              </div>
+            </div>
+          </form>
+          <div class="col-sm-8 col-sm-offset-4">
+            <button type="button" class="btn btn-success btn-sm" ng-click="saveAddressChanges()">Save Changes</button>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="address.open = !address.open">Cancel</button>
+          </div>
+        </uib-accordion-group>
+
+        <uib-accordion-group is-open="password.open">
+          <uib-accordion-heading>
+            Password
+            <div class="pull-right">Edit</div>
+          </uib-accordion-heading>
+          <!-- Password Change Form -->
+          <form class="form-horizontal">
+            <!-- Old password -->
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">Current</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" id="inputUser" placeholder="Enter Old Password" ng-model="user.OldPassword">
+              </div>
+            </div>
+            <!-- New Password -->
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">New</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" id="inputUser" placeholder="Enter New Password" ng-model="user.NewPassword">
+              </div>
+            </div>
+            <!-- Confirm Password -->
+            <div class="form-group">
+              <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">Confirm New</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" id="inputUser" placeholder="Confirm Password">
+              </div>
+            </div>
+          </form>
+          <div class="col-sm-8 col-sm-offset-4">
+            <button type="button" class="btn btn-success btn-sm" ng-click="savePasswordChanges()">Save Changes</button>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="password.open = !password.open">Cancel</button>
+          </div>
+        </uib-accordion-group>
+
+        <uib-accordion-group heading="Delete account" panel-class="panel-danger" is-open="delete.open">
+          <h4 class="text-center">This option cannot be undone!</h4>
+          <div class="col-sm-12 col-sm-offset-5">
+            <button class="btn btn-default btn-sm" ng-click="deleteAccount(user.id)">Delete</button>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="delete.open = !delete.open">Cancel</button>
+          </div>
+        </uib-accordion-group>
+      </uib-accordion>
     </div>
+  </div>
+
     <h1 class="page-header">Associated Members</h1>
     <div class="panel panel-default">
         <div class="panel-body table-responsive">

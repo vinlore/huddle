@@ -22,7 +22,9 @@ class EventController extends Controller
     public function store(EventRequest $request)
     {
         try {
-            Event::create($request->all());
+            $event = Event::create($request->all());
+            User::find($request->header('ID'))
+                ->events()->attach($event->id);
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -65,6 +67,7 @@ class EventController extends Controller
             Event::findOrFail($id)->update([
                 'status' => $request->status,
             ]);
+            $this->sendCreationEmail('event', $id, $request->status);
             return response()->success();
         } catch (Exception $e) {
             return response()->error();

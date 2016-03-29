@@ -24,7 +24,6 @@ class AccommodationController extends Controller
         }
     }
 
-
     public function store(AccommodationRequest $request, $conferences)
     {
         try {
@@ -49,7 +48,7 @@ class AccommodationController extends Controller
         }
     }
 
-    public function update(AccommodationRequest $request, $conferneces, $id)
+    public function update(AccommodationRequest $request, $conferences, $id)
     {
         try {
             $accom = Accommodation::find($id);
@@ -67,9 +66,14 @@ class AccommodationController extends Controller
     {
         try {
             $accommodation = Accommodation::find($id);
-            if ($accommodation->rooms()->count()) {
-                return response()->error("There are still guests in this accommodation");
+            if (!$accommodation) {
+                return response()->error();
             }
+            if ($accommodation->rooms()->count())
+            {
+                return response()->error("Rooms still belong to accommodation");
+            }
+
             $accommodation->conferences()->detach();
             $accommodation->delete();
             return response()->success();

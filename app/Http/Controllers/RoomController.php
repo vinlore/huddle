@@ -32,12 +32,15 @@ class RoomController extends Controller
             return response()->error();
         }
     }
-    
 
     public function update(RoomRequest $request, $accommodation, $id)
     {
         try {
-            Room::findOrFail($id)->update($request->all());
+            $room = Room::find($id);
+            if (!$room) {
+                return response()->error("No Room Found");
+            }
+            $room->update($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -47,7 +50,14 @@ class RoomController extends Controller
     public function destroy($accommodation, $id)
     {
         try {
-            Room::findOrFail($id)->delete();
+            $room = Room::find($id);
+            if (!$room) {
+                return response()->error("No Room Found");
+            }
+            if($room->guests()->count() > 0) {
+                return response()->error("There are still guests in this room");
+            }
+            $room->delete();
             return response()->success();
         } catch (Exception $e) {
             return response()->error();

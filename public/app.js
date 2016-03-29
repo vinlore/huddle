@@ -43,7 +43,9 @@ angular.module('cms', [
     'reportsCtrl',
     'angular-timeline',
     'ui.mask',
-    'createEventCtrl'
+    'createEventCtrl',
+    'attendeeConfCtrl',
+    'attendeeEventCtrl',
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
@@ -282,6 +284,24 @@ angular.module('cms', [
         url: '/manage-attendees-event-:eventId',
         templateUrl: 'components/manageAttendees/manageAttendeesView.html',
         controller: 'manageEventAttendeesController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'attendee-conference-profile', {
+        url: '/attendee-conference-profile-:conference_name?:conference_id?profile:profile_id',
+        templateUrl: 'components/signupConference/signupConferenceView.html',
+        controller: 'attendeeConferenceController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'attendee-event-profile', {
+        url: '/attendee-event-profile-:event_name?:event_id?profile:profile_id',
+        templateUrl: 'components/signupEvent/signupEventView.html',
+        controller: 'attendeeEventController',
         resolve: {
             loginRequired: loginRequired
         }

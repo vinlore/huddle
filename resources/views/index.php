@@ -78,6 +78,8 @@
   <script src="components/manageManagers/manageManagersController.js"></script>
   <script src="components/reports/reportsController.js"></script>
   <script src="components/createEvent/createEventController.js"></script>
+  <script src="components/signupConference/attendeeConferenceController.js"></script>
+  <script src="components/signupEvent/attendeeEventController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/mapService.js"></script>
