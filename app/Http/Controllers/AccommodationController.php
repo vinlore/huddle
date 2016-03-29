@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\AccommodationRequest;
-
 use App\Models\Accommodation;
 use App\Models\Conference;
 
@@ -27,12 +26,8 @@ class AccommodationController extends Controller
                 return response()->error(404);
             }
 
-            // Try to get its Accommodations.
-            $accommodations = $conference->accommodations()->get();
-            if (!$accommodations->count()) {
-                return response()->success(204);
-            }
-            return $accommodations;
+            // Retrieve its Accommodations.
+            return $conference->accommodations()->get();
         } catch (Exception $e) {
             return response()->error();
         }
@@ -55,6 +50,7 @@ class AccommodationController extends Controller
             // Create the Accommodation.
             $accommodation = Accommodation::create($request->all());
             $accommodation->conferences()->attach($cid);
+
             return response()->success(201);
         } catch (Exception $e) {
             return response()->error();
@@ -100,6 +96,7 @@ class AccommodationController extends Controller
 
             // Update the Accommodation.
             $accommodation->fill($request->all())->save();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -123,6 +120,7 @@ class AccommodationController extends Controller
 
             // Delete the Accommodation.
             $accommodation->delete();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
