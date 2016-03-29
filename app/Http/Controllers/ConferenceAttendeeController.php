@@ -13,6 +13,7 @@ use App\Models\Profile as Profile;
 use App\Models\Vehicle as Vehicle;
 use App\Models\Rooms as Room;
 use App\Models\User as User;
+use App\Models\Event as Event;
 
 class ConferenceAttendeeController extends Controller
 {
@@ -77,17 +78,29 @@ class ConferenceAttendeeController extends Controller
      public function profileConferenceStatusUpdate(Request $request){
         try{
 
+            //update status on pivot
             $attendees = Conference::find($request->conference_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
             $this->addActivity($request->header('ID'),$request->status, $attendees->id, 'conference attendence');
 
+            //Update attendee count
             $count = find($request->conference_id)
                          ->attendees()
                          ->where('status','approved')
                          ->count();
             Conference::where($request->conference_id)->update(['attendee_count' => $count]);
+
+            if($request->status == "denied") {
+                $profile = Profile::find($request->profile_id);
+                //TODO:Detaching all related Vehicles to this profile for this conference
+
+                //TODO:Detchaing all rooms related to this profile for this conference
+
+                //TODO:Detach all events related to the conference being rejected
+            }
+
 
             if ($request->vehicle_id != NULL) {
                 // Link up profile with the vehicle

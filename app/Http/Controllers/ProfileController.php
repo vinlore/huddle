@@ -33,7 +33,11 @@ class ProfileController extends Controller
     public function update(ProfileRequest $request, $id)
     {
         try {
-            Profile::findOrFail($id)->update($request->all());
+            $profile = Profile::find($id);
+            if(!$profile) {
+                return response()->error();
+            }
+            $profile->update($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -61,7 +65,10 @@ class ProfileController extends Controller
     public function destroy($id)
     {
         try {
-            $profile = Profile::findOrFail($id);
+            $profile = Profile::find($id);
+            if (!$profile) {
+                return response()->error("Profile not found");
+            }
             if ($profile->is_owner == 1) {
                 return response()->error();
             }
