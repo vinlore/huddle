@@ -36,7 +36,7 @@ class EventController extends Controller
     public function update(EventRequest $request, $conferences, $id)
     {
         try {
-            $event Event::find($id);
+            $event = Event::find($id);
             if (!$event) {
                 return response()->error("Event not found");
             }
@@ -50,7 +50,7 @@ class EventController extends Controller
     public function destroy($conferences, $id)
     {
         try {
-            $event Event::find($id);
+            $event = Event::find($id);
             if (!$event) {
                 return response()->error("Event not found");
             }
@@ -74,7 +74,7 @@ class EventController extends Controller
     public function updateWithStatus(Request $request, $id)
     {
         try {
-            $event = Event::find($id)
+            $event = Event::find($id);
             if (!$event) {
                 return response()->error("Event not found");
             }
