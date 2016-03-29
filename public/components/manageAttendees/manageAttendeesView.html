@@ -27,69 +27,39 @@
 
             <tr ng-repeat="a in $data">
                <td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
-                  <span ng-hide="editMode">
-                     {{a.first_name}}
-                  </span>
-                  <input type="text" ng-model="attend.first_name" class="editable-input form-control input-sm" placeholder="{{attend.first_name}}" ng-show="editMode" required />
+                  {{a.first_name}}
                </td>
                <td title="'Middle Name'" filter="{ 'middle_name': 'text'}" sortable="'middle_name'">
-                  <span ng-hide="editMode">
-                     {{a.middle_name}}
-                  </span>
-                  <input type="text" ng-model="attend.middle_name" class="editable-input form-control input-sm" placeholder="{{attend.middle_name}}" ng-show="editMode" required />
+                  {{a.middle_name}}
                </td>
                <td title="'Last Name'" filter="{ 'last_name': 'text'}" sortable="'last_name'">
-                  <span ng-hide="editMode">
-                     {{a.last_name}}
-                  </span>
-                  <input type="text" ng-model="attend.last_name" class="editable-input form-control input-sm" placeholder="{{attend.last_name}}" ng-show="editMode" required />
+                  {{a.last_name}}
                </td>
                <td title="'Birthdate'" filter="{ 'birthdate': 'text'}" sortable="'birthdate'">
-                  <span ng-hide="editMode">
-                     {{a.birthdate}}
-                  </span>
-                  <input type="text" ng-model="attend.birthdate" class="editable-input form-control input-sm" placeholder="{{attend.birthdate}}" ng-show="editMode" required />
+                  {{a.birthdate}}
                </td>
                <td title="'Gender'" filter="{ 'gender': 'text'}" sortable="'gender'">
-                  <span ng-hide="editMode">
-                     {{a.gender}}
-                  </span>
-                  <input type="text" ng-model="attend.gender" class="editable-input form-control input-sm" placeholder="{{attend.gender}}" ng-show="editMode" required />
+                  {{a.gender}}
                </td>
                <td title="'Email'" filter="{ 'email': 'text'}" sortable="'email'">
-                  <span ng-hide="editMode">
-                     {{a.email}}
-                  </span>
-                  <input type="text" ng-model="attend.email" class="editable-input form-control input-sm" placeholder="{{attend.email}" ng-show="editMode" required />
+                  {{a.email}}
                </td>
                <td title="'Home Phone'" filter="{ 'phone': 'text'}" sortable="'phone'">
-                  <span ng-hide="editMode">
-                     {{a.phone}}
-                  </span>
-                  <input type="text" ng-model="attend.phone" class="editable-input form-control input-sm" placeholder="{{attend.phone}}" ng-show="editMode" required />
+                  {{a.phone}}
                </td>
                <td title="'Mobile Phone'" filter="{ 'phone2': 'text'}" sortable="'phone2'">
-                  <span ng-hide="editMode">
-                     {{a.phone2}}
-                  </span>
-                  <input type="text" ng-model="attend.phone2" class="editable-input form-control input-sm" placeholder="{{attend.phone2}}" ng-show="editMode" required />
+                  {{a.phone2}}
                </td>
                
                <td>
-                  <button class="btn btn-sm btn-default" ng-hide="editMode" ng-click="editMode = true">
-                     Edit
-                  </button>
-                  <button class="btn btn-danger" ng-hide="editMode" ng-click="del(a.id)">
-                     <span class="glyphicon glyphicon-trash"></span>
-                  </button>
-                  <button class="btn btn-sm btn-success" ng-show="editMode" ng-click="editMode = false; save(a.id, attend)">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        Save
-                  </button>
-                  <button class="btn btn-sm btn-default" ng-show="editMode" ng-click="editMode = false; cancel()">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        Cancel
-                  </button>
+                  <div class="btn-group">
+                     <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a)">
+                           <span class="glyphicon glyphicon-ok"></span>
+                     </button>
+                     <button class="btn btn-sm btn-danger" ng-click="deny(a)">
+                           <span class="glyphicon glyphicon-remove"></span>
+                     </button>
+                  </div>
                </td>
             </tr>
          </table>
