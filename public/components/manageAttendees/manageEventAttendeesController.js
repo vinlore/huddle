@@ -1,5 +1,5 @@
 angular.module( 'manageEventAttendeesCtrl', [] )
-.controller( 'manageEventAttendeesController', function ($scope, ngTableParams, $stateParams, $filter, Events) {
+.controller( 'manageEventAttendeesController', function ($scope, ngTableParams, $stateParams, $filter, Events, popup) {
 
 	// Event ID
 	$scope.eventId = $stateParams.eventId;
@@ -29,5 +29,41 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 
 	    }
 	});
+
+	//////// Button Functions ////////
+
+  	$scope.approve = function(id) {
+
+	    Events.attendees().update( {eid: $scope.eventId, pid: id}, {status: 'approved'})
+	    .$promise.then( function( response ) {
+	      if ( response.status == 200 ) {
+	        console.log( 'Changes saved to profile_attends_events (approve)' );
+	        popup.alert( 'success', 'Approve success.' );
+	      } else {
+	        popup.error( 'Error', response.message );
+	      }
+	    }, function () {
+	      popup.connection();
+	    })
+
+	    $scope.tableParams.reload();
+	}
+
+  	$scope.deny = function(id) {
+
+	    Events.attendees().update( {eid: $scope.eventId, pid: id}, {status: 'denied'})
+	    .$promise.then( function( response ) {
+	      if ( response.status == 200 ) {
+	        console.log( 'Changes saved to profile_attends_events (deny)' );
+	        popup.alert( 'success', 'Deny success.' );
+	      } else {
+	        popup.error( 'Error', response.message );
+	      }
+	    }, function () {
+	      popup.connection();
+	    })
+
+	    $scope.tableParams.reload();
+	 }
 
 });
