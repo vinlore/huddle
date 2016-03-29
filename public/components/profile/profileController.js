@@ -116,29 +116,25 @@ angular.module( 'profileCtrl', [] )
     };
 
     $scope.loadProfile = function () {
-        Profile.get( { uid: $rootScope.user.id } )
+        Profile.query( { uid: $rootScope.user.id } )
             .$promise.then( function ( response ) {
                 if ( response ) {
-                    var profile = response;
+                    var profile = response[0];
                     $scope.user = {
                         id: profile.id,
-                        Username: $rootScope.user.name,
-                        OldPassword: null,
-                        NewPassword: null,
-                        ConfirmPassword: null,
-                        FirstName: profile.first_name,
-                        MiddleName: profile.middle_name,
-                        LastName: profile.last_name,
-                        Birthdate: new Date(profile.birthdate),
-                        Gender: profile.gender,
-                        Country: profile.country,
-                        City: profile.city,
-                        Email: profile.email,
-                        HomePhone: profile.phone
+                        first_name: profile.first_name,
+                        middle_name: profile.middle_name,
+                        last_name: profile.last_name,
+                        birthdate: new Date(profile.birthdate),
+                        gender: profile.gender,
+                        country: profile.country,
+                        city: profile.city,
+                        email: profile.email,
+                        phone: profile.phone
                     };
+                    console.log(profile);
                     $scope.loadConferences();
                     $scope.loadEvents();
-                    //console.log($scope.conferences[0].pivot);
                 } else {
                     popup.error('Error', response.error);
                 }
