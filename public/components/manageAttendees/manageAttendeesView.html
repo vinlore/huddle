@@ -1,10 +1,10 @@
 <div id="attendees" class="container has-header">
    <div class="container">
       <div ng-if="conferenceId != null">
-         <h1>Attendees for Conference {{conferenceId}</h1>
+         <h1>Attendees for Conference {{conferenceId}}</h1>
       </div>
       <div ng-if="eventId != null">
-         <h1>Attendees for Event {{eventId}</h1>
+         <h1>Attendees for Event {{eventId}}</h1>
       </div>
    </div>
 
@@ -53,10 +53,10 @@
                
                <td>
                   <div class="btn-group">
-                     <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a)">
+                     <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a.id)">
                            <span class="glyphicon glyphicon-ok"></span>
                      </button>
-                     <button class="btn btn-sm btn-danger" ng-click="deny(a)">
+                     <button class="btn btn-sm btn-danger" ng-click="deny(a.id)">
                            <span class="glyphicon glyphicon-remove"></span>
                      </button>
                   </div>
