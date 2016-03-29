@@ -80,5 +80,19 @@ class RoomTest extends TestCase{
             ]);
     }
 
+    //Delete the newly inserted Room
+    public function testDeleteRoom()
+    {
+        try{
+            $response = $this->call('POST', '/api/auth/login', ['username' => 'admin', 'password' => 'password']);
+            $content = json_decode($response->getContent());
 
+            $this->call('DELETE', '/api/accommodations/1/rooms/7', [], [], [], ['HTTP_X-Auth-Token' => $content->token, 'HTTP_ID' => 1]);
+            $this->seeJson([
+                'status' => 200
+            ]);
+       } catch(Exception $e) {
+           echo $e->getMessage();
+       }
+    }
 }
