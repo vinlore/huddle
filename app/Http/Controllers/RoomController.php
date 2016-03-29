@@ -56,7 +56,7 @@ class RoomController extends Controller
                 return response()->error("No Room Found");
             }
             if($room->guests()->count() > 0) {
-                return response()->e    rror("There are still guests in this room");
+                return response()->error("There are still guests in this room");
             }
             $room->delete();
             return response()->success();
