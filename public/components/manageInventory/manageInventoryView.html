@@ -15,9 +15,17 @@
           <td title="'Quantity'" filter="{ 'quantity': 'number'}" sortable="'quantity'">
             {{i.quantity}}
           </td>
+          <td title="'Change Quantity'">
+            <input type="number" ng-model="it.quantity" class="editable-input form-control input-sm" required />
+          </td>
+
           <td>
+            <button class="btn btn-sm btn-default" ng-disabled="!it.quantity" ng-click="updateQuantity(i, it.quantity)">
+              Update
+            </button>
             <button class="btn btn-danger" ng-click="del(i.id)">
-              <span class="glyphicon glyphicon-trash"></span></button>
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
             </td>
           </tr>
 
@@ -27,6 +35,7 @@
           <td title="'Quantity'">
             <input type="number" ng-model="item.quantity" class="editable-input form-control input-sm" required />
           </td>
+          <td></td>
           <td>
             <!-- Disable add buttion unless theres values in the input-->
           <button type="button" class="btn btn-success" ng-disabled="!item.name || !item.quantity" ng-click="add(item)">

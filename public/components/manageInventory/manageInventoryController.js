@@ -83,17 +83,23 @@ angular.module('manageInventoryCtrl',[])
       } )
     }
 
-  $scope.cancel = function() {
-    $scope.hasChanges = false;
+  $scope.updateQuantity = function(item, n) {
+    item.quantity = n;
 
-    // revert temp array to the same as original (i.e. row array)
-    $scope.temp = $scope.items.slice();
+    Conferences.inventory().update( {cid: $scope.conferenceId, iid: item.id}, item)
+    .$promise.then( function( response ) {
+      if ( response.status == 200 ) {
+        console.log( 'Changes saved to inventory (update)' );
+        popup.alert( 'success', 'Changes have been saved.' );
+      } else {
+        popup.error( 'Error', response.message );
+      }
+    }, function () {
+      popup.connection();
+    })
+
     $scope.tableParams.reload();
-  }
 
-  $scope.save = function() {
-    $scope.hasChanges = false;
-    $scope.items = $scope.temp.slice();
   }
 
   $scope.export = function() {
