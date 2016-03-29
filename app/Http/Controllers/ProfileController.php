@@ -14,7 +14,7 @@ class ProfileController extends Controller
     public function index($user)
     {
         try {
-            return Profile::where('user_id', $user)->first();
+            return Profile::where('user_id', $user)->get();
         } catch (Exception $e) {
             return response()->error();
         }

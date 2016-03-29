@@ -19,45 +19,32 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
     types: ['(cities)']
   };
 
-  $scope.emergencyContact = {
-    FirstName: null,
-    LastName: null,
-    PhoneNumber: null,
-    Email: null
-  }
-
   $scope.conference = {
     conferenceId: $stateParams.conference_id,
     name: $stateParams.conference_name
   }
+  $scope.emergencyContact = {
+    contact_first_name: null,
+    contact_last_name: null,
+    contact_email: null,
+    contact_phone: null
+  }
 
   $scope.arrival = {
-    RideRequired: false,
-    FlightCode: null,
-    Airport: null,
-    ArrivalDate: null,
-    ArrivalTime: null
+    dept_airport: null,
+    dept_time: null,
+    dept_date: null,
+    dept_ride_req: false,
+    dept_flight: null
   }
 
   $scope.departure = {
-    RideRequired: false,
-    FlightCode: null,
-    Airport: null,
-    DepartureDate: null,
-    DepartureTime: null
+    arrv_time: null,
+    arrv_date: null,
+    arrv_airport: null,
+    arrv_ride_req: false,
+    arrv_flight: null
   }
-
-
-  $scope.familymembers = [{
-    id: 'member1',
-    FirstName: null,
-    MiddleName: null,
-    LastName: null,
-    Age: null,
-    Gender: null,
-    Country: null,
-    City: null
-  }]
 
 
   $scope.attendeeProfile = [];
@@ -84,9 +71,11 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
           contact_phone: profile.contact_phone,
           arrv_time: profile.arrv_time,
           arrv_date: profile.arrv_date,
+          arrv_flight: profile.arrv_flight,
           arrv_airport: profile.arrv_airport,
           arrv_ride_req: profile.arrv_ride_req,
           dept_ride_req: profile.dept_ride_req,
+          dept_flight: profile.dept_flight,
           dept_airport: profile.dept_airport,
           dept_time: profile.dept_time,
           dept_date: profile.dept_date,
@@ -106,8 +95,8 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
   $scope.loadAttendeeProfile();
 
   $scope.accommodation = {
-    accommRequired: false,
-    accomPref: null
+    accommodation_req: null,
+    accommodation_pref: null
   }
 
   $scope.conference = {
@@ -118,37 +107,14 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
 
   $scope.familymembers = [{
     id: 'member1',
-    FirstName: null,
-    MiddleName: null,
-    LastName: null,
-    Age: null,
-    Gender: null,
-    Country: null,
-    City: null
+    first_name: null,
+    middle_name: null,
+    last_name: null,
+    birthdate: null,
+    gender: null,
+    city: null,
+    country: null
   }]
-
-  $scope.emergencyContact = {
-    FirstName: null,
-    LastName: null,
-    PhoneNumber: null,
-    Email: null
-  }
-
-  $scope.arrival = {
-    RideRequired: false,
-    FlightCode: null,
-    Airport: null,
-    ArrivalDate: null,
-    ArrivalTime: null
-  }
-
-  $scope.departure = {
-    RideRequired: false,
-    FlightCode: null,
-    Airport: null,
-    DepartureDate: null,
-    DepartureTime: null
-  }
 
   $scope.accommodations = [];
 
@@ -179,9 +145,11 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
         contact_phone: $scope.user.contact_phone,
         arrv_time: $scope.user.arrv_time,
         arrv_date: $scope.user.arrv_date,
+        arrv_flight: $scope.user.arrv_flight,
         arrv_airport: $scope.user.arrv_airport,
         arrv_ride_req: $scope.user.arrv_ride_req,
         dept_ride_req: $scope.user.dept_ride_req,
+        dept_flight: $scope.user.dept_flight,
         dept_airport: $scope.user.dept_airport,
         dept_time: $scope.user.dept_time,
         dept_date: $scope.user.dept_date,
