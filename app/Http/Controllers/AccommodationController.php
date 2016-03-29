@@ -51,7 +51,7 @@ class AccommodationController extends Controller
             $accommodation = Accommodation::create($request->all());
             $accommodation->conferences()->attach($cid);
 
-            return response()->success(201);
+            return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }

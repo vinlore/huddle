@@ -58,7 +58,7 @@ class ConferenceController extends Controller
             // Assign the User as a Conference Manager.
             $user->conferences()->attach($conference->id);
 
-            return response()->success(201);
+            return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }
