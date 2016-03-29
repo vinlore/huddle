@@ -11,10 +11,11 @@ angular.module( 'conferenceCtrl', [] )
         Conferences.fetch().get( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
                 if ( response ) {
-                    var conf = response;
-                    conf.startDate = new Date( conf.start_date+'T00:00:00' );
-                    conf.endDate = new Date( conf.end_date+'T00:00:00' );
-                    $scope.conference = conf;
+                    var date1 = response.start_date.split('-');
+                    response.startDate = new Date(parseInt(date1[0]), parseInt(date1[1])-1, parseInt(date1[2]));
+                    var date2 = response.end_date.split('-');
+                    response.endDate = new Date(parseInt(date2[0]), parseInt(date2[1])-1, parseInt(date2[2]));
+                    $scope.conference = response;
                     $scope.background = 'assets/img/' + $scope.conference.country + '/big/' + $filter( 'randomize' )( 3 ) + '.jpg';
                 } else {
                     popup.error( 'Error', response.message );
@@ -163,11 +164,13 @@ angular.module( 'conferenceCtrl', [] )
                 if ( response ) {
                     $scope.events = response;
                     for (var i = 0; i < response.length; i++) {
-                        $scope.events[i].date = new Date($scope.events[i].date+'T00:00:00');
-                        var time1 = $scope.events[i].start_time.split(':');
-                        $scope.events[i].start_time = time1[0]+time1[1];
-                        var time2 = $scope.events[i].end_time.split(':');
-                        $scope.events[i].end_time = time2[0]+time2[1];
+                        var date = response[i].date.split('-');
+                        response[i].date = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+                        var time1 = response[i].start_time.split(':');
+                        response[i].start_time = time1[0]+time1[1];
+                        var time2 = response[i].end_time.split(':');
+                        response[i].end_time = time2[0]+time2[1];
+                        $scope.checkEventAttendance(response[i].id, i);
                     }
                 } else {
                     popup.error( 'Error', response.message );
@@ -178,7 +181,6 @@ angular.module( 'conferenceCtrl', [] )
     }
 
     $scope.loadEvents();
-
     
     $scope.loadInventory = function () {
         Conferences.inventory().query( {cid: $stateParams.conferenceId} )
@@ -238,10 +240,10 @@ angular.module( 'conferenceCtrl', [] )
 
     $scope.checkConferenceAttendance = function () {
         if ($rootScope.user)
-        Conferences.attendees().query({cid: $stateParams.conferenceId, pid: $rootScope.user.id})
+        Conferences.attending().get({cid: $stateParams.conferenceId, uid: $rootScope.user.id})
             .$promise.then( function (response) {
                 if (response) {
-                    $scope.conferenceAttendance = response['0'].pivot.status;
+                    $scope.conferenceAttendance = response.pivot.status;
                 } else {
                     $scope.conferenceAttendance = null;
                 }
@@ -252,19 +254,19 @@ angular.module( 'conferenceCtrl', [] )
 
     $scope.checkConferenceAttendance();
 
-    $scope.checkEventAttendance = function () {
+    $scope.eventAttendance = [];
+
+    $scope.checkEventAttendance = function (eid, ind) {
         if ($rootScope.user)
-        Events.attendees().query({cid: $stateParams.conferenceId, pid: $rootScope.user.id})
+        Events.attending().get({eid: eid, uid: $rootScope.user.id})
             .$promise.then( function (response) {
                 if (response) {
-                    $scope.eventAttendance = response['0'].pivot.status;
+                    $scope.eventAttendance[ind] = response.pivot.status;
                 } else {
-                    $scope.eventAttendance = null;
+                    $scope.eventAttendance[ind] = null;
                 }
             }, function () {
                 $scope.eventAttendance = null;
             })
     }
-
-    //$scope.checkEventAttendance();
 })

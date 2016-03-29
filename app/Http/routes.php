@@ -115,10 +115,12 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // ATTENDEES
     // -------------------------------------------------------------------------
 
+    Route::resource('conferences/{cid}/attendee-status', 'ConferenceAttendeeController@showStatus');
     Route::resource('conferences.attendees' , 'ConferenceAttendeeController' , ['only' => [
         'index' , 'store' , 'show' ,'update', 'destroy',
     ]]);
 
+    Route::resource('events/{eid}/attendee-status', 'EventAttendeeController@showStatus');
     Route::resource('events.attendees' , 'EventAttendeeController' , ['only' => [
         'index' , 'store' , 'show' ,'update', 'destroy',
     ]]);
