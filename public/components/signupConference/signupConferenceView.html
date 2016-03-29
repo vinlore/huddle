@@ -343,7 +343,7 @@
                </div>
             </div>
             <label ng-repeat="accom in accommodations">
-                              <input type="radio" ng-model="accommodation.accommodation_pref" ng-value="accom.name" ng-disabled="accommodation.accommodation_req" ng-required="accommodation.accommodation_req">&nbsp{{accom.name}} - {{accom.address}}
+                              <input type="radio" ng-model="accommodation.accommodation_pref" ng-value="accom.name" ng-disabled="!accommodation.accommodation_req" ng-required="accommodation.accommodation_req">&nbsp{{accom.name}} - {{accom.address}}
                             </label>
          </div>
       </div>

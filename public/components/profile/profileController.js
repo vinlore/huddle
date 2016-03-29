@@ -132,7 +132,6 @@ angular.module( 'profileCtrl', [] )
                         email: profile.email,
                         phone: profile.phone
                     };
-                    console.log(profile);
                     $scope.loadConferences();
                     $scope.loadEvents();
                 } else {
