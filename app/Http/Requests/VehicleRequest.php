@@ -27,10 +27,11 @@ class VehicleRequest extends Request
                     return $this->getUser()->hasAccess(['vehicle.destroy']);
                     break;
                 default:
-                    return false;
                     break;
             }
         }
+
+        return false;
     }
 
     public function createRules()
