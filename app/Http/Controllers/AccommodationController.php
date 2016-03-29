@@ -66,6 +66,12 @@ class AccommodationController extends Controller
     {
         try {
 
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
+
             // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
@@ -87,6 +93,12 @@ class AccommodationController extends Controller
     public function update(AccommodationRequest $request, $cid, $aid)
     {
         try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
 
             // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
@@ -111,6 +123,12 @@ class AccommodationController extends Controller
     public function destroy($cid, $aid)
     {
         try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
 
             // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
