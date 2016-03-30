@@ -3,115 +3,79 @@
 		<h1>Transportation</h1>
 	</div>
 
-	<div uib-accordion class="container" id="vehicles" close-others="false">
-		<uib-accordion-group class="margin-top-25" ng-if="!temp.length" ng-repeat="v in vehicles">
-			<uib-accordion-heading is-open="isCollapsed">
-				<div class="row">
-					<div class="col-md-3">
-						<pre>{{v.type}}</pre>
-					</div>
-					<div class="col-md-2">
-						<pre>{{v.passengers}}</pre>
-					</div>
-					<div class="col-md-2">
-					</div>
-					<div class="col-md-5">
-						<div class="row pull-right margin-right-25">
-							<button class="btn btn-info" ng-click="export()">
-								Export
-							</button>
-							<button class="btn btn-danger" ng-click="removeVehicle($index, $event)">
-                				<span class="glyphicon glyphicon-minus">
-              				</button>
-              			</div>
-					</div>
-				</div>
-			</uib-accordion-heading>
-			<div ng-if="v.attendees.length">
-                <div class="attendees" ng-repeat="a in v.attendees">
-                    <div class="row">
-                    	<div class="col-md-12">
-							<p>{{$index + 1}}. {{a.name}}</p>
-						</div>
-                    </div>
-                    <hr ng-show="!$last">
-                 </div>
-            </div>
-            <div ng-if="!v.attendees.length">
-                <p class="attendees_text">No passengers yet!</p>
-            </div>
-		</uib-accordion-group>
+	<div ng-repeat="d in data">
+		<div class="panel panel-default margin-top-25">
+	      	<div class="panel-body">
 
-		<uib-accordion-group class="margin-top-25" ng-if="temp.length" ng-repeat="v in temp">
-			<uib-accordion-heading is-open="isCollapsed">
-				<div class="row">
-					<div class="col-md-3">
-						<pre>{{v.type}}</pre>
-					</div>
-					<div class="col-md-2">
-						<pre>{{v.passengers}}</pre>
-					</div>
-					<div class="col-md-2">
-					</div>
-					<div class="col-md-5">
-						<div class="row pull-right margin-right-25">
-							<button class="btn btn-info" ng-click="export()">
-								Export
-							</button>
-							<button class="btn btn-danger" ng-click="removeVehicle($index, $event)">
-                				<span class="glyphicon glyphicon-minus">
-              				</button>
-              			</div>
-					</div>
+				<div uib-accordion class="container" id="vehicles" close-others="false">
+					<div ng-if="$index == 0"><h3>Arrivals</h3></div>
+					<div ng-if="$index == 1"><h3>Departures</h3></div>
+					<uib-accordion-group ng-repeat="v in d">
+						<uib-accordion-heading is-open="isCollapsed">
+							<div class="row">
+								<div class="col-md-3">
+									<p>Vehicle Type</p>
+									<pre>{{v.name}}</pre>
+								</div>
+								<div class="col-md-2">
+									<p>Passengers</p>
+									<pre>{{v.passenger_count}}</pre>
+								</div>
+								<div class="col-md-2">
+									<p>Capacity</p>
+									<pre>{{v.capacity}}</pre>
+								</div>
+								<div class="col-md-5">
+									<div class="row pull-right margin-right-25 margin-top-25">
+										<button class="btn btn-danger" ng-click="deny(a.id)">
+	                           				<span class="glyphicon glyphicon-trash"></span>
+	                     				</button>
+	                     				<button class="btn btn-sm btn-info" ng-click="export()">
+	                  						<span class="glyphicon glyphicon-download"></span>
+	                  							Export
+	            						</button>
+			              			</div>
+								</div>
+							</div>
+						</uib-accordion-heading>
+						<div ng-if="v.attendees.length">
+			                <div class="attendees" ng-repeat="a in v.attendees">
+			                    <div class="row">
+			                    	<div class="col-md-12">
+										<p>{{$index + 1}}. {{a.name}}</p>
+									</div>
+			                    </div>
+			                    <hr ng-show="!$last">
+			                 </div>
+			            </div>
+			            <div ng-if="!v.attendees.length">
+			                <p class="attendees_text">No passengers yet!</p>
+			            </div>
+					</uib-accordion-group>
 				</div>
-			</uib-accordion-heading>
-			<div ng-if="v.attendees.length">
-                <div class="attendees" ng-repeat="a in v.attendees">
-                    <div class="row">
-                    	<div class="col-md-12">
-							<p>{{$index + 1}}. {{a.name}}</p>
-						</div>
-                    </div>
-                    <hr ng-show="!$last">
-                 </div>
-            </div>
-            <div ng-if="!v.attendees.length">
-                <p class="attendees_text">No passengers yet!</p>
-            </div>
-		</uib-accordion-group>
-	</div>
 
-	<div class="container" id="add-vehicle">
-		<div class="row">
-			<form name="myform">
-				<div class="col-md-3">
-					<input type="text" class="form-control" id="inputUser" placeholder="Enter Type of Vehicle" ng-model="type" required>
+				<div class="container" id="add-vehicle">
+					<div class="row">
+						<form name="form">
+							<div class="col-md-3">
+								<input type="name" class="form-control" placeholder="Enter Type of Vehicle" ng-model="form.name" required>
+							</div>
+							<div class="col-md-2">
+								<input type="text" class="form-control" placeholder="Max Capacity" ng-model="form.passenger_count" required>
+							</div>
+							<div class="col-md-2">
+							</div>
+							<div class="col-md-5">
+								<div class="row pull-right margin-right-25">
+									<button class="btn btn-success" id="add" ng-click="addVehicle(form)" ng-disabled="form.$invalid">
+			          					<span class="glyphicon glyphicon-plus">
+			        				</button>
+			              		</div>
+							</div>
+						</form>
+					</div>
 				</div>
-				<div class="col-md-2">
-					<input type="text" class="form-control" id="inputUser" placeholder="# of Passengers" ng-model="passengers" required>
-				</div>
-				<div class="col-md-2">
-				</div>
-				<div class="col-md-5">
-					<div class="row pull-right margin-right-25">
-						<button class="btn btn-primary" id="add" ng-click="addVehicle()" ng-disabled="myform.$invalid">
-          					<span class="glyphicon glyphicon-plus">
-        				</button>
-              		</div>
-				</div>
-			</form>
-		</div>
-	</div>
 
-	<div class="container margin-top-50" id="save-cancel">
-		<div class="row">
-			<div class="col-md-6">
-			</div>
-			<div class="col-md-6">
-				<div class="row pull-right margin-right-25">
-					<button type="submit" class="btn btn-success" ng-click="saveChanges()">Save Changes</button>
-              		<button type="submit" class="btn btn-danger" ng-click="cancel()">Cancel</button>
-              	</div>
 			</div>
 		</div>
 	</div>
