@@ -68,7 +68,7 @@ angular.module('manageConferenceTransportationCtrl',[])
         .$promise.then( function( response ) {
           if ( response.status == 200 ) {
             console.log(vehicle);
-            console.log( 'Changes saved to rooms' );
+            console.log( 'Changes saved to vehicles, profile_rides_vehicles, conference_vehicles' );
             popup.alert( 'success', 'Changes have been saved.' );
 
             // clear input data

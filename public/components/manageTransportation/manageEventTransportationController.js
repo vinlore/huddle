@@ -52,71 +52,71 @@ angular.module('manageEventTransportationCtrl',[])
 
   //////// Button Functions ////////
 
-  // $scope.add = function(vehicle, index) {
+  $scope.add = function(vehicle, index) {
 
-  //   var type;
+    var type;
 
-  //   if (index == 0) {
-  //     type = 'arrival';
-  //   } else {
-  //     type = 'departure';
-  //   }
+    if (index == 0) {
+      type = 'arrival';
+    } else {
+      type = 'departure';
+    }
 
-  //   vehicle.passenger_count = 0;
+    vehicle.passenger_count = 0;
 
-  //   Conferences.vehicles().save( {cid: $scope.conferenceId, type: type}, vehicle )
-  //       .$promise.then( function( response ) {
-  //         if ( response.status == 200 ) {
-  //           console.log(vehicle);
-  //           console.log( 'Changes saved to rooms' );
-  //           popup.alert( 'success', 'Changes have been saved.' );
+    Events.vehicles().save( {eid: $scope.eventId, type: type}, vehicle )
+        .$promise.then( function( response ) {
+          if ( response.status == 200 ) {
+            console.log(vehicle);
+            console.log( 'Changes saved to vehicles, profile_rides_vehicles, event_vehicles' );
+            popup.alert( 'success', 'Changes have been saved.' );
 
-  //           // clear input data
-  //           $scope.vehicle.name = null;
-  //           $scope.vehicle.capacity = null;
-  //         } else {
-  //           popup.error( 'Error', response.message );
-  //         }
-  //       }, function () {
-  //         popup.connection();
-  //       })
+            // clear input data
+            $scope.vehicle.name = null;
+            $scope.vehicle.capacity = null;
+          } else {
+            popup.error( 'Error', response.message );
+          }
+        }, function () {
+          popup.connection();
+        })
 
-  //   $scope.loadVehicles();
-  // }
+    $scope.loadVehicles();
+  }
 
-  // $scope.del = function(vehicle, parent, index) {
+  $scope.del = function(vehicle, parent, index) {
 
-  //   if (event) {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //   }
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
-  //   console.log(parent);
-  //   console.log(index);
-  //   var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
+    console.log(parent);
+    console.log(index);
+    var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
 
-  //   modalInstance.result.then( function ( result ) {
-  //     if ( result ) {
-  //       if (vehicle.passenger_count > 0) {
-  //         popup.error( 'Error', 'Cannot delete vehicles with passengers.' );
-  //       } else {
-  //         Conferences.vehicles().delete( {cid: $scope.conferenceId, vid: vehicle.id} )
-  //           .$promise.then( function( response ) {
-  //             if ( response.status == 200 ) {
-  //               console.log( 'Vehicle has been successfully deleted' );
-  //               popup.alert( 'success', 'Vehicle has been successfully deleted.' );
-  //             } else {
-  //               popup.error( 'Error', response.message );
-  //             }
-  //           }, function () {
-  //                     popup.connection();
-  //           })
+    modalInstance.result.then( function ( result ) {
+      if ( result ) {
+        if (vehicle.passenger_count > 0) {
+          popup.error( 'Error', 'Cannot delete vehicles with passengers.' );
+        } else {
+          Events.vehicles().delete( {eid: $scope.eventId, vid: vehicle.id} )
+            .$promise.then( function( response ) {
+              if ( response.status == 200 ) {
+                console.log( 'Vehicle has been successfully deleted' );
+                popup.alert( 'success', 'Vehicle has been successfully deleted.' );
+              } else {
+                popup.error( 'Error', response.message );
+              }
+            }, function () {
+                      popup.connection();
+            })
 
-  //         $scope.loadVehicles();
-  //       }
-  //     }
-  //   } )
-  // }
+          $scope.loadVehicles();
+        }
+      }
+    } )
+  }
 
   $scope.export = function() {
   }
