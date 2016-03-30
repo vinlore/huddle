@@ -111,25 +111,13 @@ class EventAttendeeController extends Controller
         }
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request){
-    }
-
-    public function showStatus($eid, $uid) {
-        try{
-            $event = Event::find($eid);
-            if(!$event){
-                return response()->success("204", "No event found.");
-            }
-            return $event->attendees()->where('user_id', $uid)->first();
+    public function destroy($eid, $pid)
+    {
+        try {
+            Profile::find($pid)->events()->detach($eid);
+            return response()->success();
         } catch (Exception $e) {
-            return response()->error($e);
+            return response()->error();
         }
     }
 }
