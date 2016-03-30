@@ -3,10 +3,26 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div ng-if="auth" class="col-md-12">
-        <div fusioncharts width="100%" height="55%" type="doughnut3d" dataSource="{{dataset1}}">
+        <div>
+          <h5>
+            <span style="font-weight: bold; color:blue;">Conference:</span> {{conference.name}} &nbsp&nbsp
+            <span style="font-weight: bold; color:blue;"> Attendees:</span> {{conference.attendee_count}} &nbsp&nbsp
+            <span style="font-weight: bold; color:blue;"> Capacity:</span> {{conference.capacity}}
+          </h5>
         </div>
         <hr>
-        <div fusioncharts width="100%" height="55%" type="column3d" dataSource="{{dataset2}}">
+        <h5>Please select dataset to filter<h5>
+        <label class="checkbox-inline"><input type="checkbox" ng-model="genderSelected" ng-value="true">Attendees</label>
+        <label class="checkbox-inline"><input type="checkbox" ng-model="countrySelected" ng-value="true">Countries</label>
+        <label class="checkbox-inline"><input type="checkbox" ng-model="eventSelected" ng-value="true">Events</label>
+        <hr ng-if="genderSelected">
+        <div ng-if="genderSelected"fusioncharts width="100%" height="55%" type="column3d" dataSource="{{genderDataSet}}">
+        </div>
+        <hr ng-if="countrySelected">
+        <div ng-if="countrySelected" fusioncharts width="100%" height="55%" type="pie3d" dataSource="{{countryDataSet}}">
+        </div>
+        <hr ng-if="eventSelected" >
+        <div ng-if="eventSelected" fusioncharts width="100%" height="55%" type="column3d" dataSource="{{eventDataSet}}">
         </div>
       </div>
     </div>

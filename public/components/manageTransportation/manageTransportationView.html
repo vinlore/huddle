@@ -39,19 +39,12 @@
 							</div>
 						</uib-accordion-heading>
 						<div ng-if="v.attendees.length">
-			                <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
-						        <tr ng-repeat="a in v.attendees">
-						        	<td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
-			                  			{{a.first_name}}
-			               		   	</td>
-			               			<td title="'Middle Name'" filter="{ 'middle_name': 'text'}" sortable="'middle_name'">
-			                  			{{a.middle_name}}
-			               			</td>
-			               			<td title="'Last Name'" filter="{ 'last_name': 'text'}" sortable="'last_name'">
-			                  			{{a.last_name}}
-			               			</td>
-						        </tr>
-					    	</table>
+			                <ul class="list-group">
+			                	<li class="list-group-item" ng-repeat="a in v.attendees">
+									<label>{{a.first_name}} {{a.last_name}}</label>
+									<button class="btn btn-sm btn-danger pull-right" ng-click="removeAttendee(v.id, a.id)"><i class="glyphicon glyphicon-remove"></i></button>
+			                	</li>
+			                </ul>
 			            </div>
 			            <div ng-if="!v.attendees.length">
 			                <p class="attendees_text">No passengers yet!</p>

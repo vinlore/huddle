@@ -43,8 +43,8 @@ class ConferenceVehicleController extends Controller
 
             //Check if conference manager belongs to this conference OR admin
             $userId = $request->header('ID');
-            if (!$conf->managers()->where('user_id', $userID)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
+            if (!$conf->managers()->where('user_id', $userId)->get() ||
+                \Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
                 return response()->error("403" , "Permission Denied");
             }
 
@@ -125,7 +125,7 @@ class ConferenceVehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($conferences, $vehicles)
+    public function destroy(Request $request, $conferences, $vehicles)
     {
         try {
             // Check if the Conference exists.
@@ -136,8 +136,8 @@ class ConferenceVehicleController extends Controller
 
             //Check if conference manager belongs to this conference OR admin
             $userId = $request->header('ID');
-            if (!$conf->managers()->where('user_id', $userID)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
+            if (!$conf->managers()->where('user_id', $userId)->get() ||
+                \Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
                 return response()->error("403" , "Permission Denied");
             }
 

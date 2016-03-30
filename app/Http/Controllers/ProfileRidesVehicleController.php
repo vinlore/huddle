@@ -19,7 +19,7 @@ class ProfileRidesVehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
+    public function index($id){
         //Show all the passengers within this one id.
         try{
             $vehicle = Vehicle::find($id)->passengers()->get();
@@ -27,6 +27,17 @@ class ProfileRidesVehicleController extends Controller
                 return response()->success("204", "No Passengers found.");
             }
             return $vehicle;
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
+    }
+
+    public function store(Request $request, $vid) {
+        try {
+            Profile::find($request->profile_id)
+                    ->vehicles()
+                    ->attach($vid);
+            return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -40,12 +51,12 @@ class ProfileRidesVehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
+    public function update(Request $request, $vid, $pid){
         try {
             //Update Profile Riding on different Vehicle
-            Profile::find($request->profile_id)
+            Profile::find($pid)
                     ->vehicles()
-                    ->updateExistingPivot($request->old_vehicle_id, ['vehicle_id' => $request->new_vehicle_id]);
+                    ->updateExistingPivot($request->old_vehicle_id, ['vehicle_id' => $vid]);
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
@@ -62,13 +73,12 @@ class ProfileRidesVehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request) {
+    public function destroy($vid, $pid) {
         try {
             //Removing the link between ONE Profile <-> Vehicle
-            $vehicle = Vehicle::find($request->vehicle_id);
-            Profile::find($request->profile_id)
+            Profile::find($pid)
                     ->vehicles()
-                    ->detach($vehicles);
+                    ->detach($vid);
 
             return response()->success();
         } catch (Exception $e) {
