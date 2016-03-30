@@ -105,8 +105,8 @@ class ConferenceController extends Controller
 
             //Check if conference manager belongs to this conference OR admin
             $userId = $request->header('ID');
-            if (!$conference->managers()->where('user_id', $userID)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
+            if (!$conference->managers()->where('user_id', $userId)->get() ||
+                \Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
                 return response()->error("403" , "Permission Denied");
             }
 
@@ -115,7 +115,7 @@ class ConferenceController extends Controller
             $conference->fill($request->all())->save();
 
             //Add Activity to log
-            $this->addActivity($request->header('ID'),'update', $id, 'conference');
+            // $this->addActivity($request->header('ID'),'update', $id, 'conference');
 
 
             return response()->success();
