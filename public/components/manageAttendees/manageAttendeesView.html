@@ -19,7 +19,8 @@
                <col width="10%" />
                <col width="10%" />
                <col width="5%" />
-               <col width="20%" />
+               <col width="10%" />
+               <col width="10%" />
                <col width="10%" />
                <col width="10%" />
                <col width="25%" />
@@ -50,10 +51,13 @@
                <td title="'Mobile Phone'" filter="{ 'phone2': 'text'}" sortable="'phone2'">
                   {{a.phone2}}
                </td>
+               <td title="'Status'" filter="{ 'pivot.status': 'text'}" sortable="'pivot.status'">
+                  {{a.pivot.status}}
+               </td>
 
                <td>
                   <div class="btn-group">
-                     <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a.id)">
+                     <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a)">
                            <span class="glyphicon glyphicon-ok"></span>
                      </button>
                      <button class="btn btn-sm btn-danger" ng-click="deny(a.id)">

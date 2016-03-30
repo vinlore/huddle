@@ -56,13 +56,13 @@ class ConferenceAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $user_id){
+    public function show($id, $profile_id){
         try{
             $conference = Conference::find($id);
             if(!$conference){
                 return response()->success("204", "No conference found.");
             }
-            return $conference->attendee($user_id)->get();
+            return $conference->attendees()->where('profile_id', $profile_id)->first();
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -154,13 +154,13 @@ class ConferenceAttendeeController extends Controller
         }
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ConferenceRequest $request){
+    public function destroy($cid, $pid)
+    {
+        try {
+            Profile::find($pid)->conferences()->detach($cid);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
     }
 }

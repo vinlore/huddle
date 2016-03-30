@@ -1,7 +1,11 @@
 angular.module( 'customFilters', [] )
 .filter( 'time', function () {
     return function (input) {
-        return input.substr(0,2) + ':' + input.substr(2,4);
+        if (input) {
+            return input.substr(0,2) + ':' + input.substr(2,4);
+        } else {
+            return null;
+        }
     }
 })
 

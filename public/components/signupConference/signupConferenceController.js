@@ -7,6 +7,8 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
         isOpen3: false
     };
 
+    $scope.accordionIsOpen = [];
+
     $scope.countries = Countries;
     $scope.header = "Signup";
 
@@ -20,10 +22,10 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
     };
 
     $scope.emergencyContact = {
-        FirstName: null,
-        LastName: null,
-        PhoneNumber: null,
-        Email: null
+        contact_first_name: null,
+        contact_last_name: null,
+        contact_phone: null,
+        contact_email: null
     }
 
     $scope.conference = {
@@ -32,71 +34,53 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
     }
 
     $scope.arrival = {
-        RideRequired: false,
-        FlightCode: null,
-        Airport: null,
-        ArrivalDate: null,
-        ArrivalTime: null
+        arrv_ride_req: false,
+        arrv_flight: null,
+        arrv_airport: null,
+        arrv_date: null,
+        arrv_time: null
     }
 
     $scope.departure = {
-        RideRequired: false,
-        FlightCode: null,
-        Airport: null,
-        DepartureDate: null,
-        DepartureTime: null
+        dept_ride_req: false,
+        dept_airport: null,
+        dept_flight: null,
+        dept_date: null,
+        dept_time: null
     }
 
-    $scope.accommodations = [];
+    $scope.familyMembers = [];
 
-    /*$scope.loadAccommodations = function () {
-      Conference.accommodations().query( {cid: $stateParams.conferenceId} )
-          .$promise.then( function( response ) {
-              if ( response.status == 200 ) {
-                  $scope.accommodations = response.accommodations;
-              } else {
-                  // TODO - error
-              }
-          })
-    }*/
+    $scope.members = [];
 
-    $scope.familymembers = [{
-        id: 'member1',
-        FirstName: null,
-        MiddleName: null,
-        LastName: null,
-        Age: null,
-        Gender: null,
-        Country: null,
-        City: null
-    }]
-
-    $scope.loadProfile = function() {
-        Profile.get({ uid: $rootScope.user.id })
-            .$promise.then(function(response) {
-                if (response) {
-                    var profile = response;
-                    $scope.user = {
-                        id: profile.id,
-                        FirstName: profile.first_name,
-                        MiddleName: profile.middle_name,
-                        LastName: profile.last_name,
-                        Birthdate: new Date(profile.birthdate+'T00:00:00'),
-                        Gender: profile.gender,
-                        Country: profile.country,
-                        City: profile.city,
-                        Email: profile.email,
-                        HomePhone: parseInt(profile.phone)
-                    };
+    $scope.loadProfiles = function() {
+        Profile.query({ uid: $rootScope.user.id })
+            .$promise.then( function ( response ) {
+                if ( response ) {
+                    var profiles = [];
+                    for (var i=0; i < response.length; i++) {
+                        var date = response[i].birthdate.split('-');
+                        response[i]['profile_id'] = response[i]['id'];
+                        delete response[i]['id'];
+                        delete response[i]['user_id'];
+                        response[i].birthdate = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+                        if (response[i]['is_owner']) {
+                            delete response[i]['is_owner'];
+                            $scope.user = response[i];
+                        } else {
+                            delete response[i]['is_owner'];
+                            profiles.push(response[i]);
+                        }
+                    }
+                    $scope.members = profiles;
+                    console.log(profiles);
+                } else {
                 }
+            }, function () {
+                popup.connection();
             })
     }
-    $scope.loadProfile();
-
-    $scope.accommodation = {
-        accommRequired: false,
-        accomPref: null
-    }
+    $scope.loadProfiles();
 
     $scope.conference = {
         conferenceId: $stateParams.conferenceId,
@@ -105,103 +89,106 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
 
     $scope.accommodations = [];
 
-    /*$scope.loadAccommodations = function () {
-      Conference.accommodations().query( {cid: $stateParams.conferenceId} )
+    $scope.loadAccommodations = function () {
+      Conferences.accommodations().query( {cid: $stateParams.conferenceId} )
           .$promise.then( function( response ) {
-              if ( response.status == 200 ) {
-                  $scope.accommodations = response.accommodations;
+              if ( response ) {
+                  $scope.accommodations = response;
               } else {
-                  // TODO - error
+                // TODO error
               }
           })
-    }*/
-
-    $scope.familymembers = [{
-        id: 'member1',
-        FirstName: null,
-        MiddleName: null,
-        LastName: null,
-        Age: null,
-        Gender: null,
-        Country: null,
-        City: null
-    }]
-
-    $scope.emergencyContact = {
-        FirstName: null,
-        LastName: null,
-        PhoneNumber: null,
-        Email: null
     }
 
-    $scope.arrival = {
-        RideRequired: false,
-        FlightCode: null,
-        Airport: null,
-        ArrivalDate: null,
-        ArrivalTime: null
+    $scope.loadAccommodations();
+
+    $scope.accommodation = {
+        accommodation_req: false,
+        accommodation_pref: null
     }
 
-    $scope.departure = {
-        RideRequired: false,
-        FlightCode: null,
-        Airport: null,
-        DepartureDate: null,
-        DepartureTime: null
+    $scope.signupMember = function (member, $index) {
+        if ($scope.familyMembers[$index]) {
+            delete $scope.familyMembers[$index];
+            $scope.accordionIsOpen[$index] = false;
+        } else {
+            var newSignup = {
+                id: member.id,
+                first_name: member.first_name,
+                middle_name: member.middle_name,
+                last_name: member.last_name,
+                birthdate: member.birthdate,
+                arrv_ride_req: false,
+                arrv_flight: null,
+                arrv_airport: null,
+                arrv_date: null,
+                arrv_time: null,
+                dept_ride_req: false,
+                dept_airport: null,
+                dept_flight: null,
+                dept_date: null,
+                dept_time: null,
+                accommodation_req: false,
+                accommodation_pref: null
+            }
+            angular.extend(newSignup, $scope.emergencyContact);
+            $scope.familyMembers[$index] = newSignup;
+            $scope.accordionIsOpen[$index] = true;
+        }
     }
 
-    $scope.accommodations = [];
-
-    /*$scope.loadAccommodations = function () {
-      Conference.accommodations().query( {cid: $stateParams.conferenceId} )
-          .$promise.then( function( response ) {
-              if ( response.status == 'success' ) {
-                  $scope.accommodations = response.accommodations;
-              } else {
-                  // TODO - error
-              }
-          })
-    }*/
-
-    $scope.addFamilyMember = function() {
-        var newFamMem = $scope.familymembers.length + 1;
-        $scope.familymembers.push({ 'id': 'member' + newFamMem });
-    }
-
-    $scope.removeFamilyMember = function(index) {
-        $scope.familymembers.splice(index, 1);
+    var processFamily = function (family) {
+        var result = [];
+        for (var i=0; i < family.length; i++) {
+            if (family[i].first_name, family[i].last_name, family[i].gender, family[i].birthdate) {
+                var profile = {
+                    profile_id: family[i].profile_id,
+                    first_name: family[i].first_name,
+                    last_name: family[i].last_name,
+                    birthdate: $filter('date')(family[i].birthdate, 'yyyy-MM-dd'),
+                    gender: family[i].gender,
+                    country: $scope.user.country,
+                    city: $scope.user.city,
+                    email: family[i].email,
+                    phone: $scope.user.phone,
+                    phone2: $scope.user.phone2,
+                    contact_first_name: $scope.emergencyContact.contact_first_name,
+                    contact_last_name: $scope.emergencyContact.contact_last_name,
+                    contact_email: $scope.emergencyContact.contact_email,
+                    contact_phone: $scope.emergencyContact.contact_phone,
+                    /* TODO separate arrival departure info */
+                    arrv_time: $scope.arrival.arrv_time,
+                    arrv_date: $scope.arrival.arrv_date,
+                    arrv_airport: $scope.arrival.arrv_airport,
+                    arrv_ride_req: $scope.arrival.arrv_ride_req,
+                    dept_ride_req: $scope.departure.dept_ride_req,
+                    dept_airport: $scope.departure.dept_airport,
+                    dept_time: $scope.departure.dept_time,
+                    dept_date: $scope.departure.dept_date,
+                    accommodation_req: $scope.accommodation.accommodation_req,
+                    accommodation_pref: $scope.accommodation.accommodation_pref
+                }
+                result.push(profile);
+            }
+        }
+        return result;
     }
 
     $scope.submitRequest = function() {
 
         if ($scope.profileForm.$valid) {
-            var profile = {
-                profile_id: $scope.user.id,
-                first_name: $scope.user.FirstName,
-                last_name: $scope.user.LastName,
-                birthdate: $filter('date')($scope.user.Birthdate, 'yyyy-MM-dd'),
-                gender: $scope.user.Gender,
-                country: $scope.user.Country,
-                city: $scope.user.city,
-                email: $scope.user.email,
-                phone: $scope.user.HomePhone,
-                phone2: $scope.user.OtherPhone,
-                contact_first_name: $scope.emergencyContact.FirstName,
-                contact_last_name: $scope.emergencyContact.LastName,
-                contact_email: $scope.emergencyContact.Email,
-                contact_phone: $scope.emergencyContact.PhoneNumber,
-                arrv_time: $scope.arrival.ArrivalTime,
-                arrv_date: $scope.arrival.ArrivalDate,
-                arrv_airport: $scope.arrival.Airport,
-                arrv_ride_req: $scope.arrival.RideRequired,
-                dept_ride_req: $scope.departure.RideRequired,
-                dept_airport: $scope.departure.Airport,
-                dept_time: $scope.departure.DepartureTime,
-                dept_date: $scope.departure.DepartureDate,
-                accommodation_req: $scope.accommodation.accommRequired,
-                medical_conditions: $scope.user.MedicalConditions,
-                accommodation_pref: $scope.accommodation.accomPref
-            }
+            var profile = $scope.user;
+            profile.birthdate = $filter('date')(profile.birthdate, 'yyyy-MM-dd');
+            profile.arrv_date = $filter('date')(profile.arrv_date, 'yyyy-MM-dd');
+            profile.dept_date = $filter('date')(profile.dept_date, 'yyyy-MM-dd');
+            delete profile['updated_at'];
+            angular.extend(profile, $scope.accommodation);
+            angular.extend(profile, $scope.arrival);
+            angular.extend(profile, $scope.departure);
+            angular.extend(profile, $scope.emergencyContact);
+            profile.arrv_time = $filter('time')(profile.arrv_time);
+            profile.dept_time = $filter('time')(profile.dept_time);
+            //var family = processFamily($scope.familymembers);
             Conferences.attendees().save({ cid: $scope.conference.conferenceId }, profile)
                 .$promise.then(function(response) {
                     if (response.status == 200) {

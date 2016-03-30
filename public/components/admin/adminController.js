@@ -143,7 +143,7 @@ angular.module('adminCtrl', [])
 				event.preventDefault();
 				event.stopPropagation();
 		}
-		$location.url('/reports-' + id);
+		$state.go('reports', {conferenceId: id});
 	}
 
 })

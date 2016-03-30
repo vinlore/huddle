@@ -1,84 +1,108 @@
 angular.module('manageInventoryCtrl',[])
-.controller('manageInventoryController', function($scope, $stateParams, ngTableParams, $filter){
+.controller('manageInventoryController', function($scope, $stateParams, ngTableParams, $filter, popup, Conferences, $uibModal){
 
+  // Conference ID
   $scope.conferenceId = $stateParams.conferenceId;
 
-  $scope.items = [
-  {
-    name: "water",
-    quantity: 5000
-  },
-  {
-    name: "chocolate bars",
-    quantity: 1000
-  },
-  {
-    name: "mics",
-    quantity: 25
-  }
-  ]
-
-  $scope.temp = []
-
-  // initial input data
+  // Initial input data
   $scope.item = {
+    conference_id: $scope.conferenceId,
     name: null,
-    quantity: null,
-  };
+    quantity: null
+  }
 
-  //////// Intial State ////////
-
-  // copy actual data into a temp array for protection
-  $scope.temp = $scope.items.slice();
-  $scope.hasChanges = false;
+  //////// Load Data ////////
 
   $scope.tableParams = new ngTableParams(
   {
-  }, 
+  },
   {
     counts: [],
     getData: function ($defer, params) {
-      $scope.data = params.sorting() ? $filter('orderBy') ($scope.temp, params.orderBy()) : $scope.temp;
-      $scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
-      $defer.resolve($scope.data);
+      Conferences.inventory().query( {cid: $scope.conferenceId} )
+      .$promise.then( function( response ) {
+        if ( response ) {
+          $scope.data = response;
+          $scope.data = params.sorting() ? $filter('orderBy') ($scope.data, params.orderBy()) : $scope.data;
+          $scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
+          $defer.resolve($scope.data);
+        } else {
+          popup.error( 'Error', response.message );
+        }
+      }, function () {
+        popup.connection();
+      })
+
     }
   });
   
   //////// Button Functions ////////
 
   $scope.add = function(item) {
-    $scope.hasChanges = true;
 
-    // add new row to temp array
-    $scope.temp.push(item);
+    Conferences.inventory().save( {cid: $scope.conferenceId}, item )
+    .$promise.then( function( response ) {
+      if ( response.status == 200 ) {
+        console.log( 'Changes saved to items (add)' );
+        popup.alert( 'success', 'Changes have been saved.' );
+        
+        // clear input data
+        $scope.item.name = null;
+        $scope.item.quantity = null;
+      } else {
+        popup.error( 'Error', response.message );
+      }
+    }, function () {
+      popup.connection();
+    })
 
-    // clear input data
-    $scope.item = null;
+      // refresh tableParams to reflect changes
+      $scope.tableParams.reload();
+    }
 
-    // refresh tableParams to reflect changes
+    $scope.del = function(id) {
+      var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
+
+      modalInstance.result.then( function ( result ) {
+        if ( result ) {
+          Conferences.inventory().delete( {cid: $scope.conferenceId, iid: id} )
+          .$promise.then( function( response ) {
+            if ( response.status == 200 ) {
+              console.log( 'Item has been successfully deleted' );
+              popup.alert( 'success', 'Item has been successfully deleted.' );
+            } else {
+              popup.error( 'Error', response.message );
+            }
+          }, function () {
+            popup.connection();
+          })
+
+          $scope.tableParams.reload();
+
+        }
+      } )
+    }
+
+  $scope.updateQuantity = function(item, n) {
+    item.quantity = n;
+
+    Conferences.inventory().update( {cid: $scope.conferenceId, iid: item.id}, item)
+    .$promise.then( function( response ) {
+      if ( response.status == 200 ) {
+        console.log( 'Changes saved to inventory (update)' );
+        popup.alert( 'success', 'Changes have been saved.' );
+      } else {
+        popup.error( 'Error', response.message );
+      }
+    }, function () {
+      popup.connection();
+    })
+
     $scope.tableParams.reload();
-  }
 
-  $scope.del = function(index) {
-    $scope.hasChanges = true;
-    $scope.temp.splice(index, 1);
-    $scope.tableParams.reload();
-  }
-
-  $scope.cancel = function() {
-    $scope.hasChanges = false;
-
-    // revert temp array to the same as original (i.e. row array)
-    $scope.temp = $scope.items.slice();
-    $scope.tableParams.reload();
-  }
-
-  $scope.save = function() {
-    $scope.hasChanges = false;
-    $scope.items = $scope.temp.slice();
   }
 
   $scope.export = function() {
-    
+
   }
 })

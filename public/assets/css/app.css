@@ -1562,7 +1562,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   min-width: 130px;
 }
 
-.attend-leave:hover {
+.attend-leave:hover,
+.attend-leave:active {
   color: #FFF;
   background-color: #D9534F;
   border-color: #D43F3A;
@@ -1627,4 +1628,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background-color: #f9bdbb;
   border-color: #f7a4af;
   color: #e51c23;
+}
+
+.btn label {
+  cursor: pointer;
+  margin-bottom: 0px;
 }

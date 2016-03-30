@@ -46,6 +46,7 @@ angular.module('cms', [
     'createEventCtrl',
     'attendeeConfCtrl',
     'attendeeEventCtrl',
+    'conferenceAttendeeModalCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
@@ -73,9 +74,9 @@ angular.module('cms', [
                         $rootScope.user = null;
                         delete $localStorage.user;
                     } else {
-                        if (response.permissions) {
-                            $rootScope.user.permissions = response.permissions;
-                        }
+                        $rootScope.user.permissions = response.permissions;
+                        $rootScope.user.conferences = response.manage_conf;
+                        $rootScope.user.events = response.manage_event;
                     }
                 })
             }

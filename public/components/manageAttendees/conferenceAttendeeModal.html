@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h4 class="modal-title">Approve</h4>
+</div>
+<div class="modal-body">
+    <form name="attendeeForm">
+        <div class="form-group" ng-if="preference.arrv_ride_req">
+            <label for="modal-arrv-ride" class="control-label">Arrival Ride</label>
+            <select name="modal-arrv-ride" class="form-control" id="modal-arrv-ride" ng-required="preference.arrv_ride_req" ng-model="user.arrivalVehicle">
+                <option value="{{vehicle.id}}" ng-repeat="vehicle in arrivalVehicles">{{vehicle.name}}</option>
+                <option value="" disabled ng-if="!arrivalVehicles">No registered vehicles found.</option>
+            </select>
+        </div>
+        <div class="form-group" ng-if="preference.dept_ride_req">
+            <label for="modal-arrv-ride" class="control-label">Departure Ride</label>
+            <select name="modal-dept-ride" class="form-control" id="modal-dept-ride" ng-required="preference.dept_ride_req" ng-model="user.departVehicle">
+                <option value="" disabled ng-if="!departVehicles">No registered vehicles found.</option>
+                <option value="{{vehicle.id}}" ng-repeat="vehicle in departVehicles">{{vehicle.name}}</option>
+            </select>
+        </div>
+        <div class="form-group" ng-if="preference.accommodation_req">
+        {{preference.accommodation_pref}}
+            <label for="modal-arrv-ride" class="control-label">Accommodation</label>
+            <select name="modal-accommodation" class="form-control" id="modal-accommodation" ng-options="accomm.id as accomm.name for accomm in accommodations" ng-required="preference.accommodation_req" ng-model="preference.accommodation_pref" ng-change="getRooms(accomm.id)">
+                <option value="" disabled ng-if="!accommodations">No registered accommodation found.</option>
+            </select>
+        </div>
+        <div class="form-group" ng-if="preference.accommodation_req">
+            <label for="modal-arrv-ride" class="control-label">Room</label>
+            <select name="modal-room" id="modal-room" class="form-control" ng-required="preference.accommodation_req" ng-model="user.room">
+                <option value="" disabled ng-if="!rooms">No registered rooms found.</option>
+                <option value="{{room.id}}" ng-repeat="room in rooms"><strong>{{room.room_no}}</strong> Capacity - {{room.guest_count}}/{{room.capacity}}</option>
+            </select>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="approve()">Approve</button>
+    <button class="btn btn-danger" ng-click="close()">Close</button>
+</div>

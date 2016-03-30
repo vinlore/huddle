@@ -4,6 +4,7 @@ angular.module( 'profileCtrl', [] )
 
     $scope.user = {};
     $scope.animationsEnabled = true;
+    $scope.members = [];
 
     $scope.tableParams = new ngTableParams (
         {},
@@ -20,11 +21,11 @@ angular.module( 'profileCtrl', [] )
                                     $scope.user = response[i];
                                     $scope.loadConferences();
                                     $scope.loadEvents();
-                                    response.splice(i, i+1);
+                                } else {
+                                    $scope.members.push(response[i]);
                                 }
                             }
-                            $scope.family = response;
-                            $defer.resolve($scope.family);
+                            $defer.resolve($scope.members);
                         } else {
                             popup.error('Error', response.error);
                         }
@@ -88,7 +89,7 @@ angular.module( 'profileCtrl', [] )
 
     $scope.savePasswordChanges = function () {
         var password = {
-            password: $scope.user.new_password
+            password: $scope.user.password
         };
         Users.update( { id: $rootScope.user.id }, password )
             .$promise.then( function ( response ) {
@@ -116,29 +117,24 @@ angular.module( 'profileCtrl', [] )
     };
 
     $scope.loadProfile = function () {
-        Profile.get( { uid: $rootScope.user.id } )
+        Profile.query( { uid: $rootScope.user.id } )
             .$promise.then( function ( response ) {
                 if ( response ) {
-                    var profile = response;
+                    var profile = response[0];
                     $scope.user = {
                         id: profile.id,
-                        Username: $rootScope.user.name,
-                        OldPassword: null,
-                        NewPassword: null,
-                        ConfirmPassword: null,
-                        FirstName: profile.first_name,
-                        MiddleName: profile.middle_name,
-                        LastName: profile.last_name,
-                        Birthdate: new Date(profile.birthdate),
-                        Gender: profile.gender,
-                        Country: profile.country,
-                        City: profile.city,
-                        Email: profile.email,
-                        HomePhone: profile.phone
+                        first_name: profile.first_name,
+                        middle_name: profile.middle_name,
+                        last_name: profile.last_name,
+                        birthdate: new Date(profile.birthdate),
+                        gender: profile.gender,
+                        country: profile.country,
+                        city: profile.city,
+                        email: profile.email,
+                        phone: profile.phone
                     };
                     $scope.loadConferences();
                     $scope.loadEvents();
-                    //console.log($scope.conferences[0].pivot);
                 } else {
                     popup.error('Error', response.error);
                 }
@@ -168,7 +164,7 @@ angular.module( 'profileCtrl', [] )
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.events = response;
-                    //console.log(response);
+                    console.log(response);
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -223,12 +219,14 @@ angular.module( 'profileCtrl', [] )
     $scope.cancelConferenceApplication = function(index){
           var conference = {
             id: $scope.conferences[index].id
+
           }
         //console.log($scope.conferences);
-        ProfileAttendsConferences.status().update({cid: conference.id , pid: $scope.user.id},{status: 'cancelled'})
+        Conferences.attendees().update({cid: conference.id , pid: $scope.user.id},{status: 'cancelled'})
           .$promise.then( function (response) {
               if ( response.status == 200 ) {
                   $scope.loadConferences()
+                  $scope.loadEvents()
                   popup.alert( 'success', 'Conference application cancelled' );
               } else {
                   popup.error( 'Error', response.message );
@@ -236,6 +234,24 @@ angular.module( 'profileCtrl', [] )
           }, function () {
               popup.connection();
           })
+    };
+  $scope.cancelEventApplication = function(index){
+      var _event = {
+        id: $scope.events[index].id,
+        profile_id: $scope.events[index].pivot.profile_id
+      }
+      Events.attendees().update({eid: _event.id, pid: _event.profile_id}, {status: 'cancelled'})
+      .$promise.then( function (response) {
+          if ( response.status == 200 ) {
+              $scope.loadConferences()
+              $scope.loadEvents()
+              popup.alert( 'success', 'Events application cancelled' );
+          } else {
+              popup.error( 'Error', response.message );
+          }
+      }, function () {
+          popup.connection();
+      })
     };
 
     $scope.viewConferenceApplication = function(index){
@@ -256,8 +272,9 @@ angular.module( 'profileCtrl', [] )
         eid: $scope.events[index].pivot.event_id,
         name: $scope.events[index].name
       }
+      console.log(_event.eid);
       $state.go('attendee-event-profile', {event_name: _event.name,
-                                            event_id: _event.cid,
+                                            event_id: _event.eid,
                                             profile_id: _event.pid
                                           });
     };

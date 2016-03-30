@@ -84,7 +84,10 @@ angular.module( 'userRegCtrl', [] )
                         $localStorage.user = {
                             id: response.user_id,
                             name: $scope.user.username,
-                            permissions: response.permissions
+                            permissions: response.permissions,
+                            profile_id: response.profile_id,
+                            conferences: response.manages_conf,
+                            events: response.manages_event
                         };
                         $rootScope.user = $localStorage.user;
                         $rootScope.auth = $auth.isAuthenticated();
