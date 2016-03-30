@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\EventRequest;
+use App\Models\Conference;
 use App\Models\Event;
 use App\Models\User;
 
@@ -65,16 +66,16 @@ class EventController extends Controller
 
             //Check if event manager belongs to this event
             $userId = $request->header('ID');
-            if (!$event->managers()->where('user_id', $userID)->get() ||
-                !$conf->managers()->where('user_id',$userID)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
+            if (!$event->managers()->where('user_id', $userId)->get() ||
+                !$conf->managers()->where('user_id',$userId)->get() ||
+                \Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
                 return response()->error("403" , "Permission Denied");
             }
 
             $event->update($request->all());
 
               //Add Activity to log
-            $this->addActivity($request->header('ID'),'update', $event->id, 'event');
+            //$this->addActivity($request->header('ID'),'update', $event->id, 'event');
 
             return response()->success();
         } catch (Exception $e) {

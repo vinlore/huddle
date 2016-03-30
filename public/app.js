@@ -31,7 +31,8 @@ angular.module('cms', [
     'manageInventoryCtrl',
     'manageConferenceAttendeesCtrl',
     'manageEventAttendeesCtrl',
-    'manageTransportationCtrl',
+    'manageConferenceTransportationCtrl',
+    'manageEventTransportationCtrl',
     'manageRoomsCtrl',
     'ngStorage',
     'popupServices',
@@ -245,10 +246,19 @@ angular.module('cms', [
         }
     })
 
-    .state( 'manage-transportation', {
-        url: '/manage-transportation-:conferenceId',
+    .state( 'manage-transportation-conference', {
+        url: '/manage-transportation-conference-:conferenceId',
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
-        controller: 'manageTransportationController',
+        controller: 'manageConferenceTransportationController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'manage-transportation-event', {
+        url: '/manage-transportation-event-:eventId',
+        templateUrl: 'components/manageTransportation/manageTransportationView.html',
+        controller: 'manageEventTransportationController',
         resolve: {
             loginRequired: loginRequired
         }
