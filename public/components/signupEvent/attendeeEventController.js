@@ -17,7 +17,7 @@ angular.module('attendeeEventCtrl',[])
           arrv_ride_req: profile.arrv_ride_req,
           dept_ride_req: profile.dept_ride_req
         }
-        console.log(profile);
+        console.log(response);
       } else {
         popup.error( 'Error', response.message );
       }
@@ -30,7 +30,8 @@ angular.module('attendeeEventCtrl',[])
   $scope.submitRequest = function(){
       var attendee = {
         arrv_ride_req: $scope.attendee.arrv_ride_req,
-        dept_ride_req: $scope.attendee.dept_ride_req
+        dept_ride_req: $scope.attendee.dept_ride_req,
+        status:'pending'
       }
       Events.attendees().update({eid: $stateParams.event_id, pid: $stateParams.profile_id}, attendee)
       .$promise.then( function ( response ) {

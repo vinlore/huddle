@@ -164,7 +164,7 @@ angular.module( 'profileCtrl', [] )
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.events = response;
-                    //console.log(response);
+                    console.log(response);
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -225,6 +225,7 @@ angular.module( 'profileCtrl', [] )
           .$promise.then( function (response) {
               if ( response.status == 200 ) {
                   $scope.loadConferences()
+                  $scope.loadEvents()
                   popup.alert( 'success', 'Conference application cancelled' );
               } else {
                   popup.error( 'Error', response.message );
@@ -232,6 +233,24 @@ angular.module( 'profileCtrl', [] )
           }, function () {
               popup.connection();
           })
+    };
+  $scope.cancelEventApplication = function(index){
+      var _event = {
+        id: $scope.events[index].id,
+        profile_id: $scope.events[index].pivot.profile_id
+      }
+      Events.attendees().update({eid: _event.id, pid: _event.profile_id}, {status: 'cancelled'})
+      .$promise.then( function (response) {
+          if ( response.status == 200 ) {
+              $scope.loadConferences()
+              $scope.loadEvents()
+              popup.alert( 'success', 'Events application cancelled' );
+          } else {
+              popup.error( 'Error', response.message );
+          }
+      }, function () {
+          popup.connection();
+      })
     };
 
     $scope.viewConferenceApplication = function(index){

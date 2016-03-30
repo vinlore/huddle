@@ -31,15 +31,15 @@ class EventAttendeeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(EventRequest $request){
+    public function store(EventRequest $request, $events){
         try{
             //Saving to profile_attends_event Table
             $profile =  Profile::find($request->profile_id);
-            $attendees = Event::find($request->event_id)
+            $attendees = Event::find($events)
                          ->attendees()
                          ->attach($profile, $request->all());
 
-            $this->addActivity($request->header('ID'),'request', $request->event_id, 'event attendence');
+            $this->addActivity($request->header('ID'),'request', $events, 'event attendence');
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
