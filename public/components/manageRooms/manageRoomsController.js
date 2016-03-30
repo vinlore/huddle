@@ -86,23 +86,24 @@ angular.module('manageRoomsCtrl',[])
         var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
 
         modalInstance.result.then( function ( result ) {
-            if (room.guest_count > 0) {
-                popup.error( 'Error', 'Cannot delete rooms with guests.' );
-            }
-            else if ( result ) {
-                Conferences.rooms().delete( {aid: $scope.accommodationId, rid: room.id} )
-                .$promise.then( function( response ) {
-                    if ( response.status == 200 ) {
-                        console.log( 'Room has been successfully deleted' );
-                        popup.alert( 'success', 'Room has been successfully deleted.' );
-                    } else {
-                        popup.error( 'Error', response.message );
-                    }
-                }, function () {
-                    popup.connection();
-                })
+            if ( result ) {
+                if (room.guest_count > 0) {
+                    popup.error( 'Error', 'Cannot delete rooms with guests.' );
+                } else {
+                    Conferences.rooms().delete( {aid: $scope.accommodationId, rid: room.id} )
+                    .$promise.then( function( response ) {
+                        if ( response.status == 200 ) {
+                            console.log( 'Room has been successfully deleted' );
+                            popup.alert( 'success', 'Room has been successfully deleted.' );
+                        } else {
+                            popup.error( 'Error', response.message );
+                        }
+                    }, function () {
+                        popup.connection();
+                    })
 
-                $scope.tableParams.reload();
+                    $scope.tableParams.reload();
+                }
             }
         } )
     }
