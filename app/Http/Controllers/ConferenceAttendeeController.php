@@ -191,9 +191,15 @@ class ConferenceAttendeeController extends Controller
                                            ->get();
                foreach($event_id_array as $eid){
                    if($eid->conference_id == $request->$conference_id) {
-                       Event::find($eid->id)
-                               ->attendees()
-                               ->detach(Profile::find($user_id));
+                       //Get the Pivot table
+                       $eventToUpdate = Event::find($eid->id)->attendees();
+
+                       //Detach profile from the event
+                       $eventToUpdate->detach(Profile::find($user_id));
+
+                       //Update attendee count
+                       $count = $eventToUpdate->where('status','approved')->count();
+                       Event::where($request->event_id)->update(['attendee_count' => $count]);
                    }
                }
 
