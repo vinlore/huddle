@@ -338,24 +338,13 @@ class ConferenceAttendeeController extends Controller
         }
     }
 
-    /**
-     * Delete a Conference Attendee.
-     *
-     * @return Response
-     */
-    public function destroy(ConferenceAttendeeRequest $request, $cid, $pid)
+    public function destroy($cid, $pid)
     {
-    }
-
-    public function showStatus($cid, $uid) {
-        try{
-            $conference = Conference::find($cid);
-            if(!$conference){
-                return response()->success("204", "No conference found.");
-            }
-            return $conference->attendees()->where('user_id', $uid)->first();
+        try {
+            Profile::find($pid)->conferences()->detach($cid);
+            return response()->success();
         } catch (Exception $e) {
-            return response()->error($e);
+            return response()->error();
         }
     }
 }

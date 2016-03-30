@@ -2,131 +2,40 @@
   <h1 class="page-header text-center">{{header}} for the {{event.name}}</h1>
   <div class="panel panel-default">
     <div class="panel-body">
-      <div class="col-sm-6">
-        <h3 class="text-center">Profile </h3>
+      <div class="col-sm-12">
+        <h3 class="text-center">Request Transportation</h3>
         <hr>
-        <!-- Profile -->
-        <form role="form" class="form-horizontal">
-          <div class="form-group">
-            <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">First Name: </label>
-            <div class="col-sm-6 col-sm-offset-2">
-              <input class="form-control" id="inputUser" placeholder="First Name" ng-model="user.first_name">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Middle Name: </label>
-            <div class="col-sm-6 col-sm-offset-2">
-              <input class="form-control" id="inputUser" placeholder="Middle Name" ng-model="user.MiddleName">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Last Name: </label>
-            <div class="col-sm-6 col-sm-offset-2">
-              <input class="form-control" id="inputUser" placeholder="Last Name" ng-model="user.LastName">
-            </div>
+        <div class="form-group">
+          <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Arrival:</label>
+          <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="true">Yes</label>
           </div>
 
-
-          <div class="form-group">
-            <label for="signupBirthdate" class="col-sm-2 col-sm-offset-1 form-control-label">Birthdate</label>
-            <div class="col-sm-6 col-sm-offset-2">
-              <div class="input-group">
-                <input type="text" class="form-control" ng-model="user.Birthdate" uib-datepicker-popup="MMM d, yyyy"
-                is-open="calendar.isOpen" placeholder="Jan 1, 2016">
-                <span class="input-group-btn">
-                  <button class="btn btn-link" type="button" ng-click="calendar.isOpen = !calendar.isOpen">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                  </button>
-                </span>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="form-group dropdown">
-            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Gender: </label>
-            <div class="col-sm-6 col-sm-offset-2">
-              <select class="form-control" ng-model="user.Gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Country: </label>
-            <div class="col-sm-6 col-sm-offset-2">
-              <input class="form-control" id="inputUser" placeholder="Enter Country" ng-model="user.Country">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">City: </label>
-            <div class="col-sm-6 col-sm-offset-2">
-              <input class="form-control" id="inputUser" placeholder="Enter City" ng-model="user.City">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Home Phone: </label>
-            <div class="col-sm-6 col-sm-offset-2">
-              <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.HomePhone">
-            </div>
-            <span class="glyphicon glyphicon-phone-alt">
-            </div>
-
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Other Phone: </label>
-              <div class="col-sm-6 col-sm-offset-2">
-                <input class="form-control" id="inputUser" placeholder="Enter Phone #:" ng-model="user.OtherPhone">
-              </div>
-              <span class="glyphicon glyphicon-phone">
-              </div>
-
-              <div class="form-group">
-                <label for="inputUser" class="col-sm-2 col-sm-offset-1  form-control-label">Email: </label>
-                <div class="col-sm-6 col-sm-offset-2">
-                  <input class="form-control" id="inputUser" placeholder="Enter Email" ng-model="user.Email">
-                </div>
-                <span class="glyphicon glyphicon-envelope"></span>
-              </div>
-            </form>
-          </div>
-
-          <div class="col-sm-6">
-            <h3 class="text-center">Request Transportation</h3>
-            <hr>
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Arrival:</label>
-              <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
-                <label><input type="radio" ng-model="departure.RideRequired" ng-value="Yes">Yes</label>
-              </div>
-
-              <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
-                <label><input type="radio" ng-model="departure.RideRequired" value="No">No</label>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Departure:</label>
-
-              <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
-                <label><input type="radio" ng-model="arrival.RideRequired" ng-value="Yes">Yes</label>
-              </div>
-
-              <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
-                <label><input type="radio" ng-model="arrival.RideRequired" value="No">No</label>
-              </div>
-            </div>
-
+          <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="false" check="checked">No</label>
           </div>
         </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="col-sm-12">
-            <button type="submit" class="btn btn-half-block btn-success center-block">Submit Request</button>
+
+        <div class="form-group">
+          <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Departure:</label>
+
+          <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="true">Yes</label>
+          </div>
+
+          <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="false" check="checked">No</label>
           </div>
         </div>
+
       </div>
     </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="col-sm-12">
+        <button type="submit" class="btn btn-half-block btn-success center-block" ng-click="submitRequest()">Submit Request</button>
+      </div>
+    </div>
+  </div>
+</div>

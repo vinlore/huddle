@@ -181,7 +181,7 @@ angular.module( 'conferenceCtrl', [] )
     }
 
     $scope.loadEvents();
-    
+
     $scope.loadInventory = function () {
         Conferences.inventory().query( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {
@@ -240,7 +240,7 @@ angular.module( 'conferenceCtrl', [] )
 
     $scope.checkConferenceAttendance = function () {
         if ($rootScope.user)
-        Conferences.attending().get({cid: $stateParams.conferenceId, uid: $rootScope.user.id})
+        Conferences.attendees().get({cid: $stateParams.conferenceId, pid: $rootScope.user.profile_id})
             .$promise.then( function (response) {
                 if (response.pivot) {
                     $scope.conferenceAttendance = response.pivot.status;
@@ -258,7 +258,7 @@ angular.module( 'conferenceCtrl', [] )
 
     $scope.checkEventAttendance = function (eid, ind) {
         if ($rootScope.user)
-        Events.attending().get({eid: eid, uid: $rootScope.user.id})
+        Events.attendees().get({eid: eid, pid: $rootScope.user.profile_id})
             .$promise.then( function (response) {
                 if (response.pivot) {
                     $scope.eventAttendance[ind] = response.pivot.status;
@@ -267,6 +267,26 @@ angular.module( 'conferenceCtrl', [] )
                 }
             }, function () {
                 $scope.eventAttendance = null;
+            })
+    }
+
+    $scope.leaveConference = function () {
+        Conferences.attendees().delete({cid: $stateParams.conferenceId, pid: $rootScope.user.profile_id})
+            .$promise.then(function (response) {
+                if (response.status == 200) {
+                    popup.alert('success', 'You are no longer attending this conference.');
+                    $scope.checkConferenceAttendance();
+                }
+            })
+    }
+
+    $scope.leaveEvent = function (eid) {
+        Events.attendees().delete({eid: eid, pid: $rootScope.user.profile_id})
+            .$promise.then(function (response) {
+                if (response.status == 200) {
+                    popup.alert('success', 'You are no longer attending this event.');
+                    $scope.checkConferenceAttendance();
+                }
             })
     }
 })

@@ -78,7 +78,7 @@ angular.module( 'apiService', [] )
         },
 
         inventory: function () {
-            return $resource( '/api/conferences/:cid/inventory/:id', {cid: '@cid', iid: '@id'}, {'update': { method: 'PUT' }} );
+            return $resource( '/api/conferences/:cid/inventory/:iid', {cid: '@cid', iid: '@iid'}, {'update': { method: 'PUT' }} );
         },
 
         accommodations: function () {
@@ -87,10 +87,6 @@ angular.module( 'apiService', [] )
 
         rooms: function () {
             return $resource( '/api/accommodations/:aid/rooms/:rid', {aid: '@aid', rid: '@rid'}, {'update': { method: 'PUT' }} );
-        },
-
-        attending: function () {
-            return $resource( '/api/conferences/:cid/attendee-status/:uid', {cid: '@cid', uid: '@uid'} );
         }
     }
 })
@@ -112,11 +108,6 @@ angular.module( 'apiService', [] )
 
         vehicles: function () {
             return $resource( '/api/events/:eid/vehicles/:vid', { eid: '@eid', vid: '@vid' }, { 'update': { method: 'PUT' } } );
-        },
-
-        attending: function () {
-            return $resource( '/api/events/:eid/attendee-status/:uid', {eid: '@eid', uid: '@uid'} );
         }
-
     }
 })

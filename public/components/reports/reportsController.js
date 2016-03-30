@@ -1,5 +1,5 @@
 angular.module( 'reportsCtrl', [] )
-.controller( 'reportsController', function( $scope ) {
+.controller( 'reportsController', function( $scope, Conferences, $stateParams, popup, $rootScope ) {
 
   // $scope.attendees = []
   // $scope.countryMap = {}
@@ -26,21 +26,18 @@ angular.module( 'reportsCtrl', [] )
     }
   ]
 
-  //
-  // $scope.loadAttendees = function () {
-  //     Conferences.attendees().get( {cid: $stateParams.conferenceId} )
-  //         .$promise.then( function( response ) {
-  //             if ( response.status == 200 && response.attendees ) {
-  //                 $scope.attendees = response.attendees;
-  //             } else {
-  //                 popup.error( 'Error', response.message );
-  //             }
-  //         }, function () {
-  //             popup.connection();
-  //         })
-  // }
-  //
-  // $scope.loadAttendees();
+
+  $scope.loadAttendees = function () {
+      Conferences.attendees().query( {cid: $stateParams.conferenceId} )
+          .$promise.then( function( response ) {
+                if ( response ) {
+                console.log(response);
+                } else {
+                  // TODO error
+                }
+              })
+  }
+  $scope.loadAttendees();
   //
   //
   // $scope.femaleCount = 0;

@@ -19,7 +19,10 @@ angular.module( 'loginCtrl', [] )
                 $localStorage.user = {
                     id: response.data.user_id,
                     name: $scope.user.username,
-                    permissions: response.data.permissions
+                    permissions: response.data.permissions,
+                    profile_id: response.data.profile_id,
+                    conferences: response.data.manages_conf,
+                    events: response.data.manages_event
                 };
                 $rootScope.user = $localStorage.user;
                 $timeout( function () {
