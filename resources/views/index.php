@@ -73,7 +73,8 @@
   <script src="components/manageAttendees/manageEventAttendeesController.js"></script>
   <script src="components/manageInventory/manageInventoryController.js"></script>
   <script src="components/manageRooms/manageRoomsController.js"></script>
-  <script src="components/manageTransportation/manageTransportationController.js"></script>
+  <script src="components/manageTransportation/manageConferenceTransportationController.js"></script>
+  <script src="components/manageTransportation/manageEventTransportationController.js"></script>
   <script src="components/manageRequests/manageRequestsController.js"></script>
   <script src="components/manageManagers/manageManagersController.js"></script>
   <script src="components/reports/reportsController.js"></script>

@@ -1,6 +1,11 @@
 <div id="transportation">
 	<div class="container">
-		<h1>Transportation for Conference {{conferenceId}}</h1>
+		<div ng-if="conferenceId != null">
+         <h1>Transportation for Conference {{conferenceId}}</h1>
+      </div>
+      <div ng-if="eventId != null">
+         <h1>Transportation for Event {{eventId}}</h1>
+      </div>
 	</div>
 
 	<div ng-repeat="d in data" ng-init="parent = $index">
@@ -54,6 +59,7 @@
 
 				<div class="container" id="add-vehicle">
 					<div class="row">
+						<form name="vehicle">
 							<div class="col-md-3">
 								<input type="text" class="editable-input form-control input-sm" placeholder="Enter Type of Vehicle" ng-model="vehicle.name" required>
 							</div>
@@ -69,6 +75,7 @@
 			        				</button>
 			              		</div>
 							</div>
+						</form>
 					</div>
 				</div>
 

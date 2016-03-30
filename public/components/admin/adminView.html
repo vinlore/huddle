@@ -41,7 +41,7 @@
                         <button class="btn btn-sm btn-default" ng-if="checkPermissions('item')" ng-click="goInventory(c.id, $event)">
                             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Inventory
                         </button>
-                        <button class="btn btn-sm btn-default" ng-if="checkPermissions('conference_vehicle')" ng-click="goTransportation(c.id, $event)">
+                        <button class="btn btn-sm btn-default" ng-if="checkPermissions('conference_vehicle')" ng-click="goConferenceTransportation(c.id, $event)">
                             <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Vehicles
                         </button>
                         <button class="btn btn-sm btn-default" ng-if="checkPermissions('conference_attendee')" ng-click="goConferenceAttendees(c.id, $event)">
@@ -88,7 +88,7 @@
                             <button class="btn btn-sm btn-default" ng-click="goEventManagers(e.id, $event)">
                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Managers
                             </button>
-                            <button class="btn btn-sm btn-default" ng-if="checkPermissions('event_vehicle')">
+                            <button class="btn btn-sm btn-default" ng-if="checkPermissions('event_vehicle')" ng-click="goEventTransportation(e.id, $event)">
                                 <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Vehicles
                             </button>
                             <button class="btn btn-sm btn-default" ng-if="checkPermissions('event_attendee')" ng-click="goEventAttendees(e.id, $event)">
