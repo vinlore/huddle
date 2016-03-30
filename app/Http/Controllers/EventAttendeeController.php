@@ -58,7 +58,7 @@ class EventAttendeeController extends Controller
             if(!$event){
                 return response()->success("204", "No Event found.");
             }
-            return $event->attendee($user_id)->get();
+            return $event->attendee()->where('profile_id', $profile_id)->first();
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -87,11 +87,9 @@ class EventAttendeeController extends Controller
                         ->count();
             Event::where($request->event_id)->update(['attendee_count' => $count]);
 
-            if ($request->status == 'denied') {
-                $profile = Profile::find($request->profile_id)
-                //TODO : Detach all related vehicles to this profile for event
-                
-            }
+            //TODO : IF DENIED - WHAT HAPPENS
+            //TODO : Detach all related vehicles to this profile for event
+
             //Send Email Notification
              $this->sendAttendeeEmail("event", $request->event_id, $request->status, $request->profile_id);
             return response()->success();
@@ -108,13 +106,13 @@ class EventAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
+    public function update(Request $request, $events, $profiles){
         try {
             //Update
-            $attendees = Event::find($requset->event_id)
+            $attendees = Event::find($events)
                          ->attendees()
-                         ->updateExistingPivot($request->profile_id,$request->all());
-            $this->addActivity($request->header('ID'),'update', $request->event_id, 'event attendence');
+                         ->updateExistingPivot($profiles,$request->all());
+            $this->addActivity($request->header('ID'),'update', $events, 'event attendence');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
@@ -133,5 +131,17 @@ class EventAttendeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request){
+    }
+
+    public function showStatus($eid, $uid) {
+        try{
+            $event = Event::find($eid);
+            if(!$event){
+                return response()->success("204", "No event found.");
+            }
+            return $event->attendees()->where('user_id', $uid)->first();
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 }

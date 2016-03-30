@@ -58,7 +58,7 @@ class ConferenceController extends Controller
             // Assign the User as a Conference Manager.
             $user->conferences()->attach($conference->id);
 
-            return response()->success(201);
+            return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }
@@ -94,12 +94,19 @@ class ConferenceController extends Controller
     public function update(ConferenceRequest $request, $id)
     {
         try {
-
             // Check if the Conference exists.
             $conference = Conference::find($id);
             if (!$conference) {
                 return response()->error(404);
             }
+
+            //Check if conference manager belongs to this conference OR admin
+            $userId = $request->header('ID');
+            if (!$conference->managers()->where('user_id', $userID)->get() ||
+                Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
+                return response()->error("403" , "Permission Denied");
+            }
+
 
             // Update the Conference.
             $conference->fill($request->all())->save();
@@ -123,6 +130,13 @@ class ConferenceController extends Controller
             $conference = Conference::find($id);
             if (!$conference) {
                 return response()->error(404);
+            }
+
+            //Check if event manager belongs to this event OR admin
+            $userId = $request->header('ID');
+            if (!$conference->managers()->where('user_id', $userID)->get()||
+                Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
+                return response()->error("403" , "Permission Denied");
             }
 
             // Delete the Conference.

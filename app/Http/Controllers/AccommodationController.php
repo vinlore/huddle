@@ -42,16 +42,23 @@ class AccommodationController extends Controller
     {
         try {
 
+            $conference = Conference::find($cid);
             // Check if the Conference exists.
-            if (!Conference::find($cid)->exists()) {
+            if (!$conference->exists()) {
                 return response()->error(404);
+            }
+
+            //Check if conference manager belongs to this conference
+            $userId = $request->header('ID');
+            if (!$conference->managers()->where('user_id', $userID)->get()) {
+                return response()->error("403" , "Permission Denied");
             }
 
             // Create the Accommodation.
             $accommodation = Accommodation::create($request->all());
             $accommodation->conferences()->attach($cid);
 
-            return response()->success(201);
+            return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }
@@ -65,6 +72,12 @@ class AccommodationController extends Controller
     public function show($cid, $aid)
     {
         try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
 
             // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
@@ -88,10 +101,22 @@ class AccommodationController extends Controller
     {
         try {
 
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
+
             // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
                 return response()->error(404);
+            }
+
+            //Check if conference manager belongs to this conference
+            $userId = $request->header('ID');
+            if (!$conference->managers()->where('user_id', $userID)->get()) {
+                return response()->error("403" , "Permission Denied");
             }
 
             // Update the Accommodation.
@@ -112,10 +137,22 @@ class AccommodationController extends Controller
     {
         try {
 
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
+
             // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
                 return response()->error(404);
+            }
+
+            //Check if conference manager belongs to this conference
+            $userId = $request->header('ID');
+            if (!$conference->managers()->where('user_id', $userID)->get()) {
+                return response()->error("403" , "Permission Denied");
             }
 
             // Delete the Accommodation.

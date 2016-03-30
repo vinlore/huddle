@@ -27,10 +27,11 @@ class RoomRequest extends Request
                     return $this->getUser()->hasAccess(['room.destroy']);
                     break;
                 default:
-                    return false;
                     break;
             }
         }
+
+        return false;
     }
 
     public function createRules()

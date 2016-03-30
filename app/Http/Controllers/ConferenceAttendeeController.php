@@ -5,45 +5,62 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
 use App\Http\Requests\ConferenceAttendeeRequest;
-
-use App\Models\Conference as Conference;
-use App\Models\Profile as Profile;
-use App\Models\Vehicle as Vehicle;
-use App\Models\Rooms as Room;
-use App\Models\User as User;
-use App\Models\Event as Event;
+use App\Models\Conference;
+use App\Models\Profile;
+use App\Models\Vehicle;
+use App\Models\Rooms;
+use App\Models\User;
+use App\Models\Event;
 
 class ConferenceAttendeeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Retrieve all Attendees for a Conference.
      *
-     * @return \Illuminate\Http\Response
+     * @return Collection|Response
      */
-    public function index($conferences)
+    public function index($cid)
     {
-        return Conference::find($conferences)->attendees()->get();
+        try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
+
+            // Retrieve its Attendees.
+            return $conference->attendees()->get();
+        } catch (Exception $e) {
+            return response()->error();
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create an Attendee for a Conference.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
+    public function store(ConferenceAttendeeRequest $request, $cid)
+    {
+        try {
 
-    public function store(Request $request, $conferences){
-        try{
-            //Saving to profile_attends_conference Table
-            $profile =  Profile::find($request->profile_id);
-            $attendees = Conference::find($conferences)
-                          ->attendees()
-                          ->attach($profile, $request->all());
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
 
-           $this->addActivity($request->header('ID'),'request', $conferences, 'conference attendence');
+            $pid = $request->profile_id;
 
+            // Check if the Profile exists.
+            $profile = Profile::find($pid);
+            if (!$profile) {
+                return response()->error(404);
+            }
+
+            $profile->conferences()->attach($pid, $request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -51,22 +68,33 @@ class ConferenceAttendeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve a Conference Attendee.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Model|Response
      */
-    public function show($id, $user_id){
-        try{
-            $conference = Conference::find($id);
-            if(!$conference){
-                return response()->success("204", "No conference found.");
+    public function show($cid, $pid)
+    {
+        try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
             }
-            return $conference->attendee($user_id)->get();
+
+            // Check if the Profile exists.
+            $profile = Profile::find($pid);
+            if (!$profile) {
+                return response()->error(404);
+            }
+
+            // Retrieve the Attendee.
+            return $conference->attendees()->where('profile_id', $pid)->get();
         } catch (Exception $e) {
-            return response()->error($e);
+            return response()->error();
         }
     }
+
 
      /**
      * Update the status of the specified resource in storage.
@@ -92,17 +120,13 @@ class ConferenceAttendeeController extends Controller
                          ->count();
             Conference::where($request->conference_id)->update(['attendee_count' => $count]);
 
-            if($request->status == "denied") {
-                $profile = Profile::find($request->profile_id);
-
+                //TODO : IF DENIED - WHAT HAPPENS
                 //TODO:Detaching all related Vehicles to this profile for this conference
-                //Check all Vehicle ID related to this profile
 
                 //TODO:Detchaing all rooms related to this profile for this conference
 
                 //TODO:Detach all events related to the conference being rejected
-                return response()->success();
-            }
+
 
 
             if ($request->vehicle_id != NULL) {
@@ -132,38 +156,47 @@ class ConferenceAttendeeController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Update a Conference Attendee.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function update(ConferenceAttendeeRequest $request, $conference_id, $profile_id){
+    public function update(ConferenceAttendeeRequest $request, $cid, $pid)
+    {
         try {
-            //Update
-            $attendees = Conference::find($conference_id)
-                         ->attendees()
-                         ->updateExistingPivot($profile_id,$request->all());
 
-            $this->addActivity($request->header('ID'),'update', $conference_id, 'conference attendence');
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
 
-            /*
-            *TODO: check if user wants email notifcations. If yes, send one.
-            *TODO: ADD notification column to user table.
-            */
+            // Check if the Attendee exists.
+            $attendee = $conference->attendees()->updateExistingPivot($pid, $request->all());
+
             return response()->success();
          } catch (Exception $e) {
             return response()->error($e);
         }
     }
 
-
     /**
-     * Remove the specified resource from storage.
+     * Delete a Conference Attendee.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function destroy(ConferenceRequest $request){
+    public function destroy(ConferenceAttendeeRequest $request, $cid, $pid)
+    {
+    }
+
+    public function showStatus($cid, $uid) {
+        try{
+            $conference = Conference::find($cid);
+            if(!$conference){
+                return response()->success("204", "No conference found.");
+            }
+            return $conference->attendees()->where('user_id', $uid)->first();
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
     }
 }

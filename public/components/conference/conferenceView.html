@@ -132,12 +132,12 @@
                             <span ng-if="event.age_limit">Ages: <strong>{{event.age_limit}}+</strong></span>
                             <span ng-if="!event.age_limit && !event.gender_limit">No restrictions</span>
                             <span>&nbspSeats: <strong>{{event.attendee_count}}/{{event.capacity}}</strong></span>
-                            <a type="button" class="btn btn-primary" ui-sref="event-signup({eventId: event.id, name: event.name})" ng-if="auth && !eventAttendance && conferenceAttendance == 'approved'">
+                            <a type="button" class="btn btn-primary" ui-sref="event-signup({eventId: event.id, name: event.name})" ng-if="auth && !eventAttendance[$index] && conferenceAttendance == 'approved'">
                                 <span class="glyphicon glyphicon-edit"></span>
                                 <label> Sign Up</label>
                             </a>
-                            <button type="button" class="btn btn-success attend-leave" ng-if="eventAttendance">
-                                <span class="attending" ng-switch="eventAttendance">
+                            <button type="button" class="btn btn-success attend-leave" ng-if="eventAttendance[$index]">
+                                <span class="attending" ng-switch="eventAttendance[$index]">
                                     <span class="glyphicon glyphicon-ok"></span>
                                     <label ng-switch-default> Pending</label>
                                     <label ng-switch-when="approved"> Approved</label>

@@ -27,10 +27,11 @@ class RoleRequest extends Request
                     return $this->getUser()->hasAccess(['role.destroy']);
                     break;
                 default:
-                    return false;
                     break;
             }
         }
+
+        return false;
     }
 
     public function createRules()

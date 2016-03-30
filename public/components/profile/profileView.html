@@ -5,26 +5,26 @@
       <uib-accordion>
         <uib-accordion-group is-open="name.open">
           <uib-accordion-heading>
-            Name: {{user.FirstName}} {{user.LastName}}
+            Name: {{user.first_name}} {{user.last_name}}
             <div class="pull-right">Edit</div>
           </uib-accordion-heading>
           <form role="form" class="form-horizontal">
             <div class="form-group">
               <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">First</label>
               <div class="col-sm-4">
-                <input class="form-control" id="inputUser" ng-model="user.FirstName">
+                <input class="form-control" id="inputUser" ng-model="user.first_name">
               </div>
             </div>
             <div class="form-group">
               <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">Middle</label>
               <div class="col-sm-4">
-                <input class="form-control" id="inputUser" placeholder="Optional" ng-model="user.MiddleName">
+                <input class="form-control" id="inputUser" placeholder="Optional" ng-model="user.middle_name">
               </div>
             </div>
             <div class="form-group">
               <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">Last</label>
               <div class="col-sm-4">
-                <input class="form-control" id="inputUser" ng-model="user.LastName">
+                <input class="form-control" id="inputUser" ng-model="user.last_name">
               </div>
             </div>
           </form>
@@ -43,13 +43,13 @@
             <div class="form-group">
               <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Email</label>
               <div class="col-sm-5">
-                <input class="form-control" id="inputUser" ng-model="user.Email">
+                <input class="form-control" id="inputUser" ng-model="user.email">
               </div>
             </div>
             <div class="form-group">
               <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Home Phone</label>
               <div class="col-sm-5">
-                <input class="form-control" id="inputUser" ng-model="user.HomePhone">
+                <input class="form-control" id="inputUser" ng-model="user.phone">
               </div>
             </div>
           </form>
@@ -61,20 +61,20 @@
 
         <uib-accordion-group is-open="address.open">
           <uib-accordion-heading>
-            Address: {{user.City}}<span ng-if="user.City">,&nbsp</span>{{user.Country}}
+            Address: {{user.city}}<span ng-if="user.city">,&nbsp</span>{{user.country}}
             <div class="pull-right">Edit</div>
           </uib-accordion-heading>
           <form role="form" class="form-horizontal">
             <div class="form-group">
               <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">City</label>
               <div class="col-sm-5">
-                <input class="form-control" id="inputUser" ng-model="user.City">
+                <input class="form-control" id="inputUser" ng-model="user.city">
               </div>
             </div>
             <div class="form-group">
               <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Country</label>
               <div class="col-sm-5">
-                <input class="form-control" id="inputUser" ng-model="user.Country">
+                <input class="form-control" id="inputUser" ng-model="user.country">
               </div>
             </div>
           </form>
@@ -95,14 +95,14 @@
             <div class="form-group">
               <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">Current</label>
               <div class="col-sm-4">
-                <input type="password" class="form-control" id="inputUser" placeholder="Enter Old Password" ng-model="user.OldPassword">
+                <input type="password" class="form-control" id="inputUser" placeholder="Enter Old Password" ng-model="user.old_password">
               </div>
             </div>
             <!-- New Password -->
             <div class="form-group">
               <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">New</label>
               <div class="col-sm-4">
-                <input type="password" class="form-control" id="inputUser" placeholder="Enter New Password" ng-model="user.NewPassword">
+                <input type="password" class="form-control" id="inputUser" placeholder="Enter New Password" ng-model="user.password">
               </div>
             </div>
             <!-- Confirm Password -->
@@ -189,8 +189,8 @@
                                 <h4 class="card-text">Location: {{con.city}},{{con.country}}</h4>
                                 <h5 class="card-text">Start: {{con.start_date}}</h5>
                                 <h5 class="card-text">End: {{con.end_date}}</h5>
-                                <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">Edit Application</button>
-                                <button class="btn btn-danger btn-sm" ng-click="cancelEventApplication($index)">Cancel Application</button>
+                                <button class="btn btn-primary btn-sm" ng-click="viewConferenceApplication($index)">Edit Application</button>
+                                <button class="btn btn-danger btn-sm" ng-click="cancelConferenceApplication($index)">Cancel Application</button>
                             </div>
                         </div>
                     </div>

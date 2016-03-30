@@ -4,6 +4,7 @@ angular.module( 'profileCtrl', [] )
 
     $scope.user = {};
     $scope.animationsEnabled = true;
+    $scope.members = [];
 
     $scope.tableParams = new ngTableParams (
         {},
@@ -20,11 +21,11 @@ angular.module( 'profileCtrl', [] )
                                     $scope.user = response[i];
                                     $scope.loadConferences();
                                     $scope.loadEvents();
-                                    response.splice(i, i+1);
+                                } else {
+                                    $scope.members.push(response[i]);
                                 }
                             }
-                            $scope.family = response;
-                            $defer.resolve($scope.family);
+                            $defer.resolve($scope.members);
                         } else {
                             popup.error('Error', response.error);
                         }
@@ -88,7 +89,7 @@ angular.module( 'profileCtrl', [] )
 
     $scope.savePasswordChanges = function () {
         var password = {
-            password: $scope.user.new_password
+            password: $scope.user.password
         };
         Users.update( { id: $rootScope.user.id }, password )
             .$promise.then( function ( response ) {
@@ -114,39 +115,6 @@ angular.module( 'profileCtrl', [] )
                 popup.connection();
             })
     };
-
-    $scope.loadProfile = function () {
-        Profile.get( { uid: $rootScope.user.id } )
-            .$promise.then( function ( response ) {
-                if ( response ) {
-                    var profile = response;
-                    $scope.user = {
-                        id: profile.id,
-                        Username: $rootScope.user.name,
-                        OldPassword: null,
-                        NewPassword: null,
-                        ConfirmPassword: null,
-                        FirstName: profile.first_name,
-                        MiddleName: profile.middle_name,
-                        LastName: profile.last_name,
-                        Birthdate: new Date(profile.birthdate),
-                        Gender: profile.gender,
-                        Country: profile.country,
-                        City: profile.city,
-                        Email: profile.email,
-                        HomePhone: profile.phone
-                    };
-                    $scope.loadConferences();
-                    $scope.loadEvents();
-                    //console.log($scope.conferences[0].pivot);
-                } else {
-                    popup.error('Error', response.error);
-                }
-            }, function () {
-                popup.connection();
-            })
-    }
-    $scope.loadProfile();
 
     $scope.conferences = []
     $scope.loadConferences = function () {

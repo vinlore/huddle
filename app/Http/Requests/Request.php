@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Sentinel;
+
 use App\Models\User;
 
 abstract class Request extends FormRequest
@@ -38,8 +40,11 @@ abstract class Request extends FormRequest
     {
         $userId = $this->header('ID');
         $apiToken = $this->header('X-Auth-Token');
-        $user = User::find($userId);
-        return $user->api_token == $apiToken;
+        if ($userId && $apiToken) {
+            $user = Sentinel::findById($userId);
+            return $user->api_token == $apiToken;
+        }
+        return false;
     }
 
     /**
@@ -54,6 +59,7 @@ abstract class Request extends FormRequest
             $apiToken = $this->header('X-Auth-Token');
             return User::find($userId);
         }
+        return false;
     }
 
     /**
@@ -63,8 +69,11 @@ abstract class Request extends FormRequest
      */
     public function isSuperuser()
     {
-        $role = $this->getUser()->roles()->first();
-        return $role->name == 'System Administrator';
+        if ($this->getUser()) {
+            $role = $this->getUser()->roles()->first();
+            return $role->name == 'System Administrator';
+        }
+        return false;
     }
 
     /**
