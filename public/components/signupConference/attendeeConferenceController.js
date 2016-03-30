@@ -110,10 +110,10 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       dept_time: $filter('time')($scope.departure.dept_time),
       dept_date:  $filter('date')($scope.departure.dept_date, 'yyyy-MM-dd'),
       accommodation_req: $scope.accommodation.accommodation_req,
-      accommodation_pref: $scope.accommodation.accommodation_pref,
+      accommodation_pref: $scope.accommodations[$scope.accommodation.accommodation_pref].name,
       status: 'pending'
     }
-
+    console.log(profile);
     Conferences.attendees().update({cid: $stateParams.conference_id, pid: $stateParams.profile_id}, profile)
     .$promise.then( function ( response ) {
       if ( response ) {
