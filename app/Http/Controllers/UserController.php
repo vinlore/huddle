@@ -72,13 +72,13 @@ class UserController extends Controller
             //Check if Role Id exists
             if(!\Sentinel::findRoleById($request->role_id))
             {
-                return response()->error("Unta" , "Unable to find Role with role_id ".$request->role_id);
+                return response()->error(404);
             }
 
             //Check if User Id Exists
             if(!\Sentinel::findUserById($users))
             {
-                return response()->error("Umesh" ,"Unable to find User with user_id ".$users);
+                return response()->error(404);
             }
 
             //Update Role first
@@ -93,7 +93,7 @@ class UserController extends Controller
 
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("Ulysses" , $e);
+            return response()->error("500" , $e);
         }
     }
 
@@ -106,5 +106,21 @@ class UserController extends Controller
     public function destroy($id)
     {
         //Not Allowed to destroy
+    }
+
+    //Password reset
+    public function resetPassword(Request $request)
+    {
+        try {
+            $user = Sentinel::findById($request->header('ID'));
+
+            if ($reminder = Reminder::complete($user, $request->code, $request->password))
+            {
+            // Reminder was successfull
+            return response()->success();
+            }
+        } catch (Exception $e) {
+            return response()->error("500" , $e);
+        }
     }
 }

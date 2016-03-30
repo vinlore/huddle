@@ -27,4 +27,15 @@ class Accommodation extends Model
     {
         return $this->belongsToMany('App\Models\Conference', 'conference_accommodations')->withTimestamps();
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($accommodation) {
+            foreach ($accommodation->rooms as $room) {
+                $room->delete();
+            }
+            $accommodation->conferences()->detach();
+        });
+    }
 }

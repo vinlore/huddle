@@ -32,7 +32,11 @@ class ItemController extends Controller
     public function show($cid, $iid)
     {
         try {
-            return Item::findOrFail($iid);
+            $item = Item::find($id);
+            if (!$item) {
+                return response()->error(404);
+            }
+            return $item;
         } catch (Exception $e) {
             return response()->error();
         }
@@ -41,7 +45,11 @@ class ItemController extends Controller
     public function update(ItemRequest $request, $cid, $iid)
     {
         try {
-            Item::findOrFail($iid)->update($request->all());
+            $item = Item::find($id);
+            if (!$item) {
+                return response()->error(404);
+            }
+            $item->update($request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -51,7 +59,11 @@ class ItemController extends Controller
     public function destroy($cid, $iid)
     {
         try {
-            Item::findOrFail($iid)->delete();
+            $item = Item::find($id);
+            if (!$item) {
+                return response()->error(404);
+            }
+            $item->delete();
             return response()->success();
         } catch (Exception $e) {
             return response()->error();

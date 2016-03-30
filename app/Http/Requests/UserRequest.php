@@ -27,9 +27,10 @@ class UserRequest extends Request
                     return $this->getUser()->hasAccess(['user.destroy']);
                     break;
                 default:
-                    return false;
                     break;
             }
         }
+
+        return false;
     }
 }

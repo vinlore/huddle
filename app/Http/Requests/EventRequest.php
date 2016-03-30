@@ -27,10 +27,11 @@ class EventRequest extends Request
                     return $this->getUser()->hasAccess(['event.destroy']);
                     break;
                 default:
-                    return false;
                     break;
             }
         }
+
+        return false;
     }
 
     public function createRules()

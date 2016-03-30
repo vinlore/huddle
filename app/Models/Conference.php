@@ -76,4 +76,18 @@ class Conference extends Model
                                 'medical_conditions',
                                 'status');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($conference) {
+            foreach ($conference->events as $event) {
+                $event->delete();
+            }
+            $conference->accommodations()->detach();
+            $conference->vehicles()->detach();
+            $conference->managers()->detach();
+            $conference->attendees()->detach();
+        });
+    }
 }

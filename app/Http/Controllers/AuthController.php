@@ -13,8 +13,14 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    /**
+     * Register a new Regular User and create its owner Profile.
+     *
+     * @return Response
+     */
     function signup(RegisterUserRequest $request)
     {
+        // Register the User.
         $user = [
             'username' => $request->username,
             'email'    => $request->email,
@@ -22,12 +28,14 @@ class AuthController extends Controller
         ];
         $user = Sentinel::registerAndActivate($user);
 
+        // Give the user the Regular User role.
         $role = Sentinel::findRoleByName('Regular User');
         $role->users()->attach($user);
 
         $user->permissions = $role->permissions;
         $user->save();
 
+        // Create the owner Profile.
         $profile = [
             'is_owner'    => 1,
             'email'       => $request->email,
@@ -44,19 +52,27 @@ class AuthController extends Controller
         $profile->user()->associate($user);
         $profile->save();
 
+        // Automatically sign in after successful registration.
         return $this->signin($request);
     }
 
+    /**
+     * Sign a User in.
+     *
+     * @return Response
+     */
     function signin(Request $request)
     {
+        // Authenticate the User.
         $user = [
             'username' => $request->username,
             'password' => $request->password,
         ];
         $user = Sentinel::stateless($user);
 
+        // Create an API token for the User.
         if (!$user) {
-            return response()->error();
+            return response()->error(401, 'Invalid Credentials');
         } else {
             $apiToken = bcrypt($user);
             $user->api_token = $apiToken;
@@ -75,13 +91,19 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Sign a User out.
+     *
+     * @return Response
+     */
     function signout(Request $request)
     {
+        // Check if the API token in the request matches the API token in the database.
         $apiToken = $request->header('X-Auth-Token');
         $user = User::where('api_token', $apiToken)->first();
 
         if (!$user) {
-            return response()->error();
+            return response()->error(401, 'Invalid Token Error');
         } else {
             $user->api_token = NULL;
             $user->save();
@@ -89,13 +111,19 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Confirm the login state of a User.
+     *
+     * @return Response
+     */
     function confirm(Request $request)
     {
+        // Check if the API token in the request matches the API token in the database.
         $apiToken = $request->header('X-Auth-Token');
         $user = User::where('api_token', $apiToken)->first();
 
         if (!$user) {
-            return response()->error();
+            return response()->error(401, 'Invalid Token Error');
         } else {
             return response()->json([
                 'status'      => 200,
