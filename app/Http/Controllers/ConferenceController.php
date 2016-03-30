@@ -58,6 +58,9 @@ class ConferenceController extends Controller
             // Assign the User as a Conference Manager.
             $user->conferences()->attach($conference->id);
 
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'request', $conference->id, 'conference');
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -111,6 +114,10 @@ class ConferenceController extends Controller
             // Update the Conference.
             $conference->fill($request->all())->save();
 
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'update', $id, 'conference');
+
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -141,6 +148,9 @@ class ConferenceController extends Controller
 
             // Delete the Conference.
             $conference->delete();
+
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'delete', $id, 'conference');
 
             return response()->success();
         } catch (Exception $e) {

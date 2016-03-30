@@ -60,7 +60,10 @@ class ConferenceAttendeeController extends Controller
                 return response()->error(404);
             }
 
-            $profile->conferences()->attach($pid, $request->all());
+            $profile->conferences()->attach($cid, $request->except('profile_id'));
+
+            $this->addActivity($request->header('ID'),'request', $cid, 'conference application', $pid);
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -111,7 +114,8 @@ class ConferenceAttendeeController extends Controller
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
-            $this->addActivity($request->header('ID'),$request->status, $request->conference_id, 'conference attendence');
+            //Add Activity to log
+            $this->addActivity($request->header('ID'), $request->status, $request->conference_id, 'conference application', $request->profile_id);
 
             //Update attendee count
             $count = Conference::find($request->conference_id)
@@ -191,9 +195,15 @@ class ConferenceAttendeeController extends Controller
                                            ->get();
                foreach($event_id_array as $eid){
                    if($eid->conference_id == $request->$conference_id) {
-                       Event::find($eid->id)
-                               ->attendees()
-                               ->detach(Profile::find($user_id));
+                       //Get the Pivot table
+                       $eventToUpdate = Event::find($eid->id)->attendees();
+
+                       //Detach profile from the event
+                       $eventToUpdate->detach(Profile::find($user_id));
+
+                       //Update attendee count
+                       $count = $eventToUpdate->where('status','approved')->count();
+                       Event::where($request->event_id)->update(['attendee_count' => $count]);
                    }
                }
 
@@ -216,6 +226,7 @@ class ConferenceAttendeeController extends Controller
                             ->attach($profile);
                 }
             }
+
 
             //send Email Notification
             $this->sendAttendeeEmail("conference", $request->conference_id, $request->status, $request->profile_id);
@@ -332,6 +343,9 @@ class ConferenceAttendeeController extends Controller
             // Check if the Attendee exists.
             $attendee = $conference->attendees()->updateExistingPivot($pid, $request->all());
 
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'updated', $cid, 'conference application', $pid);
+
             return response()->success();
          } catch (Exception $e) {
             return response()->error($e);
@@ -342,6 +356,9 @@ class ConferenceAttendeeController extends Controller
     {
         try {
             Profile::find($pid)->conferences()->detach($cid);
+
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'deleted', $cid, 'conference application', $pid);
             return response()->success();
         } catch (Exception $e) {
             return response()->error();

@@ -17,7 +17,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function addActivity($userId, $activityType, $sourceId, $sourceType)
+    public function addActivity($userId, $activityType, $sourceId, $sourceType, $profile_id)
     {
         try {
             $activity = [
@@ -25,6 +25,7 @@ class Controller extends BaseController
                 'activity_type' => $activityType,
                 'source_id'     => $sourceId,
                 'source_type'   => $sourceType,
+                'profile_id'    => $profile_id
             ];
             Activity::create($activity);
         } catch (Exception $e) {

@@ -1,5 +1,5 @@
 angular.module('manageTransportationCtrl',[])
-.controller('manageTransportationController', function($scope, ngTableParams, Conferences, $stateParams, popup, $uibModal){
+.controller('manageTransportationController', function($scope, ngTableParams, Conferences, $stateParams, popup, Passengers){
 
   // Conference ID
   $scope.conferenceId = $stateParams.conferenceId;
@@ -21,8 +21,10 @@ angular.module('manageTransportationCtrl',[])
       Conferences.vehicles().query( {cid: $scope.conferenceId, type:'arrival'} )
       .$promise.then( function( response ) {
         if ( response ) {
-          $scope.dataArrive = response;
-          $scope.data.push($scope.dataArrive);
+          for (var i=0; i < response.length; i++) {
+            response[i].attendees = Passengers.query({vid: response[i].id});
+          }
+          $scope.data[0] = response;
         } else {
           popup.error( 'Error', response.message );
         }
@@ -34,17 +36,19 @@ angular.module('manageTransportationCtrl',[])
       Conferences.vehicles().query( {cid: $scope.conferenceId, type:'departure'} )
       .$promise.then( function( response ) {
         if ( response ) {
-          $scope.dataDepart = response;
-          $scope.data.push($scope.dataDepart);
+          for (var i=0; i < response.length; i++) {
+            response[i].attendees = Passengers.query({vid: response[i].id});
+          }
+          $scope.data[1] = response;
         } else {
           popup.error( 'Error', response.message );
         }
       }, function () {
         popup.connection();
       })
-    }
+  }
 
-    $scope.loadVehicles();
+  $scope.loadVehicles();
 
   //////// Button Functions ////////
 
@@ -77,8 +81,7 @@ angular.module('manageTransportationCtrl',[])
           popup.connection();
         })
 
-    // refresh data (need angular.copy or else view won't show new data when input data clears because of reference)
-    $scope.data[index].push(angular.copy(vehicle));
+    $scope.loadVehicles();
   }
 
   $scope.del = function(vehicle, parent, index) {
@@ -109,14 +112,25 @@ angular.module('manageTransportationCtrl',[])
                       popup.connection();
             })
 
-          // remove data from view
-          $scope.data[parent].splice(index, 1);
+          $scope.loadVehicles();
         }
       }
     } )
   }
 
   $scope.export = function() {
+  }
+
+  $scope.removeAttendee = function(vid, pid) {
+    Passengers.delete({vid: vid, pid: pid})
+      .$promise.then( function (response) {
+        if (response.status = 200) {
+          popup.alert('success', 'User no longer taking this vehicle');
+          $scope.loadVehicles();
+        } else {
+          popup.error('Error', response.message);
+        }
+      })
   }
 
 })

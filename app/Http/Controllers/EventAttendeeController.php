@@ -39,7 +39,8 @@ class EventAttendeeController extends Controller
                          ->attendees()
                          ->attach($profile, $request->all());
 
-            $this->addActivity($request->header('ID'),'request', $events, 'event attendence');
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'request', $events, 'event application', $request->profile_id);
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -78,7 +79,8 @@ class EventAttendeeController extends Controller
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
-            $this->addActivity($request->header('ID'),$request->status, $request->event_id, 'event attendence');
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),$request->status, $request->event_id, 'event application', $request->profile_id);
 
             //Update attendee count
             $count = Event::find($request->event_id)
@@ -87,8 +89,8 @@ class EventAttendeeController extends Controller
                         ->count();
             Event::where($request->event_id)->update(['attendee_count' => $count]);
 
-            //TODO : IF DENIED - WHAT HAPPENS
-            //TODO : Detach all related vehicles to this profile for event
+            //IF DENIED - WHAT HAPPENS
+            //Detach all related vehicles to this profile for event
             if ($request->status == 'denied' || $request->status != 'cancelled') {
                 /*
                 *Detatch all related vehicles for this profile for this conference
@@ -147,7 +149,10 @@ class EventAttendeeController extends Controller
             $attendees = Event::find($events)
                          ->attendees()
                          ->updateExistingPivot($profiles,$request->all());
-            $this->addActivity($request->header('ID'),'update', $events, 'event attendence');
+
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'update', $events, 'event application', $profiles);
+
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
@@ -162,6 +167,10 @@ class EventAttendeeController extends Controller
     {
         try {
             Profile::find($pid)->events()->detach($eid);
+
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'delete', $eid, 'event application', $pid);
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();

@@ -191,7 +191,7 @@ class InitialMigration extends Migration
             $table->date('birthdate');
             $table->string('gender');
             $table->boolean('accommodation_req');
-            $table->string('accommodation_pref')->nullable();
+            $table->integer('accommodation_pref')->nullable();
             $table->boolean('arrv_ride_req');
             $table->date('arrv_date')->nullable();
             $table->time('arrv_time')->nullable();

@@ -38,11 +38,11 @@ class ConferenceAttendeeRequest extends Request
     {
         return [
             'email'              => ['email', 'max:255'],
-            'phone'              => ['required', 'integer'],
-            'phone2'             => ['integer'],
-            'first_name'         => ['required', 'string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
-            'middle_name'        => ['string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
-            'last_name'          => ['required', 'string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
+            'phone'              => ['required', 'string'],
+            'phone2'             => ['string'],
+            'first_name'         => ['required', 'string', 'max:255', $this->NAME],
+            'middle_name'        => ['string', 'max:255', $this->NAME],
+            'last_name'          => ['required', 'string', 'max:255', $this->NAME],
             'city'               => ['string', 'max:255'],
             'country'            => ['string', 'max:255'],
             'birthdate'          => ['required', 'date', 'before:today'],
@@ -62,7 +62,7 @@ class ConferenceAttendeeRequest extends Request
             'contact_first_name' => ['string', 'max:255'],
             'contact_last_name'  => ['string', 'max:255'],
             'contact_email'      => ['email', 'max:255'],
-            'contact_phone'      => ['integer'],
+            'contact_phone'      => ['string'],
             'medical_conditions' => ['string', 'max:255'],
         ];
     }
@@ -71,11 +71,11 @@ class ConferenceAttendeeRequest extends Request
     {
         return [
             'email'              => ['email', 'max:255'],
-            'phone'              => ['integer'],
-            'phone2'             => ['integer'],
-            'first_name'         => ['string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
-            'middle_name'        => ['string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
-            'last_name'          => ['string', 'max:255', 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/'],
+            'phone'              => ['string'],
+            'phone2'             => ['string'],
+            'first_name'         => ['string', 'max:255', $this->NAME],
+            'middle_name'        => ['string', 'max:255', $this->NAME],
+            'last_name'          => ['string', 'max:255', $this->NAME],
             'city'               => ['string', 'max:255'],
             'country'            => ['string', 'max:255'],
             'birthdate'          => ['date', 'before:today'],
@@ -95,7 +95,7 @@ class ConferenceAttendeeRequest extends Request
             'contact_first_name' => ['string', 'max:255'],
             'contact_last_name'  => ['string', 'max:255'],
             'contact_email'      => ['email', 'max:255'],
-            'contact_phone'      => ['integer'],
+            'contact_phone'      => ['string'],
             'medical_conditions' => ['string', 'max:255'],
         ];
     }

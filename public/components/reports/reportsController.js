@@ -94,7 +94,7 @@ angular.module( 'reportsCtrl', [] )
                 if ( response ) {
                     $scope.events = response;
                     $scope.filterEvents($scope.events)
-                    //console.log(response);
+                    console.log(response);
                 } else {
                     popup.error( 'Error', response.message );
                 }

@@ -94,8 +94,8 @@ class RolesSeeder extends Seeder
             'conference.update'           => false,
             'conference.destroy'          => false,
 
-            'conference_attendee.status'  => false,
-            'conference_attendee.store'   => false,
+            'conference_attendee.status'  => true,
+            'conference_attendee.store'   => true,
             'conference_attendee.show'    => true,
             'conference_attendee.update'  => true,
             'conference_attendee.destroy' => false,
@@ -111,8 +111,8 @@ class RolesSeeder extends Seeder
             'event.update'                => false,
             'event.destroy'               => false,
 
-            'event_attendee.status'       => false,
-            'event_attendee.store'        => false,
+            'event_attendee.status'       => true,
+            'event_attendee.store'        => true,
             'event_attendee.show'         => true,
             'event_attendee.update'       => true,
             'event_attendee.destroy'      => false,
