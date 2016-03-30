@@ -60,7 +60,6 @@ angular.module('manageRoomsCtrl',[])
 
     $scope.add = function(room) {
 
-        // Adds acommodation to accommodations table
         Conferences.rooms().save( {aid: $scope.accommodationId}, room )
         .$promise.then( function( response ) {
             if ( response.status == 200 ) {

@@ -1,9 +1,9 @@
 <div id="transportation">
 	<div class="container">
-		<h1>Transportation</h1>
+		<h1>Transportation for Conference {{conferenceId}}</h1>
 	</div>
 
-	<div ng-repeat="d in data">
+	<div ng-repeat="d in data" ng-init="parent = $index">
 		<div class="panel panel-default margin-top-25">
 	      	<div class="panel-body">
 
@@ -27,7 +27,7 @@
 								</div>
 								<div class="col-md-5">
 									<div class="row pull-right margin-right-25 margin-top-25">
-										<button class="btn btn-danger" ng-click="deny(a.id)">
+										<button class="btn btn-danger" ng-click="del(v, parent, $index, $event)">
 	                           				<span class="glyphicon glyphicon-trash"></span>
 	                     				</button>
 	                     				<button class="btn btn-sm btn-info" ng-click="export()">
@@ -39,14 +39,19 @@
 							</div>
 						</uib-accordion-heading>
 						<div ng-if="v.attendees.length">
-			                <div class="attendees" ng-repeat="a in v.attendees">
-			                    <div class="row">
-			                    	<div class="col-md-12">
-										<p>{{$index + 1}}. {{a.name}}</p>
-									</div>
-			                    </div>
-			                    <hr ng-show="!$last">
-			                 </div>
+			                <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
+						        <tr ng-repeat="a in v.attendees">
+						        	<td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
+			                  			{{a.first_name}}
+			               		   	</td>
+			               			<td title="'Middle Name'" filter="{ 'middle_name': 'text'}" sortable="'middle_name'">
+			                  			{{a.middle_name}}
+			               			</td>
+			               			<td title="'Last Name'" filter="{ 'last_name': 'text'}" sortable="'last_name'">
+			                  			{{a.last_name}}
+			               			</td>
+						        </tr>
+					    	</table>
 			            </div>
 			            <div ng-if="!v.attendees.length">
 			                <p class="attendees_text">No passengers yet!</p>
@@ -56,23 +61,21 @@
 
 				<div class="container" id="add-vehicle">
 					<div class="row">
-						<form name="form">
 							<div class="col-md-3">
-								<input type="name" class="form-control" placeholder="Enter Type of Vehicle" ng-model="form.name" required>
+								<input type="text" class="editable-input form-control input-sm" placeholder="Enter Type of Vehicle" ng-model="vehicle.name" required>
 							</div>
 							<div class="col-md-2">
-								<input type="text" class="form-control" placeholder="Max Capacity" ng-model="form.passenger_count" required>
+								<input type="number" class="editable-input form-control input-sm" placeholder="Max Capacity" ng-model="vehicle.capacity" required>
 							</div>
 							<div class="col-md-2">
 							</div>
 							<div class="col-md-5">
 								<div class="row pull-right margin-right-25">
-									<button class="btn btn-success" id="add" ng-click="addVehicle(form)" ng-disabled="form.$invalid">
+									<button class="btn btn-success" id="add" ng-click="add(vehicle, $index)" ng-disabled="!vehicle.name || !vehicle.capacity">
 			          					<span class="glyphicon glyphicon-plus">
 			        				</button>
 			              		</div>
 							</div>
-						</form>
 					</div>
 				</div>
 
