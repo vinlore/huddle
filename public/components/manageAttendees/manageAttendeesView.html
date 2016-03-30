@@ -26,6 +26,17 @@
                <col width="25%" />
             </colgroup>
 
+<!--             <tr class="ng-table-group" ng-repeat-start="group in $data">
+               <td colspan="10">
+                  <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                     <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                     <strong>{{ group.user_id }}</strong>
+                  </a>
+               </td>
+            </tr>
+
+
+             <tr ng-hide="group.$hideRows" ng-repeat="a in group" ng-repeat-end> -->
             <tr ng-repeat="a in $data">
                <td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
                   {{a.first_name}}
@@ -73,7 +84,7 @@
                   <span class="glyphicon glyphicon-download"></span>
                   Export
             </button>
-            </div>
+         </div>
       </div>
    </div>
 </div>

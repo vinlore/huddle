@@ -6,16 +6,44 @@ angular.module('manageConferenceAttendeesCtrl', [])
 
     //////// Load Data ////////
 
-    $scope.tableParams = new ngTableParams({}, {
+    $scope.tableParams = new ngTableParams({
+
+    }, {
         counts: [],
         getData: function($defer, params) {
+
+            // organize filter as $filter understand it (graph object)
+            var filters = {};
+            angular.forEach(params.filter(), function(val, key) {
+                var filter = filters;
+                var parts = key.split('.');
+                for (var i = 0; i < parts.length; i++) {
+                    if (i != parts.length - 1) {
+                        filter[parts[i]] = {};
+                        filter = filter[parts[i]];
+                    } else {
+                        filter[parts[i]] = val;
+                    }
+                }
+            })
+
             Conferences.attendees().query({ cid: $scope.conferenceId })
                 .$promise.then(function(response) {
                     if (response) {
                         $scope.data = response;
-                        $scope.data = params.sorting() ? $filter('orderBy')($scope.data, params.orderBy()) : $scope.data;
-                        $scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
-                        $defer.resolve($scope.data);
+
+                        // filter with $filter (don't forget to inject it)
+                        var filteredDatas =
+                            params.filter() ?
+                            $filter('filter')($scope.data, filters) :
+                            $scope.data;
+
+                        // ordering
+                        var sorting = params.sorting();
+                        var key = sorting ? Object.keys(sorting)[0] : null;
+                        var orderedDatas = sorting ? $filter('orderBy')(filteredDatas, key, sorting[key] == 'desc') : filteredDatas;
+
+                        $defer.resolve(orderedDatas);
                     } else {}
                 }, function() {
                     popup.connection();
@@ -67,7 +95,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
                     console.log(result);
                     // TODO store to profile rides and profile stays table
                     if (result.arrivalVehicle) {
-                        Passengers.save({ vid: result.arrivalVehicle }, {profile_id: attendee.id})
+                        Passengers.save({ vid: result.arrivalVehicle }, { profile_id: attendee.id })
                             .$promise.then(function(response) {
                                 if (response.status != 200) {
                                     popup.error('Error', response.message);
@@ -76,7 +104,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
                             })
                     }
                     if (result.departureVehicle) {
-                        Passengers.save({ vid: result.departureVehicle },{profile_id: attendee.id})
+                        Passengers.save({ vid: result.departureVehicle }, { profile_id: attendee.id })
                             .$promise.then(function(response) {
                                 if (response.status != 200) {
                                     popup.error('Error', response.message);
@@ -85,7 +113,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
                             })
                     }
                     if (result.room) {
-                        Guests.save({ rid: result.room }, {profile_id: attendee.id})
+                        Guests.save({ rid: result.room }, { profile_id: attendee.id })
                             .$promise.then(function(response) {
                                 if (response.status != 200) {
                                     popup.error('Error', response.message);
@@ -108,7 +136,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
             .$promise.then(function(response) {
                 if (response.status == 200) {
                     console.log('Changes saved to profile_attends_conferences (deny)');
-                    popup.alert('danger', 'User has been denied.');
+                    popup.alert('success', 'User has been denied.');
                 } else {
                     popup.error('Error', response.message);
                 }
