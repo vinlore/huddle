@@ -111,3 +111,11 @@ angular.module( 'apiService', [] )
         }
     }
 })
+
+.factory( 'Passengers', function ( $resource ) {
+    return $resource( '/api/vehicles/:vid/passengers/:pid', { vid: '@vid', pid: '@pid' } );
+})
+
+.factory( 'Guests', function ( $resource ) {
+    return $resource( '/api/rooms/:rid/guests/:gid', { rid: '@rid', gid: '@gid' } );
+})

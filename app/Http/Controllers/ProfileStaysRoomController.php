@@ -11,8 +11,6 @@ use App\Http\Requests\ConferenceRequest;
 use App\Models\Profile as Profile;
 use App\Models\Rooms as Room;
 
-require app_path().'/helpers.php';
-
 class ProfileStaysRoomController extends Controller
 {
     /**
@@ -29,6 +27,17 @@ class ProfileStaysRoomController extends Controller
                 return response()->success("204", "No Guests found.");
             }
             return $room;
+        } catch (Exception $e) {
+            return response()->error($e);
+        }
+    }
+
+    public function store(Request $request, $rid) {
+        try {
+            Profile::find($request->profile_id)
+                    ->rooms()
+                    ->attach($rid);
+            return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -64,11 +73,10 @@ class ProfileStaysRoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request) {
+    public function destroy($rid, $pid) {
         try {
-            //Removing the link between ONE Profile <-> Vehicle
-            $room = Room::find($request->room_id);
-            Profile::find($request->profile_id)
+            $room = Room::find($rid);
+            Profile::find($pid)
                     ->rooms()
                     ->detach($room);
 

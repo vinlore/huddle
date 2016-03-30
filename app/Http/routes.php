@@ -79,6 +79,10 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
+    Route::resource('rooms.guests', 'ProfileStaysRoomController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
     // -------------------------------------------------------------------------
     // ITEMS
     // -------------------------------------------------------------------------
@@ -96,6 +100,10 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     ]]);
 
     Route::resource('events.vehicles', 'EventVehicleController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('vehicles.passengers', 'ProfileRidesVehicleController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
