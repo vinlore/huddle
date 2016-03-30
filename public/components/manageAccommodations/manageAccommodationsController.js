@@ -11,7 +11,7 @@ angular.module('manageAccommodationsCtrl',[])
     	city: null,
     	country: null
     }
-
+    
     //////// Load Data ////////
 
 	$scope.tableParams = new ngTableParams(
