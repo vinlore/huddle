@@ -71,7 +71,6 @@ class Controller extends BaseController
 
     }
 
-
     public function sendCreationEmail($type, $id, $status){
 
         try{
@@ -79,22 +78,21 @@ class Controller extends BaseController
          if($type == 'conference'){
             $conference = Conference::where('id',$id)->first();
             $name = $conference->name;
-
-            $managers = \DB::table('user_manages_conferences')
-                        ->where('conference_id', $conference->id)
-                        ->get();
+            $managers = $conference->managers()->get();
         }else{
             $event = Event::find($id)->first();
             $name = $conference->name;
-            $managers = \DB::table('user_manages_events')
-                        ->where('conference_id', $conference->id)
-                        ->get();
+            $managers = $event->managers()->get();
+        }
+
+        if(!$managers){
+          return;
         }
 
         foreach($managers as $manager){
 
-            $profile = Profile::where('user_id',$manager->user_id)->where('is_owner',1)->first();
-            $user= User::where('id', $manager->user_id)->first();
+            $profile = Profile::where('user_id',$manager->id)->where('is_owner',1)->first();
+            $user= User::where('id', $manager->id)->first();
 
             if(($user->receive_email == 0) || ($user->email == null)){
                 }else{
