@@ -17,7 +17,12 @@ class ActivityController extends Controller
         try {
             $userId = $request->header('ID');
             $apiToken = $request->header('X-Auth-Token');
-            $user = User::findOrFail($userId);
+
+            $user = User::find($userId);
+            if (!$user) {
+                return response()->error(404);
+            }
+
             if ($user->api_token == $apiToken) {
                 return Activity::all();
             } else {

@@ -89,6 +89,34 @@ class EventAttendeeController extends Controller
 
             //TODO : IF DENIED - WHAT HAPPENS
             //TODO : Detach all related vehicles to this profile for event
+            if ($request->status == 'denied' || $request->status != 'cancelled') {
+                /*
+                *Detatch all related vehicles for this profile for this conference
+                */
+                //Find all the Vehicle_id associated with this profile
+                $vehicle_id = Profile::find($request->profile_id)->vehicles()->get(['id']);
+
+                //Loop through array of vehicle_id
+                foreach($vehicle_id as $vid)
+                {
+                    //Grab all conference_id associated to this vehicle
+                    $event_id = \DB::table('event_vehicles')
+                               ->where('vehicle_id',$vid->id)
+                               ->where('event_id',$request->event_id)
+                               ->get(['event_id']);
+
+                   foreach($event_id as $id)
+                   {
+                       //if conference_id matches the one being rejected
+                       if ($request->event_id == $id->event_id)
+                       {
+                           Vehicle::find($vid->id)
+                                   ->passengers()
+                                   ->detach(Profile::find($request->profile_id));
+                       }
+                   }
+                }
+            }
 
             //Send Email Notification
              $this->sendAttendeeEmail("event", $request->event_id, $request->status, $request->profile_id);
