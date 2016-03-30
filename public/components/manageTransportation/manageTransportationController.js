@@ -93,24 +93,25 @@ angular.module('manageTransportationCtrl',[])
     var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
 
     modalInstance.result.then( function ( result ) {
-      if (vehicle.passenger_count > 0) {
-        popup.error( 'Error', 'Cannot delete vehicles with passengers.' );
-      }
-      else if ( result ) {
-        Conferences.vehicles().delete( {cid: $scope.conferenceId, vid: vehicle.id} )
-          .$promise.then( function( response ) {
-            if ( response.status == 200 ) {
-              console.log( 'Vehicle has been successfully deleted' );
-              popup.alert( 'success', 'Vehicle has been successfully deleted.' );
-            } else {
-              popup.error( 'Error', response.message );
-            }
-          }, function () {
-                    popup.connection();
-          })
+      if ( result ) {
+        if (vehicle.passenger_count > 0) {
+          popup.error( 'Error', 'Cannot delete vehicles with passengers.' );
+        } else {
+          Conferences.vehicles().delete( {cid: $scope.conferenceId, vid: vehicle.id} )
+            .$promise.then( function( response ) {
+              if ( response.status == 200 ) {
+                console.log( 'Vehicle has been successfully deleted' );
+                popup.alert( 'success', 'Vehicle has been successfully deleted.' );
+              } else {
+                popup.error( 'Error', response.message );
+              }
+            }, function () {
+                      popup.connection();
+            })
 
-        // remove data from view
-        $scope.data[parent].splice(index, 1);
+          // remove data from view
+          $scope.data[parent].splice(index, 1);
+        }
       }
     } )
   }
