@@ -89,8 +89,8 @@ class EventAttendeeController extends Controller
                         ->count();
             Event::where($request->event_id)->update(['attendee_count' => $count]);
 
-            //TODO : IF DENIED - WHAT HAPPENS
-            //TODO : Detach all related vehicles to this profile for event
+            //IF DENIED - WHAT HAPPENS
+            //Detach all related vehicles to this profile for event
             if ($request->status == 'denied' || $request->status != 'cancelled') {
                 /*
                 *Detatch all related vehicles for this profile for this conference
