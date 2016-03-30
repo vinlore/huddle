@@ -111,8 +111,7 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       dept_date:  $filter('date')($scope.departure.dept_date, 'yyyy-MM-dd'),
       accommodation_req: $scope.accommodation.accommodation_req,
       accommodation_pref: $scope.accommodation.accommodation_pref,
-
-
+      status: 'pending'
     }
 
     Conferences.attendees().update({cid: $stateParams.conference_id, pid: $stateParams.profile_id}, profile)

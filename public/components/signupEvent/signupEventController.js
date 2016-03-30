@@ -20,6 +20,7 @@ angular.module('signupEventCtrl',[])
             dept_ride_req: attendee.dept_ride_req,
             id: event.id,
             profile_id: $rootScope.user.id,
+            status: 'pending'
           }
           Events.attendees().save({ eid: profile.id, pid: profile.profile_id}, profile)
               .$promise.then(function(response) {
