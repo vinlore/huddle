@@ -31,15 +31,15 @@ class EventAttendeeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(EventRequest $request){
+    public function store(EventRequest $request, $events){
         try{
             //Saving to profile_attends_event Table
             $profile =  Profile::find($request->profile_id);
-            $attendees = Event::find($request->event_id)
+            $attendees = Event::find($events)
                          ->attendees()
                          ->attach($profile, $request->all());
 
-            $this->addActivity($request->header('ID'),'request', $request->event_id, 'event attendence');
+            $this->addActivity($request->header('ID'),'request', $events, 'event attendence');
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -52,13 +52,13 @@ class EventAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $user_id){
+    public function show($id, $profile_id){
         try{
             $event = Event::find($id);
             if(!$event){
                 return response()->success("204", "No Event found.");
             }
-            return $event->attendee()->where('profile_id', $profile_id)->first();
+            return $event->attendees()->where('profile_id', $profile_id)->first();
         } catch (Exception $e) {
             return response()->error($e);
         }
@@ -94,13 +94,13 @@ class EventAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
+    public function update(Request $request, $events, $profiles){
         try {
             //Update
-            $attendees = Event::find($requset->event_id)
+            $attendees = Event::find($events)
                          ->attendees()
-                         ->updateExistingPivot($request->profile_id,$request->all());
-            $this->addActivity($request->header('ID'),'update', $request->event_id, 'event attendence');
+                         ->updateExistingPivot($profiles,$request->all());
+            $this->addActivity($request->header('ID'),'update', $events, 'event attendence');
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.

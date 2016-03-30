@@ -140,33 +140,33 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
     var processFamily = function (family) {
         var result = [];
         for (var i=0; i < family.length; i++) {
-            if (family[i].FirstName, family[i].LastName, family[i].Gender, family[i].Birthdate) {
+            if (family[i].first_name, family[i].last_name, family[i].gender, family[i].birthdate) {
                 var profile = {
-                    profile_id: family[i].id,
-                    first_name: family[i].FirstName,
-                    last_name: family[i].LastName,
-                    birthdate: $filter('date')(family[i].Birthdate, 'yyyy-MM-dd'),
-                    gender: family[i].Gender,
-                    country: $scope.user.Country,
+                    profile_id: family[i].profile_id,
+                    first_name: family[i].first_name,
+                    last_name: family[i].last_name,
+                    birthdate: $filter('date')(family[i].birthdate, 'yyyy-MM-dd'),
+                    gender: family[i].gender,
+                    country: $scope.user.country,
                     city: $scope.user.city,
                     email: family[i].email,
-                    phone: $scope.user.HomePhone,
-                    phone2: $scope.user.OtherPhone,
-                    contact_first_name: $scope.emergencyContact.FirstName,
-                    contact_last_name: $scope.emergencyContact.LastName,
-                    contact_email: $scope.emergencyContact.Email,
-                    contact_phone: $scope.emergencyContact.PhoneNumber,
+                    phone: $scope.user.phone,
+                    phone2: $scope.user.phone2,
+                    contact_first_name: $scope.emergencyContact.contact_first_name,
+                    contact_last_name: $scope.emergencyContact.contact_last_name,
+                    contact_email: $scope.emergencyContact.contact_email,
+                    contact_phone: $scope.emergencyContact.contact_phone,
                     /* TODO separate arrival departure info */
-                    arrv_time: $scope.arrival.ArrivalTime,
-                    arrv_date: $scope.arrival.ArrivalDate,
-                    arrv_airport: $scope.arrival.Airport,
-                    arrv_ride_req: $scope.arrival.RideRequired,
-                    dept_ride_req: $scope.departure.RideRequired,
-                    dept_airport: $scope.departure.Airport,
-                    dept_time: $scope.departure.DepartureTime,
-                    dept_date: $scope.departure.DepartureDate,
-                    accommodation_req: $scope.accommodation.accommRequired,
-                    accommodation_pref: $scope.accommodation.accomPref
+                    arrv_time: $scope.arrival.arrv_time,
+                    arrv_date: $scope.arrival.arrv_date,
+                    arrv_airport: $scope.arrival.arrv_airport,
+                    arrv_ride_req: $scope.arrival.arrv_ride_req,
+                    dept_ride_req: $scope.departure.dept_ride_req,
+                    dept_airport: $scope.departure.dept_airport,
+                    dept_time: $scope.departure.dept_time,
+                    dept_date: $scope.departure.dept_date,
+                    accommodation_req: $scope.accommodation.accommodation_req,
+                    accommodation_pref: $scope.accommodation.accommodation_pref
                 }
                 result.push(profile);
             }

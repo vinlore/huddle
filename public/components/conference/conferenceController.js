@@ -181,7 +181,7 @@ angular.module( 'conferenceCtrl', [] )
     }
 
     $scope.loadEvents();
-    
+
     $scope.loadInventory = function () {
         Conferences.inventory().query( {cid: $stateParams.conferenceId} )
             .$promise.then( function( response ) {

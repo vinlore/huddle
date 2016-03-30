@@ -116,6 +116,34 @@ angular.module( 'profileCtrl', [] )
             })
     };
 
+    $scope.loadProfile = function () {
+        Profile.query( { uid: $rootScope.user.id } )
+            .$promise.then( function ( response ) {
+                if ( response ) {
+                    var profile = response[0];
+                    $scope.user = {
+                        id: profile.id,
+                        first_name: profile.first_name,
+                        middle_name: profile.middle_name,
+                        last_name: profile.last_name,
+                        birthdate: new Date(profile.birthdate),
+                        gender: profile.gender,
+                        country: profile.country,
+                        city: profile.city,
+                        email: profile.email,
+                        phone: profile.phone
+                    };
+                    $scope.loadConferences();
+                    $scope.loadEvents();
+                } else {
+                    popup.error('Error', response.error);
+                }
+            }, function () {
+                popup.connection();
+            })
+    }
+    $scope.loadProfile();
+
     $scope.conferences = []
     $scope.loadConferences = function () {
         ProfileAttendsConferences.fetch().query({pid: $scope.user.id})
@@ -136,7 +164,7 @@ angular.module( 'profileCtrl', [] )
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.events = response;
-                    //console.log(response);
+                    console.log(response);
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -197,6 +225,7 @@ angular.module( 'profileCtrl', [] )
           .$promise.then( function (response) {
               if ( response.status == 200 ) {
                   $scope.loadConferences()
+                  $scope.loadEvents()
                   popup.alert( 'success', 'Conference application cancelled' );
               } else {
                   popup.error( 'Error', response.message );
@@ -204,6 +233,24 @@ angular.module( 'profileCtrl', [] )
           }, function () {
               popup.connection();
           })
+    };
+  $scope.cancelEventApplication = function(index){
+      var _event = {
+        id: $scope.events[index].id,
+        profile_id: $scope.events[index].pivot.profile_id
+      }
+      Events.attendees().update({eid: _event.id, pid: _event.profile_id}, {status: 'cancelled'})
+      .$promise.then( function (response) {
+          if ( response.status == 200 ) {
+              $scope.loadConferences()
+              $scope.loadEvents()
+              popup.alert( 'success', 'Events application cancelled' );
+          } else {
+              popup.error( 'Error', response.message );
+          }
+      }, function () {
+          popup.connection();
+      })
     };
 
     $scope.viewConferenceApplication = function(index){
@@ -224,8 +271,9 @@ angular.module( 'profileCtrl', [] )
         eid: $scope.events[index].pivot.event_id,
         name: $scope.events[index].name
       }
+      console.log(_event.eid);
       $state.go('attendee-event-profile', {event_name: _event.name,
-                                            event_id: _event.cid,
+                                            event_id: _event.eid,
                                             profile_id: _event.pid
                                           });
     };
