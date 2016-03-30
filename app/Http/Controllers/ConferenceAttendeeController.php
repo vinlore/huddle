@@ -120,18 +120,16 @@ class ConferenceAttendeeController extends Controller
                          ->count();
             Conference::where($request->conference_id)->update(['attendee_count' => $count]);
 
-                // IF DENIED - WHAT HAPPENS
-                //Detach all events related to the conference being rejected
-
+                // IF DENIED - DETACH ANYTHING RELATED TO THIS PROFILE
             if ($request->status == 'denied' || $request->status != 'cancelled') {
                 /*
                 *Detatch all related vehicles for this profile for this conference
                 */
                 //Find all the Vehicle_id associated with this profile
-                $vehicle_id = Profile::find($request->profile_id)->vehicles()->get(['id']);
+                $vehicle_id_array = Profile::find($request->profile_id)->vehicles()->get(['id']);
 
                 //Loop through array of vehicle_id
-                foreach($vehicle_id as $vid)
+                foreach($vehicle_id_array as $vid)
                 {
                     //Grab all conference_id associated to this vehicle
                     $conference_id = Vehicle::find($vid->id)
@@ -148,7 +146,6 @@ class ConferenceAttendeeController extends Controller
                                    ->detach(Profile::find($request->profile_id));
                        }
                    }
-
                 }
 
                 /*
@@ -173,37 +170,44 @@ class ConferenceAttendeeController extends Controller
                 }
 
                 /*
+                *    TODO: Remove all assocaited event vehicles to the conference being denied from
+                */
+
+
+
+                /*
                 *   Remove all assocaited event to the conference being denied from
                 */
                 //Find all events assocaited to this profile_id
-                $event_id = Profile::find($user_id)
+                $event_id_array = Profile::find($user_id)
                                            ->events()
                                            ->get();
-
-               foreach($event_id as $eid){
-                   if($eid->conference_id == $conference_id) {
+               foreach($event_id_array as $eid){
+                   if($eid->conference_id == $request->$conference_id) {
                        Event::find($eid->id)
                                ->attendees()
                                ->detach(Profile::find($user_id));
                    }
                }
 
-            }
 
-            if ($request->vehicle_id != NULL) {
-                // Link up profile with the vehicle
-                $profile = Profile::find($request->profile_id);
-                Vehicle::find($request->vehicle_id)
-                        ->passengers()
-                        ->attach($profile);
-            }
 
-            if ($request->room_id != NULL) {
-                //Link up the profile with the room
-                $profile = Profile::find($request->profile_id);
-                Room::find($request->room_id)
-                        ->guests()
-                        ->attach($profile);
+           }elseif ($request->status == 'approved') {
+                if ($request->vehicle_id != NULL) {
+                    // Link up profile with the vehicle
+                    $profile = Profile::find($request->profile_id);
+                    Vehicle::find($request->vehicle_id)
+                            ->passengers()
+                            ->attach($profile);
+                }
+
+                if ($request->room_id != NULL) {
+                    //Link up the profile with the room
+                    $profile = Profile::find($request->profile_id);
+                    Room::find($request->room_id)
+                            ->guests()
+                            ->attach($profile);
+                }
             }
 
             //send Email Notification

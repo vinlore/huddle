@@ -100,10 +100,9 @@ class EventAttendeeController extends Controller
                 foreach($vehicle_id as $vid)
                 {
                     //Grab all conference_id associated to this vehicle
-                    $event_id = \DB::table('event_vehicles')
-                               ->where('vehicle_id',$vid->id)
-                               ->where('event_id',$request->event_id)
-                               ->get(['event_id']);
+                    $event_id = Vehicle::find($vid->id)
+                                    ->events()
+                                    ->get(['event_id']);
 
                    foreach($event_id as $id)
                    {
@@ -115,6 +114,14 @@ class EventAttendeeController extends Controller
                                    ->detach(Profile::find($request->profile_id));
                        }
                    }
+                }
+            } elseif($request->status == 'approved') {
+                if ($request->vehicle_id != NULL) {
+                    // Link up profile with the vehicle
+                    $profile = Profile::find($request->profile_id);
+                    Vehicle::find($request->vehicle_id)
+                            ->passengers()
+                            ->attach($profile);
                 }
             }
 
