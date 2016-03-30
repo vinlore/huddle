@@ -22,10 +22,10 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
     };
 
     $scope.emergencyContact = {
-        first_name: null,
-        last_name: null,
-        phone: null,
-        email: null
+        contact_first_name: null,
+        contact_last_name: null,
+        contact_phone: null,
+        contact_email: null
     }
 
     $scope.conference = {
@@ -177,38 +177,17 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
     $scope.submitRequest = function() {
 
         if ($scope.profileForm.$valid) {
-            /*var profile = {
-            profile_id: family[i].profile_id,
-            first_name: family[i].first_name,
-            last_name: family[i].last_name,
-            birthdate: $filter('date')(family[i].birthdate, 'yyyy-MM-dd'),
-            gender: family[i].gender,
-            country: $scope.user.country,
-            city: $scope.user.city,
-            email: family[i].email,
-            phone: $scope.user.phone,
-            phone2: $scope.user.phone2,
-            contact_first_name: $scope.emergencyContact.contact_first_name,
-            contact_last_name: $scope.emergencyContact.contact_last_name,
-            contact_email: $scope.emergencyContact.contact_email,
-            contact_phone: $scope.emergencyContact.contact_phone,
-            arrv_time: $scope.arrival.arrv_time,
-            arrv_date: $scope.arrival.arrv_date,
-            arrv_airport: $scope.arrival.arrv_airport,
-            arrv_ride_req: $scope.arrival.arrv_ride_req,
-            dept_ride_req: $scope.departure.dept_ride_req,
-            dept_airport: $scope.departure.dept_airport,
-            dept_time: $scope.departure.dept_time,
-            dept_date: $scope.departure.dept_date,
-            accommodation_req: $scope.accommodation.accommodation_req,
-            accommodation_pref: $scope.accommodation.accommodation_pref
-            };*/
             var profile = $scope.user;
             profile.birthdate = $filter('date')(profile.birthdate, 'yyyy-MM-dd');
+            profile.arrv_date = $filter('date')(profile.arrv_date, 'yyyy-MM-dd');
+            profile.dept_date = $filter('date')(profile.dept_date, 'yyyy-MM-dd');
+            delete profile['updated_at'];
             angular.extend(profile, $scope.accommodation);
             angular.extend(profile, $scope.arrival);
             angular.extend(profile, $scope.departure);
             angular.extend(profile, $scope.emergencyContact);
+            profile.arrv_time = $filter('time')(profile.arrv_time);
+            profile.dept_time = $filter('time')(profile.dept_time);
             //var family = processFamily($scope.familymembers);
             Conferences.attendees().save({ cid: $scope.conference.conferenceId }, profile)
                 .$promise.then(function(response) {

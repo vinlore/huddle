@@ -46,6 +46,7 @@ angular.module('cms', [
     'createEventCtrl',
     'attendeeConfCtrl',
     'attendeeEventCtrl',
+    'conferenceAttendeeModalCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
