@@ -60,7 +60,7 @@ class ConferenceAttendeeController extends Controller
                 return response()->error(404);
             }
 
-            $profile->conferences()->attach($pid, $request->all());
+            $profile->conferences()->attach($cid, $request->except('profile_id'));
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
