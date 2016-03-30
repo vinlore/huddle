@@ -171,7 +171,7 @@
             </table>
         </div>
     </div>
-    <h1 class="page-header">Conference Status Updates</h1>
+    <h1 class="page-header">Your Conference Status Updates</h1>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="col-md-6">
@@ -183,7 +183,7 @@
                         <div class="card">
                             <div class="title-status card-header">
                                 <h4>{{con.name}}&nbsp</h4>
-                                <label class="alert" is-approved status="con.status">{{con.status | uppercase}}</label>
+                                <label class="alert" is-approved status="con.pivot.status">{{con.pivot.status | uppercase}}</label>
                             </div>
                             <div class="card-block">
                                 <h4 class="card-text">Location: {{con.city}},{{con.country}}</h4>
@@ -209,7 +209,7 @@
                         <div class="card">
                             <div class="title-status card-header">
                                 <h4>{{eve.name}}&nbsp</h4>
-                                <label class="alert" is-approved status="eve.status">{{eve.status | uppercase}}</label>
+                                <label class="alert" is-approved status="eve.pivot.status">{{eve.pivot.status | uppercase}}</label>
                             </div>
                             <div class="card-block">
                                 <h4 class="card-text">Location: {{eve.city}},{{eve.country}}</h4>

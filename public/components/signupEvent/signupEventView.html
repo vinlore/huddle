@@ -2,40 +2,40 @@
   <h1 class="page-header text-center">{{header}} for the {{event.name}}</h1>
   <div class="panel panel-default">
     <div class="panel-body">
-          <div class="col-sm-12">
-            <h3 class="text-center">Request Transportation</h3>
-            <hr>
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Arrival:</label>
-              <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
-                <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="true">Yes</label>
-              </div>
+      <div class="col-sm-12">
+        <h3 class="text-center">Request Transportation</h3>
+        <hr>
+        <div class="form-group">
+          <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Arrival:</label>
+          <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="true">Yes</label>
+          </div>
 
-              <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
-                <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="false" check="checked">No</label>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Departure:</label>
-
-              <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
-                <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="true">Yes</label>
-              </div>
-
-              <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
-                <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="false" check="checked">No</label>
-              </div>
-            </div>
-
+          <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="false" check="checked">No</label>
           </div>
         </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="col-sm-12">
-            <button type="submit" class="btn btn-half-block btn-success center-block" ng-click="submitRequest()">Submit Request</button>
+
+        <div class="form-group">
+          <label for="inputUser" class="col-sm-2 col-sm-offset-1 form-control-label">Departure:</label>
+
+          <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="true">Yes</label>
+          </div>
+
+          <div class="radio-inline col-sm-2 col-sm-offset-3 form-control-label">
+            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="false" check="checked">No</label>
           </div>
         </div>
+
       </div>
     </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="col-sm-12">
+        <button type="submit" class="btn btn-half-block btn-success center-block" ng-click="submitRequest()">Submit Request</button>
+      </div>
+    </div>
+  </div>
+</div>
