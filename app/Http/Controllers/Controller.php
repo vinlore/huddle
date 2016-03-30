@@ -36,6 +36,8 @@ class Controller extends BaseController
 
     public function sendAttendeeEmail($type, $id, $status, $profile_id){
 
+        try{
+
         $profile = Profile::where('id', $profile_id)->first();
         $user = User::where('id', $profile->user_id)->first();
 
@@ -54,7 +56,7 @@ class Controller extends BaseController
 
         $subject = '"'.$name.'" Attendance Request Update';
         $body = 'Hi, '.$first_name.'!
-                Your request to attend '.$name.' has been '.$status.'.';
+        Your request to attend the '.$type.' "'.$name.'"" has been '.$status.'.';
 
 
         \Mail::send([], [], function ($message) use($email,$subject,$body) {
@@ -63,39 +65,41 @@ class Controller extends BaseController
                 ->setBody($body);
         });
 
+        }catch(Exception $e){
+            return $e;
+        }
+
     }
 
     public function sendCreationEmail($type, $id, $status){
 
+        try{
+
          if($type == 'conference'){
             $conference = Conference::where('id',$id)->first();
-
             $name = $conference->name;
-
-            $users = \DB::table('user_manages_conferences')
-                        ->where('conference_id', $conference->id)
-                        ->get();
-
-
+            $managers = $conference->managers()->get();
         }else{
             $event = Event::find($id)->first();
             $name = $conference->name;
-            $users = \DB::table('user_manages_events')
-                        ->where('conference_id', $conference->id)
-                        ->get();
+            $managers = $event->managers()->get();
         }
-        var_dump($users);
 
-        foreach($users as $u){
-            $profile = Profile::where('user_id',$u->user_id)->first();
-            $user= User::where('id', $u->user_id)->first();
-            if(($user->receive_email == 0) || ($user->email == null) || ($profile->is_owner == 0)){
+        if(!$managers){
+          return;
+        }
+
+        foreach($managers as $manager){
+
+            $profile = Profile::where('user_id',$manager->id)->where('is_owner',1)->first();
+            $user= User::where('id', $manager->id)->first();
+
+            if(($user->receive_email == 0) || ($user->email == null)){
                 }else{
                 $email = $user->email;
-                var_dump($email);
-                $subject = '"'.$name.'" Attendance Request Update';
+                $subject = '"'.$name.'" Creation Request Update';
                 $body = 'Hi, '.$profile->first_name.'!
-                        Your request to create '.$name.' has been '.$status.'.';
+                Your request to create the '.$type.' "'.$name.'"" has been '.$status.'.';
 
                     \Mail::queue([], [], function ($message) use($email,$subject,$body) {
                         $message->to($email)
@@ -105,6 +109,10 @@ class Controller extends BaseController
 
                 }
             }
+
+          }catch(Exception $e){
+            return $e;
+          }
         }
 
 

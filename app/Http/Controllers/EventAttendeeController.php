@@ -73,12 +73,59 @@ class EventAttendeeController extends Controller
 
      public function profileEventStatusUpdate(Request $request){
         try{
+            //Update Status on pivot
             $attendees = Event::find($request->event_id)
                          ->attendees()
                          ->updateExistingPivot($request->profile_id,['status' => $request->status]);
 
             $this->addActivity($request->header('ID'),$request->status, $request->event_id, 'event attendence');
 
+            //Update attendee count
+            $count = Event::find($request->event_id)
+                        ->attendees()
+                        ->where('status','approved')
+                        ->count();
+            Event::where($request->event_id)->update(['attendee_count' => $count]);
+
+            //TODO : IF DENIED - WHAT HAPPENS
+            //TODO : Detach all related vehicles to this profile for event
+            if ($request->status == 'denied' || $request->status != 'cancelled') {
+                /*
+                *Detatch all related vehicles for this profile for this conference
+                */
+                //Find all the Vehicle_id associated with this profile
+                $vehicle_id = Profile::find($request->profile_id)->vehicles()->get(['id']);
+
+                //Loop through array of vehicle_id
+                foreach($vehicle_id as $vid)
+                {
+                    //Grab all event_id associated to this vehicle
+                    $event_id = Vehicle::find($vid->id)
+                                    ->events()
+                                    ->get(['event_id']);
+
+                   foreach($event_id as $id)
+                   {
+                       //if event_id matches the one being rejected
+                       if ($request->event_id == $id->event_id)
+                       {
+                           Vehicle::find($vid->id)
+                                   ->passengers()
+                                   ->detach(Profile::find($request->profile_id));
+                       }
+                   }
+                }
+            } elseif($request->status == 'approved') {
+                if ($request->vehicle_id != NULL) {
+                    // Link up profile with the vehicle
+                    $profile = Profile::find($request->profile_id);
+                    Vehicle::find($request->vehicle_id)
+                            ->passengers()
+                            ->attach($profile);
+                }
+            }
+
+            //Send Email Notification
              $this->sendAttendeeEmail("event", $request->event_id, $request->status, $request->profile_id);
             return response()->success();
         } catch (Exception $e) {

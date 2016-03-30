@@ -36,9 +36,13 @@ class EventManagerController extends Controller
         try{
             //Saving to user_Manages_Event Table
             $event = Event::find($request->events);
+            if (!$event) {
+                return response()->error(404);
+            }
             User::find($request->user_id)
                         ->Events()
                         ->attach($event);
+                        
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);

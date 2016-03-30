@@ -11,71 +11,153 @@ use App\Models\Conference;
 
 class AccommodationController extends Controller
 {
-    public function index($conferences)
+    /**
+     * Retrieve all Accommodations for a Conference.
+     *
+     * @return Collection|Response
+     */
+    public function index($cid)
     {
         try {
-            $conf = Conference::find($conferences);
-            if (!$conf) {
-                return response()->success("204" , "No Conference Found");
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
             }
-            return $conf->accommodations()->get();
+
+            // Retrieve its Accommodations.
+            return $conference->accommodations()->get();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function store(AccommodationRequest $request, $conferences)
+    /**
+     * Create an Accommodation for a Conference.
+     *
+     * @return Response
+     */
+    public function store(AccommodationRequest $request, $cid)
     {
         try {
+
+            $conference = Conference::find($cid);
+            // Check if the Conference exists.
+            if (!$conference->exists()) {
+                return response()->error(404);
+            }
+
+            //Check if conference manager belongs to this conference
+            $userId = $request->header('ID');
+            if (!$conference->managers()->where('user_id', $userID)->get()) {
+                return response()->error("403" , "Permission Denied");
+            }
+
+            // Create the Accommodation.
             $accommodation = Accommodation::create($request->all());
-            $accommodation->conferences()->attach($conferences);
+            $accommodation->conferences()->attach($cid);
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function show($conferences, $id)
+    /**
+     * Retrieve an Accommodation.
+     *
+     * @return Model|Response
+     */
+    public function show($cid, $aid)
     {
         try {
-            $accom = Accommodation::find($id);
-            if (!$accom) {
-                return response()->success("204" , "No Accomodation found");
-            }
-            return $accom;
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
 
-    public function update(AccommodationRequest $request, $conferences, $id)
-    {
-        try {
-            $accom = Accommodation::find($id);
-            if(!$accom) {
-                return response()->error("204" , "Unable to find the accommodation to update");
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
             }
-            $accom->update($request->all());
-            return response()->success();
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
 
-    public function destroy($conferences, $id)
-    {
-        try {
-            $accommodation = Accommodation::find($id);
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
-                return response()->error();
-            }
-            if ($accommodation->rooms()->count())
-            {
-                return response()->error("Rooms still belong to accommodation");
+                return response()->error(404);
             }
 
-            $accommodation->conferences()->detach();
+            // Retrieve the Accommodation.
+            return $accommodation;
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
+    /**
+     * Update an Accommodation.
+     *
+     * @return Response
+     */
+    public function update(AccommodationRequest $request, $cid, $aid)
+    {
+        try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
+
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404);
+            }
+
+            //Check if conference manager belongs to this conference
+            $userId = $request->header('ID');
+            if (!$conference->managers()->where('user_id', $userID)->get()) {
+                return response()->error("403" , "Permission Denied");
+            }
+
+            // Update the Accommodation.
+            $accommodation->fill($request->all())->save();
+
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
+    /**
+     * Delete an Accommodation.
+     *
+     * @return Response
+     */
+    public function destroy($cid, $aid)
+    {
+        try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
+
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404);
+            }
+
+            //Check if conference manager belongs to this conference
+            $userId = $request->header('ID');
+            if (!$conference->managers()->where('user_id', $userID)->get()) {
+                return response()->error("403" , "Permission Denied");
+            }
+
+            // Delete the Accommodation.
             $accommodation->delete();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();

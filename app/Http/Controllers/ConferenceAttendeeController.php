@@ -5,45 +5,62 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
 use App\Http\Requests\ConferenceAttendeeRequest;
-
-use App\Models\Conference as Conference;
-use App\Models\Profile as Profile;
-use App\Models\Vehicle as Vehicle;
-use App\Models\Rooms as Room;
-use App\Models\User as User;
-use App\Models\Event as Event;
+use App\Models\Conference;
+use App\Models\Profile;
+use App\Models\Vehicle;
+use App\Models\Room;
+use App\Models\User;
+use App\Models\Event;
 
 class ConferenceAttendeeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Retrieve all Attendees for a Conference.
      *
-     * @return \Illuminate\Http\Response
+     * @return Collection|Response
      */
-    public function index($conferences)
+    public function index($cid)
     {
-        return Conference::find($conferences)->attendees()->get();
+        try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
+
+            // Retrieve its Attendees.
+            return $conference->attendees()->get();
+        } catch (Exception $e) {
+            return response()->error();
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create an Attendee for a Conference.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
+    public function store(ConferenceAttendeeRequest $request, $cid)
+    {
+        try {
 
-    public function store(Request $request, $conferences){
-        try{
-            //Saving to profile_attends_conference Table
-            $profile =  Profile::find($request->profile_id);
-            $attendees = Conference::find($conferences)
-                          ->attendees()
-                          ->attach($profile, $request->all());
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
 
-           $this->addActivity($request->header('ID'),'request', $conferences, 'conference attendence');
+            $pid = $request->profile_id;
 
+            // Check if the Profile exists.
+            $profile = Profile::find($pid);
+            if (!$profile) {
+                return response()->error(404);
+            }
+
+            $profile->conferences()->attach($pid, $request->all());
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -51,22 +68,33 @@ class ConferenceAttendeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve a Conference Attendee.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Model|Response
      */
-    public function show($id, $profile_id){
-        try{
-            $conference = Conference::find($id);
-            if(!$conference){
-                return response()->success("204", "No conference found.");
+    public function show($cid, $pid)
+    {
+        try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
             }
-            return $conference->attendees()->where('profile_id', $profile_id)->first();
+
+            // Check if the Profile exists.
+            $profile = Profile::find($pid);
+            if (!$profile) {
+                return response()->error(404);
+            }
+
+            // Retrieve the Attendee.
+            return $conference->attendees()->where('profile_id', $pid)->get();
         } catch (Exception $e) {
-            return response()->error($e);
+            return response()->error();
         }
     }
+
 
      /**
      * Update the status of the specified resource in storage.
@@ -86,36 +114,107 @@ class ConferenceAttendeeController extends Controller
             $this->addActivity($request->header('ID'),$request->status, $request->conference_id, 'conference attendence');
 
             //Update attendee count
-            $count = find($request->conference_id)
+            $count = Conference::find($request->conference_id)
                          ->attendees()
                          ->where('status','approved')
                          ->count();
             Conference::where($request->conference_id)->update(['attendee_count' => $count]);
 
-            if($request->status == "denied") {
-                $profile = Profile::find($request->profile_id);
-                //TODO:Detaching all related Vehicles to this profile for this conference
+                // IF DENIED - DETACH ANYTHING RELATED TO THIS PROFILE
+            if ($request->status == 'denied' || $request->status != 'cancelled') {
+                /*
+                *Detatch all related vehicles for this profile for this conference
+                */
+                //Find all the Vehicle_id associated with this profile
+                $vehicle_id_array = Profile::find($request->profile_id)->vehicles()->get(['id']);
 
-                //TODO:Detchaing all rooms related to this profile for this conference
+                //Loop through array of vehicle_id
+                foreach($vehicle_id_array as $vid)
+                {
+                    //Grab all conference_id associated to this vehicle
+                    $conference_id = Vehicle::find($vid->id)
+                                   ->conferences()
+                                   ->get(['conference_id']);
 
-                //TODO:Detach all events related to the conference being rejected
-            }
+                   foreach($conference_id as $id)
+                   {
+                       //if conference_id matches the one being rejected
+                       if ($request->conference_id == $id->conference_id)
+                       {
+                           Vehicle::find($vid->id)
+                                   ->passengers()
+                                   ->detach(Profile::find($request->profile_id));
+                       }
+                   }
+
+                   //Grab all event_id associated to this vehicle
+                   $event_id = Vehicle::find($vid->id)
+                                   ->events()
+                                   ->get();
+                    foreach($event_id as $id)
+                    {
+                        //if conference_id matches the one being rejected
+                        if ($request->conference_id == $id->conference_id) {
+                            Vehicle::find($vid->id)
+                                    ->passengers()
+                                    ->detach(Profile::find($request->profile_id));
+                        }
+                    }
+                }
+
+                /*
+                *   Remove all Rooms assocaited to profile going to conference_id
+                */
+                //Find all the room_id associated with this profile_id
+                $room_id_array = Profile::find($request->profile_id)->rooms()->get();
+
+               //for each accomodation_id check if matches conference
+                foreach($room_id_array as $rid)
+                {
+                   //check each accomm for conference_id
+                   $accom = Conference::find($request->conference_id)
+                                       ->accommodations()
+                                       ->where('accommodation_id',$rid->accommodation_id)
+                                       ->get();
+                   if ($accom) {
+                       Room::find($rid->id)
+                           ->guests()
+                           ->detach(Profile::find($request->profile_id));
+                   }
+                }
+                /*
+                *   Remove all assocaited event to the conference being denied from
+                */
+                //Find all events assocaited to this profile_id
+                $event_id_array = Profile::find($user_id)
+                                           ->events()
+                                           ->get();
+               foreach($event_id_array as $eid){
+                   if($eid->conference_id == $request->$conference_id) {
+                       Event::find($eid->id)
+                               ->attendees()
+                               ->detach(Profile::find($user_id));
+                   }
+               }
 
 
-            if ($request->vehicle_id != NULL) {
-                // Link up profile with the vehicle
-                $profile = Profile::find($request->profile_id);
-                Vehicle::find($request->vehicle_id)
-                        ->passengers()
-                        ->attach($profile);
-            }
 
-            if ($request->room_id != NULL) {
-                //Link up the profile with the room
-                $profile = Profile::find($request->profile_id);
-                Room::find($request->room_id)
-                        ->guests()
-                        ->attach($profile);
+           }elseif ($request->status == 'approved') {
+                if ($request->vehicle_id != NULL) {
+                    // Link up profile with the vehicle
+                    $profile = Profile::find($request->profile_id);
+                    Vehicle::find($request->vehicle_id)
+                            ->passengers()
+                            ->attach($profile);
+                }
+
+                if ($request->room_id != NULL) {
+                    //Link up the profile with the room
+                    $profile = Profile::find($request->profile_id);
+                    Room::find($request->room_id)
+                            ->guests()
+                            ->attach($profile);
+                }
             }
 
             //send Email Notification
@@ -127,27 +226,112 @@ class ConferenceAttendeeController extends Controller
         }
      }
 
+     public function vehicleTest() {
+         $request_id = 4;
+         $user_id = 1;
+
+         //Find all the Vehicle_id associated with this profile
+         $vehicle_id = Profile::find($user_id)->vehicles()->get(['id']);
+
+         //Loop through array of vehicle_id
+         foreach($vehicle_id as $vid)
+         {
+             //Grab all conference_id associated to this vehicle
+             $conference_id = Vehicle::find($vid->id)
+                            ->conferences()
+                            ->get(['conference_id']);
+            //var_dump($conference_id);
+            foreach($conference_id as $id)
+            {
+                //if conference_id matches the one being rejected
+                if ($request_id == $id->conference_id)
+                {
+                    Vehicle::find($vid->id)
+                            ->passengers()
+                            ->detach(Profile::find($user_id));
+                }
+            }
+
+            //Grab all event_id associated to this vehicle
+            $event_id = Vehicle::find($vid->id)
+                            ->events()
+                            ->get();
+             foreach($event_id as $id)
+             {
+                 //if conference_id matches the one being rejected
+                 if ($request_id == $id->conference_id) {
+                     Vehicle::find($vid->id)
+                             ->passengers()
+                             ->detach(Profile::find($user_id));
+                 }
+             }
+         }
+     }
+
+     public function roomTest()
+     {
+         $conference_id = 2;
+         $user_id = 1;
+
+         //Find all the room_id associated with this profile_id
+         $room_id_array = Profile::find($user_id)->rooms()->get();
+
+        //for each accomodation_id check if matches conference
+         foreach($room_id_array as $rid)
+         {
+            //check each accomm for conference_id
+            var_dump($rid->id);
+            $accom = Conference::find($conference_id)
+                                ->accommodations()
+                                ->where('accommodation_id',$rid->accommodation_id)
+                                ->get();
+            if ($accom) {
+                Room::find($rid->id)
+                    ->guests()
+                    ->detach(Profile::find($user_id));
+            }
+         }
+     }
+
+     public function eventTest()
+     {
+         $conference_id = 1;
+         $user_id = 1;
+
+         //Find all events assocaited to this profile_id
+         $event_id = Profile::find($user_id)
+                                    ->events()
+                                    ->get();
+
+
+        foreach($event_id as $eid){
+            if($eid->conference_id == $conference_id)
+            {
+                Event::find($eid->id)
+                        ->attendees()
+                        ->detach(Profile::find($user_id));
+            }
+        }
+     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a Conference Attendee.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function update(ConferenceAttendeeRequest $request, $conference_id, $profile_id){
+    public function update(ConferenceAttendeeRequest $request, $cid, $pid)
+    {
         try {
-            //Update
-            $attendees = Conference::find($conference_id)
-                         ->attendees()
-                         ->updateExistingPivot($profile_id,$request->all());
 
-            $this->addActivity($request->header('ID'),'update', $conference_id, 'conference attendence');
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
 
-            /*
-            *TODO: check if user wants email notifcations. If yes, send one.
-            *TODO: ADD notification column to user table.
-            */
+            // Check if the Attendee exists.
+            $attendee = $conference->attendees()->updateExistingPivot($pid, $request->all());
+
             return response()->success();
          } catch (Exception $e) {
             return response()->error($e);
