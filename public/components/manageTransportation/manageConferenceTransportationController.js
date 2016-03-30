@@ -1,5 +1,5 @@
-angular.module('manageTransportationCtrl',[])
-.controller('manageTransportationController', function($scope, ngTableParams, Conferences, $stateParams, popup, Passengers){
+angular.module('manageConferenceTransportationCtrl',[])
+.controller('manageConferenceTransportationController', function($scope, ngTableParams, Conferences, $stateParams, popup, Passengers){
 
   // Conference ID
   $scope.conferenceId = $stateParams.conferenceId;

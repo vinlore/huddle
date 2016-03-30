@@ -20,7 +20,7 @@ class EventVehicleController extends Controller
     public function index($events, Request $request)
     {
        try {
-            return Conference::find($events)->vehicles()->wherePivot('type', $request->type)->get();
+            return Event::find($events)->vehicles()->wherePivot('type', $request->type)->get();
         } catch (Exception $e){
             return response()->error("500" , $e);
         }
