@@ -163,7 +163,7 @@
                   <div class="form-group">
                      <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
                      <div class="col-sm-7">
-                        <input type="time" class="form-control" id="inputUser" placeholder="Arrival Time" ng-model="arrival.avvr_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                        <input type="time" class="form-control" id="inputUser" placeholder="Arrival Time" ng-model="arrival.arrv_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
                      </div>
                   </div>
                </form>
@@ -332,14 +332,14 @@
          <hr>
          <div class="col-md-6">
             <div class="form-group">
-               <label for="inputUser" class="col-sm-12 control-label">Accommodation Required</label>
+               <label for="inputUser" class="col-sm-12 form-control-label">Accommodation Required</label>
                <div class="radio-inline col-sm-2 control-label">
                   <label>
                               <input type="radio" ng-model="accommodation.accommodation_req" ng-value="true" required>Yes</label>
                </div>
-               <div class="radio-inline col-sm-2 control-label">
+               <div class="radio-inline col-sm-2 form-control-label">
                   <label>
-                                <input type="radio" ng-model="accommodation.accommodation_req" ng-value="false" required>No</label>
+                                <input type="radio" ng-model="accommodation.accommodation_req" ng-value="false" check="checked" required>No</label>
                </div>
             </div>
             <label ng-repeat="accom in accommodations">
