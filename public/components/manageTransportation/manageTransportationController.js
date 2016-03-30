@@ -1,17 +1,17 @@
 angular.module('manageTransportationCtrl',[])
-.controller('manageTransportationController', function($scope, ngTableParams, Conferences, $stateParams){
+.controller('manageTransportationController', function($scope, ngTableParams, Conferences, $stateParams, popup, $uibModal){
 
   // Conference ID
   $scope.conferenceId = $stateParams.conferenceId;
 
-  console.log($scope.conferenceId);
-
-  $scope.dataArrive = {};
-
-  $scope.dataDepart = {};
-
+  // Initial data array for holding arrival/departure response jsons
   $scope.data = [];
 
+  // Initial input data array
+  $scope.vehicle = {
+    name: null,
+    capacity: null
+  }
 
   //////// Load Data ////////
 
@@ -42,126 +42,78 @@ angular.module('manageTransportationCtrl',[])
       }, function () {
         popup.connection();
       })
-  }
-
-  $scope.loadVehicles();
-
-  console.log($scope.dataArrive);
-  console.log($scope.dataDepart);
-
-  // $scope.tableParams = new ngTableParams(
-  // {
-  // },
-  // {
-  //   counts: [],
-  //   getData: function ($defer, params) {
-  //     Conferences.vehicles().query( {cid: $scope.conferenceId} )
-  //     .$promise.then( function( response ) {
-  //       if ( response ) {
-  //         console.log("here");
-  //         console.log(response);
-  //         $scope.data = response;
-  //         $scope.data = params.sorting() ? $filter('orderBy') ($scope.data, params.orderBy()) : $scope.data;
-  //         $scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
-  //         $defer.resolve($scope.data);
-  //       } else {
-  //         popup.error( 'Error', response.message );
-  //       }
-  //     }, function () {
-  //       popup.connection();
-  //     })
-  //     console.log("here2");
-  //   }
-  // });
-
-  // $scope.temp = []
-
-  // $scope.vehicles = [
-  // {
-  //   type: "Car",
-  //   passengers: 4,
-  //   attendees: [
-  //   {
-  //     name: "James"
-  //   },
-  //   {
-  //     name: "Viggy"
-  //   },
-  //   {
-  //     name: "Haniel"      
-  //   }
-  //   ]
-  // },
-  // {
-  //   type: "Taxi",
-  //   passengers: 4,
-  //   attendees: [
-  //   {
-  //     name: "Chris"
-  //   },
-  //   {
-  //     name: "Martin"        
-  //   }
-  //   ]
-  // },
-  // {
-  //   type: "Pickup Truck",
-  //   passengers: 0,
-  //   attendees: [
-  //   {
-  //     name: "Gabby"
-  //   }
-  //   ]
-  // },
-  // {
-  //   type: "Elephant",
-  //   passengers: 1,
-  //   attendees: []
-  // }
-  // ]
-
-  // $scope.temp = $scope.vehicles.slice();
-
-  $scope.addVehicle = function() {
-    if ($scope.temp.length == 0) {
-      $scope.temp = $scope.vehicles.slice();
-
-      $scope.temp.push({
-        type: $scope.type,
-        passengers: $scope.passengers
-      });
-    } else {
-      $scope.temp.push({
-        type: $scope.type,
-        passengers: $scope.passengers
-       });
     }
 
-    $scope.type = "";
-    $scope.passengers = "";
+    $scope.loadVehicles();
+
+  //////// Button Functions ////////
+
+  $scope.add = function(vehicle, index) {
+
+    var type;
+
+    if (index == 0) {
+      type = 'arrival';
+    } else {
+      type = 'departure';
+    }
+
+    vehicle.passenger_count = 0;
+
+    Conferences.vehicles().save( {cid: $scope.conferenceId, type: type}, vehicle )
+        .$promise.then( function( response ) {
+          if ( response.status == 200 ) {
+            console.log(vehicle);
+            console.log( 'Changes saved to rooms' );
+            popup.alert( 'success', 'Changes have been saved.' );
+
+            // clear input data
+            $scope.vehicle.name = null;
+            $scope.vehicle.capacity = null;
+          } else {
+            popup.error( 'Error', response.message );
+          }
+        }, function () {
+          popup.connection();
+        })
+
+    // refresh data (need angular.copy or else view won't show new data when input data clears because of reference)
+    $scope.data[index].push(angular.copy(vehicle));
   }
 
-  $scope.removeVehicle = function(index, event) {
+  $scope.del = function(vehicle, parent, index) {
+
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
 
-    if ($scope.temp.length == 0) {
-      $scope.temp = $scope.vehicles.slice();
-      $scope.temp.splice(index, 1);
-    } else {
-      $scope.temp.splice(index, 1);
-    }
-  }
+    console.log(parent);
+    console.log(index);
+    var modalInstance = popup.prompt( 'Delete', 'Are you sure you want to delete?' );
 
-  $scope.saveChanges = function() {
-    $scope.vehicles = $scope.temp.slice();
-    $scope.temp = [];
-  }
+    modalInstance.result.then( function ( result ) {
+      if ( result ) {
+        if (vehicle.passenger_count > 0) {
+          popup.error( 'Error', 'Cannot delete vehicles with passengers.' );
+        } else {
+          Conferences.vehicles().delete( {cid: $scope.conferenceId, vid: vehicle.id} )
+            .$promise.then( function( response ) {
+              if ( response.status == 200 ) {
+                console.log( 'Vehicle has been successfully deleted' );
+                popup.alert( 'success', 'Vehicle has been successfully deleted.' );
+              } else {
+                popup.error( 'Error', response.message );
+              }
+            }, function () {
+                      popup.connection();
+            })
 
-  $scope.cancel = function() {
-    $scope.temp = [];
+          // remove data from view
+          $scope.data[parent].splice(index, 1);
+        }
+      }
+    } )
   }
 
   $scope.export = function() {

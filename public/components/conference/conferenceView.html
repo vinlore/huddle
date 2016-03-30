@@ -52,7 +52,7 @@
                     <label> Sign up</label>
                 </a>
                 <!-- TODO show attending if attendee profile status -->
-                <button type="button" class="btn btn-success attendance attend-leave" ng-if="conferenceAttendance">
+                <button type="button" class="btn btn-success attendance attend-leave" ng-if="conferenceAttendance" ng-click="leaveConference()">
                     <span class="attending" ng-switch="conferenceAttendance">
                         <span class="glyphicon glyphicon-ok"></span>
                         <label ng-switch-default> Pending</label>
@@ -136,7 +136,7 @@
                                 <span class="glyphicon glyphicon-edit"></span>
                                 <label> Sign Up</label>
                             </a>
-                            <button type="button" class="btn btn-success attend-leave" ng-if="eventAttendance[$index]">
+                            <button type="button" class="btn btn-success attend-leave" ng-if="eventAttendance[$index]" ng-click="leaveEvent(event.id)">
                                 <span class="attending" ng-switch="eventAttendance[$index]">
                                     <span class="glyphicon glyphicon-ok"></span>
                                     <label ng-switch-default> Pending</label>
