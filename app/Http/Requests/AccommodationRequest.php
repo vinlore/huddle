@@ -27,10 +27,11 @@ class AccommodationRequest extends Request
                     return $this->getUser()->hasAccess(['accommodation.destroy']);
                     break;
                 default:
-                    return false;
                     break;
             }
         }
+
+        return false;
     }
 
     public function createRules()

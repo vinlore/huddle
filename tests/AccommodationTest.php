@@ -18,7 +18,7 @@ class AccommodationTest extends TestCase{
              Artisan::call('migrate:refresh');
              Artisan::call('db:seed');
 
-             $response = $this->call('POST', '/api/auth/login', ['username' => 'admin', 'password' => 'password']);
+             $response = $this->call('POST', '/api/auth/login', ['username' => 'gabby', 'password' => 'password']);
              $content = json_decode($response->getContent());
 
              $accommodation = [

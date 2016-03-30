@@ -27,11 +27,13 @@ class ItemRequest extends Request
                     return $this->getUser()->hasAccess(['item.destroy']);
                     break;
                 default:
-                    return false;
                     break;
             }
         }
+
+        return false;
     }
+
     public function createRules()
     {
         return [

@@ -27,10 +27,11 @@ class ProfileRequest extends Request
                     return $this->getUser()->hasAccess(['profile.destroy']);
                     break;
                 default:
-                    return false;
                     break;
             }
         }
+
+        return false;
     }
 
     public function createRules()

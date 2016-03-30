@@ -27,10 +27,11 @@ class ConferenceAttendeeRequest extends Request
                     return $this->getUser()->hasAccess(['conference_attendee.destroy']);
                     break;
                 default:
-                    return false;
                     break;
             }
         }
+
+        return false;
     }
 
     public function createRules()
