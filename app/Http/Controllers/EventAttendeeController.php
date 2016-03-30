@@ -99,14 +99,14 @@ class EventAttendeeController extends Controller
                 //Loop through array of vehicle_id
                 foreach($vehicle_id as $vid)
                 {
-                    //Grab all conference_id associated to this vehicle
+                    //Grab all event_id associated to this vehicle
                     $event_id = Vehicle::find($vid->id)
                                     ->events()
                                     ->get(['event_id']);
 
                    foreach($event_id as $id)
                    {
-                       //if conference_id matches the one being rejected
+                       //if event_id matches the one being rejected
                        if ($request->event_id == $id->event_id)
                        {
                            Vehicle::find($vid->id)

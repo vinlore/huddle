@@ -146,6 +146,20 @@ class ConferenceAttendeeController extends Controller
                                    ->detach(Profile::find($request->profile_id));
                        }
                    }
+
+                   //Grab all event_id associated to this vehicle
+                   $event_id = Vehicle::find($vid->id)
+                                   ->events()
+                                   ->get();
+                    foreach($event_id as $id)
+                    {
+                        //if conference_id matches the one being rejected
+                        if ($request->conference_id == $id->conference_id) {
+                            Vehicle::find($vid->id)
+                                    ->passengers()
+                                    ->detach(Profile::find($request->profile_id));
+                        }
+                    }
                 }
 
                 /*
@@ -168,13 +182,6 @@ class ConferenceAttendeeController extends Controller
                            ->detach(Profile::find($request->profile_id));
                    }
                 }
-
-                /*
-                *    TODO: Remove all assocaited event vehicles to the conference being denied from
-                */
-
-
-
                 /*
                 *   Remove all assocaited event to the conference being denied from
                 */
@@ -220,7 +227,7 @@ class ConferenceAttendeeController extends Controller
      }
 
      public function vehicleTest() {
-         $request_id = 1;
+         $request_id = 4;
          $user_id = 1;
 
          //Find all the Vehicle_id associated with this profile
@@ -244,6 +251,20 @@ class ConferenceAttendeeController extends Controller
                             ->detach(Profile::find($user_id));
                 }
             }
+
+            //Grab all event_id associated to this vehicle
+            $event_id = Vehicle::find($vid->id)
+                            ->events()
+                            ->get();
+             foreach($event_id as $id)
+             {
+                 //if conference_id matches the one being rejected
+                 if ($request_id == $id->conference_id) {
+                     Vehicle::find($vid->id)
+                             ->passengers()
+                             ->detach(Profile::find($user_id));
+                 }
+             }
          }
      }
 
