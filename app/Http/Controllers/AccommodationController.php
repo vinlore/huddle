@@ -16,7 +16,7 @@ class AccommodationController extends Controller
      *
      * @return Collection|Response
      */
-    public function index($cid)
+    public function index(Request $request, $cid)
     {
         try {
 
@@ -69,7 +69,7 @@ class AccommodationController extends Controller
      *
      * @return Model|Response
      */
-    public function show($cid, $aid)
+    public function show(AccommodationRequest $request, $cid, $aid)
     {
         try {
 
@@ -133,7 +133,7 @@ class AccommodationController extends Controller
      *
      * @return Response
      */
-    public function destroy($cid, $aid)
+    public function destroy(AccommodationRequest $request, $cid, $aid)
     {
         try {
 

@@ -11,7 +11,7 @@ use App\Models\Accommodation;
 
 class RoomController extends Controller
 {
-    public function index($accommodation)
+    public function index(RoomRequest $request, $accommodation)
     {
         try {
             return Room::where('accommodation_id', $accommodation)->get();
@@ -47,7 +47,7 @@ class RoomController extends Controller
         }
     }
 
-    public function destroy($accommodation, $id)
+    public function destroy(RoomRequest $request, $accommodation, $id)
     {
         try {
             $room = Room::find($id);

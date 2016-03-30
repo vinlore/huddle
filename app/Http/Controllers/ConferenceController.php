@@ -16,7 +16,7 @@ class ConferenceController extends Controller
      *
      * @return Collection|Response
      */
-    public function indexWithStatus($status)
+    public function indexWithStatus(Request $request, $status)
     {
         try {
             return Conference::where('status', $status)->get();
@@ -30,7 +30,7 @@ class ConferenceController extends Controller
      *
      * @return Collection|Response
      */
-    public function index()
+    public function index(ConferenceRequest $request)
     {
         try {
             return Conference::all();
@@ -72,7 +72,7 @@ class ConferenceController extends Controller
      *
      * @return Model|Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
 
@@ -129,7 +129,7 @@ class ConferenceController extends Controller
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(ConferenceRequest $request, $id)
     {
         try {
 

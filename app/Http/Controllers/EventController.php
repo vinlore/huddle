@@ -12,7 +12,7 @@ use App\Models\User;
 
 class EventController extends Controller
 {
-    public function index($conference)
+    public function index(Request $request, $conference)
     {
         try {
             return Event::where('conference_id', $conference)->get();
@@ -83,7 +83,7 @@ class EventController extends Controller
         }
     }
 
-    public function destroy($conferences, $id)
+    public function destroy(EventRequest $request, $conferences, $id)
     {
         try {
 
@@ -125,7 +125,7 @@ class EventController extends Controller
         }
     }
 
-    public function updateWithStatus(Request $request, $id)
+    public function updateWithStatus(EventRequest $request, $id)
     {
         try {
             $event = Event::find($id);

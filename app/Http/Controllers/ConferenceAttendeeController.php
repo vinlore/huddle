@@ -20,7 +20,7 @@ class ConferenceAttendeeController extends Controller
      *
      * @return Collection|Response
      */
-    public function index($cid)
+    public function index(ConferenceAttendeeRequest $request, $cid)
     {
         try {
 
@@ -75,7 +75,7 @@ class ConferenceAttendeeController extends Controller
      *
      * @return Model|Response
      */
-    public function show($cid, $pid)
+    public function show(ConferenceAttendeeRequest $request, $cid, $pid)
     {
         try {
 
@@ -173,7 +173,7 @@ class ConferenceAttendeeController extends Controller
         }
     }
 
-    public function destroy($cid, $pid)
+    public function destroy(ConferenceAttendeeRequest $request, $cid, $pid)
     {
         try {
             Profile::find($pid)->conferences()->detach($cid);

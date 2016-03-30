@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests;
-use App\Http\Requests\EventRequest;
+use App\Http\Requests\EventAttendeeRequest;
 
 use App\Models\Event as Event;
 use App\Models\Profile as Profile;
@@ -19,7 +19,7 @@ class EventAttendeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($events)
+    public function index(EventAttendeeRequest $request, $events)
     {
         return Event::find($events)->attendees()->get();
     }
@@ -31,7 +31,7 @@ class EventAttendeeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(EventRequest $request, $events){
+    public function store(EventAttendeeRequest $request, $events){
         try{
             //Saving to profile_attends_event Table
             $profile =  Profile::find($request->profile_id);
@@ -53,7 +53,7 @@ class EventAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $profile_id){
+    public function show(EventAttendeeRequest $request, $id, $profile_id){
         try{
             $event = Event::find($id);
             if(!$event){
@@ -72,7 +72,7 @@ class EventAttendeeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function profileEventStatusUpdate(Request $request){
+     public function profileEventStatusUpdate(EventAttendeeRequest $request){
         try{
             //Update Status on pivot
             $attendees = Event::find($request->event_id)
@@ -115,7 +115,7 @@ class EventAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $events, $profiles){
+    public function update(EventAttendeeRequest $request, $events, $profiles){
         try {
             //Update
             $attendees = Event::find($events)
@@ -135,7 +135,7 @@ class EventAttendeeController extends Controller
         }
     }
 
-    public function destroy($eid, $pid)
+    public function destroy(EventAttendeeRequest $request, $eid, $pid)
     {
         try {
             Profile::find($pid)->events()->detach($eid);

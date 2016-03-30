@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 
 use Cartalyst\Sentinel\Roles\EloquentRole;
 
-use App\Http\Requests;
+use App\Http\Requests\RoleRequest;
 use App\Models\User;
 
 class RoleController extends Controller
@@ -17,7 +17,7 @@ class RoleController extends Controller
 
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(RoleRequest $request)
     {
         try {
             $role = EloquentRole::all();
@@ -36,7 +36,7 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
         $slug = strtolower($request->name);
         $name = $request->name;
@@ -61,7 +61,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(RoleRequest $request, $id)
     {
 
     }
@@ -73,7 +73,7 @@ class RoleController extends Controller
      * @param  int  $roles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $roles)
+    public function update(RoleRequest $request, $roles)
     {
          //Check if Role Id exists
          if (!\Sentinel::findRoleById($roles)) {
@@ -96,7 +96,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $roles)
+    public function destroy(RoleRequest $request, $roles)
     {
         //Check if Role Id exists
         if (!\Sentinel::findRoleById($roles)) {
