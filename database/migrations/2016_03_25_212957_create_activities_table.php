@@ -18,6 +18,7 @@ class CreateActivitiesTable extends Migration
             $table->string('activity_type');
             $table->integer('source_id');
             $table->string('source_type');
+            $table->integer('profile_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
 

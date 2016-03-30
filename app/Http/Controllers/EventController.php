@@ -39,6 +39,10 @@ class EventController extends Controller
             $event = Event::create($request->all());
             User::find($request->header('ID'))
                 ->events()->attach($event->id);
+
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'request', $event->id, 'event');
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -68,6 +72,10 @@ class EventController extends Controller
             }
 
             $event->update($request->all());
+
+              //Add Activity to log
+            $this->addActivity($request->header('ID'),'update', $event->id, 'event');
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -97,6 +105,10 @@ class EventController extends Controller
             }
 
             $event->delete();
+
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),'delete', $event->id, 'event');
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -136,6 +148,11 @@ class EventController extends Controller
             $event->update([
                 'status' => $request->status,
             ]);
+
+            //Add Activity to log
+            $this->addActivity($request->header('ID'),$request->status, $event->id, 'event');
+
+            //Send Status update Email
             $this->sendCreationEmail('event', $id, $request->status);
             return response()->success();
         } catch (Exception $e) {
