@@ -89,35 +89,7 @@ class EventAttendeeController extends Controller
                         ->count();
             Event::where($request->event_id)->update(['attendee_count' => $count]);
 
-            //IF DENIED - WHAT HAPPENS
-            //Detach all related vehicles to this profile for event
-            if ($request->status == 'denied' || $request->status != 'cancelled') {
-                /*
-                *Detatch all related vehicles for this profile for this conference
-                */
-                //Find all the Vehicle_id associated with this profile
-                $vehicle_id = Profile::find($request->profile_id)->vehicles()->get(['id']);
 
-                //Loop through array of vehicle_id
-                foreach($vehicle_id as $vid)
-                {
-                    //Grab all event_id associated to this vehicle
-                    $event_id = Vehicle::find($vid->id)
-                                    ->events()
-                                    ->get(['event_id']);
-
-                   foreach($event_id as $id)
-                   {
-                       //if event_id matches the one being rejected
-                       if ($request->event_id == $id->event_id)
-                       {
-                           Vehicle::find($vid->id)
-                                   ->passengers()
-                                   ->detach(Profile::find($request->profile_id));
-                       }
-                   }
-                }
-            } elseif($request->status == 'approved') {
                 if ($request->vehicle_id != NULL) {
                     // Link up profile with the vehicle
                     $profile = Profile::find($request->profile_id);
@@ -125,7 +97,7 @@ class EventAttendeeController extends Controller
                             ->passengers()
                             ->attach($profile);
                 }
-            }
+
 
             //Send Email Notification
              $this->sendAttendeeEmail("event", $request->event_id, $request->status, $request->profile_id);
