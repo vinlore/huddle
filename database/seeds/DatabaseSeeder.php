@@ -34,7 +34,9 @@ class DatabaseSeeder extends Seeder
         DB::table('profile_attends_events')->truncate();
         DB::table('profile_stays_in_rooms')->truncate();
         DB::table('profile_rides_vehicles')->truncate();
+        DB::table('activities')->truncate();
 
+        $this->call(ActivitySeeder::class);
         $this->call(RolesSeeder::class);
         $this->call(UsersAndProfilesSeeder::class);
         $this->call(ConferencesAndEventsSeeder::class);
