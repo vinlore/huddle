@@ -34,6 +34,11 @@ class Conference extends Model
         return $this->belongsToMany('App\Models\Accommodation', 'conference_accommodations')->withTimestamps();
     }
 
+    public function items()
+    {
+        return $this->hasMany('App\Models\Item');
+    }
+
     public function vehicles()
     {
         return $this->belongsToMany('App\Models\Vehicle', 'conference_vehicles')->withTimestamps();
@@ -84,8 +89,15 @@ class Conference extends Model
             foreach ($conference->events as $event) {
                 $event->delete();
             }
-            $conference->accommodations()->detach();
-            $conference->vehicles()->detach();
+            foreach ($conference->accommodations as $accommodation) {
+                $accommodation->delete();
+            }
+            foreach ($conference->items as $item) {
+                $item->delete();
+            }
+            foreach ($conference->vehicles as $vehicle) {
+                $vehicle->delete();
+            }
             $conference->managers()->detach();
             $conference->attendees()->detach();
         });
