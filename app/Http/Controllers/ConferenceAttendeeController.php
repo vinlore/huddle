@@ -173,7 +173,7 @@ class ConferenceAttendeeController extends Controller
         }
     }
 
-    public function destroy($cid, $pid)
+    public function destroy(Request $request, $cid, $pid)
     {
         try {
             Profile::find($pid)->conferences()->detach($cid);
