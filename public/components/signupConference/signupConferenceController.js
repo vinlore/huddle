@@ -115,7 +115,7 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
             $scope.accordionIsOpen[$index] = false;
         } else {
             var newSignup = {
-                profile_id: member.id,
+                profile_id: member.profile_id,
                 first_name: member.first_name,
                 middle_name: member.middle_name,
                 last_name: member.last_name,
