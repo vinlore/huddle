@@ -1,11 +1,22 @@
 <div id="admin">
     <div class="container">
         <div class="margin-top-25">
-            <div class="pull-right">
+
+            <div class="col-md-10">
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="''" ng-change="loadConferences()">All</label>
+                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'approved'" ng-change="loadConferences()">Approved</label>
+                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'pending'" ng-change="loadConferences()">Pending</label>
+                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'denied'" ng-change="loadConferences()">Canceled</label>
+                </div>
+            </div>
+
+            <div class="col-md-2 pull-right">
                 <a class="btn btn-success" type="button" ui-sref="create-conference" ng-if="user.permissions['conference.store']">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Conference
                 </a>
             </div>
+
         </div>
     </div>
     <div uib-accordion class="container" id="admin-conferences" close-others="false">

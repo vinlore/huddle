@@ -3,13 +3,16 @@ angular.module('adminCtrl', [])
 
     $scope.conferences = [];
     $scope.events = []; // array of arrays of events
+    $scope.radioModel = '';
 
     $scope.checkPermissions = function(type) {
         return checkPermissions(type);
     }
 
 	$scope.loadConferences = function () {
-        Conferences.fetch().query()
+
+        if ($scope.radioModel == '') {
+            Conferences.fetch().query()
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.conferences = response;
@@ -22,6 +25,21 @@ angular.module('adminCtrl', [])
             }, function () {
                 popup.connection();
             })
+        } else {
+            Conferences.status().query({status: $scope.radioModel})
+                .$promise.then( function ( response ) {
+                    if ( response ) {
+                        $scope.conferences = response;
+                        for (var i=0; i<response.length; i++) {
+                            $scope.loadEvents($scope.conferences[i].id, i);
+                        }
+                    } else {
+                        $scope.conferences = [];
+                    }
+                }, function () {
+                    popup.connection();
+                })
+        }
     };
 
     $scope.loadConferences();

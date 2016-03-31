@@ -32,7 +32,7 @@ class ItemController extends Controller
     public function show($cid, $iid)
     {
         try {
-            $item = Item::find($id);
+            $item = Item::find($iid);
             if (!$item) {
                 return response()->error(404);
             }
@@ -45,7 +45,7 @@ class ItemController extends Controller
     public function update(ItemRequest $request, $cid, $iid)
     {
         try {
-            $item = Item::find($id);
+            $item = Item::find($iid);
             if (!$item) {
                 return response()->error(404);
             }
@@ -59,7 +59,7 @@ class ItemController extends Controller
     public function destroy($cid, $iid)
     {
         try {
-            $item = Item::find($id);
+            $item = Item::find($iid);
             if (!$item) {
                 return response()->error(404);
             }
