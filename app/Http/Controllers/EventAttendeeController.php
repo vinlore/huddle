@@ -67,49 +67,6 @@ class EventAttendeeController extends Controller
         }
     }
 
-     /**
-     * Update the status of the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-     public function profileEventStatusUpdate(EventAttendeeRequest $request){
-        try{
-            //Update Status on pivot
-            $attendees = Event::find($request->event_id)
-                         ->attendees()
-                         ->updateExistingPivot($request->profile_id,['status' => $request->status]);
-
-            //Add Activity to log
-            $this->addActivity($request->header('ID'),$request->status, $request->event_id, 'event application', $request->profile_id);
-
-            //Update attendee count
-            $count = Event::find($request->event_id)
-                        ->attendees()
-                        ->where('status','approved')
-                        ->count();
-            Event::where($request->event_id)->update(['attendee_count' => $count]);
-
-
-                if ($request->vehicle_id != NULL) {
-                    // Link up profile with the vehicle
-                    $profile = Profile::find($request->profile_id);
-                    Vehicle::find($request->vehicle_id)
-                            ->passengers()
-                            ->attach($profile);
-                }
-
-
-            //Send Email Notification
-             $this->sendAttendeeEmail("event", $request->event_id, $request->status, $request->profile_id);
-            return response()->success();
-        } catch (Exception $e) {
-            return response()->error($e);
-        }
-     }
-
-
     /**
      * Update the specified resource in storage.
      *
@@ -137,16 +94,17 @@ class EventAttendeeController extends Controller
                         return response()->error(403);
                     }
 
+
                     //Check if previously pending or denied
-                    $profile = Profile::find($profiles_id)->events;
-                    foreach($profile as $id) {
-                        if (($id->id == $eid) &&
-                            (($id->status != 'pending') ||
-                            ($id->status != 'approved')))
+                    $profile_status = \DB::table('profile_attends_events')
+                                    ->where('profile_id',$profiles_id)
+                                    ->where('event_id',$events_id)
+                                    ->pluck('status');
+
+                        if (!(($profile_status[0] == 'pending') || ($profile_status[0] == 'approved')))
                         {
-                                return response()->error(403);
+                            return response()->error(403);
                         }
-                    }
 
                     //Updating the pivot
                     $events->attendees()->updateExistingPivot($profiles_id, $request->all());
@@ -157,7 +115,7 @@ class EventAttendeeController extends Controller
                                         ->where('status','approved')
                                         ->count();
 
-                    Event::where($eid)->update(['attendee_count' => $count]);
+                    Event::where('id',$eid)->update(['attendee_count' => $count]);
 
                     if ($request->vehicle_id != NULL) {
                         // Link up profile with the vehicle
@@ -168,7 +126,7 @@ class EventAttendeeController extends Controller
 
                         //UPDATE PASSENGER COUNT
                         $passenger_count = Vehicle::find($request->vehicle_id)->passengers()->count();
-                        Vehicle::where($request->vehicle_id)->update(['passenger_count' => $passenger_count]);
+                        Vehicle::where('id',$request->vehicle_id)->update(['passenger_count' => $passenger_count]);
                     }
                     break;
 
@@ -182,12 +140,14 @@ class EventAttendeeController extends Controller
                     }
 
                     //Check if previously pending
-                    $profile = Profile::find($profiles_id)->events();
-                    foreach($profile as $id) {
-                        if (($id->id == $eid) &&
-                            ($id->status != 'pending')) {
-                                return response()->error(403);
-                        }
+                    $profile_status = \DB::table('profile_attends_events')
+                                    ->where('profile_id',$profiles_id)
+                                    ->where('conference_id',$events_id)
+                                    ->pluck('status');
+
+                    if (!($profile_status[0] == 'pending'))
+                    {
+                        return response()->error(403);
                     }
 
                     //Updating the pivot
@@ -204,16 +164,15 @@ class EventAttendeeController extends Controller
                         return response()->error(403);
                     }
 
-                    //Check if previously pending
-                    $profile = Profile::find($profiles_id)->conferences;
-                    foreach($profile as $id)
+                    //Check if previously approved
+                    $profile_status = \DB::table('profile_attends_conferences')
+                                    ->where('profile_id',$pid)
+                                    ->where('conference_id',$cid)
+                                    ->pluck('status');
+
+                    if (!($profile_status[0] == 'approved'))
                     {
-                        if (($id->id == $eid) &&
-                            (($id->status != 'pending') ||
-                            ($id->status != 'denied')))
-                        {
-                                return response()->error(403);
-                        }
+                        return response()->error(403);
                     }
 
                     //Updating the pivot
@@ -252,7 +211,7 @@ class EventAttendeeController extends Controller
 
                        //Update Event Vehicle passenger
                        $passenger_count = Vehicle::find($vid->id)->passengers()->count();
-                       Vehicle::where($vid->id)->update(['passenger_count' => $passenger_count]);
+                       Vehicle::where('id',$vid->id)->update(['passenger_count' => $passenger_count]);
                     }
 
                     /*

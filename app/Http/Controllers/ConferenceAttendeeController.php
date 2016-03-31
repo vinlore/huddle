@@ -115,8 +115,8 @@ class ConferenceAttendeeController extends Controller
                 return response()->error(404);
             }
 
-            $pid = Conference::find($pid);
-            if (!$conference) {
+            $profile = Profile::find($pid);
+            if (!$profile) {
                 return response()->error(404);
             }
 
@@ -128,16 +128,16 @@ class ConferenceAttendeeController extends Controller
                     }
 
                     //Check if previously pending or denied
-                    $profile = Profile::find($pid)->conferences;
+                    $profile_status = \DB::table('profile_attends_conferences')
+                                    ->where('profile_id',$pid)
+                                    ->where('conference_id',$cid)
+                                    ->pluck('status');
 
-                    foreach($profile as $id) {
-                        if (($id->id == $cid) &&
-                            (($id->status != 'pending') ||
-                            ($id->status != 'approved')))
+                        if (!(($profile_status[0] == 'pending') || ($profile_status[0] == 'approved')))
                         {
-                                return response()->error(406);
+                            return response()->error(403);
                         }
-                    }
+
 
                     //Updating the pivot
                     $conference->attendees()->updateExistingPivot($pid, $request->all());
@@ -148,7 +148,7 @@ class ConferenceAttendeeController extends Controller
                                         ->where('status','approved')
                                         ->count();
 
-                    Conference::where($cid)->update(['attendee_count' => $count]);
+                    Conference::where('id',$cid)->update(['attendee_count' => $count]);
 
 
                     if ($request->vehicle_id != NULL) {
@@ -160,7 +160,7 @@ class ConferenceAttendeeController extends Controller
 
                     //UPDATE PASSENGER COUNT
                     $passenger_count = Vehicle::find($request->vehicle_id)->passengers()->count();
-                    Vehicle::where($request->vehicle_id)->update(['passenger_count' => $passenger_count]);
+                    Vehicle::where('id',$request->vehicle_id)->update(['passenger_count' => $passenger_count]);
                     }
 
                     if ($request->room_id != NULL) {
@@ -172,7 +172,7 @@ class ConferenceAttendeeController extends Controller
 
                     //Update Room Count
                     $room_count = Room::find($request->room_id)->guests()->count();
-                    Room::where($request->room_id)->update(['guest_count' => $room_count]);
+                    Room::where('id',$request->room_id)->update(['guest_count' => $room_count]);
                     }
                     break;
 
@@ -184,12 +184,14 @@ class ConferenceAttendeeController extends Controller
                     }
 
                     //Check if previously pending
-                    $profile = Profile::find($pid)->conferences;
-                    foreach($profile as $id) {
-                        if (($id->id == $cid) &&
-                            ($id->status != 'pending')) {
-                                return response()->error(403);
-                        }
+                    $profile_status = \DB::table('profile_attends_conferences')
+                                    ->where('profile_id',$pid)
+                                    ->where('conference_id',$cid)
+                                    ->pluck('status');
+
+                    if (!($profile_status[0] == 'pending'))
+                    {
+                        return response()->error(403);
                     }
 
                     //Updating the pivot
@@ -206,17 +208,16 @@ class ConferenceAttendeeController extends Controller
                         return response()->error(403);
                     }
 
-                    //Check if previously pending
-                    $profile = Profile::find($pid)->conferences;
-                    foreach($profile as $id)
-                    {
-                        if (($id->id == $cid) &&
-                            (($id->status != 'pending') ||
-                            ($id->status != 'denied')))
+                    //Check if previously approved
+                    $profile_status = \DB::table('profile_attends_conferences')
+                                    ->where('profile_id',$pid)
+                                    ->where('conference_id',$cid)
+                                    ->pluck('status');
+
+                        if (!($profile_status[0] == 'approved'))
                         {
-                                return response()->error(403);
+                            return response()->error(403);
                         }
-                    }
 
                     //Updating the pivot
                     $conference->attendees()->updateExistingPivot($pid, $request->all());
@@ -230,7 +231,7 @@ class ConferenceAttendeeController extends Controller
                    $userId = $request->header('ID');
                    $current_event = User::find($userId)->profiles()->where('id',$pid)->first();
                    if (!$current_event) {
-                       return response()->error("403" , "No permission here");
+                       return response()->error(403);
                    }
 
                    //Find all the Vehicle_id associated with this profile
@@ -267,7 +268,7 @@ class ConferenceAttendeeController extends Controller
                        }
                        //Update Event Vehicle passenger
                        $passenger_count = Vehicle::find($vid->id)->passengers()->count();
-                       Vehicle::where($vid->id)->update(['passenger_count' => $passenger_count]);
+                       Vehicle::where('id',$vid->id)->update(['passenger_count' => $passenger_count]);
                    }
 
                    /*
@@ -292,7 +293,7 @@ class ConferenceAttendeeController extends Controller
 
                        //Update Room Count
                        $room_count = Room::find($rid->id)->guests()->count();
-                       Room::where($rid->id)->update(['guest_count' => $room_count]);
+                       Room::where('id',$rid->id)->update(['guest_count' => $room_count]);
                     }
 
                    /*
@@ -311,7 +312,7 @@ class ConferenceAttendeeController extends Controller
 
                         //Update Event attendee count
                         $count = $current_event->where('status','approved')->count();
-                        Event::where($eid_id)->update(['attendee_count' => $count]);
+                        Event::where('id',$eid_id)->update(['attendee_count' => $count]);
                    }
                    /*
                    *    Remove the associated conference
@@ -327,6 +328,7 @@ class ConferenceAttendeeController extends Controller
             return response()->error($e);
         }
     }
+
 
     public function destroy(ConferenceAttendeeRequest $request, $cid, $pid)
     {

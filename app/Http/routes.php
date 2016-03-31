@@ -79,7 +79,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('rooms.guests', 'RoomGuestController', ['only' => [
+    Route::resource('rooms.guests', 'ProfileStaysRoomController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
@@ -103,7 +103,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('vehicles.passengers', 'VehiclePassengerController', ['only' => [
+    Route::resource('vehicles.passengers', 'ProfileRidesVehicleController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
