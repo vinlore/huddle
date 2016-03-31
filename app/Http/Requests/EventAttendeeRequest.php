@@ -39,6 +39,7 @@ class EventAttendeeRequest extends Request
         return [
             'arrv_ride_req' => ['required', 'boolean'],
             'dept_ride_req' => ['required', 'boolean'],
+            'status'        => ['string', 'in:pending']
         ];
     }
 

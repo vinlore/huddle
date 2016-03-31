@@ -64,6 +64,7 @@ class ConferenceAttendeeRequest extends Request
             'contact_email'      => ['email', 'max:255'],
             'contact_phone'      => ['string'],
             'medical_conditions' => ['string', 'max:255'],
+            'status'             => ['string', 'in:pending']
         ];
     }
 

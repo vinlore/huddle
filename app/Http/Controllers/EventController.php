@@ -68,14 +68,32 @@ class EventController extends Controller
             $userId = $request->header('ID');
             if (!$event->managers()->where('user_id', $userId)->get() ||
                 !$conf->managers()->where('user_id',$userId)->get() ||
-                \Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
+                (\Sentinel::findById($userId)->roles()->first()->name !='System Administrator') ||
+                !User::find($userId)->hasAccess(['event.update'])) {
                 return response()->error("403" , "Permission Denied");
             }
 
-            $event->update($request->all());
+            if(($request->status == 'approved' || $request->status == 'denied') &&
+               (User::find($userId)->hasAccess(['event.status']) &&
+               ((Sentinel::findById($userId)->roles()->first()->name == 'System Administrator') ||
+                $conf->managers()->where('user_id',$userId)->get()))){
 
-              //Add Activity to log
-            //$this->addActivity($request->header('ID'),'update', $event->id, 'event');
+                $conference->update($request->all());
+                //Add Activity to log
+                $this->addActivity($request->header('ID'),$request->status, $id, 'conference');
+                //Send Status update Email
+                $this->sendCreationEmail('event', $event->id, $request->status);
+
+            }elseif(($request->status != 'approved' && $request->status != 'denied') ){
+            // Update the Conference.
+            $conference->fill($request->all())->save();
+
+            //Add Activity to log
+             $this->addActivity($request->header('ID'),'update', $id, 'conference');
+            }else{
+                return response()->error(403);
+            }
+
 
             return response()->success();
         } catch (Exception $e) {
@@ -142,7 +160,8 @@ class EventController extends Controller
             $userId = $request->header('ID');
             if (!$event->managers()->where('user_id', $userID)->get()||
                 !$conf->managers()->where('user_id',$userID)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
+                (Sentinel::findById($userId)->roles()->first()->name !='System Administrator') ||
+                !User::find($userId)->hasAccess(['event.update'])) {
                 return response()->error("403" , "Permission Denied");
             }
 

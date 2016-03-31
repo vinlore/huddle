@@ -17,7 +17,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function addActivity($userId, $activityType, $sourceId, $sourceType, $profile_id)
+    public function addActivity($userId, $activityType, $sourceId, $sourceType, $profile_id = null)
     {
         try {
             $activity = [

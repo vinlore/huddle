@@ -49,6 +49,7 @@ class EventRequest extends Request
             'age_limit'    => ['integer', 'max:255'],
             'gender_limit' => ['string', 'max:255'],
             'capacity'     => ['required', 'integer', 'min:1'],
+            'status'       => ['string', 'in:pending']
         ];
     }
 
