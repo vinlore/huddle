@@ -59,7 +59,7 @@ class EventAttendeeController extends Controller
             }
 
             $profile->events()->attach($eid, $request->except('profile_id'));
-            $this->addActivity($request->header('ID'),'request', $events, 'event application', $request->profile_id);
+            $this->addActivity($request->header('ID'),'request', $eid, 'event application', $request->profile_id);
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
