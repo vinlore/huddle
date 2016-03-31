@@ -18,7 +18,7 @@ class ConferenceAttendeeRequest extends Request
                     return true;
                     break;
                 case 'GET':
-                    return true);
+                    return true;
                     break;
                 case 'PUT':
                     return true;
