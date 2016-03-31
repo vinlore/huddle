@@ -56,6 +56,10 @@ app.service('checkPermissions', function ($rootScope) {
                 var permissions = p['user.update'] || p['user.show'] || p['user.destroy'] || p['role.store'] || p['role.update'] || p['role.destroy'] || p['role.show'];
                 return permissions;
                 break;
+            case 'user':
+                var permissions = p['user.update'] || p['user.show'] || p['user.destroy']
+                return permissions;
+                break;
             default:
                 return isManager; 
         }
