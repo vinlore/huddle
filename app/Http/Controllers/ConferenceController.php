@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use Sentinel;
+
 use App\Http\Requests\ConferenceRequest;
 use App\Models\Conference;
 use App\Models\User;
@@ -115,7 +117,7 @@ class ConferenceController extends Controller
             $conference->fill($request->all())->save();
 
             //Add Activity to log
-            // $this->addActivity($request->header('ID'),'update', $id, 'conference');
+             $this->addActivity($request->header('ID'),'update', $id, 'conference');
 
 
             return response()->success();
@@ -141,7 +143,7 @@ class ConferenceController extends Controller
 
             //Check if event manager belongs to this event OR admin
             $userId = $request->header('ID');
-            if (!$conference->managers()->where('user_id', $userID)->get()||
+            if (!$conference->managers()->where('user_id', $userId)->get()||
                 Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
                 return response()->error("403" , "Permission Denied");
             }
