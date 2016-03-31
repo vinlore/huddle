@@ -61,7 +61,7 @@ class Controller extends BaseController
         $userId = $request->header('ID');
         $user = Sentinel::findById($userId);
         $event = Event::find($eid);
-        $cid = $event->conference()->id;
+        $cid = $event->conference->id;
         if ($this->isSuperUser($request)) {
             return true;
         }
