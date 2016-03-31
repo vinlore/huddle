@@ -139,32 +139,30 @@ class EventController extends Controller
         }
     }
 
-    public function destroy(EventRequest $request, $conferences, $id)
+    public function destroy(EventRequest $request, $cid, $eid)
     {
         try {
 
-            $conf = Conference::find($conferences);
-            if (!$conf) {
-                return response()->error(404);
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
             }
 
-            //Check if event manager belongs to this event OR admin
-            $userId = $request->header('ID');
-            if (!$event->managers()->where('user_id', $userId)->get()||
-                !$conf->managers()->where('user_id',$userId)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
-                return response()->error("403" , "Permission Denied");
-            }
-
-            $event = Event::find($id);
+            // Check if the Event exists.
+            $event = Event::find($eid);
             if (!$event) {
-                return response()->error("Event not found");
+                return response()->error(404, 'Event Not Found');
+            }
+
+            if (!$this->isEventManager($request, $eid)) {
+                return response()->error(403);
             }
 
             $event->delete();
 
             //Add Activity to log
-            $this->addActivity($request->header('ID'),'delete', $event->id, 'event');
+            $this->addActivity($request->header('ID'),'delete', $eid, 'event');
 
             return response()->success();
         } catch (Exception $e) {

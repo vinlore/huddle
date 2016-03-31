@@ -31,13 +31,10 @@ class ConferenceManagerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request){
+    public function store(Request $request, $cid){
         try{
             //Saving to user_Manages_conference Table
-            $conference = Conference::find($request->conferences);
-            User::find($request->user_id)
-                        ->conferences()
-                        ->attach($conference);
+            $conference = Conference::find($cid)->managers()->attach($request->user_id);
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);

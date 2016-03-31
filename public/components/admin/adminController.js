@@ -86,6 +86,28 @@ angular.module('adminCtrl', [])
         })
     };
 
+    $scope.deleteEvent = function ( cid, eid, e ) {
+        e.preventDefault();
+        e.stopPropagation();
+        var modalInstance = popup.prompt('Delete', 'Are you sure you want to delete this event?');
+
+        modalInstance.result.then( function ( result ) {
+            if (result) {
+                Events.fetch().delete({cid: cid, eid: eid})
+                    .$promise.then( function ( response ) {
+                        if (response.status == 200) {
+                            popup.alert('success', 'Event successfully deleted');
+                            $scope.loadConferences();
+                        } else {
+                            popup.error('Error');
+                        }
+                    }, function () {
+                        popup.connection();
+                    })
+            }
+        })
+    };
+
     show = function(events) {
     	alert("hi");
 		if (events.show == false) {
