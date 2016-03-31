@@ -21,6 +21,29 @@ class EventController extends Controller
         }
     }
 
+    public function show(EventRequest $request, $cid, $eid)
+    {
+        try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404);
+            }
+
+            // Check if the Event exists.
+            $event = Event::find($eid);
+            if (!$event) {
+                return response()->error(404);
+            }
+
+            // Retrieve the Accommodation.
+            return $event;
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
     public function store(EventRequest $request, $cid)
     {
         try {
