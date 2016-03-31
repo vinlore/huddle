@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
+Use Faker\Factory as Faker;
+
+use App\Models\Conference;
 use App\Models\Profile;
 use App\Models\User;
 
@@ -115,13 +118,14 @@ class UsersAndProfilesSeeder extends Seeder
         // ---------------------------------------------------------------------
 
         $user = [
-            'username' => 'gabby',
-            'email'    => 'gabrielahernandez@hotmail.ca',
-            'password' => 'password',
+            'username'      => 'gabby',
+            'email'         => 'gabby@huddle.com',
+            'password'      => 'password',
+            'receive_email' => 1,
         ];
         $user = Sentinel::registerAndActivate($user);
 
-        $role = Sentinel::findRoleByName('Regular User');
+        $role = Sentinel::findRoleByName('Conference Manager');
         $role->users()->attach($user);
 
         $user->permissions = $role->permissions;
@@ -295,6 +299,90 @@ class UsersAndProfilesSeeder extends Seeder
         $profile = new Profile($profile);
         $profile->user()->associate($user);
         $profile->save();
+
+        $faker = Faker::create();
+        $user = Sentinel::findById(6);
+        $conference = Conference::find(1);
+        for ($i = 0; $i < 100; ++$i) {
+            $profile = [
+                'first_name' => $faker->firstName,
+                'last_name'  => $faker->lastName,
+                'city'       => $faker->city,
+                'country'    => 'India',
+                'birthdate'  => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'gender'     => 'male',
+            ];
+            $profile = new Profile($profile);
+            $profile->user()->associate($user);
+            $profile->save();
+            $profile->conferences()->attach($conference->id, [
+                'birthdate' => $profile->birthdate,
+                'country'   => $profile->country,
+                'gender'    => $profile->gender,
+                'status'    => 'approved',
+            ]);
+            $conference->increment('attendee_count');
+        }
+        for ($i = 0; $i < 100; ++$i) {
+            $profile = [
+                'first_name' => $faker->firstName,
+                'last_name'  => $faker->lastName,
+                'city'       => $faker->city,
+                'country'    => 'Canada',
+                'birthdate'  => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'gender'     => 'male',
+            ];
+            $profile = new Profile($profile);
+            $profile->user()->associate($user);
+            $profile->save();
+            $profile->conferences()->attach($conference->id, [
+                'birthdate' => $profile->birthdate,
+                'country'   => $profile->country,
+                'gender'    => $profile->gender,
+                'status'    => 'approved',
+            ]);
+            $conference->increment('attendee_count');
+        }
+        for ($i = 0; $i < 100; ++$i) {
+            $profile = [
+                'first_name' => $faker->firstName,
+                'last_name'  => $faker->lastName,
+                'city'       => $faker->city,
+                'country'    => 'France',
+                'birthdate'  => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'gender'     => 'female',
+            ];
+            $profile = new Profile($profile);
+            $profile->user()->associate($user);
+            $profile->save();
+            $profile->conferences()->attach($conference->id, [
+                'birthdate' => $profile->birthdate,
+                'country'   => $profile->country,
+                'gender'    => $profile->gender,
+                'status'    => 'approved',
+            ]);
+            $conference->increment('attendee_count');
+        }
+        for ($i = 0; $i < 100; ++$i) {
+            $profile = [
+                'first_name' => $faker->firstName,
+                'last_name'  => $faker->lastName,
+                'city'       => $faker->city,
+                'country'    => 'United States',
+                'birthdate'  => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'gender'     => 'female',
+            ];
+            $profile = new Profile($profile);
+            $profile->user()->associate($user);
+            $profile->save();
+            $profile->conferences()->attach($conference->id, [
+                'birthdate' => $profile->birthdate,
+                'country'   => $profile->country,
+                'gender'    => $profile->gender,
+                'status'    => 'approved',
+            ]);
+            $conference->increment('attendee_count');
+        }
     }
 }
 
