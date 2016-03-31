@@ -11,7 +11,11 @@ angular.module('manageAccommodationsCtrl',[])
     	city: null,
     	country: null
     }
-    
+
+    $scope.conference = [];
+    $scope.data = [];
+    $scope.csvData = [];
+
     //////// Load Data ////////
 
 	$scope.tableParams = new ngTableParams(
@@ -27,6 +31,8 @@ angular.module('manageAccommodationsCtrl',[])
 					$scope.data = params.sorting() ? $filter('orderBy') ($scope.data, params.orderBy()) : $scope.data;
 					$scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
 					$defer.resolve($scope.data);
+
+					$scope.setCSVData($scope.data);
 				} else {
 					popup.error( 'Error', response.message );
 				}
@@ -36,6 +42,21 @@ angular.module('manageAccommodationsCtrl',[])
 
 		}
 	});
+
+	$scope.loadConferenceData = function() {
+    Conferences.fetch().get({cid: $stateParams.conferenceId})
+    .$promise.then( function( response ) {
+      if ( response ) {
+        $scope.conference = response;
+        //console.log(response);
+      } else {
+        popup.error( 'Error', response.message );
+      }}, function () {
+        popup.connection();
+      })
+  	};
+
+  	$scope.loadConferenceData();
 
 	//////// Button Functions ////////
 
@@ -109,8 +130,18 @@ angular.module('manageAccommodationsCtrl',[])
 		$scope.tableParams.reload();
   	}
 
-  	$scope.export = function() {
-
-  	}
+  	$scope.setCSVData = function(data) {
+	    $scope.csvData = [];
+	    var temp = {};
+	    angular.forEach(data, function(item) { 
+	      angular.forEach(item, function(value, key) { 
+	        if ( key == "name" || key == "address" || key == "city" || key == "country" ) {
+	          temp[key] = value;
+	        }
+	      });
+	      $scope.csvData.push(temp);
+	      temp = {}
+    });  
+  }
 
   })
