@@ -7,6 +7,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+use Sentinel;
+
 use App\Models\Activity;
 use App\Models\User;
 use App\Models\Profile;
@@ -17,7 +19,52 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function addActivity($userId, $activityType, $sourceId, $sourceType, $profile_id = null)
+    /**
+     * Check if the given User is a System Administrator.
+     *
+     * @return bool
+     */
+    public function isSuperuser($request)
+    {
+        $userId = $request->header('ID');
+        $user = Sentinel::findById($userId);
+        $role = $user->roles()->first();
+        return $role->name == 'System Administrator';
+    }
+
+    /**
+     * Check if the User manages the given Conference.
+     *
+     * @return bool
+     */
+    public function isConferenceManager($request, $cid)
+    {
+        $userId = $request->header('ID');
+        $user = Sentinel::findById($userId);
+        $conference = Conference::find($cid);
+        if ($this->isSuperUser($request)) {
+            return true;
+        }
+        return $conference->managers()->where('user_id', $userId)->exists();
+    }
+
+    /**
+     * Check if the User manages the given Event.
+     *
+     * @return bool
+     */
+    public function isEventManager($request, $eid)
+    {
+        $userId = $request->header('ID');
+        $user = Sentinel::findById($userId);
+        $event = Event::find($eid);
+        if ($this->isSuperUser($request)) {
+            return true;
+        }
+        return $event->managers()->where('user_id', $userId)->exists();
+    }
+
+    public function addActivity($userId, $activityType, $sourceId, $sourceType, $profile_id)
     {
         try {
             $activity = [

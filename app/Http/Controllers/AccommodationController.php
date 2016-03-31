@@ -149,6 +149,9 @@ class AccommodationController extends Controller
                 return response()->error(404);
             }
 
+            // Check if the User is managing the Conference.
+            $userId = $request->header('ID');
+
             //Check if conference manager belongs to this conference
             $userId = $request->header('ID');
             if (!$conference->managers()->where('user_id', $userID)->get()) {
