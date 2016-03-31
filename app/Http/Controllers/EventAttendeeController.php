@@ -95,7 +95,7 @@ class EventAttendeeController extends Controller
                     }
 
 
-                    //Check if previously pending or denied
+                    //Check if previously pending or approved
                     $profile_status = \DB::table('profile_attends_events')
                                     ->where('profile_id',$profiles_id)
                                     ->where('event_id',$events_id)
@@ -170,7 +170,7 @@ class EventAttendeeController extends Controller
                                     ->where('conference_id',$cid)
                                     ->pluck('status');
 
-                    if (!($profile_status[0] == 'approved'))
+                    if ($profile_status[0] == 'approved')
                     {
                         return response()->error(403);
                     }

@@ -214,7 +214,7 @@ class ConferenceAttendeeController extends Controller
                                     ->where('conference_id',$cid)
                                     ->pluck('status');
 
-                        if (!($profile_status[0] == 'approved'))
+                        if ($profile_status[0] == 'approved')
                         {
                             return response()->error(403);
                         }
