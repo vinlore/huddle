@@ -12,45 +12,41 @@ use App\Models\User;
 
 class EventController extends Controller
 {
-    public function index(Request $request, $conference)
-    {
-        try {
-            return Event::where('conference_id', $conference)->get();
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
-
-    public function show(EventRequest $request, $cid, $eid)
+    /**
+     * Retrieve all Events for a Conference.
+     *
+     * @return Collection|Response
+     */
+    public function index(Request $request, $cid)
     {
         try {
 
             // Check if the Conference exists.
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
-            // Check if the Event exists.
-            $event = Event::find($eid);
-            if (!$event) {
-                return response()->error(404);
-            }
-
-            // Retrieve the Accommodation.
-            return $event;
+            // Retrieve its Events.
+            return $conference->events()->get();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
+    /**
+     * Create an Event for a Conference.
+     *
+     * @return Response
+     */
     public function store(EventRequest $request, $cid)
     {
         try {
-            //Check if conference exists
+
+            // Check if the Conference exists.
             $conference = Conference::find($cid);
-            if (!$conference) {
-                return response()->error(404);
+            if (!$conference->exists()) {
+                return response()->error(404, 'Conference Not Found');
             }
 
             // Check if the User is managing the Conference.
@@ -58,11 +54,11 @@ class EventController extends Controller
                 return response()->error(403);
             }
 
+            // Create the Event.
             $event = Event::create($request->all());
-            User::find($request->header('ID'))
-                ->events()->attach($event->id);
+            $event->conference()->attach($cid);
+            $event->managers()->attach($request->header('ID'));
 
-            //Add Activity to log
             $this->addActivity($request->header('ID'),'request', $event->id, 'event');
 
             return response()->success();
@@ -71,11 +67,38 @@ class EventController extends Controller
         }
     }
 
-
-    public function update(EventRequest $request, $conferences, $id)
+    /**
+     * Retrieve an Event.
+     *
+     * @return Model|Response
+     */
+    public function show(EventRequest $request, $cid, $eid)
     {
         try {
-            $event = Event::find($id);
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
+            // Check if the Event exists.
+            $event = Event::find($eid);
+            if (!$event) {
+                return response()->error(404, 'Event Not Found');
+            }
+
+            // Retrieve the Event.
+            return $event;
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
+    public function update(EventRequest $request, $conferences, $eid)
+    {
+        try {
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404);
             }
@@ -86,35 +109,29 @@ class EventController extends Controller
             }
 
             //Check if event manager belongs to this event
-            $userId = $request->header('ID');
-            if (!$event->managers()->where('user_id', $userId)->get() ||
-                !$conf->managers()->where('user_id',$userId)->get() ||
-                (\Sentinel::findById($userId)->roles()->first()->name !='System Administrator') ||
-                !User::find($userId)->hasAccess(['event.update'])) {
-                return response()->error("403" , "Permission Denied");
-            }
-
-            if(($request->status == 'approved' || $request->status == 'denied') &&
-               (User::find($userId)->hasAccess(['event.status']) &&
-               ((Sentinel::findById($userId)->roles()->first()->name == 'System Administrator') ||
-                $conf->managers()->where('user_id',$userId)->get()))){
-
-                $conference->update($request->all());
-                //Add Activity to log
-                $this->addActivity($request->header('ID'),$request->status, $id, 'conference');
-                //Send Status update Email
-                $this->sendCreationEmail('event', $event->id, $request->status);
-
-            }elseif(($request->status != 'approved' && $request->status != 'denied') ){
-            // Update the Conference.
-            $conference->fill($request->all())->save();
-
-            //Add Activity to log
-             $this->addActivity($request->header('ID'),'update', $id, 'conference');
-            }else{
+            if (!$this->isEventManager($request, $eid)) {
                 return response()->error(403);
             }
 
+            // if(($request->status == 'approved' || $request->status == 'denied')) {
+
+            //     $event->update($request->all());
+            //     //Add Activity to log
+            //     $this->addActivity($request->header('ID'),$request->status, $id, 'event');
+            //     //Send Status update Email
+            //     $this->sendCreationEmail('event', $event->id, $request->status);
+
+            // }elseif(($request->status != 'approved' && $request->status != 'denied') ){
+            // // Update the Conference.
+            // $event->fill($request->all())->save();
+
+            // //Add Activity to log
+            //  $this->addActivity($request->header('ID'),'update', $id, 'event');
+            // }else{
+            //     return response()->error(403);
+            // }
+
+            $event->fill($request->all())->save();
 
             return response()->success();
         } catch (Exception $e) {
