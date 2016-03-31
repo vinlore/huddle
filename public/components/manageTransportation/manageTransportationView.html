@@ -1,11 +1,11 @@
 <div id="transportation">
 	<div class="container">
 		<div ng-if="conferenceId != null">
-         <h1>Transportation for Conference {{conferenceId}}</h1>
-      </div>
-      <div ng-if="eventId != null">
-         <h1>Transportation for Event {{eventId}}</h1>
-      </div>
+         	<h1>Transportation for {{conference.name}}</h1>
+      	</div>
+      	<div ng-if="eventId != null">
+         	<h1>Transportation for {{event.name}}</h1>
+      	</div>
 	</div>
 
 	<div ng-repeat="d in data" ng-init="parent = $index">
@@ -13,8 +13,8 @@
 	      	<div class="panel-body">
 
 				<div uib-accordion class="container" id="vehicles" close-others="false">
-					<div ng-if="$index == 0"><h3>Arrivals</h3></div>
-					<div ng-if="$index == 1"><h3>Departures</h3></div>
+					<div ng-if="parent == 0"><h3>Arrivals</h3></div>
+					<div ng-if="parent == 1"><h3>Departures</h3></div>
 					<uib-accordion-group ng-repeat="v in d">
 						<uib-accordion-heading is-open="isCollapsed">
 							<div class="row">
@@ -31,14 +31,27 @@
 									<pre>{{v.capacity}}</pre>
 								</div>
 								<div class="col-md-5">
-									<div class="row pull-right margin-right-25 margin-top-25">
-										<button class="btn btn-danger" ng-click="del(v, parent, $index, $event)">
-	                           				<span class="glyphicon glyphicon-trash"></span>
-	                     				</button>
-	                     				<button class="btn btn-sm btn-info" ng-click="export()">
-	                  						<span class="glyphicon glyphicon-download"></span>
-	                  							Export
-	            						</button>
+									<div ng-if="conferenceId != null">
+										<div class="row pull-right margin-right-25 margin-top-25">
+											<button class="btn btn-danger" ng-click="del(v, parent, $index, $event)">
+		                           				<span class="glyphicon glyphicon-trash"></span>
+		                     				</button>
+	                     					<button button class="btn btn-sm btn-info" ng-csv="v.attendees" csv-header="['Name']" filename="Conference-{{conference.name}}-Vehicle-{{v.name}}-Capacity-{{v.capacity}}.csv">
+          										<span class="glyphicon glyphicon-download"></span>
+          										Export
+        									</button>
+      									</div>
+      								</div>
+      								<div ng-if="eventId != null">
+      									<div class="row pull-right margin-right-25 margin-top-25">
+											<button class="btn btn-danger" ng-click="del(v, parent, $index, $event)">
+		                           				<span class="glyphicon glyphicon-trash"></span>
+		                     				</button>
+	                     					<button button class="btn btn-sm btn-info" ng-csv="v.attendees" csv-header="['Name']" filename="Event-{{event.name}}-Vehicle-{{v.name}}-Capacity-{{v.capacity}}.csv">
+          										<span class="glyphicon glyphicon-download"></span>
+          										Export
+        									</button>
+      									</div>
 			              			</div>
 								</div>
 							</div>
