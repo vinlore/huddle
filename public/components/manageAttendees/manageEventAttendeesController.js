@@ -83,9 +83,9 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 
 	//////// Button Functions ////////
 	
-    var attend = function(id) {
+	var attend = function(id) {
 
-	    Events.attendees().update( {eid: $scope.eventId, pid: attendee.id}, {status: 'approved'})
+	    Events.attendees().update( {eid: $scope.eventId, pid: id}, {status: 'approved'})
 	    .$promise.then( function( response ) {
 	      if ( response.status == 200 ) {
 	        console.log( 'Changes saved to profile_attends_events (approve)' );
