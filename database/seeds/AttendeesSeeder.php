@@ -31,10 +31,10 @@ class AttendeesSeeder extends Seeder
             'country'           => $profile->country,
             'birthdate'         => $profile->birthdate,
             'gender'            => $profile->gender,
-            'accommodation_req' => false,
+            'accommodation_req' => true,
             'arrv_ride_req'     => false,
             'dept_ride_req'     => false,
-            'status'            => 'approved',
+            'status'            => 'pending',
         ];
         $profile->conferences()->attach($conference->id, $attendee);
 
@@ -49,10 +49,10 @@ class AttendeesSeeder extends Seeder
             'country'           => $profile->country,
             'birthdate'         => $profile->birthdate,
             'gender'            => $profile->gender,
-            'accommodation_req' => false,
+            'accommodation_req' => true,
             'arrv_ride_req'     => false,
             'dept_ride_req'     => false,
-            'status'            => 'approved',
+            'status'            => 'pending',
         ];
         $profile->conferences()->attach($conference->id, $attendee);
 
@@ -67,10 +67,10 @@ class AttendeesSeeder extends Seeder
             'country'           => $profile->country,
             'birthdate'         => $profile->birthdate,
             'gender'            => $profile->gender,
-            'accommodation_req' => false,
+            'accommodation_req' => true,
             'arrv_ride_req'     => false,
             'dept_ride_req'     => false,
-            'status'            => 'approved',
+            'status'            => 'pending',
         ];
         $profile->conferences()->attach($conference->id, $attendee);
 
@@ -85,10 +85,10 @@ class AttendeesSeeder extends Seeder
             'country'           => $profile->country,
             'birthdate'         => $profile->birthdate,
             'gender'            => $profile->gender,
-            'accommodation_req' => false,
+            'accommodation_req' => true,
             'arrv_ride_req'     => false,
             'dept_ride_req'     => false,
-            'status'            => 'approved',
+            'status'            => 'pending',
         ];
         $profile->conferences()->attach($conference->id, $attendee);
 
@@ -103,10 +103,10 @@ class AttendeesSeeder extends Seeder
             'country'           => $profile->country,
             'birthdate'         => $profile->birthdate,
             'gender'            => $profile->gender,
-            'accommodation_req' => false,
+            'accommodation_req' => true,
             'arrv_ride_req'     => false,
             'dept_ride_req'     => false,
-            'status'            => 'approved',
+            'status'            => 'pending',
         ];
         $profile->conferences()->attach($conference->id, $attendee);
 
@@ -121,10 +121,10 @@ class AttendeesSeeder extends Seeder
             'country'           => $profile->country,
             'birthdate'         => $profile->birthdate,
             'gender'            => $profile->gender,
-            'accommodation_req' => false,
+            'accommodation_req' => true,
             'arrv_ride_req'     => false,
             'dept_ride_req'     => false,
-            'status'            => 'approved',
+            'status'            => 'pending',
         ];
         $profile->conferences()->attach($conference->id, $attendee);
 
@@ -139,10 +139,10 @@ class AttendeesSeeder extends Seeder
             'country'           => $profile->country,
             'birthdate'         => $profile->birthdate,
             'gender'            => $profile->gender,
-            'accommodation_req' => false,
+            'accommodation_req' => true,
             'arrv_ride_req'     => false,
             'dept_ride_req'     => false,
-            'status'            => 'approved',
+            'status'            => 'pending',
         ];
         $profile->conferences()->attach($conference->id, $attendee);
     }

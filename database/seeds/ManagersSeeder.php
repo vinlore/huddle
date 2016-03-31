@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
+use App\Models\Conference;
+use App\Models\User;
+
 class ManagersSeeder extends Seeder
 {
     /**
@@ -11,6 +14,8 @@ class ManagersSeeder extends Seeder
      */
     public function run()
     {
-        //
+        foreach (Conference::all() as $conference) {
+            $conference->managers()->attach(1);
+        }
     }
 }
