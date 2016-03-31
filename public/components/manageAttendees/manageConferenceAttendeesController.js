@@ -4,53 +4,66 @@ angular.module('manageConferenceAttendeesCtrl', [])
     // Conference ID
     $scope.conferenceId = $stateParams.conferenceId;
 
-    //////// Load Data ////////
+    $scope.radioModel = '';
 
-    $scope.tableParams = new ngTableParams({
+    console.log($scope.radioModel);
 
-    }, {
-        counts: [],
-        getData: function($defer, params) {
+    //////// Load Data //////// 
 
-            // organize filter as $filter understand it (graph object)
-            var filters = {};
-            angular.forEach(params.filter(), function(val, key) {
-                var filter = filters;
-                var parts = key.split('.');
-                for (var i = 0; i < parts.length; i++) {
-                    if (i != parts.length - 1) {
-                        filter[parts[i]] = {};
-                        filter = filter[parts[i]];
-                    } else {
-                        filter[parts[i]] = val;
+    $scope.load = function() {
+        $scope.tableParams = new ngTableParams(
+        {
+            filter: {
+                'pivot.status' : $scope.radioModel
+            }
+        }, {
+            counts: [],
+            getData: function($defer, params) {
+
+                // organize filter as $filter understand it (graph object)
+                var filters = {};
+                angular.forEach(params.filter(), function(val, key) {
+                    var filter = filters;
+                    var parts = key.split('.');
+                    for (var i = 0; i < parts.length; i++) {
+                        if (i != parts.length - 1) {
+                            filter[parts[i]] = {};
+                            filter = filter[parts[i]];
+                        } else {
+                            filter[parts[i]] = val;
+                        }
                     }
-                }
-            })
-
-            Conferences.attendees().query({ cid: $scope.conferenceId })
-                .$promise.then(function(response) {
-                    if (response) {
-                        $scope.data = response;
-
-                        // filter with $filter (don't forget to inject it)
-                        var filteredDatas =
-                            params.filter() ?
-                            $filter('filter')($scope.data, filters) :
-                            $scope.data;
-
-                        // ordering
-                        var sorting = params.sorting();
-                        var key = sorting ? Object.keys(sorting)[0] : null;
-                        var orderedDatas = sorting ? $filter('orderBy')(filteredDatas, key, sorting[key] == 'desc') : filteredDatas;
-
-                        $defer.resolve(orderedDatas);
-                    } else {}
-                }, function() {
-                    popup.connection();
                 })
 
-        }
-    });
+                Conferences.attendees().query({ cid: $scope.conferenceId })
+                    .$promise.then(function(response) {
+                        if (response) {
+                            $scope.data = response;
+
+                            console.log(JSON.stringify(params.filter()));
+
+                            // filter with $filter (don't forget to inject it)
+                            var filteredDatas =
+                                params.filter() ?
+                                $filter('filter')($scope.data, filters) :
+                                $scope.data;
+
+                            // ordering
+                            var sorting = params.sorting();
+                            var key = sorting ? Object.keys(sorting)[0] : null;
+                            var orderedDatas = sorting ? $filter('orderBy')(filteredDatas, key, sorting[key] == 'desc') : filteredDatas;
+
+                            $defer.resolve(orderedDatas);
+                        } else {}
+                    }, function() {
+                        popup.connection();
+                    })
+
+            }
+        });
+    }
+
+    $scope.load();
 
     //////// Button Functions ////////
 

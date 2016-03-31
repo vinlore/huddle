@@ -84,7 +84,7 @@ angular.module('manageConferenceTransportationCtrl',[])
     $scope.loadVehicles();
   }
 
-  $scope.del = function(vehicle, parent, index) {
+  $scope.del = function(vehicle, parent, index, event) {
 
     if (event) {
       event.preventDefault();
