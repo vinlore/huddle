@@ -24,7 +24,7 @@ class ConferenceAttendeeRequest extends Request
                     return $this->getUser()->hasAccess(['conference_attendee.update']);
                     break;
                 case 'DELETE':
-                    return $this->getUser()->hasAccess(['conference_attendee.destroy']);
+                    return true;
                     break;
                 default:
                     break;
