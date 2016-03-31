@@ -116,7 +116,7 @@ class UsersAndProfilesSeeder extends Seeder
 
         $user = [
             'username' => 'gabby',
-            'email'    => 'gabby@huddle.com',
+            'email'    => 'gabrielahernandez@hotmail.ca',
             'password' => 'password',
         ];
         $user = Sentinel::registerAndActivate($user);
