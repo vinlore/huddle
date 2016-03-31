@@ -22,9 +22,10 @@ class UsersAndProfilesSeeder extends Seeder
         // ---------------------------------------------------------------------
 
         $user = [
-            'username' => 'admin',
-            'email'    => 'admin@huddle.com',
-            'password' => 'password',
+            'username'      => 'admin',
+            'email'         => 'gabrielahernandez@hotmail.ca',
+            'password'      => 'password',
+            'receive_email' => 1,
         ];
         $user = Sentinel::registerAndActivate($user);
 
@@ -38,11 +39,11 @@ class UsersAndProfilesSeeder extends Seeder
             'is_owner'   => 1,
             'email'      => $user->email,
             'phone'      => '6040000111',
-            'first_name' => 'Jane',
-            'last_name'  => 'Doe',
+            'first_name' => 'Gabriela',
+            'last_name'  => 'Hernandez',
             'city'       => 'Vancouver',
             'country'    => 'Canada',
-            'birthdate'  => '2016-03-27',
+            'birthdate'  => '1993-02-16',
             'gender'     => 'female',
         ];
         $profile = new Profile($profile);
