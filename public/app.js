@@ -187,9 +187,9 @@ angular.module('cms', [
         controller: 'createEventController',
         resolve: {
             loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermission) {
+            permissionsRequired: function ($q, $location, $stateParams, checkPermission, $rootScope) {
                 var deferred = $q.defer();
-                if ( checkPermission('event.store', 'conference', $stateParams.conferenceId) ) {
+                if ( $rootScope.user.permissions['event.store'] ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');

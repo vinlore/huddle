@@ -118,12 +118,12 @@ angular.module('adminCtrl', [])
         $state.go('event-managers', {eventId: eid});
     }
 
-    $scope.goCreateEvent = function (eid, event) {
+    $scope.goCreateEvent = function (cid, event) {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
-        $state.go('create-event', {eventId: eid});
+        $state.go('create-event', {conferenceId: cid});
     }
 
     $scope.goAccommodations = function(id, event){
