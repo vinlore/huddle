@@ -222,9 +222,9 @@ angular.module('cms', [
         controller: 'activityLogController',
         resolve: {
             loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermission) {
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
                 var deferred = $q.defer();
-                if ( checkPermission('user.view', '', '') ) {
+                if ( checkPermissions('user', '', '') ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
