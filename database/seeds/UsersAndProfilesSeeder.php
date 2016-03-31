@@ -301,7 +301,7 @@ class UsersAndProfilesSeeder extends Seeder
         $profile->save();
 
         $faker = Faker::create();
-        $user = Sentinel::findById(1);
+        $user = Sentinel::findById(6);
         $conference = Conference::find(1);
         for ($i = 0; $i < 100; ++$i) {
             $profile = [
