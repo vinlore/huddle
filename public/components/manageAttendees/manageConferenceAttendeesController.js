@@ -11,12 +11,11 @@ angular.module('manageConferenceAttendeesCtrl', [])
     //////// Load Data //////// 
 
     $scope.load = function() {
-        $scope.tableParams = new ngTableParams({
-
+        $scope.tableParams = new ngTableParams(
+        {
             filter: {
                 'pivot.status' : $scope.radioModel
             }
-
         }, {
             counts: [],
             getData: function($defer, params) {
