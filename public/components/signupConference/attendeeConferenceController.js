@@ -15,7 +15,7 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
     conference_id: $stateParams.conference_id,
     name: $stateParams.conference_name
   }
-  $scope.user = {}
+  //$scope.user = {}
 
   $scope.changeCountry = function(country) {
     $scope.citiesOnly.componentRestrictions = { country: country.code };
