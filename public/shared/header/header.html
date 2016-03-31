@@ -21,7 +21,7 @@
                 <li ng-if="auth && check('admin', '', '')"><a href="/admin">Admin</a></li>
                 <li ng-if="auth && check('accounts', '', '')"><a href="/accounts">Manage Accounts</a></li>
                 <li ng-if="auth && check('publisher', '', '')"><a href="/requests">Publisher</a></li>
-                <li ng-if="auth"><a href="/logs">Activity Logs</a></li>
+                <li ng-if="auth && check('user', '', '')"><a href="/logs">Activity Logs</a></li>
                 <li><a href="/profile" ng-if="auth">{{user.name | uppercase}}</a></li>
                 <li><a ng-if="auth" href="" ng-click="logout()" id="signout-btn">Sign Out <i class="glyphicon glyphicon-off"></i></a></li>
             </ul>

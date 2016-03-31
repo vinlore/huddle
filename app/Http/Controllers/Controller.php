@@ -137,7 +137,7 @@ class Controller extends BaseController
             $managers = $conference->managers()->get();
         }else{
             $event = Event::find($id)->first();
-            $name = $conference->name;
+            $name = $event->name;
             $managers = $event->managers()->get();
         }
 

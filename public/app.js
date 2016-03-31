@@ -221,7 +221,16 @@ angular.module('cms', [
         templateUrl: 'components/activityLog/activityLogView.html',
         controller: 'activityLogController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('user', '', '') ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 

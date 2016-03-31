@@ -62,6 +62,8 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
                         var date = response[i].birthdate.split('-');
                         response[i]['profile_id'] = response[i]['id'];
                         delete response[i]['id'];
+                        response[i].country = null;
+                        response[i].city = null;
                         delete response[i]['user_id'];
                         response[i].birthdate = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
                         if (response[i]['is_owner']) {
@@ -150,7 +152,9 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
             family[i].contact_first_name = $scope.emergencyContact.contact_first_name,
             family[i].contact_last_name = $scope.emergencyContact.contact_last_name,
             family[i].contact_phone = $scope.emergencyContact.contact_phone,
-            family[i].contact_email = $scope.emergencyContact.contact_email
+            family[i].contact_email = $scope.emergencyContact.contact_email,
+            family[i].country = $scope.user.country;
+            family[i].city = $scope.user.city;
             result.push(family[i]);
         }
         return result;
@@ -173,6 +177,22 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
     $scope.submitRequest = function() {
 
         if ($scope.profileForm.$valid) {
+            var city, country = null;
+            if ( $scope.user.city ) {
+                city = $scope.user.city;
+                if ( $scope.user.city.formatted_address ) {
+                    city = $scope.user.city.formatted_address;
+                }
+            }
+
+            if ( $scope.user.country ) {
+                country = $scope.user.country;
+                if ( $scope.user.country.name ) {
+                    country = $scope.user.country.name;
+                }
+            }
+            $scope.user.country = country;
+            $scope.user.city = city;
             var profile = $scope.user;
             profile.birthdate = $filter('date')(profile.birthdate, 'yyyy-MM-dd');
             profile.arrv_date = $filter('date')(profile.arrv_date, 'yyyy-MM-dd');
