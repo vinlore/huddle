@@ -29,20 +29,6 @@ angular.module ( 'activityCtrl', [] )
       }
       console.log($scope.logs.length);
   }
-
-  // $scope.loadProfile = function (_id) {
-  //   Users.get({id: _id})
-  //       .$promise.then (function (response ){
-  //         if (response){
-  //           console.log(response);
-  //         } else {
-  //
-  //         }
-  //       }, function () {
-  //         popup.connection();
-  //       })
-  // }
-
   $scope.loadActivityLog = function () {
       Activity.query()
           .$promise.then( function( response ) {

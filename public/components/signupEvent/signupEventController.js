@@ -9,8 +9,8 @@ angular.module('signupEventCtrl',[])
   }
 
   $scope.attendee = {
-    arrv_ride_req: true,
-    dept_ride_req: true,
+    arrv_ride_req: false,
+    dept_ride_req: false,
     status: 'pending'
   }
 

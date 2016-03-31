@@ -7,17 +7,14 @@ angular.module('attendeeEventCtrl',[])
       name: $stateParams.event_name
   }
   console.log($scope.event.event_id);
-
+  $scope.attendee = {};
   $scope.loadAttendeeProfile = function() {
     Events.attendees().get({eid: $stateParams.event_id, pid: $stateParams.profile_id})
     .$promise.then(function(response){
       if(response){
         var profile = response.pivot;
-        $scope.attendee = {
-          arrv_ride_req: profile.arrv_ride_req,
-          dept_ride_req: profile.dept_ride_req
-        }
-        console.log(response);
+        $scope.attendee = profile;
+        console.log(profile);
       } else {
         popup.error( 'Error', response.message );
       }
