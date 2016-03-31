@@ -19,7 +19,7 @@ class InitialMigration extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('user_id')->unsigned()->index('user_id');
-            $table->boolean('is_owner');
+            $table->boolean('is_owner')->default(0);
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('first_name');
