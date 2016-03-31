@@ -12,6 +12,8 @@ use App\Http\Requests\EventAttendeeRequest;
 
 use App\Models\Event as Event;
 use App\Models\Profile as Profile;
+use App\Models\User;
+
 
 
 class EventAttendeeController extends Controller
@@ -33,16 +35,26 @@ class EventAttendeeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(EventAttendeeRequest $request, $events){
-        try{
-            //Saving to profile_attends_event Table
-            $profile =  Profile::find($request->profile_id);
-            $attendees = Event::find($events)
-                         ->attendees()
-                         ->attach($profile, $request->all());
+    public function store(EventAttendeeRequest $request, $eid){
+        try {
+            // Check if the Event exists.
+            $event = Event::find($eid);
+            if (!$event) {
+                return response()->error(404);
+            }
+
+            $pid = $request->profile_id;
+
+            // Check if the Profile exists.
+            $profile = Profile::find($pid);
+            if (!$profile) {
+                return response()->error(404);
+            }
+
+            $profile->events()->attach($eid, $request->except('profile_id'));
 
             //Add Activity to log
-            $this->addActivity($request->header('ID'),'request', $events, 'event application', $request->profile_id);
+            $this->addActivity($request->header('ID'),'request', $eid, 'event application', $request->profile_id);
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -82,7 +94,7 @@ class EventAttendeeController extends Controller
                 return response()->error(404);
             }
 
-            $profile = Profile::find($profile_id);
+            $profile = Profile::find($profiles_id);
             if (!$profile) {
                 return response()->error(400);
             }
