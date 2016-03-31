@@ -54,6 +54,9 @@ class ResponseServiceProvider extends ServiceProvider
                 case 409:
                     $message = ($message == NULL) ? 'Conflict' : $message;
                     break;
+                case 422:
+                    $message = ($message == NULL) ? 'Unprocessable Entity' : $message;
+                    break;
                 case 500:
                     $message = ($message == NULL) ? 'Internal Server Error' : $message;
                     break;

@@ -1,10 +1,12 @@
 angular.module( 'manageEventAttendeesCtrl', [] )
-.controller( 'manageEventAttendeesController', function ($scope, ngTableParams, $stateParams, $filter, Events, popup) {
+.controller( 'manageEventAttendeesController', function ($scope, ngTableParams, $stateParams, $filter, Events, popup, $uibModal, Passengers) {
 
 	// Event ID
 	$scope.eventId = $stateParams.eventId;
 
 	$scope.radioModel = '';
+
+	$scope.csvData = [];
 
 	//////// Load Data ////////
 
@@ -52,6 +54,7 @@ angular.module( 'manageEventAttendeesCtrl', [] )
                         var orderedDatas = sorting ? $filter('orderBy')(filteredDatas, key, sorting[key] == 'desc') : filteredDatas;
 
                         $defer.resolve(orderedDatas);
+                        $scope.setCSVData(orderedDatas);
 			        } else {
 			          popup.error( 'Error', response.message );
 			        }
@@ -63,11 +66,24 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 		});
 	}
 
+	$scope.loadEventData = function() {
+    Events.fetch().get({cid: $stateParams.conferenceId, eid: $stateParams.eventId})
+    .$promise.then( function( response ) {
+      if ( response ) {
+        $scope.event = response;
+      } else {
+        popup.error( 'Error', response.message );
+      }}, function () {
+        popup.connection();
+      })
+  	};
+
 	$scope.load();
+	$scope.loadEventData();
 
 	//////// Button Functions ////////
-
-  	$scope.approve = function(attendee) {
+	
+    var attend = function(id) {
 
 	    Events.attendees().update( {eid: $scope.eventId, pid: attendee.id}, {status: 'approved'})
 	    .$promise.then( function( response ) {
@@ -83,6 +99,57 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 
 	    $scope.tableParams.reload();
 	}
+
+	$scope.approve = function(attendee) {
+        if (attendee.pivot.arrv_ride_req || attendee.pivot.dept_ride_req) {
+            var modalInstance = $uibModal.open({
+                animation: false,
+                templateUrl: 'components/manageAttendees/eventAttendeeModal.html',
+                controller: 'eventAttendeeModalController',
+                size: 'lg',
+                resolve: {
+                    eventId: function() {
+                        return $stateParams.eventId;
+                    },
+                    preferences: function() {
+                        return {
+                            arrv_ride_req: attendee.pivot.arrv_ride_req,
+                            dept_ride_req: attendee.pivot.dept_ride_req
+                        }
+                    }
+                }
+            })
+
+            modalInstance.result.then(function(result) {
+                if (result) {
+                    console.log(result);
+                    // TODO store to profile rides and profile stays table
+                    if (result.arrivalVehicle) {
+                        Passengers.save({ vid: result.arrivalVehicle }, { profile_id: attendee.id })
+                            .$promise.then(function(response) {
+                                if (response.status != 200) {
+                                    popup.error('Error', response.message);
+                                    return false;
+                                }
+                            })
+                    }
+                    if (result.departureVehicle) {
+                        Passengers.save({ vid: result.departureVehicle }, { profile_id: attendee.id })
+                            .$promise.then(function(response) {
+                                if (response.status != 200) {
+                                    popup.error('Error', response.message);
+                                    return false;
+                                }
+                            })
+                    }
+                    attend(attendee.id);
+                }
+            })
+        } else {
+            attend(attendee.id);
+        }
+        $scope.tableParams.reload();
+    }
 
   	$scope.deny = function(id) {
 
@@ -100,5 +167,26 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 
 	    $scope.tableParams.reload();
 	 }
+
+	 $scope.setCSVData = function(data) {
+        //console.log(JSON.stringify(data));
+        $scope.csvData = [];
+        var temp = {};
+        angular.forEach(data, function(item) {
+          angular.forEach(item, function(value, key) {
+            if (key == "pivot") {
+                temp['status'] = value.status;
+            }
+            else if ( key == "first_name" || key == "middle_name" || key == "last_name" ||
+                key == "birthdate" || key == "gender" || key == "email" || key == "phone" ||
+                key == "phone2") {
+                temp[key] = value;
+            }
+          });
+          // console.log(JSON.stringify(temp));
+          $scope.csvData.push(temp);
+          temp = {}
+    });
+  }
 
 });

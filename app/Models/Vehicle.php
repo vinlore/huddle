@@ -32,4 +32,14 @@ class Vehicle extends Model
     {
         return $this->belongsToMany('App\Models\Profile', 'profile_rides_vehicles')->withTimestamps();
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($vehicle) {
+            $vehicle->conferences()->detach();
+            $vehicle->events()->detach();
+            $vehicle->passengers()->detach();
+        });
+    }
 }

@@ -100,7 +100,6 @@ class ConferenceAttendeeController extends Controller
         }
     }
 
-
     /**
      * Update a Conference Attendee.
      *
@@ -109,132 +108,69 @@ class ConferenceAttendeeController extends Controller
     public function update(ConferenceAttendeeRequest $request, $cid, $pid)
     {
         try {
+
             // Check if the Conference exists.
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
+            // Check if the Profile exists.
             $profile = Profile::find($pid);
             if (!$profile) {
-                return response()->error(404);
+                return response()->error(404, 'Profile Not Found');
             }
 
-            switch ($request->status) {
-                case 'approved':
-                    // Check if the User is managing the Conference.
-                    if (!$this->isConferenceManager($request, $cid)) {
-                        return response()->error(403);
-                    }
+            $userId = $request->header('ID');
+            $profileOwnerId = $profile->user()->first()->id;
 
-                    //Check if previously pending or denied
-                    $profile_status = \DB::table('profile_attends_conferences')
-                                    ->where('profile_id',$pid)
-                                    ->where('conference_id',$cid)
-                                    ->pluck('status');
+            if ($userId != $profileOwnerId) {
+                if (!$this->isConferenceManager($request, $cid)) {
+                    return response()->error(403);
+                }
+            }
 
-                        if (!(($profile_status[0] == 'pending') || ($profile_status[0] == 'approved')))
-                        {
+            if ($request->exists('status')) {
+
+                $oldStatus = $conference->attendees()->where('profile_id', $pid)->first()->pivot->status;
+                $newStatus = $request->status;
+
+                switch ($newStatus) {
+                    case 'approved':
+                        if ($oldStatus != 'pending') {
                             return response()->error(403);
                         }
-
-
-                    //Updating the pivot
-                    $conference->attendees()->updateExistingPivot($pid, $request->all());
-
-                    //Update attendee count for Conference
-                    $count = Conference::find($cid)
-                                        ->attendees()
-                                        ->where('status','approved')
-                                        ->count();
-
-                    Conference::where('id',$cid)->update(['attendee_count' => $count]);
-
-
-                    if ($request->vehicle_id != NULL) {
-                    // Link up profile with the vehicle
-                    $profile = Profile::find($request->profile_id);
-                    Vehicle::find($request->vehicle_id)
-                            ->passengers()
-                            ->attach($profile);
-
-                    //UPDATE PASSENGER COUNT
-                    $passenger_count = Vehicle::find($request->vehicle_id)->passengers()->count();
-                    Vehicle::where('id',$request->vehicle_id)->update(['passenger_count' => $passenger_count]);
-                    }
-
-                    if ($request->room_id != NULL) {
-                    //Link up the profile with the room
-                    $profile = Profile::find($request->profile_id);
-                    Room::find($request->room_id)
-                            ->guests()
-                            ->attach($profile);
-
-                    //Update Room Count
-                    $room_count = Room::find($request->room_id)->guests()->count();
-                    Room::where('id',$request->room_id)->update(['guest_count' => $room_count]);
-                    }
-                    break;
-
-                //Change status to denied
-                case 'denied':
-                    // Check if the User is managing the Conference.
-                    if (!$this->isConferenceManager($request, $cid)) {
-                        return response()->error(403);
-                    }
-
-                    //Check if previously pending
-                    $profile_status = \DB::table('profile_attends_conferences')
-                                    ->where('profile_id',$pid)
-                                    ->where('conference_id',$cid)
-                                    ->pluck('status');
-
-                    if (!($profile_status[0] == 'pending'))
-                    {
-                        return response()->error(403);
-                    }
-
-                    //Updating the pivot
-                    $conference->attendees()->updateExistingPivot($pid, $request->all());
-                    break;
-
-                case 'pending':
-                    //Check User Owns the Profile Or it's manager, or it's admin
-                    $userId = $request->header('ID');
-                    $current_event = User::find($userId)->profiles()->where('id',$pid)->first();
-                    if (!$current_event ||
-                        !$conference->managers()->where('user_id', $userId)->get() ||
-                        Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
-                        return response()->error(403);
-                    }
-
-                    //Check if previously approved
-                    $profile_status = \DB::table('profile_attends_conferences')
-                                    ->where('profile_id',$pid)
-                                    ->where('conference_id',$cid)
-                                    ->pluck('status');
-
-                        if ($profile_status[0] == 'approved')
-                        {
+                        $conference->increment('attendee_count');
+                        break;
+                    case 'denied':
+                        if ($oldStatus != 'pending') {
                             return response()->error(403);
                         }
+                        // $conference->decrement('attendee_count');
+                        break;
+                    case 'pending':
+                        if ($oldStatus != 'denied') {
+                            return response()->error(403);
+                        }
+                        break;
+                    default:
+                        return response()->error(422);
+                        break;
+                }
+            }
+            $profile->conferences()->updateExistingPivot($cid, $request->all());
+            $this->addActivity($request->header('ID'),'update', $cid, 'conference application', $pid);
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
 
-                    //Updating the pivot
-                    $conference->attendees()->updateExistingPivot($pid, $request->all());
-                    break;
+    public function destroy(ConferenceAttendeeRequest $request, $cid, $pid)
+    {
+        try {
 
-                case 'cancelled':
-                  /*
-                   *Detatch all related vehicles for this profile for this conference
-                   */
-                   //Check if conference manager belongs to this conference OR admin
-                   $userId = $request->header('ID');
-                   $current_event = User::find($userId)->profiles()->where('id',$pid)->first();
-                   if (!$current_event) {
-                       return response()->error(403);
-                   }
-
-                   //Find all the Vehicle_id associated with this profile
+            //Find all the Vehicle_id associated with this profile
                    $vehicle_id_array = Profile::find($pid)->vehicles()->get(['id']);
                    //Loop through array of vehicle_id
                    foreach($vehicle_id_array as $vid)
@@ -314,25 +250,7 @@ class ConferenceAttendeeController extends Controller
                         $count = $current_event->where('status','approved')->count();
                         Event::where('id',$eid_id)->update(['attendee_count' => $count]);
                    }
-                   /*
-                   *    Remove the associated conference
-                   */
-                    Profile::find($pid)->conferences()->detach($cid);
-                    break;
-                default:
-                    return response()->error(404);
-            }
 
-            return response()->success();
-         } catch (Exception $e) {
-            return response()->error($e);
-        }
-    }
-
-
-    public function destroy(ConferenceAttendeeRequest $request, $cid, $pid)
-    {
-        try {
             Profile::find($pid)->conferences()->detach($cid);
 
             //Add Activity to log

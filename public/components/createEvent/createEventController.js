@@ -1,6 +1,6 @@
 angular.module( 'createEventCtrl', [])
 .controller( 'createEventController', function( $scope, Countries, Events, $stateParams, $filter, $location, popup, $state ) {
-
+    $scope.header = "Create ";
     $scope.event = {
         conference_id: $stateParams.conferenceId,
         name: null,
@@ -19,6 +19,7 @@ angular.module( 'createEventCtrl', [])
         capacity: null,
         status: null,
     }
+    $scope.creation = true;
 
     $scope.citiesOnly = {
         types: ['(cities)']
@@ -104,7 +105,7 @@ angular.module( 'createEventCtrl', [])
           address: address,
           city: city,
           country: country,
-          age_limit: String($scope.event.age_limit),
+          age_limit: $scope.event.age_limit,
           gender_limit: $scope.event.gender_limit,
           attendee_count: 0,
           capacity: $scope.event.capacity,

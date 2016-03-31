@@ -27,4 +27,12 @@ class Room extends Model
     {
         return $this->belongsToMany('App\Models\Profile', 'profile_stays_in_rooms')->withTimestamps();
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($room) {
+            $room->guests()->detach();
+        });
+    }
 }

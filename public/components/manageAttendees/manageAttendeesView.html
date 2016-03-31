@@ -1,10 +1,10 @@
 <div id="attendees" class="container has-header">
    <div class="container">
       <div ng-if="conferenceId != null">
-         <h1>Attendees for Conference {{conferenceId}}</h1>
+         <h1>Attendees for {{conference.name}}</h1>
       </div>
       <div ng-if="eventId != null">
-         <h1>Attendees for Event {{eventId}}</h1>
+         <h1>Attendees for {{event.name}}</h1>
       </div>
    </div>
 
@@ -18,80 +18,93 @@
             <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'denied'" ng-change="load()">Denied</label>
          </div>
 
-         <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
+         <div class="table-responsive">
+            <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
 
-            <colgroup>
-               <col width="15%" />
-               <col width="10%" />
-               <col width="10%" />
-               <col width="10%" />
-               <col width="5%" />
-               <col width="10%" />
-               <col width="10%" />
-               <col width="10%" />
-               <col width="10%" />
-               <col width="25%" />
-            </colgroup>
+               <colgroup>
+                  <col width="15%" />
+                  <col width="10%" />
+                  <col width="10%" />
+                  <col width="10%" />
+                  <col width="5%" />
+                  <col width="10%" />
+                  <col width="10%" />
+                  <col width="10%" />
+                  <col width="10%" />
+                  <col width="25%" />
+               </colgroup>
 
-<!--             <tr class="ng-table-group" ng-repeat-start="group in $data">
-               <td colspan="10">
-                  <a href="" ng-click="group.$hideRows = !group.$hideRows">
-                     <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
-                     <strong>{{ group.user_id }}</strong>
-                  </a>
-               </td>
-            </tr>
+   <!--             <tr class="ng-table-group" ng-repeat-start="group in $data">
+                  <td colspan="10">
+                     <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                        <strong>{{ group.user_id }}</strong>
+                     </a>
+                  </td>
+               </tr>
 
 
-             <tr ng-hide="group.$hideRows" ng-repeat="a in group" ng-repeat-end> -->
-            <tr ng-repeat="a in $data">
-               <td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
-                  {{a.first_name}}
-               </td>
-               <td title="'Middle Name'" filter="{ 'middle_name': 'text'}" sortable="'middle_name'">
-                  {{a.middle_name}}
-               </td>
-               <td title="'Last Name'" filter="{ 'last_name': 'text'}" sortable="'last_name'">
-                  {{a.last_name}}
-               </td>
-               <td title="'Birthdate'" filter="{ 'birthdate': 'text'}" sortable="'birthdate'">
-                  {{a.birthdate}}
-               </td>
-               <td title="'Gender'" filter="{ 'gender': 'text'}" sortable="'gender'">
-                  {{a.gender}}
-               </td>
-               <td title="'Email'" filter="{ 'email': 'text'}" sortable="'email'">
-                  {{a.email}}
-               </td>
-               <td title="'Home Phone'" filter="{ 'phone': 'text'}" sortable="'phone'">
-                  {{a.phone}}
-               </td>
-               <td title="'Mobile Phone'" filter="{ 'phone2': 'text'}" sortable="'phone2'">
-                  {{a.phone2}}
-               </td>
-               <td title="'Status'" filter="{ 'pivot.status': 'text'}" sortable="'pivot.status'">
-                  {{a.pivot.status}}
-               </td>
+                <tr ng-hide="group.$hideRows" ng-repeat="a in group" ng-repeat-end> -->
+               <tr ng-repeat="a in $data">
+                  <td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
+                     {{a.first_name}}
+                  </td>
+                  <td title="'Middle Name'" filter="{ 'middle_name': 'text'}" sortable="'middle_name'">
+                     {{a.middle_name}}
+                  </td>
+                  <td title="'Last Name'" filter="{ 'last_name': 'text'}" sortable="'last_name'">
+                     {{a.last_name}}
+                  </td>
+                  <td title="'Birthdate'" filter="{ 'birthdate': 'text'}" sortable="'birthdate'">
+                     {{a.birthdate}}
+                  </td>
+                  <td title="'Gender'" filter="{ 'gender': 'text'}" sortable="'gender'">
+                     {{a.gender}}
+                  </td>
+                  <td title="'Email'" filter="{ 'email': 'text'}" sortable="'email'">
+                     {{a.email}}
+                  </td>
+                  <td title="'Home Phone'" filter="{ 'phone': 'text'}" sortable="'phone'">
+                     {{a.phone}}
+                  </td>
+                  <td title="'Mobile Phone'" filter="{ 'phone2': 'text'}" sortable="'phone2'">
+                     {{a.phone2}}
+                  </td>
+                  <td title="'Status'" filter="{ 'pivot.status': 'text'}" sortable="'pivot.status'">
+                     {{a.pivot.status}}
+                  </td>
 
-               <td>
-                  <div class="btn-group">
-                     <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a)">
-                           <span class="glyphicon glyphicon-ok"></span>
-                     </button>
-                     <button class="btn btn-sm btn-danger" ng-disabled="a.pivot.status == 'denied' || a.pivot.status == 'approved'" ng-click="deny(a.id)">
-                           <span class="glyphicon glyphicon-remove"></span>
-                     </button>
-                  </div>
-               </td>
-            </tr>
-         </table>
+                  <td>
+                     <div class="btn-group">
+                        <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a)">
+                              <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                        <button class="btn btn-sm btn-danger" ng-disabled="a.pivot.status == 'denied' || a.pivot.status == 'approved'" ng-click="deny(a.id)">
+                              <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         </div>
 
-         <div class="pull-right">
-               <button class="btn btn-info" ng-click="export()">
+         <div ng-if="conferenceId != null">
+            <div class="pull-right">
+               <button button class="btn btn-info" ng-csv="csvData" csv-header="['Email', 'Home Phone', 'First Name', 'Middle Name', 'Last Name', 'Birthdate', 'Gender', 'Status', 'Mobile Phone']" filename="Conference-{{conference.name}}-Attendees.csv">
                   <span class="glyphicon glyphicon-download"></span>
                   Export
-            </button>
+               </button>
+            </div>
          </div>
+         <div ng-if="eventId != null">
+            <div class="pull-right">
+               <button button class="btn btn-info" ng-csv="csvData" csv-header="['Email', 'Home Phone', 'First Name', 'Middle Name', 'Last Name', 'Birthdate', 'Gender', 'Status', 'Mobile Phone']" filename="Event-{{event.name}}-Attendees.csv">
+                  <span class="glyphicon glyphicon-download"></span>
+                  Export
+               </button>
+            </div>
+         </div>
+
       </div>
    </div>
 </div>

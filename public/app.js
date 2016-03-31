@@ -49,7 +49,10 @@ angular.module('cms', [
     'createEventCtrl',
     'attendeeConfCtrl',
     'attendeeEventCtrl',
-    'conferenceAttendeeModalCtrl'
+    'conferenceAttendeeModalCtrl',
+    'eventAttendeeModalCtrl',
+    'draftEventCtrl',
+    'draftConferenceCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
@@ -350,7 +353,7 @@ angular.module('cms', [
     })
 
     .state( 'manage-transportation-event', {
-        url: '/manage-transportation-event-:eventId',
+        url: '/manage-transportation-event-:conferenceId-:eventId',
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
         controller: 'manageEventTransportationController',
         resolve: {
@@ -422,7 +425,7 @@ angular.module('cms', [
     })
 
     .state( 'manage-attendees-event', {
-        url: '/manage-attendees-event-:eventId',
+        url: '/manage-attendees-event-:conferenceId-:eventId',
         templateUrl: 'components/manageAttendees/manageAttendeesView.html',
         controller: 'manageEventAttendeesController',
         resolve: {
@@ -440,7 +443,7 @@ angular.module('cms', [
     })
 
     .state( 'attendee-conference-profile', {
-        url: '/attendee-conference-profile-:conference_name?:conference_id?profile:profile_id',
+        url: '/attendee-conference-profile-:conference_name?:conference_id?:profile_id',
         templateUrl: 'components/signupConference/attendeeSignupConferenceView.html',
         controller: 'attendeeConferenceController',
         resolve: {
@@ -458,7 +461,7 @@ angular.module('cms', [
     })
 
     .state( 'attendee-event-profile', {
-        url: '/attendee-event-profile-:event_name?:event_id?profile:profile_id',
+        url: '/attendee-event-profile-:event_name?:event_id?:profile_id',
         templateUrl: 'components/signupEvent/signupEventView.html',
         controller: 'attendeeEventController',
         resolve: {
@@ -472,6 +475,24 @@ angular.module('cms', [
                 }
                 return deferred.promise;
             }
+        }
+    })
+
+    .state( 'draft-event', {
+        url: '/draft-event-:event_id?:conference_id',
+        templateUrl: 'components/createEvent/createEventView.html',
+        controller: 'draftEventController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'draft-conference', {
+        url: '/draft-conference-:conference_id',
+        templateUrl: 'components/createConference/createConferenceView.html',
+        controller: 'draftConferenceController',
+        resolve: {
+            loginRequired: loginRequired
         }
     })
 
