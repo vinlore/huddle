@@ -207,7 +207,7 @@ class InitialMigration extends Migration
             $table->string('contact_email')->nullable();
             $table->string('contact_phone')->nullable();
             $table->string('medical_conditions')->nullable();
-            $table->enum('status', ['pending', 'approved', 'denied', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'denied'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
 
@@ -221,7 +221,7 @@ class InitialMigration extends Migration
             $table->integer('event_id')->index('event_id');
             $table->boolean('arrv_ride_req');
             $table->boolean('dept_ride_req');
-            $table->enum('status', ['pending', 'approved', 'denied', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'denied'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
 

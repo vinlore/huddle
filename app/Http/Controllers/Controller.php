@@ -34,6 +34,7 @@ class Controller extends BaseController
 
     /**
      * Check if the User manages the given Conference.
+     * Also returns true if the User is a System Administrator.
      *
      * @return bool
      */
@@ -50,6 +51,8 @@ class Controller extends BaseController
 
     /**
      * Check if the User manages the given Event.
+     * Also returns true if the User is a System Administrator
+     * or if the User manages the parent Conference.
      *
      * @return bool
      */
@@ -58,11 +61,16 @@ class Controller extends BaseController
         $userId = $request->header('ID');
         $user = Sentinel::findById($userId);
         $event = Event::find($eid);
+        $cid = $event->conference()->id;
         if ($this->isSuperUser($request)) {
+            return true;
+        }
+        if ($this->isConferenceManager($request, $cid)) {
             return true;
         }
         return $event->managers()->where('user_id', $userId)->exists();
     }
+
 
     public function addActivity($userId, $activityType, $sourceId, $sourceType, $profile_id = null)
     {

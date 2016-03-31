@@ -149,31 +149,6 @@ class ConferenceAttendeeController extends Controller
                                         ->count();
 
                     Conference::where('id',$cid)->update(['attendee_count' => $count]);
-
-
-                    if ($request->vehicle_id != NULL) {
-                    // Link up profile with the vehicle
-                    $profile = Profile::find($request->profile_id);
-                    Vehicle::find($request->vehicle_id)
-                            ->passengers()
-                            ->attach($profile);
-
-                    //UPDATE PASSENGER COUNT
-                    $passenger_count = Vehicle::find($request->vehicle_id)->passengers()->count();
-                    Vehicle::where('id',$request->vehicle_id)->update(['passenger_count' => $passenger_count]);
-                    }
-
-                    if ($request->room_id != NULL) {
-                    //Link up the profile with the room
-                    $profile = Profile::find($request->profile_id);
-                    Room::find($request->room_id)
-                            ->guests()
-                            ->attach($profile);
-
-                    //Update Room Count
-                    $room_count = Room::find($request->room_id)->guests()->count();
-                    Room::where('id',$request->room_id)->update(['guest_count' => $room_count]);
-                    }
                     break;
 
                 //Change status to denied

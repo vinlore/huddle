@@ -12,8 +12,6 @@ angular.module('manageAccommodationsCtrl',[])
     	country: null
     }
 
-    $scope.conference = [];
-    $scope.data = [];
     $scope.csvData = [];
 
     //////// Load Data ////////

@@ -8,6 +8,8 @@ angular.module('manageConferenceAttendeesCtrl', [])
 
     console.log($scope.radioModel);
 
+    $scope.csvData = [];
+
     //////// Load Data //////// 
 
     $scope.load = function() {
@@ -54,6 +56,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
                             var orderedDatas = sorting ? $filter('orderBy')(filteredDatas, key, sorting[key] == 'desc') : filteredDatas;
 
                             $defer.resolve(orderedDatas);
+                            $scope.setCSVData(orderedDatas);
                         } else {}
                     }, function() {
                         popup.connection();
@@ -63,7 +66,21 @@ angular.module('manageConferenceAttendeesCtrl', [])
         });
     }
 
+    $scope.loadConferenceData = function() {
+    Conferences.fetch().get({cid: $stateParams.conferenceId})
+    .$promise.then( function( response ) {
+      if ( response ) {
+        $scope.conference = response;
+        //console.log(response);
+      } else {
+        popup.error( 'Error', response.message );
+      }}, function () {
+        popup.connection();
+      })
+    };
+
     $scope.load();
+    $scope.loadConferenceData();
 
     //////// Button Functions ////////
 
@@ -160,4 +177,24 @@ angular.module('manageConferenceAttendeesCtrl', [])
         $scope.tableParams.reload();
     }
 
+    $scope.setCSVData = function(data) {
+        //console.log(JSON.stringify(data));
+        $scope.csvData = [];
+        var temp = {};
+        angular.forEach(data, function(item) { 
+          angular.forEach(item, function(value, key) { 
+            if (key == "pivot") {
+                temp['status'] = value.status;
+            }
+            else if ( key == "first_name" || key == "middle_name" || key == "last_name" || 
+                key == "birthdate" || key == "gender" || key == "email" || key == "phone" ||
+                key == "phone2") {
+                temp[key] = value;
+            }
+          });
+          // console.log(JSON.stringify(temp));
+          $scope.csvData.push(temp);
+          temp = {}
+    });  
+  }
 });
