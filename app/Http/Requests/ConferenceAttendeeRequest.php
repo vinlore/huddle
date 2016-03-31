@@ -18,10 +18,10 @@ class ConferenceAttendeeRequest extends Request
                     return true;
                     break;
                 case 'GET':
-                    return $this->getUser()->hasAccess(['conference_attendee.show']);
+                    return true);
                     break;
                 case 'PUT':
-                    return $this->getUser()->hasAccess(['conference_attendee.update']);
+                    return true;
                     break;
                 case 'DELETE':
                     return true;
