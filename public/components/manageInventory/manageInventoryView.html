@@ -7,42 +7,44 @@
   <div class="panel panel-default margin-top-25">
     <div class="panel-body">
 
-      <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
-        <tr ng-repeat="i in $data">
-          <td title="'Item'" filter="{ 'name': 'text'}" sortable="'name'">
-            {{i.name}}
-          </td>
-          <td title="'Quantity'" filter="{ 'quantity': 'number'}" sortable="'quantity'">
-            {{i.quantity}}
-          </td>
-          <td title="'Change Quantity'">
-            <input type="number" ng-model="it.quantity" class="editable-input form-control input-sm" required />
-          </td>
-
-          <td>
-            <button class="btn btn-sm btn-default" ng-disabled="!it.quantity" ng-click="updateQuantity(i, it.quantity)">
-              Update
-            </button>
-            <button class="btn btn-danger" ng-click="del(i.id)">
-              <span class="glyphicon glyphicon-trash"></span>
-            </button>
+      <div class="table-responsive">
+        <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
+          <tr ng-repeat="i in $data">
+            <td title="'Item'" filter="{ 'name': 'text'}" sortable="'name'">
+              {{i.name}}
             </td>
-          </tr>
+            <td title="'Quantity'" filter="{ 'quantity': 'number'}" sortable="'quantity'">
+              {{i.quantity}}
+            </td>
+            <td title="'Change Quantity'">
+              <input type="number" ng-model="it.quantity" class="editable-input form-control input-sm" required />
+            </td>
 
-          <td title="'Item'">
-            <input type="text" ng-model="item.name" class="editable-input form-control input-sm" required />
+            <td>
+              <button class="btn btn-sm btn-default" ng-disabled="!it.quantity" ng-click="updateQuantity(i, it.quantity)">
+                Update
+              </button>
+              <button class="btn btn-danger" ng-click="del(i.id)">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+              </td>
+            </tr>
+
+            <td title="'Item'">
+              <input type="text" ng-model="item.name" class="editable-input form-control input-sm" required />
+            </td>
+            <td title="'Quantity'">
+              <input type="number" ng-model="item.quantity" class="editable-input form-control input-sm" required />
+            </td>
+            <td></td>
+            <td>
+              <!-- Disable add buttion unless theres values in the input-->
+            <button type="button" class="btn btn-success" ng-disabled="!item.name || !item.quantity" ng-click="add(item)">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
           </td>
-          <td title="'Quantity'">
-            <input type="number" ng-model="item.quantity" class="editable-input form-control input-sm" required />
-          </td>
-          <td></td>
-          <td>
-            <!-- Disable add buttion unless theres values in the input-->
-          <button type="button" class="btn btn-success" ng-disabled="!item.name || !item.quantity" ng-click="add(item)">
-            <span class="glyphicon glyphicon-plus"></span>
-          </button>
-        </td>
-      </table>
+        </table>
+      </div>
 
       <div class="pull-right">
         <button class="btn btn-success" ng-show="hasChanges" ng-click="save()">
