@@ -305,7 +305,7 @@ angular.module('cms', [
     })
 
     .state( 'attendee-conference-profile', {
-        url: '/attendee-conference-profile-:conference_name?:conference_id?profile:profile_id',
+        url: '/attendee-conference-profile-:conference_name?:conference_id?:profile_id',
         templateUrl: 'components/signupConference/attendeeSignupConferenceView.html',
         controller: 'attendeeConferenceController',
         resolve: {
@@ -314,7 +314,7 @@ angular.module('cms', [
     })
 
     .state( 'attendee-event-profile', {
-        url: '/attendee-event-profile-:event_name?:event_id?profile:profile_id',
+        url: '/attendee-event-profile-:event_name?:event_id?:profile_id',
         templateUrl: 'components/signupEvent/signupEventView.html',
         controller: 'attendeeEventController',
         resolve: {
