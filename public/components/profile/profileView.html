@@ -141,7 +141,7 @@
                   <col width="25%" />
                   <col width="20%" />
                 </colgroup>
-                
+
                 <tr ng-repeat="member in $data">
                     <td title="'First Name'">{{member.first_name}}</td>
                     <td title="'Middle Name'">{{member.middle_name}}</td>
@@ -233,7 +233,7 @@
                                 <h4 class="card-text">Facilitator: {{eve.facilitator}}</h4>
                                 <h5 class="card-text">From: {{eve.start_time}} to {{eve.end_time}}</h5>
                                 <h5 class="card-text">Date: {{eve.date}}</h5>
-                                <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">Edit Application</button>
+                                <!-- <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">Edit Application</button> -->
                                 <button class="btn btn-danger btn-sm" ng-click="cancelEventApplication($index)">Delete Application</button>
                             </div>
                         </div>

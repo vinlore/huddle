@@ -55,6 +55,8 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
   }
   $scope.loadAccommodations();
 
+  
+
   $scope.arrival = {
     arrv_time: null,
   }
@@ -101,7 +103,7 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       accommodation_req: $scope.user.accommodation_req,
       accommodation_pref: String($scope.user.accommodation_pref)
     }
-    console.log(profile);
+    //console.log(profile);
     Conferences.attendees().update({cid: $stateParams.conference_id, pid: $stateParams.profile_id}, profile)
     .$promise.then( function ( response ) {
       if ( response.status == 200 ) {

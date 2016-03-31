@@ -112,22 +112,22 @@
                             </div>
                         </div>
                     </form>
-          <h3 ng-if="accommodations.length" class="text-center">Accommodation</h3>
+          <h3 class="text-center">Accommodation</h3>
             <hr>
-            <form ng-if="accommodations.length" class="form-horizontal">
+            <form  class="form-horizontal">
                 <div class="form-group">
                     <label for="inputUser" class="col-sm-4 control-label">Required</label>
                     <div class="radio-inline col-sm-2 control-label">
                         <label>
-                            <input type="radio" ng-model="accommodation.accommodation_req" ng-value="true" required>Yes</label>
+                            <input type="radio" ng-model="user.accommodation_req" ng-value="true" required>Yes</label>
                     </div>
                     <div class="radio-inline col-sm-2 control-label">
                         <label>
-                            <input type="radio" ng-model="accommodation.accommodation_req" ng-value="false" required>No</label>
+                            <input type="radio" ng-model="user.accommodation_req" ng-value="false" required>No</label>
                     </div>
                 </div>
-                <label ng-repeat="accom in accommodations" ng-if="accommodation.accommodation_req">
-                    <input type="radio" ng-model="accommodation.accommodation_pref" ng-value="accom.id" ng-disabled="!accommodation.accommodation_req" ng-required="accommodation.accommodation_req">&nbsp{{accom.name}} @ {{accom.address}}
+                <label ng-repeat="accom in accommodations" ng-if="user.accommodation_req">
+                    <input type="radio" ng-model="user.accommodation_pref" ng-value="accom.id" ng-disabled="!user.accommodation_req" ng-required="user.accommodation_req">&nbsp{{accom.name}} @ {{accom.address}}
                 </label>
             </form>
 
