@@ -62,7 +62,7 @@ class ConferenceAttendeeController extends Controller
 
             $profile->conferences()->attach($cid, $request->except('profile_id'));
 
-            $this->addActivity($request->header('ID'),'request', $cid, 'conference application', $pid);
+           //$this->addActivity($request->header('ID'),'request', $cid, 'conference application', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -92,7 +92,7 @@ class ConferenceAttendeeController extends Controller
             }
 
             // Retrieve the Attendee.
-            return $conference->attendees()->where('profile_id', $pid)->get();
+            return $conference->attendees()->where('profile_id', $pid)->first();
         } catch (Exception $e) {
             return response()->error();
         }
@@ -118,55 +118,55 @@ class ConferenceAttendeeController extends Controller
                                     ->updateExistingPivot($pid, $request->all());
 
             //Add Activity to log
-            $this->addActivity($request->header('ID'), $request->status, $request->conference_id, 'conference application', $request->profile_id);
+          //$this->addActivity($request->header('ID'), $request->status, $request->conference_id, 'conference application', $request->profile_id);
 
             //Update attendee count for Conference
-            $count = Conference::find($cid)
+            /*$count = Conference::find($cid)
                                 ->attendees()
                                 ->where('status','approved')
                                 ->count();
 
-            Conference::where($request->conference_id)->update(['attendee_count' => $count]);
+            Conference::where($request->conference_id)->update(['attendee_count' => $count]);*/
 
-            // IF DENIED - Deny all associated events
-            if ($request->status == 'denied' || $request->status != 'cancelled') {
-                /*
-                *   Deny all assocaited event to the conference being denied from
-                */
-                //Find all events_id associated to this profile_id denied/cancelled from conference_id
-                $profile_events = Profile::find($pid)->events();
-                $event_id_array = $profile_events->where('conference_id',$cid)->get();
-
-                //Loop through each event_id to change profileAttendEvent status to denied/cancel
-                foreach($event_id_array as $eid) {
-                    //Update Status to Denied/Cancelled
-                    $profile_events->where('event_id',$eid->id)
-                                   ->updateExistingPivot($eid->id,['status' => $request->status]);
-
-                    //Update Event attendee count
-                    $count = Event::find($eid->id)->attendees()->where('status','approved')->count();
-                    Event::where($eid_id)->update(['attendee_count' => $count]);
-                }
-
-            } elseif ($request->status == 'approved') {
-                if ($request->vehicle_id != NULL) {
-                // Link up profile with the vehicle
-                $profile = Profile::find($request->profile_id);
-                Vehicle::find($request->vehicle_id)
-                        ->passengers()
-                        ->attach($profile);
-                }
-
-                if ($request->room_id != NULL) {
-                //Link up the profile with the room
-                $profile = Profile::find($request->profile_id);
-                Room::find($request->room_id)
-                        ->guests()
-                        ->attach($profile);
-                }
-            }
+            // // IF DENIED - Deny all associated events
+            // if ($request->status == 'denied' || $request->status != 'cancelled') {
+            //     /*
+            //     *   Deny all assocaited event to the conference being denied from
+            //     */
+            //     //Find all events_id associated to this profile_id denied/cancelled from conference_id
+            //     $profile_events = Profile::find($pid)->events();
+            //     $event_id_array = $profile_events->where('conference_id',$cid)->get();
+            //
+            //     //Loop through each event_id to change profileAttendEvent status to denied/cancel
+            //     foreach($event_id_array as $eid) {
+            //         //Update Status to Denied/Cancelled
+            //         $profile_events->where('event_id',$eid->id)
+            //                        ->updateExistingPivot($eid->id,['status' => $request->status]);
+            //
+            //         //Update Event attendee count
+            //         $count = Event::find($eid->id)->attendees()->where('status','approved')->count();
+            //         Event::where($eid_id)->update(['attendee_count' => $count]);
+            //     }
+            //
+            // } elseif ($request->status == 'approved') {
+            //     if ($request->vehicle_id != NULL) {
+            //     // Link up profile with the vehicle
+            //     $profile = Profile::find($request->profile_id);
+            //     Vehicle::find($request->vehicle_id)
+            //             ->passengers()
+            //             ->attach($profile);
+            //     }
+            //
+            //     if ($request->room_id != NULL) {
+            //     //Link up the profile with the room
+            //     $profile = Profile::find($request->profile_id);
+            //     Room::find($request->room_id)
+            //             ->guests()
+            //             ->attach($profile);
+            //     }
+            //}
             //send Email Notification
-            $this->sendAttendeeEmail("conference", $request->conference_id, $request->status, $request->profile_id);
+            //$this->sendAttendeeEmail("conference", $request->conference_id, $request->status, $request->profile_id);
             return response()->success();
          } catch (Exception $e) {
             return response()->error($e);
@@ -179,7 +179,7 @@ class ConferenceAttendeeController extends Controller
             Profile::find($pid)->conferences()->detach($cid);
 
             //Add Activity to log
-            $this->addActivity($request->header('ID'),'deleted', $cid, 'conference application', $pid);
+            //$this->addActivity($request->header('ID'),'deleted', $cid, 'conference application', $pid);
             return response()->success();
         } catch (Exception $e) {
             return response()->error();

@@ -15,39 +15,17 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
     conference_id: $stateParams.conference_id,
     name: $stateParams.conference_name
   }
-  $scope.user = {}
+  //$scope.user = {}
 
   $scope.changeCountry = function(country) {
     $scope.citiesOnly.componentRestrictions = { country: country.code };
-    console.log($scope.citiesOnly)
+    //console.log($scope.citiesOnly)
   };
 
   $scope.citiesOnly = {
     types: ['(cities)']
   };
 
-  $scope.emergencyContact = {
-    first_name: $scope.user.contact_first_name,
-    last_name: $scope.user.contact_last_name,
-    phone: $scope.user.contact_phone,
-    email: $scope.user.email
-  }
-
-  $scope.arrival = {
-    arrv_ride_req: $scope.user.arrv_ride_req,
-    arrv_flight: $scope.user.arrv_flight,
-    arrv_airport: $scope.user.arrv_airport,
-    arrv_date: $scope.user.arrv_date,
-    arrv_time: $scope.user.arrv_time
-  }
-
-  $scope.departure = {
-    dept_ride_req: $scope.user.dept_ride_req,
-    dept_flight: $scope.user.dept_flight,
-    dept_airport: $scope.user.dept_airport,
-    dept_date: $scope.user.dept_date,
-    dept_time: $scope.user.dept_time
-  }
 
   $scope.loadAttendeeProfile = function() {
     Conferences.attendees().get({cid: $stateParams.conference_id, pid: $stateParams.profile_id})
@@ -55,7 +33,7 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       if(response){
         var profile = response.pivot;
         $scope.user = profile;
-        console.log(response);
+        console.log(profile);
       } else {
         popup.error( 'Error', response.message );
       }
@@ -65,26 +43,31 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
   };
   $scope.loadAttendeeProfile();
 
-  $scope.accommodation = {
-    accommodation_pref: $scope.user.accommodation_pref,
-    accommodation_req: $scope.user.accommodation_req
-  }
-
   $scope.accommodations = [];
   $scope.loadAccommodations = function () {
     Conferences.accommodations().query( {cid: $stateParams.conference_id} )
     .$promise.then( function( response ) {
       if ( response ) {
         $scope.accommodations = response;
+        //console.log(response);
       } else {
         // TODO error
       }
     })
   }
-
   $scope.loadAccommodations();
 
   $scope.submitRequest = function(){
+    if(!$scope.user.arrv_ride_req){
+      $scope.user.arrv_date = null;
+      $scope.user.arrv_airport = null;
+      $scope.user.arrv_time = null;
+    }
+    if(!$scope.user.dept_ride_req){
+      $scope.user.dept_date = null;
+      $scope.user.dept_airport = null;
+      $scope.user.dept_time = null;
+    }
     var profile = {
       profile_id: $scope.user.profile_id,
       first_name: $scope.user.first_name,
@@ -97,23 +80,23 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       phone: $scope.user.phone,
       phone2: $scope.user.phone2,
       medical_conditions: $scope.user.medical_conditions,
-      contact_first_name: $scope.emergencyContact.first_name,
-      contact_last_name: $scope.emergencyContact.last_name,
-      contact_email: $scope.emergencyContact.email,
-      contact_phone: $scope.emergencyContact.phone,
-      arrv_time: $filter('time')($scope.arrival.dept_time),
-      arrv_date: $filter('date')($scope.arrival.arrv_date, 'yyyy-MM-dd'),
-      arrv_airport: $scope.arrival.arrv_airport,
-      arrv_ride_req: $scope.arrival.arrv_ride_req,
-      dept_ride_req: $scope.departure.dept_ride_req,
-      dept_airport: $scope.departure.dept_airport,
-      dept_time: $filter('time')($scope.departure.dept_time),
-      dept_date:  $filter('date')($scope.departure.dept_date, 'yyyy-MM-dd'),
-      accommodation_req: $scope.accommodation.accommodation_req,
-      accommodation_pref: $scope.accommodations[$scope.accommodation.accommodation_pref].name,
+      contact_first_name: $scope.user.contact_first_name,
+      contact_last_name: $scope.user.contact_last_name,
+      contact_email: $scope.user.email,
+      contact_phone: $scope.user.contact_phone,
+      arrv_time: $filter('time')($scope.user.arrv_time,'H:i.'),
+      arrv_date: $filter('date')($scope.user.arrv_date, 'yyyy-MM-dd'),
+      arrv_airport: $scope.user.arrv_airport,
+      arrv_ride_req: $scope.user.arrv_ride_req,
+      dept_ride_req: $scope.user.dept_ride_req,
+      dept_airport: $scope.user.dept_airport,
+      dept_time: $filter('time')($scope.user.dept_time,'H:i.'),
+      dept_date:  $filter('date')($scope.user.dept_date, 'yyyy-MM-dd'),
+      accommodation_req: $scope.user.accommodation_req,
+      accommodation_pref: String($scope.user.accommodation_pref),
       status: 'pending'
     }
-    console.log(profile);
+
     Conferences.attendees().update({cid: $stateParams.conference_id, pid: $stateParams.profile_id}, profile)
     .$promise.then( function ( response ) {
       if ( response ) {

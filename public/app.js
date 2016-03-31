@@ -302,7 +302,7 @@ angular.module('cms', [
 
     .state( 'attendee-conference-profile', {
         url: '/attendee-conference-profile-:conference_name?:conference_id?profile:profile_id',
-        templateUrl: 'components/signupConference/signupConferenceView.html',
+        templateUrl: 'components/signupConference/attendeeSignupConferenceView.html',
         controller: 'attendeeConferenceController',
         resolve: {
             loginRequired: loginRequired
