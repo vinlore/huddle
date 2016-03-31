@@ -31,7 +31,7 @@
                         <button class="btn btn-sm btn-success margin-top-35" ng-click="goCreateEvent(c.id, $event)" ng-if="checkPermission('event.store', 'conference', c.id)">
                             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbspCreate Event
                         </button>
-                        <button class="btn btn-sm btn-danger margin-top-35" ng-click="deleteConference(c.id, $event)" ng-if="checkPermission('conference.destroy', 'conference', ci.id)">
+                        <button class="btn btn-sm btn-danger margin-top-35" ng-click="deleteConference(c.id, $event)" ng-if="checkPermission('conference.destroy', 'conference', c.id)">
                             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>&nbspDelete
                         </button>
                     </div>
