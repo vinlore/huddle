@@ -15,7 +15,6 @@ angular.module('adminCtrl', [])
             Conferences.fetch().query()
             .$promise.then( function ( response ) {
                 if ( response ) {
-                    console.log(JSON.stringify(response));
                     $scope.conferences = response;
                     for (var i=0; i<response.length; i++) {
                         $scope.loadEvents($scope.conferences[i].id, i);
@@ -30,7 +29,6 @@ angular.module('adminCtrl', [])
             Conferences.status().query({status: $scope.radioModel})
                 .$promise.then( function ( response ) {
                     if ( response ) {
-                        console.log(JSON.stringify(response));
                         $scope.conferences = response;
                         for (var i=0; i<response.length; i++) {
                             $scope.loadEvents($scope.conferences[i].id, i);
