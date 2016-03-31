@@ -12,7 +12,7 @@ angular.module('manageConferenceTransportationCtrl',[])
     name: null,
     capacity: null
   }
-
+  
   //////// Load Data ////////
 
   $scope.loadVehicles = function() {
@@ -48,7 +48,20 @@ angular.module('manageConferenceTransportationCtrl',[])
       })
   }
 
+  $scope.loadConferenceData = function() {
+    Conferences.fetch().get({cid: $stateParams.conferenceId})
+    .$promise.then( function( response ) {
+      if ( response ) {
+        $scope.conference = response;
+      } else {
+        popup.error( 'Error', response.message );
+      }}, function () {
+        popup.connection();
+      })
+  };
+
   $scope.loadVehicles();
+  $scope.loadConferenceData();
 
   //////// Button Functions ////////
 

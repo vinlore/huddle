@@ -47,7 +47,6 @@ angular.module('manageInventoryCtrl',[])
     .$promise.then( function( response ) {
       if ( response ) {
         $scope.conference = response;
-        //console.log(response);
       } else {
         popup.error( 'Error', response.message );
       }}, function () {

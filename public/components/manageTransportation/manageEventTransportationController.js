@@ -48,7 +48,20 @@ angular.module('manageEventTransportationCtrl',[])
       })
   }
 
+  $scope.loadEventData = function() {
+    Events.fetch().get({cid: $stateParams.conferenceId, eid: $stateParams.eventId})
+    .$promise.then( function( response ) {
+      if ( response ) {
+        $scope.event = response;
+      } else {
+        popup.error( 'Error', response.message );
+      }}, function () {
+        popup.connection();
+      })
+  };
+
   $scope.loadVehicles();
+  $scope.loadEventData();
 
   //////// Button Functions ////////
 

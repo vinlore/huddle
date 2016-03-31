@@ -260,7 +260,7 @@ angular.module('cms', [
     })
 
     .state( 'manage-transportation-event', {
-        url: '/manage-transportation-event-:eventId',
+        url: '/manage-transportation-event-:conferenceId-:eventId',
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
         controller: 'manageEventTransportationController',
         resolve: {
