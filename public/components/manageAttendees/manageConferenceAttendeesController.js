@@ -90,6 +90,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
                 if (response.status == 200) {
                     console.log('Changes saved to profile_attends_conferences (approve)');
                     popup.alert('success', 'User has been approved.');
+                    $scope.tableParams.reload();
                 } else {
                     popup.error('Error', response.message);
                 }
