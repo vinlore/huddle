@@ -133,12 +133,12 @@ angular.module('adminCtrl', [])
         $state.go('manage-attendees-conference', {conferenceId: id});
     }
 
-    $scope.goEventAttendees = function(id, event){
+    $scope.goEventAttendees = function(cid, eid, event){
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
-        $state.go('manage-attendees-event', {eventId: id});
+        $state.go('manage-attendees-event', {conferenceId: cid, eventId: eid});
     }
 
     $scope.goConferenceTransportation = function(id, event){

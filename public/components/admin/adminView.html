@@ -102,7 +102,7 @@
                             <button class="btn btn-sm btn-default" ng-if="checkPermissions('event_vehicle')" ng-click="goEventTransportation(c.id, e.id, $event)">
                                 <span class="glyphicon glyphicon-road" aria-hidden="true"></span> Vehicles
                             </button>
-                            <button class="btn btn-sm btn-default" ng-if="checkPermissions('event_attendee')" ng-click="goEventAttendees(e.id, $event)">
+                            <button class="btn btn-sm btn-default" ng-if="checkPermissions('event_attendee')" ng-click="goEventAttendees(c.id, e.id, $event)">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Attendees
                             </button>
                         </div>
