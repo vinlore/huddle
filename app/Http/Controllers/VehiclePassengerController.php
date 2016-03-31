@@ -11,7 +11,7 @@ use App\Http\Requests\ConferenceRequest;
 use App\Models\Profile as Profile;
 use App\Models\Vehicle as Vehicle;
 
-class ProfileRidesVehicleController extends Controller
+class VehiclePassengerController extends Controller
 {
     /**
      * Display the specified resource.

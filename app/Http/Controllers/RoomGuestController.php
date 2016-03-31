@@ -11,7 +11,7 @@ use App\Http\Requests\ConferenceRequest;
 use App\Models\Profile as Profile;
 use App\Models\Rooms as Room;
 
-class ProfileStaysRoomController extends Controller
+class RoomGuestController extends Controller
 {
     /**
      * Display the specified resource.
