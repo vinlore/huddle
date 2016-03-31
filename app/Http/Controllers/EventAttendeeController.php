@@ -131,10 +131,16 @@ class EventAttendeeController extends Controller
 
                 switch ($newStatus) {
                     case 'approved':
+                        if ($oldStatus != 'pending') {
+                            return response()->error(403);
+                        }
+                        $event->increment('attendee_count');
+                        break;
                     case 'denied':
                         if ($oldStatus != 'pending') {
                             return response()->error(403);
                         }
+                        // $event->decrement('attendee_count');
                         break;
                     case 'pending':
                         if ($oldStatus != 'denied') {
