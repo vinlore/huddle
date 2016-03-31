@@ -95,41 +95,45 @@ class EventController extends Controller
         }
     }
 
-    public function update(EventRequest $request, $conferences, $eid)
+
+    /**
+     * Update an Accommodation.
+     *
+     * @param  EventRequest  $request
+     * @param  int  $conferences
+     * @param  int  $eid
+     * @return Response
+     */
+    public function update(EventRequest $request, $cid, $eid)
     {
         try {
+
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
+            // Check if the Event exists.
             $event = Event::find($eid);
             if (!$event) {
-                return response()->error(404);
+                return response()->error(404, 'Event Not Found');
             }
 
-            $conf = Conference::find($conferences);
-            if (!$conf) {
-                return response()->error(404);
-            }
-
-            //Check if event manager belongs to this event
             if (!$this->isEventManager($request, $eid)) {
+                return response()->error(403, 'You are not a manager of this event.');
+            }
+
+            if (($request->status == 'approved' || $request->status == 'denied')) {
+                $event->update($request->all());
+                $this->addActivity($request->header('ID'),$request->status, $eid, 'event');
+                $this->sendCreationEmail('event', $event->id, $request->status);
+            } elseif(($request->status != 'approved' && $request->status != 'denied')) {
+                $event->fill($request->all())->save();
+                 $this->addActivity($request->header('ID'),'update', $eid, 'event');
+            } else {
                 return response()->error(403);
             }
-
-            // if(($request->status == 'approved' || $request->status == 'denied')) {
-
-            //     $event->update($request->all());
-            //     //Add Activity to log
-            //     $this->addActivity($request->header('ID'),$request->status, $id, 'event');
-            //     //Send Status update Email
-            //     $this->sendCreationEmail('event', $event->id, $request->status);
-
-            // }elseif(($request->status != 'approved' && $request->status != 'denied') ){
-            // // Update the Conference.
-            // $event->fill($request->all())->save();
-
-            // //Add Activity to log
-            //  $this->addActivity($request->header('ID'),'update', $id, 'event');
-            // }else{
-            //     return response()->error(403);
-            // }
 
             $event->fill($request->all())->save();
 
@@ -139,32 +143,38 @@ class EventController extends Controller
         }
     }
 
-    public function destroy(EventRequest $request, $conferences, $id)
+    /**
+     * Delete an Accommodation.
+     *
+     * @param  EventRequest  $request
+     * @param  int  $conferences
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy(EventRequest $request, $cid, $eid)
     {
         try {
 
-            $conf = Conference::find($conferences);
-            if (!$conf) {
-                return response()->error(404);
+            // Check if the Conference exists.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
             }
 
-            //Check if event manager belongs to this event OR admin
-            $userId = $request->header('ID');
-            if (!$event->managers()->where('user_id', $userId)->get()||
-                !$conf->managers()->where('user_id',$userId)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
-                return response()->error("403" , "Permission Denied");
-            }
-
-            $event = Event::find($id);
+            // Check if the Event exists.
+            $event = Event::find($eid);
             if (!$event) {
-                return response()->error("Event not found");
+                return response()->error(404, 'Event Not Found');
+            }
+
+            if (!$this->isEventManager($request, $eid)) {
+                return response()->error(403, 'You are not a manager of this event.');
             }
 
             $event->delete();
 
             //Add Activity to log
-            $this->addActivity($request->header('ID'),'delete', $event->id, 'event');
+            $this->addActivity($request->header('ID'),'delete', $eid, 'event');
 
             return response()->success();
         } catch (Exception $e) {
