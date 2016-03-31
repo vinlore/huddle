@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Sentinel;
 use App\Http\Requests\EventRequest;
 use App\Models\Conference;
 use App\Models\Event;
@@ -32,7 +32,7 @@ class EventController extends Controller
 
             //Check if User belongs to this event
             $userId = $request->header('ID');
-            if (!$conference->managers()->where('user_id',$userID)->get() ||
+            if (!$conference->managers()->where('user_id',$userId)->get() ||
                 Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
                 return response()->error("403" , "Permission Denied");
             }
@@ -42,7 +42,7 @@ class EventController extends Controller
                 ->events()->attach($event->id);
 
             //Add Activity to log
-            $this->addActivity($request->header('ID'),'request', $event->id, 'event');
+            //$this->addActivity($request->header('ID'),'request', $event->id, 'event');
 
             return response()->success();
         } catch (Exception $e) {
