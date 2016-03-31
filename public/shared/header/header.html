@@ -21,7 +21,7 @@
                 <li ng-if="auth && check('admin', '', '')"><a href="/admin">Admin</a></li>
                 <li ng-if="auth && check('accounts', '', '')"><a href="/accounts">Manage Accounts</a></li>
                 <li ng-if="auth && check('publisher', '', '')"><a href="/requests">Publisher</a></li>
-                <li ng-if="auth" class="dropdown" uib-dropdown>
+                <li ng-if="auth && check('user.show', '', '')" class="dropdown" uib-dropdown>
                     <a role="button" class="dropdown-toggle" uib-dropdown-toggle>
                       Activity Log <b class="caret"></b>
                     </a>
