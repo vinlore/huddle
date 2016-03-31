@@ -75,10 +75,12 @@ class ProfileStaysRoomController extends Controller
      */
     public function destroy($rid, $pid) {
         try {
-            $room = Room::find($rid);
+
             Profile::find($pid)
                     ->rooms()
                     ->detach($room);
+            $room = Room::find($rid);
+            $room->decrement('guest_count');
 
             return response()->success();
         } catch (Exception $e) {
