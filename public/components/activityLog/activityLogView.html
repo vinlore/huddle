@@ -3,12 +3,6 @@
     <div class="panel-body">
       <div class="page-header">
         <h1 id="timeline">Activity Log</h1>
-        <!-- <div id="selection">
-          <label>Filter by:</label>
-          <label class="checkbox-inline"><input type="checkbox" value="">Conference</label>
-          <label class="checkbox-inline"><input type="checkbox" value="">Event</label>
-          <label class="checkbox-inline"><input type="checkbox" value="">User</label>
-        </div> -->
       </div>
       <ul class="timeline">
         <li class="{{['timeline', 'timeline-inverted'][$index %2]}}" ng-repeat="log in logs | orderBy: '-'">

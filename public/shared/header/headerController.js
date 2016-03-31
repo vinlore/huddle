@@ -1,5 +1,5 @@
 angular.module( 'headerCtrl', [] )
-.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout, $rootScope, $localStorage, popup ) {
+.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout, $rootScope, $localStorage, popup, Activity ) {
 
     $scope.isCollapsed = true;
 
@@ -36,22 +36,6 @@ angular.module( 'headerCtrl', [] )
             }
         } )
     }
-
-    $scope.logs = [
-      {Time: "01:00:00",
-       Date: "Monday March 7, 2016",
-       Log: "James created a conference name India"},
-
-      {Time: "02:00:00",
-        Date: "Tuesday March 8, 2016",
-        Log: "Gabby is requesting to attend Canada conference"},
-
-      {Time: "03:00:00",
-         Date: "Wednesday March 9, 2016",
-         Log: "Viggy editted France conference"},
-
-      ];
-
     $scope.checkPermissions = function (type) {
         var p = $rootScope.user.permissions;
         switch (type) {
@@ -59,5 +43,4 @@ angular.module( 'headerCtrl', [] )
                 return p['accommodations.store'] || p['accommodations.update'] || p['accommodations.destroy'] || p['accommodations.show'] || p['conference_vehicles.store'] || p['conference_vehicles.update'] || p['conference_vehicles.destroy'] || p['conference_vehicles.show'] || p['conference_attendees.store'] || p['conference_attendees.update'] || p['conference_attendees.destroy'] || p['conference_attendees.show'] || p['item.store'] || p['item.update'] || p['item.destroy'] || p['item.show'] || p['event_vehicles.store'] || p['event_vehicles.update'] || p['event_vehicles.destroy'] || p['event_vehicles.show'] || p['event_attendees.store'] || p['event_attendees.update'] || p['event_attendees.destroy'] || p['event_attendees.show'];
         }
     }
-
 })

@@ -1,9 +1,9 @@
 angular.module ( 'activityCtrl', [] )
-.controller('activityLogController', function ( $scope, Profile, Activity, popup ) {
+.controller('activityLogController', function ( $scope, Activity, popup, $rootScope ) {
 
 
 //
-  $scope.logs = []
+  $rootScope.logs = []
 
   $scope.filterActivityLog = function(arr){
       for(var i=0; i < arr.length; i++){
