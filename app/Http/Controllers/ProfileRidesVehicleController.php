@@ -79,6 +79,8 @@ class ProfileRidesVehicleController extends Controller
             Profile::find($pid)
                     ->vehicles()
                     ->detach($vid);
+            $vehicle = Vehicle::find($vid);
+            $vehicle->decrement('passenger_count');
 
             return response()->success();
         } catch (Exception $e) {
