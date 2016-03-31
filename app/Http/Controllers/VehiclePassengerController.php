@@ -37,6 +37,9 @@ class VehiclePassengerController extends Controller
             Profile::find($request->profile_id)
                     ->vehicles()
                     ->attach($vid);
+
+            $passenger_count = Vehicle::find($vid)->passengers()->count();
+            Vehicle::where('id',$vid)->update(['passenger_count' => $passenger_count]);
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -57,6 +60,13 @@ class VehiclePassengerController extends Controller
             Profile::find($pid)
                     ->vehicles()
                     ->updateExistingPivot($request->old_vehicle_id, ['vehicle_id' => $vid]);
+
+            $passenger_count = Vehicle::find($vid)->passengers()->count();
+            Vehicle::where('id',$vid)->update(['passenger_count' => $passenger_count]);
+
+            $passenger_count = Vehicle::find($request->old_vehicle_id)->passengers()->count();
+            Vehicle::where('id',$request->old_vehicle_id)->update(['passenger_count' => $passenger_count]);
+
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.

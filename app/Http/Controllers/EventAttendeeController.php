@@ -12,6 +12,7 @@ use App\Http\Requests\EventAttendeeRequest;
 
 use App\Models\Event as Event;
 use App\Models\Profile as Profile;
+use App\Models\User as User;
 
 
 class EventAttendeeController extends Controller
@@ -74,15 +75,15 @@ class EventAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EventAttendeeRequest $request, $eid, $profiles_id){
+    public function update(EventAttendeeRequest $request, $events_id, $profiles_id){
         try {
 
-            $event = Event::find($eid);
+            $event = Event::find($events_id);
             if (!$event) {
                 return response()->error(404);
             }
 
-            $profile = Profile::find($profile_id);
+            $profile = Profile::find($profiles_id);
             if (!$profile) {
                 return response()->error(400);
             }
@@ -90,7 +91,7 @@ class EventAttendeeController extends Controller
             switch ($request->status) {
                 case 'approved':
                     // Check if the User is managing the Event.
-                    if (!$this->isEventManager($request, $eid)) {
+                    if (!$this->isEventManager($request, $events_id)) {
                         return response()->error(403);
                     }
 
@@ -110,12 +111,12 @@ class EventAttendeeController extends Controller
                     $events->attendees()->updateExistingPivot($profiles_id, $request->all());
 
                     //Update attendee count for Conference
-                    $count = Event::find($eid)
+                    $count = Event::find($events_id)
                                         ->attendees()
                                         ->where('status','approved')
                                         ->count();
 
-                    Event::where('id',$eid)->update(['attendee_count' => $count]);
+                    Event::where('id',$events_id)->update(['attendee_count' => $count]);
 
                     if ($request->vehicle_id != NULL) {
                         // Link up profile with the vehicle
@@ -134,7 +135,7 @@ class EventAttendeeController extends Controller
                 case 'denied':
                     //Check if conference manager belongs to this conference OR admin
                     $userId = $request->header('ID');
-                    if (!$conference->managers()->where('user_id', $userId)->get() ||
+                    if (!$event->managers()->where('user_id', $userId)->get() ||
                         Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
                         return response()->error(403);
                     }
@@ -142,7 +143,7 @@ class EventAttendeeController extends Controller
                     //Check if previously pending
                     $profile_status = \DB::table('profile_attends_events')
                                     ->where('profile_id',$profiles_id)
-                                    ->where('conference_id',$events_id)
+                                    ->where('event_id',$events_id)
                                     ->pluck('status');
 
                     if (!($profile_status[0] == 'pending'))
@@ -159,15 +160,15 @@ class EventAttendeeController extends Controller
                     $userId = $request->header('ID');
                     $current_event = User::find($userId)->profiles()->where('id',$profiles_id)->first();
                     if (!$current_event ||
-                        !$conference->managers()->where('user_id', $userId)->get() ||
+                        !$event->managers()->where('user_id', $userId)->get() ||
                         Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
                         return response()->error(403);
                     }
 
                     //Check if previously approved
-                    $profile_status = \DB::table('profile_attends_conferences')
-                                    ->where('profile_id',$pid)
-                                    ->where('conference_id',$cid)
+                    $profile_status = \DB::table('profile_attends_events')
+                                    ->where('profile_id',$profiles_id)
+                                    ->where('event_id',$events_id)
                                     ->pluck('status');
 
                     if ($profile_status[0] == 'approved')
@@ -181,7 +182,7 @@ class EventAttendeeController extends Controller
                 case 'cancelled':
                      // Check if the Profile belongs to the User.
                      $userId = $request->header('ID');
-                     $current_event = User::find($userId)->profiles()->where('id',$pid)->first();
+                     $current_event = User::find($userId)->profiles()->where('id',$profiles_id)->first();
                      if (!$current_event) {
                          return response()->error(403);
                      }
@@ -190,7 +191,8 @@ class EventAttendeeController extends Controller
                     *Detatch all related vehicles for this profile for this conference
                     */
                     //Find all the Vehicle_id associated with this profile
-                    $vehicle_id = Profile::find($request->profiles_id)->vehicles()->get(['id']);
+                    $vehicle_id = Profile::find($profiles_id)->vehicles()->get(['id']);
+
                     //Loop through array of vehicle_id
                     foreach($vehicle_id as $vid)
                     {
@@ -201,7 +203,7 @@ class EventAttendeeController extends Controller
                        foreach($eid as $id)
                        {
                            //if event_id matches the one being rejected
-                           if ($eid == $id->event_id)
+                           if ($events_id == $id->event_id)
                            {
                                Vehicle::find($vid->id)
                                        ->passengers()
@@ -217,7 +219,7 @@ class EventAttendeeController extends Controller
                     /*
                     *   Remove associated Event
                     */
-                    Profile::find($profiles_id)->events()->detach($eid);
+                    Profile::find($profiles_id)->events()->detach($events_id);
                     break;
                 default:
                     return response()->error(404);
@@ -225,7 +227,7 @@ class EventAttendeeController extends Controller
             }
 
             //Add Activity to log
-            $this->addActivity($request->header('ID'),'update', $events, 'event application', $profiles);
+            $this->addActivity($request->header('ID'),'update', $events_id, 'event application', $profiles_id);
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.

@@ -9,7 +9,7 @@ use App\Http\Requests;
 use App\Http\Requests\ConferenceRequest;
 
 use App\Models\Profile as Profile;
-use App\Models\Rooms as Room;
+use App\Models\Room as Room;
 
 class RoomGuestController extends Controller
 {
@@ -37,6 +37,11 @@ class RoomGuestController extends Controller
             Profile::find($request->profile_id)
                     ->rooms()
                     ->attach($rid);
+
+            //Update Room Count
+            $room_count = Room::find($rid)->guests()->count();
+            Room::where('id',$rid)->update(['guest_count' => $room_count]);
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);
@@ -57,6 +62,13 @@ class RoomGuestController extends Controller
             Profile::find($request->profile_id)
                     ->rooms()
                     ->updateExistingPivot($request->old_room_id, ['room_id' => $request->new_room_id]);
+
+            //Update Room Count
+            $room_count = Room::find($rid)->guests()->count();
+            Room::where('id',$rid)->update(['guest_count' => $room_count]);
+
+            $room_count = Room::find($request->old_room_id)->guests()->count();
+            Room::where('id',$request->old_room_id)->update(['guest_count' => $room_count]);
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.
