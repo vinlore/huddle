@@ -69,13 +69,20 @@
           </div>
         </form>
       </div>
+      <div class="col-sm-8 col-sm-offset-4">
+            <button ng-if="creation" class="btn btn-lg btn-success" type="submit" ng-click="submit()">Create Request</button>
+            <button ng-if="draft" class="btn btn-md btn-info" type="submit" ng-click="submit()">Save Draft</button>
+            <button ng-if="draft" class="btn btn-md btn-success" type="submit" ng-click="publish()">Publish</button>
+      </div>
+    </div>
+    <div><hr></div>
     </div>
   </div>
-  <div class="panel panel-default">
+  <!-- <div class="panel panel-default">
     <div class="panel-body">
       <div class="col-sm-12">
         <button type="submit" class="btn btn-half-block btn-success center-block" ng-click="submit()">Create Request</button>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

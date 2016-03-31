@@ -1,6 +1,6 @@
 angular.module( 'createConferenceCtrl', [])
 .controller( 'createConferenceController', function( $scope, Countries, Conferences, $filter, $location, popup ) {
-
+  $scope.creation = true;
   $scope.header = "Create ";
     $scope.conference = {
         name: null,

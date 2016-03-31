@@ -15,7 +15,7 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
     conference_id: $stateParams.conference_id,
     name: $stateParams.conference_name
   }
-  //$scope.user = {}
+  $scope.user = {}
 
   $scope.changeCountry = function(country) {
     $scope.citiesOnly.componentRestrictions = { country: country.code };
@@ -77,8 +77,8 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       $scope.user.dept_time = null;
     }
     var profile = {
-      profile_id: $scope.user.profile_id,
       first_name: $scope.user.first_name,
+      middle_name: $scope.user.middle_name,
       last_name: $scope.user.last_name,
       birthdate: $filter('date')($scope.user.birthdate, 'yyyy-MM-dd'),
       gender: $scope.user.gender,
@@ -101,13 +101,12 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       dept_time: $filter('time')($scope.departure.dept_time),
       dept_date:  $filter('date')($scope.user.dept_date, 'yyyy-MM-dd'),
       accommodation_req: $scope.user.accommodation_req,
-      accommodation_pref: String($scope.user.accommodation_pref),
-      status: 'pending'
+      accommodation_pref: String($scope.user.accommodation_pref)
     }
-
+    console.log(profile);
     Conferences.attendees().update({cid: $stateParams.conference_id, pid: $stateParams.profile_id}, profile)
     .$promise.then( function ( response ) {
-      if ( response ) {
+      if ( response.status == 200 ) {
         $state.go('profile');
         popup.alert( 'success', "Conference profile successfully updated" );
       } else {

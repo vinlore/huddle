@@ -1,17 +1,8 @@
 angular.module( 'draftConferenceCtrl', [])
 .controller( 'draftConferenceController', function( $stateParams, $scope, Countries, Conferences, $filter, $location, popup ) {
-
-    $scope.conference = {
-        conference_id:  $stateParams.conference_id,
-        name: null,
-        country: null,
-        city: null,
-        address: null,
-        startDate: null,
-        endDate: null,
-        description: null,
-        capacity: null
-    }
+    $scope.header = "Draft";
+    $scope.creation = false;
+    $scope.draft = true;
 
     $scope.countries = Countries;
 
@@ -39,98 +30,19 @@ angular.module( 'draftConferenceCtrl', [])
         $scope.citiesOnly.componentRestrictions = {country: country.code};
     }
 
-    $scope.addItem = function() {
-        var item = {
-            name: null,
-            num: null
-        }
-        $scope.items.push( item );
-    }
-
-    $scope.removeItem = function( ind ) {
-        $scope.items.splice( ind, 1 );
-    }
-
-    $scope.accommodations = [
-        {
-            name: null,
-            address: null,
-            rooms: [
-                {
-                    name: null,
-                    capacity: null
+    $scope.loadConference = function () {
+        Conferences.fetch().get({cid: $stateParams.conference_id})
+            .$promise.then( function( response ) {
+                if ( response ) {
+                    $scope.conference = response;
+                } else {
+                    popup.error( 'Error', response.message );
                 }
-            ]
-        }
-    ]
-
-    $scope.addAccommodation = function() {
-        var accommodation = {
-            name: null,
-            address: null,
-            rooms: [
-                {
-                    name: null,
-                    capacity: null
-                }
-            ]
-        }
-        $scope.accommodations.push( accommodation );
+            }, function () {
+                popup.connection();
+            } )
     }
-
-    $scope.removeAccommodation = function( ind ) {
-        $scope.accommodations.splice( ind, 1 );
-    }
-
-    $scope.addRoom = function( ind ) {
-        var room = {
-            name: null,
-            capacity: null
-        }
-        $scope.accommodations[ind].rooms.push( room );
-    }
-
-    $scope.removeRoom = function( ind, ind2 ) {
-        $scope.accommodations[ind].rooms.splice( ind2, 1 );
-    }
-
-    $scope.arrTransport = [
-        {
-            name: null,
-            capacity: null
-        }
-    ]
-
-    $scope.addArrival = function() {
-        var item = {
-            name: null,
-            capacity: null
-        }
-        $scope.arrTransport.push( item );
-    }
-
-    $scope.removeArrival = function( ind ) {
-        $scope.arrTransport.splice( ind, 1 );
-    }
-
-    $scope.depTransport = [
-        {
-            name: null,
-            capacity: null
-        }
-    ]
-
-    $scope.addDeparture = function() {
-        var item = {
-            name: null,
-            capacity: null
-        }
-        $scope.depTransport.push( item );
-    }
-
-    $scope.removeDeparture = function( ind ) {
-        $scope.depTransport.splice( ind, 1 );
-    }
+    $scope.loadConference();
 
     $scope.submit = function () {
         var city, address, country;
@@ -167,10 +79,10 @@ angular.module( 'draftConferenceCtrl', [])
             attendee_count: 0
         }
 
-        Conferences.fetch().save( conference )
+        Conferences.fetch().update( {cid: $scope.conference.conference_id}, conference)
             .$promise.then( function( response ) {
                 if ( response.status == 200 ) {
-                    $location.path('/admin');
+                    $state.go('admin');
                 } else {
                     popup.error( 'Error', response.message );
                 }

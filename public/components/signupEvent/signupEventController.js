@@ -16,7 +16,7 @@ angular.module('signupEventCtrl',[])
 
   $scope.submitRequest = function() {
           var profile = {
-            profile_id: $rootScope.user.id,
+            profile_id: $rootScope.user.profile_id,
             arrv_ride_req: $scope.attendee.arrv_ride_req,
             dept_ride_req: $scope.attendee.dept_ride_req,
             status: 'pending'
