@@ -111,25 +111,27 @@ class ConferenceController extends Controller
             }
 
 
-            if(($request->status == 'approved' || $request->status == 'denied') &&
-               (User::find($userId)->hasAccess(['conference.status']) &&
-               (Sentinel::findById($userId)->roles()->first()->name == 'System Administrator'))){
+            // if(($request->status == 'approved' || $request->status == 'denied') &&
+            //    (User::find($userId)->hasAccess(['conference.status']) &&
+            //    (Sentinel::findById($userId)->roles()->first()->name == 'System Administrator'))){
 
-                $conference->update($request->all());
-                //Add Activity to log
-                $this->addActivity($request->header('ID'),$request->status, $id, 'conference');
-                //Send Status update Email
-                $this->sendCreationEmail('conference', $id, $request->status);
+            //     $conference->update($request->all());
+            //     //Add Activity to log
+            //     $this->addActivity($request->header('ID'),$request->status, $id, 'conference');
+            //     //Send Status update Email
+            //     $this->sendCreationEmail('conference', $id, $request->status);
 
-            }elseif(($request->status != 'approved' && $request->status != 'denied') ){
-            // Update the Conference.
+            // }elseif(($request->status != 'approved' && $request->status != 'denied') ){
+            // // Update the Conference.
+            // $conference->fill($request->all())->save();
+
+            // //Add Activity to log
+            //  $this->addActivity($request->header('ID'),'update', $id, 'conference');
+            // }else{
+            //     return response()->error(403);
+            // }
+
             $conference->fill($request->all())->save();
-
-            //Add Activity to log
-             $this->addActivity($request->header('ID'),'update', $id, 'conference');
-            }else{
-                return response()->error(403);
-            }
 
 
             return response()->success();

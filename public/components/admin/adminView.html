@@ -92,7 +92,7 @@
                         <p>{{e.date | date}}</p>
                         <p>{{e.start_time | time}} - {{e.end_time | time}}</p>
                         <p>{{e.attendee_count}}/{{e.capacity}}</p>
-                        <button class="btn btn-sm btn-danger margin-top-35" ng-if="user.permissions['event.destroy']">
+                        <button class="btn btn-sm btn-danger margin-top-35" ng-if="user.permissions['event.destroy']" ng-click="deleteEvent(c.id, e.id, $event)">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbspDelete
                         </button>
                         <div class="hidden-xs pull-right margin-top-35">
