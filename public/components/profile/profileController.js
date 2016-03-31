@@ -258,7 +258,7 @@ angular.module( 'profileCtrl', [] )
         id: $scope.events[index].id,
         profile_id: $scope.events[index].pivot.profile_id
       }
-      Events.attendees().update({eid: _event.id, pid: _event.profile_id}, {status: 'cancelled'})
+      Events.attendees().destroy({eid: _event.id, pid: _event.profile_id})
       .$promise.then( function (response) {
           if ( response.status == 200 ) {
               $scope.loadConferences()

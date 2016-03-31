@@ -121,12 +121,12 @@ angular.module( 'manageEventAttendeesCtrl', [] )
         //console.log(JSON.stringify(data));
         $scope.csvData = [];
         var temp = {};
-        angular.forEach(data, function(item) { 
-          angular.forEach(item, function(value, key) { 
+        angular.forEach(data, function(item) {
+          angular.forEach(item, function(value, key) {
             if (key == "pivot") {
                 temp['status'] = value.status;
             }
-            else if ( key == "first_name" || key == "middle_name" || key == "last_name" || 
+            else if ( key == "first_name" || key == "middle_name" || key == "last_name" ||
                 key == "birthdate" || key == "gender" || key == "email" || key == "phone" ||
                 key == "phone2") {
                 temp[key] = value;
@@ -135,7 +135,7 @@ angular.module( 'manageEventAttendeesCtrl', [] )
           // console.log(JSON.stringify(temp));
           $scope.csvData.push(temp);
           temp = {}
-    });  
+    });
   }
 
 });
