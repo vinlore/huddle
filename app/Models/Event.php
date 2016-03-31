@@ -51,4 +51,16 @@ class Event extends Model
                                 'dept_ride_req',
                                 'status');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($event) {
+            foreach ($event->vehicles as $vehicle) {
+                $vehicle->delete();
+            }
+            $event->managers()->detach();
+            $event->attendees()->detach();
+        });
+    }
 }

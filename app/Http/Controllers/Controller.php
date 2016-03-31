@@ -64,7 +64,7 @@ class Controller extends BaseController
         return $event->managers()->where('user_id', $userId)->exists();
     }
 
-    public function addActivity($userId, $activityType, $sourceId, $sourceType, $profile_id)
+    public function addActivity($userId, $activityType, $sourceId, $sourceType, $profile_id = null)
     {
         try {
             $activity = [
