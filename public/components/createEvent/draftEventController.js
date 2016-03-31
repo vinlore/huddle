@@ -3,6 +3,7 @@ angular.module( 'draftEventCtrl', [])
     $scope.header = "Draft";
     $scope.creation = false;
     $scope.draft = true;
+    $scope.event = [];
 
 
     $scope.citiesOnly = {
