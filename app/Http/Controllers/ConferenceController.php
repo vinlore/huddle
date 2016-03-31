@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -108,7 +108,7 @@ class ConferenceController extends Controller
             //Check if conference manager belongs to this conference OR admin
             $userId = $request->header('ID');
             if (!$conference->managers()->where('user_id', $userId)->get() ||
-                \Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
+                Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
                 return response()->error("403" , "Permission Denied");
             }
 

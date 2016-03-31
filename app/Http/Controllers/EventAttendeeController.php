@@ -115,16 +115,39 @@ class EventAttendeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EventAttendeeRequest $request, $events, $profiles){
+    public function update(EventAttendeeRequest $request, $events_id, $profiles_id){
         try {
-            //Update
-            $attendees = Event::find($events)
-                         ->attendees()
-                         ->updateExistingPivot($profiles,$request->all());
 
+            $event = Event::find($events_id);
+
+            if(!$event) {
+                return response()->error(404);
+            }
+
+            //Update
+            $attendees = $event->attendees()
+                         ->updateExistingPivot($profiles_id,$request->all());
+
+            //Update attendee count
+            $count = $event->attendees()
+                           ->where('status','approved')
+                           ->count();
+            Event::where($events_id)->update(['attendee_count' => $count]);
+
+            if($request->status == 'denied' || $request->status == 'cancelled') {
+
+            } elseif($request->status == 'approved') {
+                if ($request->vehicle_id != NULL) {
+
+                    // Link up profile with the vehicle
+                    $profile = Profile::find($profiles_id);
+                    Vehicle::find($request->vehicle_id)
+                            ->passengers()
+                            ->attach($profile);
+                }
+            }
             //Add Activity to log
             $this->addActivity($request->header('ID'),'update', $events, 'event application', $profiles);
-
             /*
             *TODO: check if user wants email notifcations. If yes, send one.
             *TODO: ADD notification column to user table.

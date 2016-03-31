@@ -94,8 +94,8 @@ class EventController extends Controller
 
             //Check if event manager belongs to this event OR admin
             $userId = $request->header('ID');
-            if (!$event->managers()->where('user_id', $userID)->get()||
-                !$conf->managers()->where('user_id',$userID)->get() ||
+            if (!$event->managers()->where('user_id', $userId)->get()||
+                !$conf->managers()->where('user_id',$userId)->get() ||
                 Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
                 return response()->error("403" , "Permission Denied");
             }
