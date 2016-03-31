@@ -55,8 +55,9 @@ class EventController extends Controller
             }
 
             // Create the Event.
-            $event = Event::create($request->all());
-            $event->conference()->attach($cid);
+            $event = new Event($request->all());
+            $event->conference()->associate($conference);
+            $event->save();
             $event->managers()->attach($request->header('ID'));
 
             $this->addActivity($request->header('ID'),'request', $event->id, 'event');

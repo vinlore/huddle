@@ -105,7 +105,7 @@ angular.module( 'createEventCtrl', [])
           address: address,
           city: city,
           country: country,
-          age_limit: String($scope.event.age_limit),
+          age_limit: $scope.event.age_limit,
           gender_limit: $scope.event.gender_limit,
           attendee_count: 0,
           capacity: $scope.event.capacity,
