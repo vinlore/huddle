@@ -24,7 +24,7 @@ class ConferenceAttendeeRequest extends Request
                     return $this->getUser()->hasAccess(['conference_attendee.update']);
                     break;
                 case 'DELETE':
-                    return $this->getUser()->hasAccess(['conference_attendee.destroy']);
+                    return true;
                     break;
                 default:
                     break;
@@ -43,8 +43,8 @@ class ConferenceAttendeeRequest extends Request
             'first_name'         => ['required', 'string', 'max:255', $this->NAME],
             'middle_name'        => ['string', 'max:255', $this->NAME],
             'last_name'          => ['required', 'string', 'max:255', $this->NAME],
-            'city'               => ['string', 'max:255'],
-            'country'            => ['string', 'max:255'],
+            'city'               => ['required', 'string', 'max:255'],
+            'country'            => ['required', 'string', 'max:255'],
             'birthdate'          => ['required', 'date', 'before:today'],
             'gender'             => ['required', 'string', 'max:255'],
             'accommodation_req'  => ['required', 'boolean'],
