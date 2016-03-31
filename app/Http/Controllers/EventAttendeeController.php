@@ -140,7 +140,7 @@ class EventAttendeeController extends Controller
                         if ($oldStatus != 'pending') {
                             return response()->error(403);
                         }
-                        $event->decrement('attendee_count');
+                        // $event->decrement('attendee_count');
                         break;
                     case 'pending':
                         if ($oldStatus != 'denied') {

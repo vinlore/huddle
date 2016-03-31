@@ -146,7 +146,7 @@ class ConferenceAttendeeController extends Controller
                         if ($oldStatus != 'pending') {
                             return response()->error(403);
                         }
-                        $conference->decrement('attendee_count');
+                        // $conference->decrement('attendee_count');
                         break;
                     case 'pending':
                         if ($oldStatus != 'denied') {
