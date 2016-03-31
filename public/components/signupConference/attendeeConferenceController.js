@@ -15,7 +15,7 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
     conference_id: $stateParams.conference_id,
     name: $stateParams.conference_name
   }
-  $scope.user = {}
+  //$scope.user = {}
 
   $scope.changeCountry = function(country) {
     $scope.citiesOnly.componentRestrictions = { country: country.code };
@@ -31,9 +31,7 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
     Conferences.attendees().get({cid: $stateParams.conference_id, pid: $stateParams.profile_id})
     .$promise.then(function(response){
       if(response){
-        var profile = response.pivot;
-        $scope.user = profile;
-        console.log(profile);
+        $scope.user = response.pivot;
       } else {
         popup.error( 'Error', response.message );
       }
@@ -90,7 +88,7 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       medical_conditions: $scope.user.medical_conditions,
       contact_first_name: $scope.user.contact_first_name,
       contact_last_name: $scope.user.contact_last_name,
-      contact_email: $scope.user.email,
+      contact_email: $scope.user.contact_email,
       contact_phone: $scope.user.contact_phone,
       arrv_time: $filter('time')($scope.arrival.arrv_time),
       arrv_date: $filter('date')($scope.user.arrv_date, 'yyyy-MM-dd'),

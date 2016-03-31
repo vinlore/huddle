@@ -15,6 +15,7 @@ angular.module( 'profileCtrl', [] )
                 Profile.query( { uid: $rootScope.user.id } )
                     .$promise.then( function ( response ) {
                         if ( response ) {
+                            var members = [];
                             for (var i=0; i < response.length; i++) {
                                 response[i].birthdate = new Date(response[i].birthdate+'T00:00:00');
                                 if (response[i]['is_owner']) {
@@ -22,10 +23,10 @@ angular.module( 'profileCtrl', [] )
                                     $scope.loadConferences();
                                     $scope.loadEvents();
                                 } else {
-                                    $scope.members.push(response[i]);
+                                    members.push(response[i]);
                                 }
                             }
-                            $defer.resolve($scope.members);
+                            $defer.resolve(members);
                         } else {
                             popup.error('Error', response.error);
                         }
@@ -116,33 +117,6 @@ angular.module( 'profileCtrl', [] )
             })
     };
 
-    $scope.loadProfile = function () {
-        Profile.query( { uid: $rootScope.user.id } )
-            .$promise.then( function ( response ) {
-                if ( response ) {
-                    var profile = response[0];
-                    $scope.user = {
-                        id: profile.id,
-                        first_name: profile.first_name,
-                        middle_name: profile.middle_name,
-                        last_name: profile.last_name,
-                        birthdate: new Date(profile.birthdate),
-                        gender: profile.gender,
-                        country: profile.country,
-                        city: profile.city,
-                        email: profile.email,
-                        phone: profile.phone
-                    };
-                    $scope.loadConferences();
-                    $scope.loadEvents();
-                } else {
-                    popup.error('Error', response.error);
-                }
-            }, function () {
-                popup.connection();
-            })
-    }
-    $scope.loadProfile();
 
     $scope.conferences = []
     $scope.loadConferences = function () {
@@ -177,12 +151,14 @@ angular.module( 'profileCtrl', [] )
         first_name: null,
         middle_name: null,
         last_name: null,
-        birthdate: null
+        birthdate: null,
+        gender: null
     }
 
     $scope.addMember = function () {
         var member = $scope.newMember;
         member.birthdate = $filter('date')(member.birthdate, 'yyyy-MM-dd');
+        console.log($scope.user.user_id);
         Profile.save({uid: $scope.user.user_id}, member)
             .$promise.then( function (response) {
                 if (response.status == 200) {
@@ -212,7 +188,8 @@ angular.module( 'profileCtrl', [] )
             first_name: null,
             middle_name: null,
             last_name: null,
-            birthdate: null
+            birthdate: null,
+            gender: null
         }
     }
     $scope.cancelConferenceApplication = function (index) {
@@ -230,7 +207,7 @@ angular.module( 'profileCtrl', [] )
             id: $scope.conferences[index].id
           }
         //console.log($scope.conferences);
-        Conferences.attendees().update({cid: conference.id , pid: $scope.user.id},{status: 'cancelled'})
+        Conferences.attendees().delete({cid: conference.id , pid: $scope.user.id})
           .$promise.then( function (response) {
               if ( response.status == 200 ) {
                   $scope.loadConferences()

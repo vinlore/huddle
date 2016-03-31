@@ -63,7 +63,6 @@ angular.module('manageAccommodationsCtrl',[])
 	}
 
 	$scope.add = function(accom) {
-
 		// Adds acommodation to accommodations table
 		Conferences.accommodations().save( {cid: $scope.conferenceId}, accom )
 		.$promise.then( function( response ) {

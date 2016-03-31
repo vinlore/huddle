@@ -134,11 +134,20 @@
     <div class="panel panel-default">
         <div class="panel-body table-responsive">
             <table class="table" ng-table="tableParams">
+                <colgroup>
+                  <col width="20%" />
+                  <col width="15%" />
+                  <col width="20%" />
+                  <col width="25%" />
+                  <col width="20%" />
+                </colgroup>
+                
                 <tr ng-repeat="member in $data">
-                    <td class="wide" title="'First Name'">{{member.first_name}}</td>
-                    <td class="wide" title="'Middle Name'">{{member.middle_name}}</td>
-                    <td class="wide" title="'Last Name'">{{member.last_name}}</td>
+                    <td title="'First Name'">{{member.first_name}}</td>
+                    <td title="'Middle Name'">{{member.middle_name}}</td>
+                    <td title="'Last Name'">{{member.last_name}}</td>
                     <td title="'Birthdate'">{{member.birthdate | date}}</td>
+                    <td title="'Gender'">{{member.gender}}</td>
                     <td>
                         <button class="btn btn-sm btn-danger" ng-click="removeMember(member)"><i class="glyphicon glyphicon-remove"></i></button>
                     </td>
@@ -160,6 +169,14 @@
                                 <button class="btn btn-sm btn-link" ng-click="calendar.open = !calendar.open"><i class="glyphicon glyphicon-calendar"></i></button>
                             </div>
                         </div>
+                    </td>
+                    <td>
+                        <select class="form-control" id="regGender" name="gender" ng-model="newMember.gender" required>
+                          <option value="" disabled>Select a gender ...</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                          <option value="other">Other</option>
+                        </select>
                     </td>
                     <td>
                         <div class="btn-group">

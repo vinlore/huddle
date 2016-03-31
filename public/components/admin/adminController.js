@@ -1,18 +1,20 @@
 angular.module('adminCtrl', [])
-.controller('adminController', function($scope, $location, $log, Conferences, Events, popup, $state, checkPermissions) {
+.controller('adminController', function($scope, $location, $log, Conferences, Events, popup, $state, checkPermissions, checkPermission) {
 
     $scope.conferences = [];
     $scope.events = []; // array of arrays of events
     $scope.radioModel = '';
 
-    $scope.checkPermissions = function(type) {
-        return checkPermissions(type);
+    $scope.checkPermission = function(permission, thing, id) {
+        return checkPermission(permission, thing, id);
+    }
+
+    $scope.checkPermissions = function(type, thing, id) {
+        return checkPermissions(type, thing, id);
     }
 
 	$scope.loadConferences = function () {
-
-        if ($scope.radioModel == '') {
-            Conferences.fetch().query()
+        Conferences.fetch().query()
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.conferences = response;
@@ -25,21 +27,6 @@ angular.module('adminCtrl', [])
             }, function () {
                 popup.connection();
             })
-        } else {
-            Conferences.status().query({status: $scope.radioModel})
-                .$promise.then( function ( response ) {
-                    if ( response ) {
-                        $scope.conferences = response;
-                        for (var i=0; i<response.length; i++) {
-                            $scope.loadEvents($scope.conferences[i].id, i);
-                        }
-                    } else {
-                        $scope.conferences = [];
-                    }
-                }, function () {
-                    popup.connection();
-                })
-        }
     };
 
     $scope.loadConferences();
@@ -75,6 +62,28 @@ angular.module('adminCtrl', [])
                     .$promise.then( function ( response ) {
                         if (response.status == 200) {
                             popup.alert('success', 'Conference successfully deleted');
+                            $scope.loadConferences();
+                        } else {
+                            popup.error('Error');
+                        }
+                    }, function () {
+                        popup.connection();
+                    })
+            }
+        })
+    };
+
+    $scope.deleteEvent = function ( cid, eid, e ) {
+        e.preventDefault();
+        e.stopPropagation();
+        var modalInstance = popup.prompt('Delete', 'Are you sure you want to delete this event?');
+
+        modalInstance.result.then( function ( result ) {
+            if (result) {
+                Events.fetch().delete({cid: cid, eid: eid})
+                    .$promise.then( function ( response ) {
+                        if (response.status == 200) {
+                            popup.alert('success', 'Event successfully deleted');
                             $scope.loadConferences();
                         } else {
                             popup.error('Error');

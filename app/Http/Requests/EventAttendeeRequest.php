@@ -15,7 +15,7 @@ class EventAttendeeRequest extends Request
         if ($this->authenticate()) {
             switch (strtoupper($this->getMethod())) {
                 case 'POST':
-                    return $this->getUser()->hasAccess(['event_attendee.store']);
+                    return true;
                     break;
                 case 'GET':
                     return $this->getUser()->hasAccess(['event_attendee.show']);

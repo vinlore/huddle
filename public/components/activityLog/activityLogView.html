@@ -3,22 +3,16 @@
     <div class="panel-body">
       <div class="page-header">
         <h1 id="timeline">Activity Log</h1>
-        <!-- <div id="selection">
-          <label>Filter by:</label>
-          <label class="checkbox-inline"><input type="checkbox" value="">Conference</label>
-          <label class="checkbox-inline"><input type="checkbox" value="">Event</label>
-          <label class="checkbox-inline"><input type="checkbox" value="">User</label>
-        </div> -->
       </div>
       <ul class="timeline">
         <li class="{{['timeline', 'timeline-inverted'][$index %2]}}" ng-repeat="log in logs | orderBy: '-'">
           <div class="{{['timeline-badge success', 'timeline-badge info'][$index %2]}}"></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
-              <h4 class="timeline-title">{{log.created_at}}</h4>
+              <h4 class="timeline-title">{{log.date}}</h4>
             </div>
             <div class="timeline-body">
-              <p>{{log.activity_type}}</p>
+              <p>{{log.type}}</p>
             </div>
           </div>
         </li>
