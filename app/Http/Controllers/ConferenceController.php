@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Requests\ConferenceRequest;
 use App\Models\Conference;
 use App\Models\User;
+use App\Models\Vehicle;
 
 class ConferenceController extends Controller
 {
@@ -150,11 +151,6 @@ class ConferenceController extends Controller
             $conference = Conference::find($id);
             if (!$conference) {
                 return response()->error(404);
-            }
-
-            // Check if the User is managing the Conference.
-            if (!$this->isConferenceManager($request, $id)) {
-                return response()->error(403);
             }
 
             // Delete the Conference.
