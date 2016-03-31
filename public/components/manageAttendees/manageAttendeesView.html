@@ -11,6 +11,13 @@
    <div class="panel panel-default margin-top-25">
       <div class="panel-body">
 
+         <div class="btn-group pull-center">
+            <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="''" ng-change="load()">All</label>
+            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'approved'" ng-change="load()">Approved</label>
+            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'pending'" ng-change="load()">Pending</label>
+            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'denied'" ng-change="load()">Denied</label>
+         </div>
+
          <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
 
             <colgroup>
