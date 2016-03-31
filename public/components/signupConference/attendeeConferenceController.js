@@ -57,6 +57,14 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
   }
   $scope.loadAccommodations();
 
+  $scope.arrival = {
+    arrv_time: null,
+  }
+
+  $scope.departure = {
+    dept_time: null,
+  }
+
   $scope.submitRequest = function(){
     if(!$scope.user.arrv_ride_req){
       $scope.user.arrv_date = null;
@@ -84,13 +92,13 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       contact_last_name: $scope.user.contact_last_name,
       contact_email: $scope.user.email,
       contact_phone: $scope.user.contact_phone,
-      arrv_time: $filter('time')($scope.user.arrv_time,'H:i.'),
+      arrv_time: $filter('time')($scope.arrival.arrv_time),
       arrv_date: $filter('date')($scope.user.arrv_date, 'yyyy-MM-dd'),
       arrv_airport: $scope.user.arrv_airport,
       arrv_ride_req: $scope.user.arrv_ride_req,
       dept_ride_req: $scope.user.dept_ride_req,
       dept_airport: $scope.user.dept_airport,
-      dept_time: $filter('time')($scope.user.dept_time,'H:i.'),
+      dept_time: $filter('time')($scope.departure.dept_time),
       dept_date:  $filter('date')($scope.user.dept_date, 'yyyy-MM-dd'),
       accommodation_req: $scope.user.accommodation_req,
       accommodation_pref: String($scope.user.accommodation_pref),
