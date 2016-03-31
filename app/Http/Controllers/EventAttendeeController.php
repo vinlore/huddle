@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use Sentinel;
+
 use App\Http\Requests;
 use App\Http\Requests\EventAttendeeRequest;
 
@@ -119,33 +121,152 @@ class EventAttendeeController extends Controller
         try {
 
             $event = Event::find($events_id);
-
-            if(!$event) {
+            if (!$event) {
                 return response()->error(404);
             }
 
-            //Update
-            $attendees = $event->attendees()
-                         ->updateExistingPivot($profiles_id,$request->all());
-
-            //Update attendee count
-            $count = $event->attendees()
-                           ->where('status','approved')
-                           ->count();
-            Event::where($events_id)->update(['attendee_count' => $count]);
-
-            if($request->status == 'denied' || $request->status == 'cancelled') {
-
-            } elseif($request->status == 'approved') {
-                if ($request->vehicle_id != NULL) {
-
-                    // Link up profile with the vehicle
-                    $profile = Profile::find($profiles_id);
-                    Vehicle::find($request->vehicle_id)
-                            ->passengers()
-                            ->attach($profile);
-                }
+            $profile = Profile::find($profile_id);
+            if (!$profile) {
+                return response()->error(400);
             }
+
+            switch ($request->status) {
+                case 'approved':
+                    //Check If Event Manager belongs to this event OR Administrator
+                    $userId = $request->header('ID');
+                    if (!$event->managers()->where('user_id', $userId)->get() ||
+                        Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
+                        return response()->error(403);
+                    }
+
+                    //Check if previously pending or denied
+                    $profile = Profile::find($profiles_id)->events;
+                    foreach($profile as $id) {
+                        if (($id->id == $events_id) &&
+                            (($id->status != 'pending') ||
+                            ($id->status != 'approved')))
+                        {
+                                return response()->error(403);
+                        }
+                    }
+
+                    //Updating the pivot
+                    $events->attendees()->updateExistingPivot($profiles_id, $request->all());
+
+                    //Update attendee count for Conference
+                    $count = Event::find($events_id)
+                                        ->attendees()
+                                        ->where('status','approved')
+                                        ->count();
+
+                    Event::where($events_id)->update(['attendee_count' => $count]);
+
+                    if ($request->vehicle_id != NULL) {
+                        // Link up profile with the vehicle
+                        $profile = Profile::find($profiles_id);
+                        Vehicle::find($request->vehicle_id)
+                                ->passengers()
+                                ->attach($profile);
+
+                        //UPDATE PASSENGER COUNT
+                        $passenger_count = Vehicle::find($request->vehicle_id)->passengers()->count();
+                        Vehicle::where($request->vehicle_id)->update(['passenger_count' => $passenger_count]);
+                    }
+                    break;
+
+                //Change Status to denied
+                case 'denied':
+                    //Check if conference manager belongs to this conference OR admin
+                    $userId = $request->header('ID');
+                    if (!$conference->managers()->where('user_id', $userId)->get() ||
+                        Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
+                        return response()->error(403);
+                    }
+
+                    //Check if previously pending
+                    $profile = Profile::find($profiles_id)->events();
+                    foreach($profile as $id) {
+                        if (($id->id == $events_id) &&
+                            ($id->status != 'pending')) {
+                                return response()->error(403);
+                        }
+                    }
+
+                    //Updating the pivot
+                    $event->attendees()->updateExistingPivot($profiles_id, $request->all());
+                    break;
+
+                case 'pending':
+                    //Check User Owns the Profile
+                    $userId = $request->header('ID');
+                    $current_event = User::find($userId)->profiles()->where('id',$profiles_id)->first();
+                    if (!$current_event ||
+                        !$conference->managers()->where('user_id', $userId)->get() ||
+                        Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
+                        return response()->error(403);
+                    }
+
+                    //Check if previously pending
+                    $profile = Profile::find($profiles_id)->conferences;
+                    foreach($profile as $id)
+                    {
+                        if (($id->id == $events_id) &&
+                            (($id->status != 'pending') ||
+                            ($id->status != 'denied')))
+                        {
+                                return response()->error(403);
+                        }
+                    }
+
+                    //Updating the pivot
+                    $event->attendees()->updateExistingPivot($profiles_id, $request->all());
+                    break;
+                case 'cancelled':
+                     //Check if conference manager belongs to this conference OR admin
+                     $userId = $request->header('ID');
+                     $current_event = User::find($userId)->profiles()->where('id',$pid)->first();
+                     if (!$current_event) {
+                         return response()->error(403);
+                     }
+
+                    /*
+                    *Detatch all related vehicles for this profile for this conference
+                    */
+                    //Find all the Vehicle_id associated with this profile
+                    $vehicle_id = Profile::find($request->profiles_id)->vehicles()->get(['id']);
+                    //Loop through array of vehicle_id
+                    foreach($vehicle_id as $vid)
+                    {
+                        //Grab all event_id associated to this vehicle
+                        $eid = Vehicle::find($vid->id)
+                                        ->events()
+                                        ->get(['event_id']);
+                       foreach($eid as $id)
+                       {
+                           //if event_id matches the one being rejected
+                           if ($events_id == $id->event_id)
+                           {
+                               Vehicle::find($vid->id)
+                                       ->passengers()
+                                       ->detach(Profile::find($profiles_id));
+                           }
+                       }
+
+                       //Update Event Vehicle passenger
+                       $passenger_count = Vehicle::find($vid->id)->passengers()->count();
+                       Vehicle::where($vid->id)->update(['passenger_count' => $passenger_count]);
+                    }
+
+                    /*
+                    *   Remove associated Event
+                    */
+                    Profile::find($profiles_id)->events()->detach($events_id);
+                    break;
+                default:
+                    return response()->error(404);
+
+            }
+
             //Add Activity to log
             $this->addActivity($request->header('ID'),'update', $events, 'event application', $profiles);
             /*

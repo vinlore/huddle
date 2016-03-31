@@ -128,11 +128,10 @@ class ConferenceAttendeeController extends Controller
                         Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
                         return response()->error("403" , "Permission Denied");
                     }
-                    //Check if previously pending
+                    //Check if previously pending or denied
                     $profile = Profile::find($pid)->conferences;
 
-                    foreach($profile as $id)
-                    {
+                    foreach($profile as $id) {
                         if (($id->id == $cid) &&
                             (($id->status != 'pending') ||
                             ($id->status != 'approved')))
@@ -142,8 +141,7 @@ class ConferenceAttendeeController extends Controller
                     }
 
                     //Updating the pivot
-                    $attendees = $conference->attendees()
-                                            ->updateExistingPivot($pid, $request->all());
+                    $conference->attendees()->updateExistingPivot($pid, $request->all());
 
                     //Update attendee count for Conference
                     $count = Conference::find($cid)
@@ -151,8 +149,7 @@ class ConferenceAttendeeController extends Controller
                                         ->where('status','approved')
                                         ->count();
 
-                    Conference::where($cid)
-                                ->update(['attendee_count' => $count]);
+                    Conference::where($cid)->update(['attendee_count' => $count]);
 
 
                     if ($request->vehicle_id != NULL) {
@@ -161,6 +158,10 @@ class ConferenceAttendeeController extends Controller
                     Vehicle::find($request->vehicle_id)
                             ->passengers()
                             ->attach($profile);
+
+                    //UPDATE PASSENGER COUNT
+                    $passenger_count = Vehicle::find($request->vehicle_id)->passengers()->count();
+                    Vehicle::where($request->vehicle_id)->update(['passenger_count' => $passenger_count]);
                     }
 
                     if ($request->room_id != NULL) {
@@ -169,6 +170,10 @@ class ConferenceAttendeeController extends Controller
                     Room::find($request->room_id)
                             ->guests()
                             ->attach($profile);
+
+                    //Update Room Count
+                    $room_count = Room::find($request->room_id)->guests()->count();
+                    Room::where($request->room_id)->update(['guest_count' => $room_count]);
                     }
                     break;
 
@@ -186,28 +191,22 @@ class ConferenceAttendeeController extends Controller
                     foreach($profile as $id) {
                         if (($id->id == $cid) &&
                             ($id->status != 'pending')) {
-                                return response()->error(406);
+                                return response()->error(403);
                         }
                     }
 
                     //Updating the pivot
-                    $attendees = $conference->attendees()
-                                            ->updateExistingPivot($pid, $request->all());
+                    $conference->attendees()->updateExistingPivot($pid, $request->all());
                     break;
 
                 case 'pending':
-                    //Check User Owns the Profile
+                    //Check User Owns the Profile Or it's manager, or it's admin
                     $userId = $request->header('ID');
                     $current_event = User::find($userId)->profiles()->where('id',$pid)->first();
-                    if (!$current_event) {
-                        return response()->error("403" , "No permission here");
-                    }
-
-                    //Check if conference manager belongs to this conference OR admin
-                    $userId = $request->header('ID');
-                    if (!$conference->managers()->where('user_id', $userId)->get() ||
+                    if (!$current_event ||
+                        !$conference->managers()->where('user_id', $userId)->get() ||
                         Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
-                        return response()->error("403" , "Permission Denied");
+                        return response()->error(403);
                     }
 
                     //Check if previously pending
@@ -218,13 +217,12 @@ class ConferenceAttendeeController extends Controller
                             (($id->status != 'pending') ||
                             ($id->status != 'denied')))
                         {
-                                return response()->error(406);
+                                return response()->error(403);
                         }
                     }
 
                     //Updating the pivot
-                    $attendees = $conference->attendees()
-                                            ->updateExistingPivot($pid, $request->all());
+                    $conference->attendees()->updateExistingPivot($pid, $request->all());
                     break;
 
                 case 'cancelled':
@@ -270,7 +268,7 @@ class ConferenceAttendeeController extends Controller
                                        ->detach(Profile::find($pid));
                            }
                        }
-                       //Update Event attendee count
+                       //Update Event Vehicle passenger
                        $passenger_count = Vehicle::find($vid->id)->passengers()->count();
                        Vehicle::where($vid->id)->update(['passenger_count' => $passenger_count]);
                    }
@@ -318,6 +316,10 @@ class ConferenceAttendeeController extends Controller
                         $count = $current_event->where('status','approved')->count();
                         Event::where($eid_id)->update(['attendee_count' => $count]);
                    }
+                   /*
+                   *    Remove the associated conference
+                   */
+                    Profile::find($pid)->conferences()->detach($cid);
                     break;
                 default:
                     return response()->error(404);
