@@ -84,6 +84,8 @@
   <script src="components/signupConference/attendeeConferenceController.js"></script>
   <script src="components/signupEvent/attendeeEventController.js"></script>
   <script src="components/manageAttendees/conferenceAttendeeModalController.js"></script>
+  <script src="components/createEvent/draftEventController.js"></script>
+  <script src="components/createConference/draftConferenceController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/mapService.js"></script>

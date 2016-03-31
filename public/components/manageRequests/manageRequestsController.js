@@ -1,20 +1,27 @@
 angular.module( 'manageRequestsCtrl', [] )
-.controller( 'manageRequestsController', function ($scope, Conferences, Events, popup) {
+.controller( 'manageRequestsController', function ($scope, Conferences, Events, popup, $state) {
 
-  // Conference Creation methods
+    $scope.events = []
+    $scope.conferences = []
 
   // show conference creation application
-  $scope.viewConferenceApplication = function(index){
+  $scope.viewConferenceDraft = function(index){
       // route to conference application
+      var _cid = $scope.events[index].conference_id;
+      $state.go('draft-conference', {conference_id: _cid});
   }
 
 
   // show events creation application
-  $scope.viewEventApplication = function(index){
+  $scope.viewEventDraft = function(index){
       // route to event application
+      var _eid = $scope.events[index].event_id;
+      var _cid = $scope.events[index].conference_id;
+      //:event_name?:event_id?conference_id:conference_id'
+      $state.go('draft-event', {conference_id: _cid, event_id: _eid });
   }
 
-  $scope.conferences = []
+
   // TODO: Need to change approved --> pending
   $scope.loadPendingConferences = function () {
       Conferences.status().query({status:'pending'})
@@ -30,7 +37,7 @@ angular.module( 'manageRequestsCtrl', [] )
   };
   $scope.loadPendingConferences();
 
-  $scope.events = []
+
   // TODO: Need to change approved --> pending
   $scope.loadPendingEvents = function () {
       Events.status().query({status:'pending'})

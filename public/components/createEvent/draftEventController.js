@@ -1,8 +1,10 @@
-angular.module( 'createEventCtrl', [])
-.controller( 'createEventController', function( $scope, Countries, Events, $stateParams, $filter, $location, popup, $state ) {
-    $scope.header = "Create ";
+angular.module( 'draftEventCtrl', [])
+.controller( 'draftEventController', function( $scope, Countries, Events, $stateParams, $filter, $location, popup, $state ) {
+    $scope.header = "Draft";
+    $scope.creation = false;
+    $scope.draft = true;
     $scope.event = {
-        conference_id: $stateParams.conferenceId,
+        conference_id: $stateParams.conference_id,
         name: null,
         description: null,
         facilitator: null,
@@ -19,7 +21,6 @@ angular.module( 'createEventCtrl', [])
         capacity: null,
         status: null,
     }
-    $scope.creation = true;
 
     $scope.citiesOnly = {
         types: ['(cities)']
@@ -70,6 +71,20 @@ angular.module( 'createEventCtrl', [])
     $scope.removeDeparture = function( ind ) {
         $scope.depTransport.splice( ind, 1 );
     }
+
+    // $scope.loadEvent = function(){
+    //   Events.fetch().get( { cid: $stateParams.conference_id, eid: $stateParams.event_id} )
+    //       .$promise.then( function( response ) {
+    //           if ( response ) {
+    //               console.log(response);
+    //           } else {
+    //               popup.error( 'Error', response.message );
+    //           }
+    //       }, function () {
+    //           popup.connection();
+    //       })
+    // }
+    // $scope.loadEvent();
 
     $scope.submit = function () {
         var city, address, country;

@@ -1,8 +1,8 @@
 <div id="create-event" class="container has-header">
-  <h1 class="page-header">Create New Event</h1>
+  <h1 class="page-header">{{header}} Event</h1>
   <div class="panel panel-default">
     <div class="panel-body">
-      <div class="col-lg-6">
+      <div class="col-lg-6 col-lg-offset-2">
         <form name="ce-form" class="form-horizontal" ng-submit="submit()">
           <div class="form-group">
             <label for="ce-name" class="col-sm-3 control-label">Name</label>
@@ -91,7 +91,7 @@
           </div>
         </form>
       </div>
-      <div class="col-lg-6">
+      <!-- <div class="col-lg-6">
         <div class="row" id="ce-arrTransport">
           <label>
             <input type="checkbox" ng-model="isArrival"> Arrival Transportation
@@ -122,10 +122,13 @@
             </div>
           </div>
         </div>
+      </div> -->
+      <div class="col-sm-8 col-sm-offset-4">
+            <button ng-if="creation" class="btn btn-lg btn-success" type="submit" ng-click="submit()">Create Request</button>
+            <button ng-if="draft" class="btn btn-md btn-info" type="submit" ng-click="submit()">Save Draft</button>
+            <button ng-if="draft" class="btn btn-md btn-success" type="submit" ng-click="publish()">Publish</button>
       </div>
     </div>
-
-    <button class="btn btn-lg btn-success center-block" type="submit" ng-click="submit()">Create Request</button>
     <div><hr></div>
   </div>
 </div>

@@ -49,7 +49,9 @@ angular.module('cms', [
     'createEventCtrl',
     'attendeeConfCtrl',
     'attendeeEventCtrl',
-    'conferenceAttendeeModalCtrl'
+    'conferenceAttendeeModalCtrl',
+    'draftEventCtrl',
+    'draftConferenceCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup ) {
@@ -315,6 +317,24 @@ angular.module('cms', [
         url: '/attendee-event-profile-:event_name?:event_id?profile:profile_id',
         templateUrl: 'components/signupEvent/signupEventView.html',
         controller: 'attendeeEventController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'draft-event', {
+        url: '/draft-event-:event_name?:event_id?:conference_id',
+        templateUrl: 'components/createEvent/createEventView.html',
+        controller: 'draftEventController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'draft-conference', {
+        url: '/draft-conference-:conference_id',
+        templateUrl: 'components/createConference/createConferenceView.html',
+        controller: 'draftConferenceController',
         resolve: {
             loginRequired: loginRequired
         }
