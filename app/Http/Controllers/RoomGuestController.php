@@ -5,14 +5,67 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
-use App\Http\Requests\ConferenceRequest;
-
-use App\Models\Profile as Profile;
-use App\Models\Room as Room;
+use App\Models\Profile;
+use App\Models\Room;
 
 class RoomGuestController extends Controller
 {
+    /**
+     * @return
+     */
+    public function index($rid)
+    {
+        try {
+
+            // Check if the Room exists.
+            $room = Room::find($rid);
+            if (!$room) {
+                return response()->error(404, 'Room Not Found');
+            }
+
+            // Retrieve its Guests.
+            return $room->guests()->get();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
+    /**
+     * @return
+     */
+    public function store(Request $request, $rid)
+    {
+        try {
+
+            // Check if the Room exists.
+            $room = Room::find($rid);
+            if (!$room) {
+                return response()->error(404, 'Room Not Found');
+            }
+
+            // Check capacity.
+            if ($room->guest_count >= $room->capacity) {
+                return response()->error(422, 'Exceeded Capacity Error');
+            }
+
+            $pid = $request->profile_id;
+
+            // Check if the Profile exists.
+            $profile = Profile::find($pid);
+            if (!$profile) {
+                return response()->error(404);
+            }
+
+            // Add the Guest.
+            $room->guests()->attach($rid);
+            $room->increment('guest_count');
+
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
     /**
      * Display the specified resource.
      *
@@ -28,53 +81,6 @@ class RoomGuestController extends Controller
             }
             return $room;
         } catch (Exception $e) {
-            return response()->error($e);
-        }
-    }
-
-    public function store(Request $request, $rid) {
-        try {
-            Profile::find($request->profile_id)
-                    ->rooms()
-                    ->attach($rid);
-
-            //Update Room Count
-            $room_count = Room::find($rid)->guests()->count();
-            Room::where('id',$rid)->update(['guest_count' => $room_count]);
-
-            return response()->success();
-        } catch (Exception $e) {
-            return response()->error($e);
-        }
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id){
-        try {
-            //Update Profile Riding on different Vehicle
-            Profile::find($request->profile_id)
-                    ->rooms()
-                    ->updateExistingPivot($request->old_room_id, ['room_id' => $request->new_room_id]);
-
-            //Update Room Count
-            $room_count = Room::find($rid)->guests()->count();
-            Room::where('id',$rid)->update(['guest_count' => $room_count]);
-
-            $room_count = Room::find($request->old_room_id)->guests()->count();
-            Room::where('id',$request->old_room_id)->update(['guest_count' => $room_count]);
-            /*
-            *TODO: check if user wants email notifcations. If yes, send one.
-            *TODO: ADD notification column to user table.
-            */
-            return response()->success();
-         } catch (Exception $e) {
             return response()->error($e);
         }
     }
