@@ -1,5 +1,5 @@
 angular.module( 'manageEventAttendeesCtrl', [] )
-.controller( 'manageEventAttendeesController', function ($scope, ngTableParams, $stateParams, $filter, Events, popup) {
+.controller( 'manageEventAttendeesController', function ($scope, ngTableParams, $stateParams, $filter, Events, popup, $uibModal, Passengers) {
 
 	// Event ID
 	$scope.eventId = $stateParams.eventId;
@@ -83,7 +83,7 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 
 	//////// Button Functions ////////
 
-  	$scope.approve = function(id) {
+	var attend = function(id) {
 
 	    Events.attendees().update( {eid: $scope.eventId, pid: id}, {status: 'approved'})
 	    .$promise.then( function( response ) {
@@ -99,6 +99,57 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 
 	    $scope.tableParams.reload();
 	}
+
+	$scope.approve = function(attendee) {
+        if (attendee.pivot.arrv_ride_req || attendee.pivot.dept_ride_req) {
+            var modalInstance = $uibModal.open({
+                animation: false,
+                templateUrl: 'components/manageAttendees/eventAttendeeModal.html',
+                controller: 'eventAttendeeModalController',
+                size: 'lg',
+                resolve: {
+                    eventId: function() {
+                        return $stateParams.eventId;
+                    },
+                    preferences: function() {
+                        return {
+                            arrv_ride_req: attendee.pivot.arrv_ride_req,
+                            dept_ride_req: attendee.pivot.dept_ride_req
+                        }
+                    }
+                }
+            })
+
+            modalInstance.result.then(function(result) {
+                if (result) {
+                    console.log(result);
+                    // TODO store to profile rides and profile stays table
+                    if (result.arrivalVehicle) {
+                        Passengers.save({ vid: result.arrivalVehicle }, { profile_id: attendee.id })
+                            .$promise.then(function(response) {
+                                if (response.status != 200) {
+                                    popup.error('Error', response.message);
+                                    return false;
+                                }
+                            })
+                    }
+                    if (result.departureVehicle) {
+                        Passengers.save({ vid: result.departureVehicle }, { profile_id: attendee.id })
+                            .$promise.then(function(response) {
+                                if (response.status != 200) {
+                                    popup.error('Error', response.message);
+                                    return false;
+                                }
+                            })
+                    }
+                    attend(attendee.id);
+                }
+            })
+        } else {
+            attend(attendee.id);
+        }
+        $scope.tableParams.reload();
+    }
 
   	$scope.deny = function(id) {
 

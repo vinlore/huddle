@@ -50,6 +50,7 @@ angular.module('cms', [
     'attendeeConfCtrl',
     'attendeeEventCtrl',
     'conferenceAttendeeModalCtrl',
+    'eventAttendeeModalCtrl',
     'draftEventCtrl',
     'draftConferenceCtrl'
 ])
