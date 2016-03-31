@@ -19,13 +19,6 @@ angular.module( 'draftConferenceCtrl', [])
         isOpen2: false
     };
 
-    $scope.items = [
-        {
-            name: null,
-            num: null
-        }
-    ]
-
     $scope.changeCountry = function (country) {
         $scope.citiesOnly.componentRestrictions = {country: country.code};
     }
@@ -90,5 +83,7 @@ angular.module( 'draftConferenceCtrl', [])
                 popup.connection();
             })
     }
+
+
 
 })
