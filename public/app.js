@@ -296,7 +296,7 @@ angular.module('cms', [
     })
 
     .state( 'manage-attendees-event', {
-        url: '/manage-attendees-event-:eventId',
+        url: '/manage-attendees-event-:conferenceId-:eventId',
         templateUrl: 'components/manageAttendees/manageAttendeesView.html',
         controller: 'manageEventAttendeesController',
         resolve: {

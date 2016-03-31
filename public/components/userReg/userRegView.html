@@ -1,116 +1,118 @@
 <script type="text/ng-template" id="usernamePopoverTemplate.html">
-    <ul class="list-unstyled">
-        <li ng-repeat="require in usernamePopover">
-            {{require}}
-        </li>
-    </ul>
+  <ul class="list-unstyled">
+    <li ng-repeat="require in usernamePopover">
+      {{require}}
+    </li>
+  </ul>
 </script>
 <script type="text/ng-template" id="passwordPopoverTemplate.html">
-    <ul class="list-unstyled">
-        <li ng-repeat="require in passwordPopover">
-            {{require}}
-        </li>
-    </ul>
+  <ul class="list-unstyled">
+    <li ng-repeat="require in passwordPopover">
+      {{require}}
+    </li>
+  </ul>
 </script>
 <div class="container has-header" id="user-registration">
-    <h1 class="text-center">User Registration</h1>
-    <form name="regForm" class="form-horizontal" ng-submit="register()">
+  <h1 class="page-header">User Registration</h1>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form name="regForm" class="form-horizontal" ng-submit="register()">
         <div class="form-group" ng-class="{'has-error': regForm.uname.$error.username}">
-            <label for="regUsername" class="col-sm-2 col-sm-offset-2 control-label">*Username</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="uname" id="regUsername" ng-model="user.username" username required uib-popover-template="'usernamePopoverTemplate.html'" popover-trigger="focus" popover-placement="bottom" ng-model-options="{ debounce: 600}">
-                <uib-alert type="danger">Invalid Username!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
-            </div>
+          <label for="regUsername" class="col-sm-2 col-sm-offset-2 control-label">*Username</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" name="uname" id="regUsername" ng-model="user.username" username required uib-popover-template="'usernamePopoverTemplate.html'" popover-trigger="focus" popover-placement="bottom" ng-model-options="{ debounce: 600}">
+            <uib-alert type="danger">Invalid Username!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          </div>
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.password.$error.password}">
-            <label for="regPw" class="col-sm-2 col-sm-offset-2 control-label">*Password</label>
-            <div class="col-sm-4">
-                <input type="password" class="form-control" name="password" id="regPw" ng-model="user.password" password required uib-popover-template="'passwordPopoverTemplate.html'" popover-trigger="focus" popover-placement="bottom" ng-model-options="{ debounce: 600}">
-                <uib-alert type="danger">Invalid Password!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
-            </div>
+          <label for="regPw" class="col-sm-2 col-sm-offset-2 control-label">*Password</label>
+          <div class="col-sm-4">
+            <input type="password" class="form-control" name="password" id="regPw" ng-model="user.password" password required uib-popover-template="'passwordPopoverTemplate.html'" popover-trigger="focus" popover-placement="bottom" ng-model-options="{ debounce: 600}">
+            <uib-alert type="danger">Invalid Password!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          </div>
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.confirm.$error.confirmPassword}">
-            <label for="regPw2" class="col-sm-2 col-sm-offset-2 control-label">*Confirm Password</label>
-            <div class="col-sm-4">
-                <input type="password" class="form-control" name="confirm" id="regPw2" ng-model="user.confirm" confirm-password="user.password" ng-model-options="{ debounce: 600}" required>
-                <uib-alert type="danger">Passwords do not match!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
-            </div>
+          <label for="regPw2" class="col-sm-2 col-sm-offset-2 control-label">*Confirm Password</label>
+          <div class="col-sm-4">
+            <input type="password" class="form-control" name="confirm" id="regPw2" ng-model="user.confirm" confirm-password="user.password" ng-model-options="{ debounce: 600}" required>
+            <uib-alert type="danger">Passwords do not match!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          </div>
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.firstName.$error.names}">
-            <label for="regUser" class="col-sm-2 col-sm-offset-2 control-label">*First Name</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="firstName" id="regUser" ng-model="user.firstName" required names ng-model-options="{ debounce: 600}">
-                <uib-alert type="danger">Invalid First Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
-            </div>
+          <label for="regUser" class="col-sm-2 col-sm-offset-2 control-label">*First Name</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" name="firstName" id="regUser" ng-model="user.firstName" required names ng-model-options="{ debounce: 600}">
+            <uib-alert type="danger">Invalid First Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          </div>
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.middleName.$error.names}">
-            <label for="regUser" class="col-sm-2 col-sm-offset-2 control-label">Middle Name</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="middleName" id="regUser" ng-model="user.middleName" names ng-model-options="{ debounce: 600}">
-                <uib-alert type="danger">Invalid Middle Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
-            </div>
+          <label for="regUser" class="col-sm-2 col-sm-offset-2 control-label">Middle Name</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" name="middleName" id="regUser" ng-model="user.middleName" names ng-model-options="{ debounce: 600}">
+            <uib-alert type="danger">Invalid Middle Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          </div>
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.lastName.$error.names}">
-            <label for="regUser" class="col-sm-2 col-sm-offset-2 control-label">*Last Name</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="regUser" name="lastName" ng-model="user.lastName" names ng-model-options="{ debounce: 600}">
-                <uib-alert type="danger">Invalid Last Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
-            </div>
+          <label for="regUser" class="col-sm-2 col-sm-offset-2 control-label">*Last Name</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="regUser" name="lastName" ng-model="user.lastName" required names ng-model-options="{ debounce: 600}">
+            <uib-alert type="danger">Invalid Last Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          </div>
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.gender.$submitted}">
-            <label for="regGender" class="col-sm-2 col-sm-offset-2 control-label">*Gender</label>
-            <div class="col-sm-4">
-                <select class="form-control" id="regGender" name="gender" ng-model="user.gender" required>
-                    <option value="" disabled>Select a gender ...</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
+          <label for="regGender" class="col-sm-2 col-sm-offset-2 control-label">*Gender</label>
+          <div class="col-sm-4">
+            <select class="form-control" id="regGender" name="gender" ng-model="user.gender" required>
+              <option value="" disabled>Select a gender ...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.birthdate.$error.birthdate}">
-            <label for="regBirthdate" class="col-sm-2 col-sm-offset-2 control-label">*Birthdate</label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="regBirthdate" name="birthdate" ng-model="user.birthdate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen" placeholder="YYYY-MM-DD" required birthdate ng-model-options="{ debounce: 600}">
-                    <span class="input-group-btn">
-                        <button class="btn btn-link" type="button" ng-click="calendar.isOpen = !calendar.isOpen">
-                            <i class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                    </span>
-                </div>
-                <uib-alert type="danger">Birthdate can't be after today!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          <label for="regBirthdate" class="col-sm-2 col-sm-offset-2 control-label">*Birthdate</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input type="text" class="form-control" id="regBirthdate" name="birthdate" ng-model="user.birthdate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen" placeholder="YYYY-MM-DD" required birthdate ng-model-options="{ debounce: 600}">
+              <span class="input-group-btn">
+                <button class="btn btn-link" type="button" ng-click="calendar.isOpen = !calendar.isOpen">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
             </div>
+            <uib-alert type="danger">Birthdate can't be after today!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          </div>
         </div>
         <div class="form-group">
-            <label for="regCountry" class="col-sm-2 col-sm-offset-2 control-label">Country</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="regCountry" ng-model="user.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="changeCountry($item)">
-            </div>
+          <label for="regCountry" class="col-sm-2 col-sm-offset-2 control-label">Country</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="regCountry" ng-model="user.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="changeCountry($item)">
+          </div>
         </div>
         <div class="form-group">
-            <label for="regCity" class="col-sm-2 col-sm-offset-2 control-label">City</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="regCity" ng-model="user.city" g-places-autocomplete options="citiesOnly" names>
-            </div>
+          <label for="regCity" class="col-sm-2 col-sm-offset-2 control-label">City</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="regCity" ng-model="user.city" g-places-autocomplete options="citiesOnly" names>
+          </div>
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.email.$error.email}">
-            <label for="regEmail" class="col-sm-2 col-sm-offset-2 control-label">Email</label>
-            <div class="col-sm-4">
-                <input type="email" class="form-control" name="email" id="regEmail" ng-model="user.email" ng-model-options="{ debounce: 600}">
-                <input type="checkbox" ng-model="user.receive" ng-disabled="!user.email || regForm.email.$error.email"><span> Receive emails from Gobind Sarvar.</span>
-                <uib-alert type="danger">Invalid Email!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
-            </div>
-
-            
+          <label for="regEmail" class="col-sm-2 col-sm-offset-2 control-label">Email</label>
+          <div class="col-sm-4">
+            <input type="email" class="form-control" name="email" id="regEmail" ng-model="user.email" ng-model-options="{ debounce: 600}">
+            <input type="checkbox" ng-model="user.receive" ng-disabled="!user.email || regForm.email.$error.email"><span> Receive emails from Gobind Sarvar.</span>
+            <uib-alert type="danger">Invalid Email!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          </div>
         </div>
         <div class="form-group" ng-class="{'has-error': regForm.phone.$error.number}">
-            <label for="regPhone" class="col-sm-2 col-sm-offset-2 control-label">Phone</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" name="phone" id="regPhone" ng-model="user.phone" ng-model-options="{ debounce: 600}">
-                <uib-alert type="danger">Numbers only!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
-            </div>
+          <label for="regPhone" class="col-sm-2 col-sm-offset-2 control-label">Phone</label>
+          <div class="col-sm-4">
+            <input type="number" class="form-control" name="phone" id="regPhone" ng-model="user.phone" ng-model-options="{ debounce: 600}">
+            <uib-alert type="danger">Numbers only!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+          </div>
         </div>
         <button class="btn btn-lg btn-sm-block btn-success center-block" type="submit">Sign Up</button>
-    </form>
+      </form>
+    </div>
+  </div>
 </div>

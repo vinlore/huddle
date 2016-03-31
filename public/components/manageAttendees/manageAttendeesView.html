@@ -1,10 +1,10 @@
 <div id="attendees" class="container has-header">
    <div class="container">
       <div ng-if="conferenceId != null">
-         <h1>Attendees for Conference {{conferenceId}}</h1>
+         <h1>Attendees for {{conference.name}}</h1>
       </div>
       <div ng-if="eventId != null">
-         <h1>Attendees for Event {{eventId}}</h1>
+         <h1>Attendees for {{event.name}}</h1>
       </div>
    </div>
 
@@ -86,12 +86,23 @@
             </tr>
          </table>
 
-         <div class="pull-right">
-               <button class="btn btn-info" ng-click="export()">
+         <div ng-if="conferenceId != null">
+            <div class="pull-right">
+               <button button class="btn btn-info" ng-csv="csvData" csv-header="['Email', 'Home Phone', 'First Name', 'Middle Name', 'Last Name', 'Birthdate', 'Gender', 'Status', 'Mobile Phone']" filename="Conference-{{conference.name}}-Attendees.csv">
                   <span class="glyphicon glyphicon-download"></span>
                   Export
-            </button>
+               </button>
+            </div>
          </div>
+         <div ng-if="eventId != null">
+            <div class="pull-right">
+               <button button class="btn btn-info" ng-csv="csvData" csv-header="['Email', 'Home Phone', 'First Name', 'Middle Name', 'Last Name', 'Birthdate', 'Gender', 'Status', 'Mobile Phone']" filename="Event-{{event.name}}-Attendees.csv">
+                  <span class="glyphicon glyphicon-download"></span>
+                  Export
+               </button>
+            </div>
+         </div>
+         
       </div>
    </div>
 </div>

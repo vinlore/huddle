@@ -16,15 +16,16 @@ angular.module('signupEventCtrl',[])
 
   $scope.submitRequest = function() {
           var profile = {
+            profile_id: $rootScope.user.id,
             arrv_ride_req: $scope.attendee.arrv_ride_req,
             dept_ride_req: $scope.attendee.dept_ride_req,
             status: 'pending'
           }
-          Events.attendees().save({ eid: $scope.event.id, pid: profile.profile_id}, profile)
+          Events.attendees().save({ eid: $scope.event.id}, profile)
               .$promise.then(function(response) {
                   if (response.status == 200) {
                       popup.alert('success', 'You have been successfully signed up for approval to attend this event.');
-                      $state.go('/');
+                      $state.go('home');
                   } else {
                       popup.error('Error', response.message);
                   }
