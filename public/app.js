@@ -496,24 +496,6 @@ angular.module('cms', [
         }
     })
 
-    .state( 'draft-event', {
-        url: '/draft-event-:event_id?:conference_id',
-        templateUrl: 'components/createEvent/createEventView.html',
-        controller: 'draftEventController',
-        resolve: {
-            loginRequired: loginRequired
-        }
-    })
-
-    .state( 'draft-conference', {
-        url: '/draft-conference-:conference_id',
-        templateUrl: 'components/createConference/createConferenceView.html',
-        controller: 'draftConferenceController',
-        resolve: {
-            loginRequired: loginRequired
-        }
-    })
-
     $urlRouterProvider.otherwise( '/' );
 
     $locationProvider.html5Mode(true);
