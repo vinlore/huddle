@@ -10,9 +10,7 @@ angular.module('adminCtrl', [])
     }
 
 	$scope.loadConferences = function () {
-
-        if ($scope.radioModel == '') {
-            Conferences.fetch().query()
+        Conferences.fetch().query()
             .$promise.then( function ( response ) {
                 if ( response ) {
                     $scope.conferences = response;
@@ -25,21 +23,6 @@ angular.module('adminCtrl', [])
             }, function () {
                 popup.connection();
             })
-        } else {
-            Conferences.status().query({status: $scope.radioModel})
-                .$promise.then( function ( response ) {
-                    if ( response ) {
-                        $scope.conferences = response;
-                        for (var i=0; i<response.length; i++) {
-                            $scope.loadEvents($scope.conferences[i].id, i);
-                        }
-                    } else {
-                        $scope.conferences = [];
-                    }
-                }, function () {
-                    popup.connection();
-                })
-        }
     };
 
     $scope.loadConferences();
@@ -75,6 +58,7 @@ angular.module('adminCtrl', [])
                     .$promise.then( function ( response ) {
                         if (response.status == 200) {
                             popup.alert('success', 'Conference successfully deleted');
+                            $scope.loadConferences();
                         } else {
                             popup.error('Error');
                         }

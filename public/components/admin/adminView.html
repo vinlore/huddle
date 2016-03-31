@@ -1,17 +1,17 @@
 <div id="admin">
     <div class="container">
-        <div class="margin-top-25">
+        <div class="margin-top-25 col-sm-12">
 
-            <div class="col-md-10">
+            <div>
                 <div class="btn-group">
-                    <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="''" ng-change="loadConferences()">All</label>
-                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'approved'" ng-change="loadConferences()">Approved</label>
-                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'pending'" ng-change="loadConferences()">Pending</label>
-                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'denied'" ng-change="loadConferences()">Denied</label>
+                    <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="''">All</label>
+                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'approved'">Approved</label>
+                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'pending'">Pending</label>
+                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'denied'">Denied</label>
                 </div>
             </div>
 
-            <div class="col-md-2 pull-right">
+            <div >
                 <a class="btn btn-success" type="button" ui-sref="create-conference" ng-if="user.permissions['conference.store']">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Conference
                 </a>
@@ -20,12 +20,12 @@
         </div>
     </div>
     <div uib-accordion class="container" id="admin-conferences" close-others="false">
-        <uib-accordion-group class="margin-top-25" ng-repeat="c in conferences track by $index">
+        <uib-accordion-group class="margin-top-25" ng-repeat="c in conferences | filter:{status: radioModel} track by $index">
             <uib-accordion-heading is-open="isCollapsed">
                 <div class="panel-body">
                     <div class="title-status">
                         <h2>{{c.name}}&nbsp</h2>
-                        <label class="alert" is-approved status="c.status">{{c.status | uppercase}}</label>
+                        <label class="alert" ng-class="{'status-pending': c.status=='pending', 'status-approved': c.status=='approved', 'status-denied': c.status=='denied'}">{{c.status | uppercase}}</label>
                     </div>
                     <p>{{c.address}}</p>
                     <p>{{c.city}}, {{c.country}}</p>
@@ -86,7 +86,7 @@
                     <div class="panel-body">
                         <div class="title-status">
                             <h3 class="con-title">{{e.name}}&nbsp</h3>
-                            <label class="alert" is-approved status="e.status">{{e.status | uppercase}}</label>
+                            <label class="alert" ng-class="{'status-pending': c.status=='pending', 'status-approved': c.status=='approved', 'status-denied': c.status=='denied'}">{{e.status | uppercase}}</label>
                         </div>
                         <p>{{e.address}}</p>
                         <p>{{e.date | date}}</p>
