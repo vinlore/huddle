@@ -1,9 +1,13 @@
 angular.module( 'conferenceCtrl', [] )
-.controller( 'conferenceController', function( $scope, $filter, Conferences, Gmap, $stateParams, $resource, popup, Events, $rootScope   ) {
+.controller( 'conferenceController', function( $scope, $filter, Conferences, Gmap, $stateParams, $resource, popup, Events, $rootScope, checkPermission ) {
 
     $scope.citiesOnly = {
         types: ['(cities)']
     };
+
+    $scope.checkPermission = function(permission, thing, id) {
+        return checkPermission(permission, thing, id);
+    }
 
     $scope.conference = {};
 

@@ -53,7 +53,7 @@
         <div class="form-group" ng-class="{'has-error': regForm.lastName.$error.names}">
             <label for="regUser" class="col-sm-2 col-sm-offset-2 control-label">*Last Name</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="regUser" name="lastName" ng-model="user.lastName" names ng-model-options="{ debounce: 600}">
+                <input type="text" class="form-control" id="regUser" name="lastName" ng-model="user.lastName" names ng-model-options="{ debounce: 600}" required>
                 <uib-alert type="danger">Invalid Last Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
             </div>
         </div>

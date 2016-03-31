@@ -17,14 +17,11 @@ class RolesSeeder extends Seeder
             'accommodation.update'        => true,
             'accommodation.destroy'       => true,
 
-            'conference.status'           => true,
             'conference.store'            => true,
             'conference.show'             => true,
             'conference.update'           => true,
             'conference.destroy'          => true,
 
-            'conference_attendee.status'  => true,
-            'conference_attendee.store'   => true,
             'conference_attendee.show'    => true,
             'conference_attendee.update'  => true,
             'conference_attendee.destroy' => true,
@@ -40,8 +37,6 @@ class RolesSeeder extends Seeder
             'event.update'                => true,
             'event.destroy'               => true,
 
-            'event_attendee.status'       => true,
-            'event_attendee.store'        => true,
             'event_attendee.show'         => true,
             'event_attendee.update'       => true,
             'event_attendee.destroy'      => true,
@@ -71,7 +66,6 @@ class RolesSeeder extends Seeder
             'room.update'                 => true,
             'room.destroy'                => true,
 
-            'user.store'                  => true,
             'user.show'                   => true,
             'user.update'                 => true,
             'user.destroy'                => true,
@@ -88,14 +82,11 @@ class RolesSeeder extends Seeder
             'accommodation.update'        => false,
             'accommodation.destroy'       => false,
 
-            'conference.status'           => false,
             'conference.store'            => false,
             'conference.show'             => true,
             'conference.update'           => false,
             'conference.destroy'          => false,
 
-            'conference_attendee.status'  => true,
-            'conference_attendee.store'   => true,
             'conference_attendee.show'    => true,
             'conference_attendee.update'  => true,
             'conference_attendee.destroy' => false,
@@ -105,14 +96,11 @@ class RolesSeeder extends Seeder
             'conference_vehicle.update'   => false,
             'conference_vehicle.destroy'  => false,
 
-            'event.status'                => false,
             'event.store'                 => false,
             'event.show'                  => true,
             'event.update'                => false,
             'event.destroy'               => false,
 
-            'event_attendee.status'       => true,
-            'event_attendee.store'        => true,
             'event_attendee.show'         => true,
             'event_attendee.update'       => true,
             'event_attendee.destroy'      => false,
@@ -143,8 +131,8 @@ class RolesSeeder extends Seeder
             'room.destroy'                => false,
 
             'user.store'                  => false,
-            'user.show'                   => true,
-            'user.update'                 => true,
+            'user.show'                   => false,
+            'user.update'                 => false,
             'user.destroy'                => false,
 
             'vehicle.store'               => false,

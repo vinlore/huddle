@@ -1,7 +1,11 @@
 angular.module( 'headerCtrl', [] )
-.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout, $rootScope, $localStorage, popup ) {
+.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout, $rootScope, $localStorage, popup, checkPermissions ) {
 
     $scope.isCollapsed = true;
+
+    $scope.check = function(permission, thing, type) {
+        return checkPermissions(permission, thing, type);
+    }
 
     $scope.showCollapsed = function () {
         $scope.isCollapsed = !$scope.isCollapsed;
@@ -51,13 +55,5 @@ angular.module( 'headerCtrl', [] )
          Log: "Viggy editted France conference"},
 
       ];
-
-    $scope.checkPermissions = function (type) {
-        var p = $rootScope.user.permissions;
-        switch (type) {
-            case 'admin':
-                return p['accommodations.store'] || p['accommodations.update'] || p['accommodations.destroy'] || p['accommodations.show'] || p['conference_vehicles.store'] || p['conference_vehicles.update'] || p['conference_vehicles.destroy'] || p['conference_vehicles.show'] || p['conference_attendees.store'] || p['conference_attendees.update'] || p['conference_attendees.destroy'] || p['conference_attendees.show'] || p['item.store'] || p['item.update'] || p['item.destroy'] || p['item.show'] || p['event_vehicles.store'] || p['event_vehicles.update'] || p['event_vehicles.destroy'] || p['event_vehicles.show'] || p['event_attendees.store'] || p['event_attendees.update'] || p['event_attendees.destroy'] || p['event_attendees.show'];
-        }
-    }
 
 })

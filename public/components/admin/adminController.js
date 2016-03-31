@@ -1,12 +1,16 @@
 angular.module('adminCtrl', [])
-.controller('adminController', function($scope, $location, $log, Conferences, Events, popup, $state, checkPermissions) {
+.controller('adminController', function($scope, $location, $log, Conferences, Events, popup, $state, checkPermissions, checkPermission) {
 
     $scope.conferences = [];
     $scope.events = []; // array of arrays of events
     $scope.radioModel = '';
 
-    $scope.checkPermissions = function(type) {
-        return checkPermissions(type);
+    $scope.checkPermission = function(permission, thing, id) {
+        return checkPermission(permission, thing, id);
+    }
+
+    $scope.checkPermissions = function(type, thing, id) {
+        return checkPermissions(type, thing, id);
     }
 
 	$scope.loadConferences = function () {

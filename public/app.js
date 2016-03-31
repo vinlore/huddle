@@ -78,8 +78,8 @@ angular.module('cms', [
                         delete $localStorage.user;
                     } else {
                         $rootScope.user.permissions = response.permissions;
-                        $rootScope.user.conferences = response.manage_conf;
-                        $rootScope.user.events = response.manage_event;
+                        $rootScope.user.conferences = response.manages_conf;
+                        $rootScope.user.events = response.manages_event;
                     }
                 })
             }
@@ -95,6 +95,7 @@ angular.module('cms', [
 
     $httpProvider.interceptors.push('tokenInterceptor');
     $httpProvider.defaults.headers.common["Accept"] = 'application/json';
+    $httpProvider.defaults.headers.common["X-frame-options"] = "DENY";
 
     var maskDefinitions = uiMaskConfigProvider.$get().maskDefinitions;
     angular.extend(maskDefinitions, {'2': /[0-2]/, '6': /[0-6]/});
@@ -121,7 +122,16 @@ angular.module('cms', [
         templateUrl: 'components/admin/adminView.html',
         controller: 'adminController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('admin', '', '') ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -145,7 +155,16 @@ angular.module('cms', [
         templateUrl: 'components/createConference/createConferenceView.html',
         controller: 'createConferenceController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, checkPermission) {
+                var deferred = $q.defer();
+                if ( checkPermission('conference.store', '', '') ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -163,7 +182,16 @@ angular.module('cms', [
         templateUrl: 'components/createEvent/createEventView.html',
         controller: 'createEventController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermission) {
+                var deferred = $q.defer();
+                if ( checkPermission('event.store', 'conference', $stateParams.conferenceId) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -199,7 +227,16 @@ angular.module('cms', [
         templateUrl: 'components/manageAccounts/manageAccountsView.html',
         controller: 'manageAccountsController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('accounts', '', '') ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -208,7 +245,16 @@ angular.module('cms', [
         templateUrl: 'components/manageManagers/manageManagersView.html',
         controller: 'conferenceManagersController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermission) {
+                var deferred = $q.defer();
+                if ( checkPermission('user.store', '', '') ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -217,7 +263,17 @@ angular.module('cms', [
         templateUrl: 'components/manageManagers/manageManagersView.html',
         controller: 'eventManagersController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermission) {
+                var deferred = $q.defer();
+                if ( checkPermission('user.store', '', '') ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
+            // TODO
         }
     })
 
@@ -226,7 +282,16 @@ angular.module('cms', [
         templateUrl: 'components/manageAccommodations/manageAccommodationsView.html',
         controller: 'manageAccommodationsController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('acommodation', 'conference', $stateParams.conferenceId) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -235,7 +300,16 @@ angular.module('cms', [
         templateUrl: 'components/manageInventory/manageInventoryView.html',
         controller: 'manageInventoryController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('item', 'conference', $stateParams.conferenceId) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -244,7 +318,16 @@ angular.module('cms', [
         templateUrl: 'components/manageRooms/manageRoomsView.html',
         controller: 'manageRoomsController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('room', 'conference', $stateParams.conferenceId) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -253,7 +336,16 @@ angular.module('cms', [
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
         controller: 'manageConferenceTransportationController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('conference_vehicle', 'conference', $stateParams.conferenceId) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -262,7 +354,16 @@ angular.module('cms', [
         templateUrl: 'components/manageTransportation/manageTransportationView.html',
         controller: 'manageEventTransportationController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('event_vehicle', 'event', $stateParams.eventId) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -271,7 +372,16 @@ angular.module('cms', [
         templateUrl: 'components/manageRequests/manageRequestsView.html',
         controller: 'manageRequestsController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('publisher', '', '') ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -280,7 +390,16 @@ angular.module('cms', [
         templateUrl: 'components/reports/reportsView.html',
         controller: 'reportsController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('conference_attendee', 'conference', $stateParams.conferenceId) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -289,7 +408,16 @@ angular.module('cms', [
         templateUrl: 'components/manageAttendees/manageAttendeesView.html',
         controller: 'manageConferenceAttendeesController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('conference_attendee', 'conference', $stateParams.conferenceId) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -298,7 +426,16 @@ angular.module('cms', [
         templateUrl: 'components/manageAttendees/manageAttendeesView.html',
         controller: 'manageEventAttendeesController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('event_attendee', 'event', $stateParams.eventId) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -307,7 +444,16 @@ angular.module('cms', [
         templateUrl: 'components/signupConference/attendeeSignupConferenceView.html',
         controller: 'attendeeConferenceController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('', 'profile', $stateParams.profile_id) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -316,7 +462,16 @@ angular.module('cms', [
         templateUrl: 'components/signupEvent/signupEventView.html',
         controller: 'attendeeEventController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('', 'profile', $stateParams.profile_id) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -342,6 +497,30 @@ angular.module('cms', [
             $location.path('/login');
         }
         return deferred.promise;
+    }
+
+    function permissionRequired( $q, $location, checkPermission ) {
+        return function (permission, type, id) {
+            var deferred = $q.defer();
+            if ( checkPermission(permission, type, id) ) {
+                deferred.resolve();
+            } else {
+                $location.path('/login');
+            }
+            return deferred.promise;
+        }
+    }
+
+    function permissionsRequired( $q, $location, checkPermissions ) {
+        return function (permission, type, id) {
+            var deferred = $q.defer();
+            if ( checkPermissions(permission, type, id) ) {
+                deferred.resolve();
+            } else {
+                $location.path('/login');
+            }
+            return deferred.promise;
+        }
     }
 })
 
