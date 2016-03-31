@@ -11,7 +11,7 @@ use App\Http\Requests\ConferenceRequest;
 use App\Models\Profile as Profile;
 use App\Models\Rooms as Room;
 
-class ProfileStaysRoomController extends Controller
+class RoomGuestController extends Controller
 {
     /**
      * Display the specified resource.
@@ -75,10 +75,12 @@ class ProfileStaysRoomController extends Controller
      */
     public function destroy($rid, $pid) {
         try {
-            $room = Room::find($rid);
+
             Profile::find($pid)
                     ->rooms()
                     ->detach($room);
+            $room = Room::find($rid);
+            $room->decrement('guest_count');
 
             return response()->success();
         } catch (Exception $e) {

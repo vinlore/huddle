@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -16,7 +16,7 @@ class ConferenceController extends Controller
      *
      * @return Collection|Response
      */
-    public function indexWithStatus($status)
+    public function indexWithStatus(Request $request, $status)
     {
         try {
             return Conference::where('status', $status)->get();
@@ -30,7 +30,7 @@ class ConferenceController extends Controller
      *
      * @return Collection|Response
      */
-    public function index()
+    public function index(ConferenceRequest $request)
     {
         try {
             return Conference::all();
@@ -72,7 +72,7 @@ class ConferenceController extends Controller
      *
      * @return Model|Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
 
@@ -104,18 +104,31 @@ class ConferenceController extends Controller
             }
 
             //Check if conference manager belongs to this conference OR admin
-            $userId = $request->header('ID');
-            if (!$conference->managers()->where('user_id', $userId)->get() ||
-                \Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
-                return response()->error("403" , "Permission Denied");
+            // Check if the User is managing the Conference.
+            if (!$this->isConferenceManager($request, $id)) {
+                return response()->error(403);
             }
 
 
+            if(($request->status == 'approved' || $request->status == 'denied') &&
+               (User::find($userId)->hasAccess(['conference.status']) &&
+               (Sentinel::findById($userId)->roles()->first()->name == 'System Administrator'))){
+
+                $conference->update($request->all());
+                //Add Activity to log
+                $this->addActivity($request->header('ID'),$request->status, $id, 'conference');
+                //Send Status update Email
+                $this->sendCreationEmail('conference', $id, $request->status);
+
+            }elseif(($request->status != 'approved' && $request->status != 'denied') ){
             // Update the Conference.
             $conference->fill($request->all())->save();
 
             //Add Activity to log
-            // $this->addActivity($request->header('ID'),'update', $id, 'conference');
+             $this->addActivity($request->header('ID'),'update', $id, 'conference');
+            }else{
+                return response()->error(403);
+            }
 
 
             return response()->success();
@@ -129,7 +142,7 @@ class ConferenceController extends Controller
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(ConferenceRequest $request, $id)
     {
         try {
 
@@ -139,11 +152,9 @@ class ConferenceController extends Controller
                 return response()->error(404);
             }
 
-            //Check if event manager belongs to this event OR admin
-            $userId = $request->header('ID');
-            if (!$conference->managers()->where('user_id', $userID)->get()||
-                Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
-                return response()->error("403" , "Permission Denied");
+            // Check if the User is managing the Conference.
+            if (!$this->isConferenceManager($request, $id)) {
+                return response()->error(403);
             }
 
             // Delete the Conference.

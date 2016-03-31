@@ -11,7 +11,7 @@ use App\Models\Conference;
 
 class ProfileController extends Controller
 {
-    public function index($user)
+    public function index(ProfileRequest $request, $user)
     {
         try {
             return Profile::where('user_id', $user)->get();
@@ -44,7 +44,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(ProfileRequest $request, $id)
     {
         try {
             $profile = Profile::find($id);
@@ -61,7 +61,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function conferences($id)
+    public function conferences(ProfileRequest $request, $id)
     {
         try {
 
@@ -76,7 +76,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function events($id)
+    public function events(ProfileRequest $request, $id)
     {
         try {
             $profile = Profile::find($id);

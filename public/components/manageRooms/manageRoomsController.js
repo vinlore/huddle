@@ -15,6 +15,9 @@ angular.module('manageRoomsCtrl',[])
         capacity: null
     }
 
+    $scope.accommodation = [];
+    $scope.csvData = [];
+
     //////// Load Data ////////
 
     $scope.getAccommodation = function () {
@@ -46,6 +49,8 @@ angular.module('manageRoomsCtrl',[])
                     $scope.data = params.sorting() ? $filter('orderBy') ($scope.data, params.orderBy()) : $scope.data;
                     $scope.data = params.filter() ? $filter('filter')($scope.data, params.filter()) : $scope.data;
                     $defer.resolve($scope.data);
+
+                    $scope.setCSVData($scope.data);
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -108,8 +113,18 @@ angular.module('manageRoomsCtrl',[])
         } )
     }
 
-    $scope.export = function() {
-    
-    }
+    $scope.setCSVData = function(data) {
+        $scope.csvData = [];
+        var temp = {};
+        angular.forEach(data, function(item) { 
+          angular.forEach(item, function(value, key) { 
+            if ( key == "room_no" || key == "guest_count" || key == "capacity" ) {
+              temp[key] = value;
+            }
+          });
+          $scope.csvData.push(temp);
+          temp = {}
+        });  
+  }
 
 });

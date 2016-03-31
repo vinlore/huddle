@@ -46,9 +46,10 @@ class EventRequest extends Request
             'address'      => ['required', 'string', 'max:255'],
             'city'         => ['required', 'string', 'max:255'],
             'country'      => ['required', 'string', 'max:255'],
-            'age_limit'    => ['string', 'max:255'],
+            'age_limit'    => ['integer', 'max:255'],
             'gender_limit' => ['string', 'max:255'],
             'capacity'     => ['required', 'integer', 'min:1'],
+            'status'       => ['string', 'in:pending']
         ];
     }
 
@@ -64,7 +65,7 @@ class EventRequest extends Request
             'address'      => ['string', 'max:255'],
             'city'         => ['string', 'max:255'],
             'country'      => ['string', 'max:255'],
-            'age_limit'    => ['string', 'max:255'],
+            'age_limit'    => ['integer', 'max:255'],
             'gender_limit' => ['string', 'max:255'],
             'capacity'     => ['integer', 'min:1'],
         ];

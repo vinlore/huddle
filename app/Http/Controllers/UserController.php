@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 
 class UserController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(UserRequest $request)
     {
         // TODO pagination - Should only get certain rows
         try {
@@ -29,7 +29,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         //
     }
@@ -40,7 +40,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(UserRequest $request, $id)
     {
         //
     }
@@ -52,7 +52,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $users)
+    public function update(UserRequest $request, $users)
     {
         /* Example JSON of request
         *
@@ -103,13 +103,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(UserRequest $request, $id)
     {
         //Not Allowed to destroy
     }
 
     //Password reset
-    public function resetPassword(Request $request)
+    public function resetPassword(UserRequest $request)
     {
         try {
             $user = Sentinel::findById($request->header('ID'));

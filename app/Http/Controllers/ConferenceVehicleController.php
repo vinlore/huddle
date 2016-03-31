@@ -17,10 +17,10 @@ class ConferenceVehicleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($conferences, Request $request)
+    public function index($cid, Request $request)
     {
         try {
-            return Conference::find($conferences)->vehicles()->wherePivot('type', $request->type)->get();
+            return Conference::find($cid)->vehicles()->wherePivot('type', $request->type)->get();
         } catch (Exception $e){
             return response()->error("500" , $e);
         }
@@ -32,20 +32,18 @@ class ConferenceVehicleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($conferences, Request $request)
+    public function store($cid, Request $request)
     {
         try {
             // Check if the Conference exists.
-            $conf = Conference::find($conferences);
+            $conf = Conference::find($cid);
             if (!$conf) {
                 return response()->error(404);
             }
 
-            //Check if conference manager belongs to this conference OR admin
-            $userId = $request->header('ID');
-            if (!$conf->managers()->where('user_id', $userId)->get() ||
-                \Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
-                return response()->error("403" , "Permission Denied");
+            // Check if the User is managing the Conference.
+            if (!$this->isConferenceManager($request, $cid)) {
+                return response()->error(403);
             }
 
             $vehicle = Vehicle::create($request->all());
@@ -87,11 +85,11 @@ class ConferenceVehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($conferences, Request $request)
+    public function update($cid, Request $request)
     {
         try {
             // Check if the Conference exists.
-            $conf = Conference::find($conferences);
+            $conf = Conference::find($cid);
             if (!$conf) {
                 return response()->error(404);
             }
@@ -125,11 +123,11 @@ class ConferenceVehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $conferences, $vehicles)
+    public function destroy(Request $request, $cid, $vehicles)
     {
         try {
             // Check if the Conference exists.
-            $conf = Conference::find($conferences);
+            $conf = Conference::find($cid);
             if (!$conf) {
                 return response()->error(404);
             }

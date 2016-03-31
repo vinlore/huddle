@@ -113,11 +113,12 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
             $scope.accordionIsOpen[$index] = false;
         } else {
             var newSignup = {
-                id: member.id,
+                profile_id: member.id,
                 first_name: member.first_name,
                 middle_name: member.middle_name,
                 last_name: member.last_name,
                 birthdate: member.birthdate,
+                gender: member.gender,
                 arrv_ride_req: false,
                 arrv_flight: null,
                 arrv_airport: null,
@@ -131,47 +132,42 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
                 accommodation_req: false,
                 accommodation_pref: null
             }
-            angular.extend(newSignup, $scope.emergencyContact);
             $scope.familyMembers[$index] = newSignup;
             $scope.accordionIsOpen[$index] = true;
         }
     }
 
-    var processFamily = function (family) {
+    var processMembers = function (family) {
         var result = [];
         for (var i=0; i < family.length; i++) {
-            if (family[i].first_name, family[i].last_name, family[i].gender, family[i].birthdate) {
-                var profile = {
-                    profile_id: family[i].profile_id,
-                    first_name: family[i].first_name,
-                    last_name: family[i].last_name,
-                    birthdate: $filter('date')(family[i].birthdate, 'yyyy-MM-dd'),
-                    gender: family[i].gender,
-                    country: $scope.user.country,
-                    city: $scope.user.city,
-                    email: family[i].email,
-                    phone: $scope.user.phone,
-                    phone2: $scope.user.phone2,
-                    contact_first_name: $scope.emergencyContact.contact_first_name,
-                    contact_last_name: $scope.emergencyContact.contact_last_name,
-                    contact_email: $scope.emergencyContact.contact_email,
-                    contact_phone: $scope.emergencyContact.contact_phone,
-                    /* TODO separate arrival departure info */
-                    arrv_time: $scope.arrival.arrv_time,
-                    arrv_date: $scope.arrival.arrv_date,
-                    arrv_airport: $scope.arrival.arrv_airport,
-                    arrv_ride_req: $scope.arrival.arrv_ride_req,
-                    dept_ride_req: $scope.departure.dept_ride_req,
-                    dept_airport: $scope.departure.dept_airport,
-                    dept_time: $scope.departure.dept_time,
-                    dept_date: $scope.departure.dept_date,
-                    accommodation_req: $scope.accommodation.accommodation_req,
-                    accommodation_pref: $scope.accommodation.accommodation_pref
-                }
-                result.push(profile);
-            }
+            console.log(family[i])
+            family[i].birthdate = $filter('date')(family[i].birthdate, 'yyyy-MM-dd');
+            family[i].arrv_time = $filter('time')(family[i].arrv_time);
+            family[i].arrv_date = $filter('date')(family[i].arrv_date);
+            family[i].dept_time = $filter('time')(family[i].dept_time);
+            family[i].dept_date = $filter('date')(family[i].dept_date);
+            family[i].phone = $scope.user.phone;
+            family[i].contact_first_name = $scope.emergencyContact.contact_first_name,
+            family[i].contact_last_name = $scope.emergencyContact.contact_last_name,
+            family[i].contact_phone = $scope.emergencyContact.contact_phone,
+            family[i].contact_email = $scope.emergencyContact.contact_email
+            result.push(family[i]);
         }
         return result;
+    }
+
+    var signup = function (profile) {
+        Conferences.attendees().save({ cid: $scope.conference.conferenceId }, profile)
+                .$promise.then(function(response) {
+                    if (response.status == 200) {
+                        popup.alert('success', 'You have been successfully signed up for approval to attend this conference.');
+                        $state.go('conference', { conferenceId: $scope.conference.conferenceId });
+                    } else {
+                        popup.error('Error', response.message);
+                    }
+                }, function() {
+                    popup.connection();
+                });
     }
 
     $scope.submitRequest = function() {
@@ -188,18 +184,12 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
             angular.extend(profile, $scope.emergencyContact);
             profile.arrv_time = $filter('time')(profile.arrv_time);
             profile.dept_time = $filter('time')(profile.dept_time);
-            //var family = processFamily($scope.familymembers);
-            Conferences.attendees().save({ cid: $scope.conference.conferenceId }, profile)
-                .$promise.then(function(response) {
-                    if (response.status == 200) {
-                        popup.alert('success', 'You have been successfully signed up for approval to attend this conference.');
-                        $state.go('conference', { conferenceId: $scope.conference.conferenceId });
-                    } else {
-                        popup.error('Error', response.message);
-                    }
-                }, function() {
-                    popup.connection();
-                });
+            var members = processMembers($scope.familyMembers);
+            for (var i=0; i<members.length; i++) {
+                console.log(members[i])
+                signup(members[i]);
+            }
+            signup(profile);
         }
     }
 

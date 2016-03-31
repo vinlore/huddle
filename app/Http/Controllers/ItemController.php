@@ -10,7 +10,7 @@ use App\Models\Item;
 
 class ItemController extends Controller
 {
-    public function index($cid)
+    public function index(Request $request, $cid)
     {
         try {
             return Item::where('conference_id', $cid)->get();
@@ -29,7 +29,7 @@ class ItemController extends Controller
         }
     }
 
-    public function show($cid, $iid)
+    public function show(ItemRequest $request, $cid, $iid)
     {
         try {
             $item = Item::find($iid);
@@ -56,7 +56,7 @@ class ItemController extends Controller
         }
     }
 
-    public function destroy($cid, $iid)
+    public function destroy(ItemRequest $request, $cid, $iid)
     {
         try {
             $item = Item::find($iid);

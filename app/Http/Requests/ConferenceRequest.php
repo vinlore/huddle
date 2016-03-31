@@ -45,6 +45,7 @@ class ConferenceRequest extends Request
             'city'        => ['required', 'string', 'max:255'],
             'country'     => ['required', 'string', 'max:255'],
             'capacity'    => ['required', 'integer', 'min:1'],
+            'status'      => ['string', 'in:pending']
         ];
     }
 

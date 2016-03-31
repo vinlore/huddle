@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use Log;
 use Sentinel;
 
 use App\Http\Requests\RegisterUserRequest;
@@ -52,6 +53,8 @@ class AuthController extends Controller
         $profile->user()->associate($user);
         $profile->save();
 
+        Log::info('[User] ' . $request->ip() . ' registered User ' . $user->id);
+
         // Automatically sign in after successful registration.
         return $this->signin($request);
     }
@@ -78,15 +81,17 @@ class AuthController extends Controller
             $user->api_token = $apiToken;
             $user->save();
 
+            Log::info('[User] ' . $request->ip() . ' signed into User ' . $user->id);
+
             return response()->json([
-                'status'      => 200,
-                'message'     => 'OK',
-                'token'       => $apiToken,
-                'user_id'     => $user->id,
-                'permissions' => $user->permissions,
-                'profile_id'  => $user->profiles()->where('is_owner', 1)->first()->id,
-                'manages_conf'=> $user->conferences()->lists('conference_id'),
-                'manages_event' => $user->events()->lists('event_id')
+                'status'        => 200,
+                'message'       => 'OK',
+                'token'         => $apiToken,
+                'user_id'       => $user->id,
+                'permissions'   => $user->permissions,
+                'profile_id'    => $user->profiles()->where('is_owner', 1)->first()->id,
+                'manages_conf'  => $user->conferences()->lists('conference_id'),
+                'manages_event' => $user->events()->lists('event_id'),
             ]);
         }
     }
@@ -107,6 +112,9 @@ class AuthController extends Controller
         } else {
             $user->api_token = NULL;
             $user->save();
+
+            Log::info('[User] ' . $request->ip() . ' signed out of User ' . $user->id);
+
             return response()->success();
         }
     }
@@ -126,12 +134,12 @@ class AuthController extends Controller
             return response()->error(401, 'Invalid Token Error');
         } else {
             return response()->json([
-                'status'      => 200,
-                'message'     => 'OK',
-                'permissions' => $user->permissions,
-                'profile_id'  => $user->profiles()->where('is_owner', 1)->first()->id,
-                'manages_conf'=> $user->conferences()->lists('conference_id'),
-                'manages_event' => $user->events()->lists('event_id')
+                'status'        => 200,
+                'message'       => 'OK',
+                'permissions'   => $user->permissions,
+                'profile_id'    => $user->profiles()->where('is_owner', 1)->first()->id,
+                'manages_conf'  => $user->conferences()->lists('conference_id'),
+                'manages_event' => $user->events()->lists('event_id'),
             ]);
         }
     }

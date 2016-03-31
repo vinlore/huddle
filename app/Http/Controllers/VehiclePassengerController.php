@@ -11,7 +11,7 @@ use App\Http\Requests\ConferenceRequest;
 use App\Models\Profile as Profile;
 use App\Models\Vehicle as Vehicle;
 
-class ProfileRidesVehicleController extends Controller
+class VehiclePassengerController extends Controller
 {
     /**
      * Display the specified resource.
@@ -79,6 +79,8 @@ class ProfileRidesVehicleController extends Controller
             Profile::find($pid)
                     ->vehicles()
                     ->detach($vid);
+            $vehicle = Vehicle::find($vid);
+            $vehicle->decrement('passenger_count');
 
             return response()->success();
         } catch (Exception $e) {
