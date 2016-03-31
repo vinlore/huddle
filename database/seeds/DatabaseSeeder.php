@@ -38,8 +38,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ActivitySeeder::class);
         $this->call(RolesSeeder::class);
-        $this->call(UsersAndProfilesSeeder::class);
         $this->call(ConferencesAndEventsSeeder::class);
+        $this->call(UsersAndProfilesSeeder::class);
         $this->call(AccommodationsAndRoomsSeeder::class);
         $this->call(ItemsSeeder::class);
         $this->call(VehiclesSeeder::class);
