@@ -63,7 +63,7 @@ class InitialMigration extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('country');
-            $table->string('age_limit')->nullable();
+            $table->integer('age_limit')->nullable();
             $table->string('gender_limit')->nullable();
             $table->integer('attendee_count')->unsigned()->default(0);
             $table->integer('capacity')->unsigned();
