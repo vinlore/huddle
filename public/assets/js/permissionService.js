@@ -69,6 +69,7 @@ app.service('checkPermissions', function ($rootScope) {
 app.service('checkPermission', function ($rootScope) {
     return function (permission, thing, id) {
         if (!$rootScope.user) return false;
+        var id = parseInt(id);
         var p = $rootScope.user.permissions;
         var isManager = false;
         if (thing == 'conference') {

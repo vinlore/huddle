@@ -159,9 +159,9 @@ angular.module('cms', [
         controller: 'createConferenceController',
         resolve: {
             loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, checkPermission) {
+            permissionsRequired: function ($q, $location, $rootScope) {
                 var deferred = $q.defer();
-                if ( checkPermission('conference.store', '', '') ) {
+                if ( $rootScope.user.permissions['conference.store'] ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
