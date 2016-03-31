@@ -43,6 +43,7 @@
   <script src="assets/libs/angular-animate/angular-animate.min.js"></script>
   <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script src="assets/libs/angular-resource/angular-resource.min.js"></script>
+  <script src="assets/libs/angular-sanitize/angular-sanitize.min.js"></script>
   <script src="assets/libs/satellizer/satellizer.min.js"></script>
   <script src="assets/libs/angular-google-places-autocomplete/dist/autocomplete.min.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1Pmv3HdlO7MufSCHtByXYIfiuRzhc1mg&libraries=places"></script>
@@ -51,6 +52,7 @@
   <script text="text/javascript" src="assets/libs/ngstorage/ngStorage.min.js"></script>
   <script text="text/javascript" src="assets/libs/ngmap/build/scripts/ng-map.min.js"></script>
   <script type="text/javascript" src="assets/libs/ng-table/dist/ng-table.min.js"></script>
+  <script type="text/javascript" src="assets/libs/ng-csv/build/ng-csv.min.js"></script>
   <script text="text/javascript" src="assets/libs/angular-timeline/dist/angular-timeline.js"></script>
   <script text="text/javascript" src="assets/libs/angular-ui-mask/dist/mask.min.js"></script>
 

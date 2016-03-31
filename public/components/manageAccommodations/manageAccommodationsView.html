@@ -1,6 +1,6 @@
 <div id="accommodations" class="container has-header">
 	<div class="container">
-		<h1>Accommodations for Conference {{conferenceId}}</h1>
+		<h1>Accommodations for {{conference.name}}</h1>
 	</div>
 
 	<div class="panel panel-default margin-top-25">
@@ -76,7 +76,7 @@
 
 
 			<div class="pull-right">
-         		<button class="btn btn-info" ng-click="export()">
+         		<button button class="btn btn-info" ng-csv="csvData" csv-header="['Name', 'Address', 'City', 'Country']" filename="Conference-{{conference.name}}-Accommodations.csv">
           			<span class="glyphicon glyphicon-download"></span>
           			Export
         		</button>
