@@ -1,7 +1,7 @@
 <div id="inventory" class="container has-header">
   
   <div class="container">
-    <h1>Inventory for {{conferenceId}}</h1>
+    <h1>Inventory for {{conference.name}}</h1>
   </div>
 
   <div class="panel panel-default margin-top-25">
@@ -53,7 +53,8 @@
           <span class="glyphicon glyphicon-remove"></span>
           Cancel
         </button>
-         <button class="btn btn-info" ng-click="export()">
+
+        <button button class="btn btn-info" ng-csv="csvData" csv-header="['Item', 'Quantity']" filename="Conference-{{conference.name}}-Inventory.csv">
           <span class="glyphicon glyphicon-download"></span>
           Export
         </button>

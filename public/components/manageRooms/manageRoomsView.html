@@ -44,7 +44,7 @@
 			</table>
 
 			<div class="pull-right">
-         		<button class="btn btn-info" ng-click="export()">
+         		<button button class="btn btn-info" ng-csv="csvData" csv-header="['Room', 'Guests', 'Capacity']" filename="Accommodation-{{accommodation.name}}-Rooms.csv">
           			<span class="glyphicon glyphicon-download"></span>
           			Export
         		</button>

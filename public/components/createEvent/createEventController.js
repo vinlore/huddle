@@ -1,8 +1,8 @@
 angular.module( 'createEventCtrl', [])
-.controller( 'createEventController', function( $scope, Countries, Events, $stateParams, $filter, $location, popup ) {
+.controller( 'createEventController', function( $scope, Countries, Events, $stateParams, $filter, $location, popup, $state ) {
 
     $scope.event = {
-        conferenceId: $stateParams.conferenceId,
+        conference_id: $stateParams.conferenceId,
         name: null,
         description: null,
         facilitator: null,
@@ -94,27 +94,27 @@ angular.module( 'createEventCtrl', [])
         }
 
         var _event = {
-          conferenceId: $scope.event.conferenceId,
+          conference_id: $scope.event.conference_id,
           name: $scope.event.name,
           description: $scope.event.description,
           facilitator: $scope.event.facilitator,
           date: $filter('date')($scope.event.date, 'yyyy-MM-dd'),
-          start_time: $filter('time')($scope.event.start_time,'HH:mm'),
-          end_time: $filter('time')($scope.event.end_time, 'HM:mm'),
+          start_time: $filter('time')($scope.event.start_time),
+          end_time: $filter('time')($scope.event.end_time),
           address: address,
           city: city,
           country: country,
-          age_limit: $scope.event.age_limit,
+          age_limit: String($scope.event.age_limit),
           gender_limit: $scope.event.gender_limit,
           attendee_count: 0,
-          capacity: $scope.conference.capacity,
+          capacity: $scope.event.capacity,
           status: 'pending'
         }
 
-        Events.fetch().save( _event )
+        Events.fetch().save( { cid: _event.conference_id }, _event )
             .$promise.then( function( response ) {
                 if ( response.status == 200 ) {
-                    $location.path('/admin');
+                    $location.url('/');
                 } else {
                     popup.error( 'Error', response.message );
                 }

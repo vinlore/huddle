@@ -7,8 +7,8 @@ use Illuminate\Http\Response;
 
 use App\Http\Requests;
 
-use App\Models\Vehicle as Vehicle;
-use App\Models\Event as Event;
+use App\Models\Vehicle;
+use App\Models\Event;
 
 class EventVehicleController extends Controller
 {
@@ -102,19 +102,19 @@ class EventVehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($eid, $id)
     {
         try {
-            $vehicle = Vehicle::findorfail($id);
-            if ($vehicle->passengers()->count()){
+            $vehicle = Vehicle::find($id);
+            if (count($vehicle->passengers()->get())) {
                 return response()->error("409" , "Passengers still in this Vehicle");
             }
 
-            Vehicle::find($id)
+            $vehicle->find($id)
                     ->events()
                     ->detach();
 
-            Vehicle::destroy($id);
+            $vehicle->delete();
             return response()->success();
         } catch (Exception $e) {
             return response()->error("500" , $e);

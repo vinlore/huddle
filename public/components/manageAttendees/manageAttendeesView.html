@@ -4,12 +4,19 @@
          <h1>Attendees for Conference {{conferenceId}}</h1>
       </div>
       <div ng-if="eventId != null">
-         <h1>Attendees for Event {{eventId}}}</h1>
+         <h1>Attendees for Event {{eventId}}</h1>
       </div>
    </div>
 
    <div class="panel panel-default margin-top-25">
       <div class="panel-body">
+
+         <div class="btn-group">
+            <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="''" ng-change="load()">All</label>
+            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'approved'" ng-change="load()">Approved</label>
+            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'pending'" ng-change="load()">Pending</label>
+            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'denied'" ng-change="load()">Denied</label>
+         </div>
 
          <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
 
@@ -71,7 +78,7 @@
                      <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a)">
                            <span class="glyphicon glyphicon-ok"></span>
                      </button>
-                     <button class="btn btn-sm btn-danger" ng-click="deny(a.id)">
+                     <button class="btn btn-sm btn-danger" ng-disabled="a.pivot.status == 'denied' || a.pivot.status == 'approved'" ng-click="deny(a.id)">
                            <span class="glyphicon glyphicon-remove"></span>
                      </button>
                   </div>

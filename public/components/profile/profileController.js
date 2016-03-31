@@ -215,11 +215,19 @@ angular.module( 'profileCtrl', [] )
             birthdate: null
         }
     }
+    $scope.cancelConferenceApplication = function (index) {
+        var modalInstance = popup.prompt('Delete', 'Are you sure you want to delete your conference application?');
 
-    $scope.cancelConferenceApplication = function(index){
+        modalInstance.result.then( function ( result ) {
+            if (result) {
+                $scope.cancelConferenceApp(index);
+            }
+        })
+    };
+
+    $scope.cancelConferenceApp = function(index){
           var conference = {
             id: $scope.conferences[index].id
-
           }
         //console.log($scope.conferences);
         Conferences.attendees().update({cid: conference.id , pid: $scope.user.id},{status: 'cancelled'})
@@ -227,7 +235,7 @@ angular.module( 'profileCtrl', [] )
               if ( response.status == 200 ) {
                   $scope.loadConferences()
                   $scope.loadEvents()
-                  popup.alert( 'success', 'Conference application cancelled' );
+                  popup.alert( 'success', 'Conference application deleted' );
               } else {
                   popup.error( 'Error', response.message );
               }
@@ -235,7 +243,17 @@ angular.module( 'profileCtrl', [] )
               popup.connection();
           })
     };
-  $scope.cancelEventApplication = function(index){
+
+    $scope.cancelEventApplication = function (index) {
+        var modalInstance = popup.prompt('Delete', 'Are you sure you want to delete your event reservation?');
+
+        modalInstance.result.then( function ( result ) {
+            if (result) {
+                $scope.cancelEventApp(index);
+            }
+        })
+    };
+  $scope.cancelEventApp = function(index){
       var _event = {
         id: $scope.events[index].id,
         profile_id: $scope.events[index].pivot.profile_id
@@ -245,7 +263,7 @@ angular.module( 'profileCtrl', [] )
           if ( response.status == 200 ) {
               $scope.loadConferences()
               $scope.loadEvents()
-              popup.alert( 'success', 'Events application cancelled' );
+              popup.alert( 'success', 'Events application deleted.' );
           } else {
               popup.error( 'Error', response.message );
           }

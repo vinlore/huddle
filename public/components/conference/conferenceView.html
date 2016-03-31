@@ -153,7 +153,7 @@
                 <h4 class="upcoming" ng-if="events.length <= 0">No events have been registered yet. Sign up for notifications about events for this conference
                     <a href="">here</a>.</h4>
             </div>
-            <h1>Services</h1>
+            <h1 ng-if="inventory.length || accommodations.length || arrivalVehicles.length || departVehicles.length">Services</h1>
             <hr>
             <div class="row">
                 <div class="col-sm-3" ng-if="inventory.length > 0">
