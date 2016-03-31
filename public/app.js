@@ -258,9 +258,9 @@ angular.module('cms', [
         controller: 'conferenceManagersController',
         resolve: {
             loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermission) {
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
                 var deferred = $q.defer();
-                if ( checkPermission('user.store', '', '') ) {
+                if ( checkPermissions('user', '', '') ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
@@ -276,9 +276,9 @@ angular.module('cms', [
         controller: 'eventManagersController',
         resolve: {
             loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermission) {
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
                 var deferred = $q.defer();
-                if ( checkPermission('user.store', '', '') ) {
+                if ( checkPermissions('user', '', '') ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
