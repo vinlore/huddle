@@ -88,7 +88,7 @@ class ConferenceAttendeeRequest extends Request
             'arrv_airport'       => ['string', 'max:255'],
             'arrv_flight'        => ['string', 'max:255'],
             'dept_ride_req'      => ['boolean'],
-            'dept_date'          => ['date'],
+            'dept_date'          => ['date', 'after:arrv_date'],
             'dept_time'          => ['date_format:H:i'],
             'dept_airport'       => ['string', 'max:255'],
             'dept_flight'        => ['string', 'max:255'],
