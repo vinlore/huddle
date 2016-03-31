@@ -323,7 +323,7 @@ angular.module('cms', [
     })
 
     .state( 'draft-event', {
-        url: '/draft-event-:event_name?:event_id?:conference_id',
+        url: '/draft-event-:event_id?:conference_id',
         templateUrl: 'components/createEvent/createEventView.html',
         controller: 'draftEventController',
         resolve: {

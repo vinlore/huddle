@@ -7,7 +7,7 @@ angular.module( 'manageRequestsCtrl', [] )
   // show conference creation application
   $scope.viewConferenceDraft = function(index){
       // route to conference application
-      var _cid = $scope.conferences[index].conference_id;
+      var _cid = $scope.conferences[index].id;
       $state.go('draft-conference', {conference_id: _cid});
   }
 
@@ -15,10 +15,11 @@ angular.module( 'manageRequestsCtrl', [] )
   // show events creation application
   $scope.viewEventDraft = function(index){
       // route to event application
-      var _eid = $scope.events[index].event_id;
+      var _eid = $scope.events[index].id;
+      console.log(_eid);
       var _cid = $scope.events[index].conference_id;
-      //:event_name?:event_id?conference_id:conference_id'
-      $state.go('draft-event', {conference_id: _cid, event_id: _eid });
+      //:event_id:conference_id'
+      $state.go('draft-event', {event_id: _eid, conference_id: _cid });
   }
 
 
