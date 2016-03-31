@@ -22,7 +22,8 @@
             <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
 
                <colgroup>
-                  <col width="15%" />
+                  <col width="5%" />
+                  <col width="10%" />
                   <col width="10%" />
                   <col width="10%" />
                   <col width="10%" />
@@ -46,6 +47,9 @@
 
                 <tr ng-hide="group.$hideRows" ng-repeat="a in group" ng-repeat-end> -->
                <tr ng-repeat="a in $data">
+                  <td title="'UID'" filter="{ 'user_id': 'number'}" sortable="'user_id'">
+                     {{a.user_id}}
+                  </td>
                   <td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
                      {{a.first_name}}
                   </td>
