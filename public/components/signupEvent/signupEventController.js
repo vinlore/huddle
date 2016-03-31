@@ -24,7 +24,7 @@ angular.module('signupEventCtrl',[])
               .$promise.then(function(response) {
                   if (response.status == 200) {
                       popup.alert('success', 'You have been successfully signed up for approval to attend this event.');
-                      $state.go('/');
+                      $state.go('home');
                   } else {
                       popup.error('Error', response.message);
                   }
