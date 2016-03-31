@@ -177,12 +177,14 @@ angular.module( 'profileCtrl', [] )
         first_name: null,
         middle_name: null,
         last_name: null,
-        birthdate: null
+        birthdate: null,
+        gender: null
     }
 
     $scope.addMember = function () {
         var member = $scope.newMember;
         member.birthdate = $filter('date')(member.birthdate, 'yyyy-MM-dd');
+        console.log($scope.user.user_id);
         Profile.save({uid: $scope.user.user_id}, member)
             .$promise.then( function (response) {
                 if (response.status == 200) {

@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use App\Models\Conference;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -23,7 +24,18 @@ class ProfileController extends Controller
     public function store(ProfileRequest $request, $uid)
     {
         try {
-            Profile::create($request->all());
+
+            // Check if the User exists.
+            $user = User::find($uid);
+            if (!$user) {
+                return response()->error(404, 'User Not Found');
+            }
+
+            // Create the Profile.
+            $profile = new Profile($request->all());
+            $profile->user()->associate($user);
+            $profile->save();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -47,7 +59,7 @@ class ProfileController extends Controller
     public function destroy(ProfileRequest $request, $uid, $pid)
     {
         try {
-            $profile = Profile::find($id);
+            $profile = Profile::find($pid);
             if (!$profile) {
                 return response()->error("Profile not found");
             }
