@@ -129,7 +129,7 @@ class ConferencesAndEventsSeeder extends Seeder
             'city'        => 'Vancouver',
             'country'     => 'Canada',
             'capacity'    => 74,
-            'status'      => 'pending',
+            'status'      => 'approved',
         ];
         $conference = Conference::create($conference);
 
@@ -144,7 +144,7 @@ class ConferencesAndEventsSeeder extends Seeder
             'city'         => 'Vancouver',
             'country'      => 'Canada',
             'capacity'     => 74,
-            'status'       => 'pending',
+            'status'       => 'approved',
         ];
         $event = new Event($event);
         $event->conference()->associate($conference);

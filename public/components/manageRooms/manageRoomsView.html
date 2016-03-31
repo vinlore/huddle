@@ -17,6 +17,9 @@
 						</td>
 						<td title="'Guests'" filter="{ 'guest_count': 'number'}" sortable="'guest_count'">
 							{{r.guest_count}}
+							<button class="btn btn-sm btn-primary" ng-click="guests(r.id)">
+								Guests
+							</button>
 						</td>
 						<td title="'Capacity'" filter="{ 'capacity': 'number'}" sortable="'capacity'">
 							{{r.capacity}}

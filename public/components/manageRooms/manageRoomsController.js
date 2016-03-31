@@ -125,6 +125,20 @@ angular.module('manageRoomsCtrl',[])
           $scope.csvData.push(temp);
           temp = {}
         });  
-  }
+    }
+
+    $scope.guests = function(rid) {
+        var modalInstance = $uibModal.open({
+            animation: false,
+            templateUrl: 'components/manageRooms/guestsModal.html',
+            controller: 'guestsModalController',
+            size: 'lg',
+            resolve: {
+                roomId: function() {
+                    return rid;
+                }
+            }
+        })
+    }
 
 });

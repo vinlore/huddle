@@ -34,6 +34,7 @@ angular.module('cms', [
     'manageConferenceTransportationCtrl',
     'manageEventTransportationCtrl',
     'manageRoomsCtrl',
+    'guestsModalCtrl',
     'ngStorage',
     'popupServices',
     'ngMap',
