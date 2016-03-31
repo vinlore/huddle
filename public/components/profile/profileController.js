@@ -230,7 +230,7 @@ angular.module( 'profileCtrl', [] )
             id: $scope.conferences[index].id
           }
         //console.log($scope.conferences);
-        Conferences.attendees().update({cid: conference.id , pid: $scope.user.id},{status: 'cancelled'})
+        Conferences.attendees().delete({cid: conference.id , pid: $scope.user.id})
           .$promise.then( function (response) {
               if ( response.status == 200 ) {
                   $scope.loadConferences()

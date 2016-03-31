@@ -15,14 +15,10 @@
           <div class="{{['timeline-badge success', 'timeline-badge info'][$index %2]}}"></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
-              <h4 class="timeline-title">{{log.created_at}}</h4>
+              <h4 class="timeline-title">{{log.date}}</h4>
             </div>
             <div class="timeline-body">
-              <p>user_id: {{log.user_id}}</p>
-              <p>source_id: {{log.source_id}}</p>
-              <p>source_type: {{log.source_type}}</p>
-              <p>profile_id: {{log.profile_id}}</p>
-              <p>activity_type: {{log.activity_type}}</p>
+              <p>{{log.type}}</p>
             </div>
           </div>
         </li>
