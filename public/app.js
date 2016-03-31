@@ -40,6 +40,8 @@ angular.module('cms', [
     'ui.router',
     'manageRequestsCtrl',
     'ngTable',
+    'ngSanitize',
+    'ngCsv',
     'permissionService',
     'reportsCtrl',
     'angular-timeline',
