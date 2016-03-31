@@ -98,38 +98,27 @@ class ConferenceController extends Controller
     public function update(ConferenceRequest $request, $id)
     {
         try {
+
             // Check if the Conference exists.
             $conference = Conference::find($id);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
-            //Check if conference manager belongs to this conference OR admin
-            // Check if the User is managing the Conference.
             if (!$this->isConferenceManager($request, $id)) {
+                return response()->error(403, 'You are not a manager of this conference.');
+            }
+
+            if (($request->status == 'approved' || $request->status == 'denied')) {
+                $conference->update($request->all());
+                $this->addActivity($request->header('ID'),$request->status, $id, 'conference');
+                $this->sendCreationEmail('conference', $id, $request->status);
+            } elseif(($request->status != 'approved' && $request->status != 'denied')) {
+                $conference->fill($request->all())->save();
+                $this->addActivity($request->header('ID'),'update', $id, 'conference');
+            } else {
                 return response()->error(403);
             }
-
-
-            // if(($request->status == 'approved' || $request->status == 'denied') &&
-            //    (User::find($userId)->hasAccess(['conference.status']) &&
-            //    (Sentinel::findById($userId)->roles()->first()->name == 'System Administrator'))){
-
-            //     $conference->update($request->all());
-            //     //Add Activity to log
-            //     $this->addActivity($request->header('ID'),$request->status, $id, 'conference');
-            //     //Send Status update Email
-            //     $this->sendCreationEmail('conference', $id, $request->status);
-
-            // }elseif(($request->status != 'approved' && $request->status != 'denied') ){
-            // // Update the Conference.
-            // $conference->fill($request->all())->save();
-
-            // //Add Activity to log
-            //  $this->addActivity($request->header('ID'),'update', $id, 'conference');
-            // }else{
-            //     return response()->error(403);
-            // }
 
             $conference->fill($request->all())->save();
 
@@ -153,6 +142,10 @@ class ConferenceController extends Controller
             $conference = Conference::find($id);
             if (!$conference) {
                 return response()->error(404);
+            }
+
+            if (!$this->isConferenceManager($request, $id)) {
+                return response()->error(403, 'You are not a manager of this conference.');
             }
 
             // Delete the Conference.
