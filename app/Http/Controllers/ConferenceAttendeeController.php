@@ -94,7 +94,7 @@ class ConferenceAttendeeController extends Controller
             }
 
             // Retrieve the Attendee.
-            return $conference->attendees()->where('profile_id', $pid)->get();
+            return $conference->attendees()->where('profile_id', $pid)->first();
         } catch (Exception $e) {
             return response()->error();
         }

@@ -161,7 +161,7 @@ class ConferenceController extends Controller
             $conference->delete();
 
             //Add Activity to log
-            $this->addActivity($request->header('ID'),'delete', $id, 'conference');
+            //$this->addActivity($request->header('ID'),'delete', $id, 'conference');
 
             return response()->success();
         } catch (Exception $e) {

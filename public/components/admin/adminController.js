@@ -75,6 +75,7 @@ angular.module('adminCtrl', [])
                     .$promise.then( function ( response ) {
                         if (response.status == 200) {
                             popup.alert('success', 'Conference successfully deleted');
+                            $scope.loadConferences();
                         } else {
                             popup.error('Error');
                         }
