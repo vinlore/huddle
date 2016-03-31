@@ -104,12 +104,9 @@ class ConferenceController extends Controller
             }
 
             //Check if conference manager belongs to this conference OR admin
-            $userId = $request->header('ID');
-            if (!$conference->managers()->where('user_id', $userId)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name != 'System Administrator' ||
-                !User::find($userId)->hasAccess(['conference.update'])) {
-              return response()->error(403);
-
+            // Check if the User is managing the Conference.
+            if (!$this->isConferenceManager($request, $id)) {
+                return response()->error(403);
             }
 
 
@@ -155,11 +152,9 @@ class ConferenceController extends Controller
                 return response()->error(404);
             }
 
-            //Check if event manager belongs to this event OR admin
-            $userId = $request->header('ID');
-            if (!$conference->managers()->where('user_id', $userId)->get()||
-                Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
-                return response()->error("403" , "Permission Denied");
+            // Check if the User is managing the Conference.
+            if (!$this->isConferenceManager($request, $id)) {
+                return response()->error(403);
             }
 
             // Delete the Conference.

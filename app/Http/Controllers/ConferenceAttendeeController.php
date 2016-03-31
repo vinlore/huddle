@@ -122,12 +122,11 @@ class ConferenceAttendeeController extends Controller
 
             switch ($request->status) {
                 case 'approved':
-                    //Check if conference manager belongs to this conference OR admin
-                    $userId = $request->header('ID');
-                    if (!$conference->managers()->where('user_id', $userId)->get() ||
-                        Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
-                        return response()->error("403" , "Permission Denied");
+                    // Check if the User is managing the Conference.
+                    if (!$this->isConferenceManager($request, $cid)) {
+                        return response()->error(403);
                     }
+
                     //Check if previously pending or denied
                     $profile = Profile::find($pid)->conferences;
 
@@ -179,11 +178,9 @@ class ConferenceAttendeeController extends Controller
 
                 //Change status to denied
                 case 'denied':
-                    //Check if conference manager belongs to this conference OR admin
-                    $userId = $request->header('ID');
-                    if (!$conference->managers()->where('user_id', $userId)->get() ||
-                        Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
-                        return response()->error("403" , "Permission Denied");
+                    // Check if the User is managing the Conference.
+                    if (!$this->isConferenceManager($request, $cid)) {
+                        return response()->error(403);
                     }
 
                     //Check if previously pending

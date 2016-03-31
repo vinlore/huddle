@@ -21,20 +21,18 @@ class EventController extends Controller
         }
     }
 
-    public function store(EventRequest $request)
+    public function store(EventRequest $request, $cid)
     {
         try {
             //Check if conference exists
-            $conference = Conference::find($request->conference_id);
+            $conference = Conference::find($cid);
             if (!$conference) {
                 return response()->error(404);
             }
 
-            //Check if User belongs to this event
-            $userId = $request->header('ID');
-            if (!$conference->managers()->where('user_id',$userID)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name !='System Administrator') {
-                return response()->error("403" , "Permission Denied");
+            // Check if the User is managing the Conference.
+            if (!$this->isConferenceManager($request, $cid)) {
+                return response()->error(403);
             }
 
             $event = Event::create($request->all());
