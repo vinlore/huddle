@@ -11,16 +11,16 @@ use App\Models\Conference;
 
 class ProfileController extends Controller
 {
-    public function index(ProfileRequest $request, $user)
+    public function index(ProfileRequest $request, $uid)
     {
         try {
-            return Profile::where('user_id', $user)->get();
+            return Profile::where('user_id', $uid)->get();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function store(ProfileRequest $request)
+    public function store(ProfileRequest $request, $uid)
     {
         try {
             Profile::create($request->all());
@@ -30,10 +30,10 @@ class ProfileController extends Controller
         }
     }
 
-    public function update(ProfileRequest $request, $id)
+    public function update(ProfileRequest $request, $uid, $pid)
     {
         try {
-            $profile = Profile::find($id);
+            $profile = Profile::find($pid);
             if(!$profile) {
                 return response()->error();
             }
@@ -44,7 +44,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function destroy(ProfileRequest $request, $id)
+    public function destroy(ProfileRequest $request, $uid, $pid)
     {
         try {
             $profile = Profile::find($id);
