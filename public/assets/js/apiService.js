@@ -69,6 +69,10 @@ angular.module( 'apiService', [] )
             return $resource( '/api/conferences/status/:status', {status: '@status'}, {'update': { method: 'PUT' }} );
         },
 
+        events: function () {
+            return $resource( '/api/conferences/:cid/events/status/:status', {status: '@status'} );
+        },
+
         attendees: function () {
             return $resource( '/api/conferences/:cid/attendees/:pid', {cid: '@cid', pid: '@pid'}, {'update': { method: 'PUT' }} );
         },

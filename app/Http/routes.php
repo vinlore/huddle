@@ -61,6 +61,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // EVENTS
     // -------------------------------------------------------------------------
 
+    Route::get('conferences/{cid}/events/status/{status}', 'EventController@conferenceIndexWithStatus');
     Route::get('events/{status}' , 'EventController@indexWithStatus');
     Route::resource('conferences.events', 'EventController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',

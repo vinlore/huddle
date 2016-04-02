@@ -90,8 +90,8 @@ angular.module( 'conferenceCtrl', [] )
             address: address,
             description: $scope.events[$index].description,
             capacity: $scope.events[$index].capacity,
-            start_time: $filter('time')($scope.events[$index].start_time),
-            end_time: $filter('time')($scope.events[$index].end_time),
+            start_time: $filter('date')($scope.events[$index].start_time, 'HH:mm'),
+            end_time: $filter('date')($scope.events[$index].end_time, 'HH:mm'),
             country: $scope.events[$index].country,
             city: city,
             capacity: $scope.events[$index].capacity,
@@ -163,19 +163,30 @@ angular.module( 'conferenceCtrl', [] )
 
 
     $scope.loadEvents = function () {
-        Events.fetch().query( {cid: $stateParams.conferenceId} )
+        Conferences.events().query( {cid: $stateParams.conferenceId, status: 'approved'} )
             .$promise.then( function( response ) {
                 if ( response ) {
-                    $scope.events = response;
                     for (var i = 0; i < response.length; i++) {
                         var date = response[i].date.split('-');
                         response[i].date = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+
+                        // Parse start time from database to Date object
                         var time1 = response[i].start_time.split(':');
-                        response[i].start_time = time1[0]+time1[1];
+                        var startTime = new Date();
+                        startTime.setHours(time1[0]);
+                        startTime.setMinutes(time1[1]);
+                        response[i].start_time = startTime;
+
+                        // Parse end time from database to Date object
                         var time2 = response[i].end_time.split(':');
-                        response[i].end_time = time2[0]+time2[1];
+                        var endTime = new Date();
+                        endTime.setHours(time2[0]);
+                        endTime.setMinutes(time2[1]);
+                        response[i].end_time = endTime;
+
                         $scope.checkEventAttendance(response[i].id, i);
                     }
+                    $scope.events = response;
                 } else {
                     popup.error( 'Error', response.message );
                 }

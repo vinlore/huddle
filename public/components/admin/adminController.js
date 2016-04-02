@@ -36,11 +36,22 @@ angular.module('adminCtrl', [])
             .$promise.then( function ( events ) {
                 if ( events ) {
                     for (var i=0; i<events.length; i++) {
-                        events[i].date = new Date(events[i].date);
+                        var date = events[i].date.split('-');
+                        events[i].date = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+                        
+                        // Parse start time from database to Date object
                         var time1 = events[i].start_time.split(':');
-                        events[i].start_time = time1[0]+time1[1];
+                        var startTime = new Date();
+                        startTime.setHours(time1[0]);
+                        startTime.setMinutes(time1[1]);
+                        events[i].start_time = startTime;
+
+                        // Parse end time from database to Date object
                         var time2 = events[i].end_time.split(':');
-                        events[i].end_time = time2[0]+time2[1];
+                        var endTime = new Date();
+                        endTime.setHours(time2[0]);
+                        endTime.setMinutes(time2[1]);
+                        events[i].end_time = endTime;
                     }
                     $scope.events[index] = events;
                 } else {
@@ -61,7 +72,7 @@ angular.module('adminCtrl', [])
                 Conferences.fetch().delete({cid: cid})
                     .$promise.then( function ( response ) {
                         if (response.status == 200) {
-                            popup.alert('success', 'Conference successfully deleted');
+                            popup.alert('success', 'Conference successfully deleted!');
                             $scope.loadConferences();
                         } else {
                             popup.error('Error');
@@ -83,7 +94,7 @@ angular.module('adminCtrl', [])
                 Events.fetch().delete({cid: cid, eid: eid})
                     .$promise.then( function ( response ) {
                         if (response.status == 200) {
-                            popup.alert('success', 'Event successfully deleted');
+                            popup.alert('success', 'Event successfully deleted!');
                             $scope.loadConferences();
                         } else {
                             popup.error('Error');

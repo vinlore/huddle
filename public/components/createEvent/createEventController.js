@@ -14,12 +14,16 @@ angular.module( 'createEventCtrl', [])
         country: null,
         age_limit: null,
         gender_limit: null,
-        attendee_count: null,
         description: null,
-        capacity: null,
-        status: null,
+        capacity: null
     }
     $scope.creation = true;
+
+    $scope.countries = Countries;
+
+    $scope.changeCountry = function (country) {
+        $scope.citiesOnly.componentRestrictions = {country: country.code};
+    }
 
     $scope.citiesOnly = {
         types: ['(cities)']
@@ -32,44 +36,6 @@ angular.module( 'createEventCtrl', [])
     $scope.calendar = {
         isOpen1: false
     };
-
-    $scope.arrTransport = [
-        {
-            name: null,
-            capacity: null
-        }
-    ]
-
-    $scope.addArrival = function() {
-        var item = {
-            name: null,
-            capacity: null
-        }
-        $scope.arrTransport.push( item );
-    }
-
-    $scope.removeArrival = function( ind ) {
-        $scope.arrTransport.splice( ind, 1 );
-    }
-
-    $scope.depTransport = [
-        {
-            name: null,
-            capacity: null
-        }
-    ]
-
-    $scope.addDeparture = function() {
-        var item = {
-            name: null,
-            capacity: null
-        }
-        $scope.depTransport.push( item );
-    }
-
-    $scope.removeDeparture = function( ind ) {
-        $scope.depTransport.splice( ind, 1 );
-    }
 
     $scope.submit = function () {
         var city, address, country;
@@ -100,41 +66,27 @@ angular.module( 'createEventCtrl', [])
           description: $scope.event.description,
           facilitator: $scope.event.facilitator,
           date: $filter('date')($scope.event.date, 'yyyy-MM-dd'),
-          start_time: $filter('time')($scope.event.start_time),
-          end_time: $filter('time')($scope.event.end_time),
+          start_time: $filter('date')($scope.event.start_time, 'HH:mm'),
+          end_time: $filter('date')($scope.event.end_time, 'HH:mm'),
           address: address,
           city: city,
           country: country,
           age_limit: $scope.event.age_limit,
           gender_limit: $scope.event.gender_limit,
-          attendee_count: 0,
-          capacity: $scope.event.capacity,
-          status: 'pending'
+          capacity: $scope.event.capacity
         }
 
         Events.fetch().save( { cid: _event.conference_id }, _event )
             .$promise.then( function( response ) {
                 if ( response.status == 200 ) {
-                    $location.url('/');
+                    popup.alert('success', 'Event has been created for approval!');
+                    $location.url('/admin');
                 } else {
                     popup.error( 'Error', response.message );
                 }
             }, function () {
                 popup.connection();
             })
-            //
-            // Events.vehicles().save( {eid: $stateParams.conferenceId} )
-            //     .$promise.then( function( response ) {
-            //         if ( response.status == 200 ) {
-            //             console.log( 'User successfully registered to attend conference' );
-            //             // TODO change attending button to pending approval
-            //         } else {
-            //             popup.error( 'Error', response.message );
-            //         }
-            //     }, function () {
-            //         popup.connection();
-            //     });
-
     }
 
 })

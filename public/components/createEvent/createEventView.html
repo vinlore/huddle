@@ -42,38 +42,37 @@
             </div>
           </div>
           <div class="form-group">
-              <label for="ce-end_time" class="col-sm-3 control-label">Start Time</label>
+              <label for="ce-start_time" class="col-sm-3 control-label">Start Time</label>
               <div class="col-sm-9">
-                  <input type="text" class="form-control" id="ce-start_time" ng-model="event.start_time" required ui-mask="?29:69">
+                  <uib-timepicker id="ce-start_time" ng-model="event.start_time" show-spinners="false" pad-hours="false" required></uib-timepicker>
               </div>
           </div>
           <div class="form-group">
               <label for="ce-end_time" class="col-sm-3 control-label">End Time</label>
               <div class="col-sm-9">
-                  <input type="text" class="form-control" id="ce-end_time" ng-model="event.end_time" required ui-mask="?29:69">
+                  <uib-timepicker id="ce-end_time" ng-model="event.end_time" min="event.start_time" show-spinners="false" pad-hours="false" required></uib-timepicker>
               </div>
           </div>
           <div class="form-group">
             <label for="ce-age_limit" class="col-sm-3 control-label">Age Limit</label>
             <div class="col-sm-9">
-              <input type="number" class="form-control" id="ce-age_limit" ng-model="event.age_limit" g-places-autocomplete required>
+              <input type="number" class="form-control" id="ce-age_limit" min="0" ng-model="event.age_limit" required>
             </div>
           </div>
-          <div class="form-group" ng-class="{'has-error': regForm.gender.$submitted}">
+          <div class="form-group" ng-class="{'has-error': ce-form.ce-gender.$submitted}">
               <label for="ce-gender" class="col-sm-3 control-label">Gender</label>
               <div class="col-sm-9">
                   <select class="form-control" id="ce-gender" name="gender" ng-model="event.gender_limit" required>
-                      <option value="" disabled>Select a gender ...</option>
-                      <option value="males">Males</option>
-                      <option value="females">Females</option>
-                      <option value="all">All</option>
+                      <option value="">None</option>
+                      <option value="male">Males</option>
+                      <option value="female">Females</option>
                   </select>
               </div>
           </div>
           <div class="form-group">
             <label for="ce-capacity" class="col-sm-3 control-label">Capacity</label>
             <div class="col-sm-9">
-              <input type="number" class="form-control" id="ce-capacity" ng-model="event.capacity" g-places-autocomplete required>
+              <input type="number" class="form-control" id="ce-capacity" ng-model="event.capacity" min="1" required>
             </div>
           </div>
           <div class="form-group">

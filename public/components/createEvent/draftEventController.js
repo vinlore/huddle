@@ -5,6 +5,7 @@ angular.module( 'draftEventCtrl', [])
     $scope.draft = true;
     $scope.event = [];
 
+    $scope.countries = Countries;
 
     $scope.citiesOnly = {
         types: ['(cities)']
@@ -18,11 +19,31 @@ angular.module( 'draftEventCtrl', [])
         isOpen1: false
     };
 
+    $scope.changeCountry = function (country) {
+        $scope.citiesOnly.componentRestrictions = {country: country.code};
+    }
+
     $scope.loadEvent = function(){
       Events.fetch().get( { cid: $stateParams.conference_id, eid: $stateParams.event_id} )
           .$promise.then( function( response ) {
               if ( response ) {
-                  //console.log(response);
+                  var date = response.date.split('-');
+                  response.date = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+
+                  // Parse start time from database to Date object
+                  var time1 = response.start_time.split(':');
+                  var startTime = new Date();
+                  startTime.setHours(time1[0]);
+                  startTime.setMinutes(time1[1]);
+                  response.start_time = startTime;
+
+                  // Parse end time from database to Date object
+                  var time2 = response.end_time.split(':');
+                  var endTime = new Date();
+                  endTime.setHours(time2[0]);
+                  endTime.setMinutes(time2[1]);
+                  response.end_time = endTime;
+
                   $scope.event = response;
               } else {
                   popup.error( 'Error', response.message );
@@ -62,12 +83,12 @@ angular.module( 'draftEventCtrl', [])
         description: $scope.event.description,
         facilitator: $scope.event.facilitator,
         date: $filter('date')($scope.event.date, 'yyyy-MM-dd'),
-        start_time: $filter('time')($scope.event.start_time),
-        end_time: $filter('time')($scope.event.end_time),
+        start_time: $filter('date')($scope.event.start_time, 'HH:mm'),
+        end_time: $filter('date')($scope.event.end_time, 'HH:mm'),
         address: address,
         city: city,
         country: country,
-        age_limit: String($scope.event.age_limit),
+        age_limit: $scope.event.age_limit,
         gender_limit: $scope.event.gender_limit,
         attendee_count: 0,
         capacity: $scope.event.capacity,
@@ -76,6 +97,7 @@ angular.module( 'draftEventCtrl', [])
        Events.fetch().update( { cid: $stateParams.conference_id, eid: $stateParams.event_id}, _event )
         .$promise.then( function( response ) {
             if ( response.status == 200 ) {
+                popup.alert('success', 'Event has been published!');
                 $state.go('requests');
             } else {
                 popup.error( 'Error', response.message );
@@ -114,14 +136,13 @@ angular.module( 'draftEventCtrl', [])
           description: $scope.event.description,
           facilitator: $scope.event.facilitator,
           date: $filter('date')($scope.event.date, 'yyyy-MM-dd'),
-          start_time: $filter('time')($scope.event.start_time),
-          end_time: $filter('time')($scope.event.end_time),
+          start_time: $filter('date')($scope.event.start_time, 'HH:mm'),
+          end_time: $filter('date')($scope.event.end_time, 'HH:mm'),
           address: address,
           city: city,
           country: country,
-          age_limit: String($scope.event.age_limit),
+          age_limit: $scope.event.age_limit,
           gender_limit: $scope.event.gender_limit,
-          attendee_count: 0,
           capacity: $scope.event.capacity,
           status: 'pending'
         }
@@ -129,6 +150,7 @@ angular.module( 'draftEventCtrl', [])
         Events.fetch().update( { cid: $stateParams.conference_id, eid: $stateParams.event_id }, _event )
             .$promise.then( function( response ) {
                 if ( response.status == 200 ) {
+                    popup.alert('success', 'Event has been updated!');
                     $state.go('requests');
                 } else {
                     popup.error( 'Error', response.message );
