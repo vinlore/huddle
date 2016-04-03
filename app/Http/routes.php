@@ -39,11 +39,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // PROFILES
     // -------------------------------------------------------------------------
 
-    Route::get('profile/{pid}/rooms', 'ProfileController@profileConferenceRooms');
-    Route::get('profile/{pid}/conferencevehicles', 'ProfileController@profileConferenceVehicles');
-    Route::get('profile/{pid}/eventvehicles', 'ProfileController@profileEventVehicles');
-    Route::get('profile/{id}/conferences', 'ProfileController@conferences');
-    Route::get('profile/{id}/events','ProfileController@events');
+    Route::get('profile/{pid}/conferences', 'ProfileController@conferences');
+    Route::get('profile/{pid}/events','ProfileController@events');
+    Route::get('profile/{pid}/rooms', 'ProfileController@rooms');
+    Route::get('profile/{pid}/conferences/vehicles', 'ProfileController@conferenceVehicles');
+    Route::get('profile/{pid}/events/vehicles', 'ProfileController@eventVehicles');
     Route::resource('users.profiles', 'ProfileController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
@@ -53,6 +53,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // -------------------------------------------------------------------------
 
     Route::get('conferences/status/{status}' , 'ConferenceController@indexWithStatus');
+    Route::get('conferences/{cid}/events/status/{status}', 'ConferenceController@eventsWithStatus');
     Route::resource('conferences', 'ConferenceController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
@@ -61,7 +62,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // EVENTS
     // -------------------------------------------------------------------------
 
-    Route::get('conferences/{cid}/events/status/{status}', 'EventController@conferenceIndexWithStatus');
     Route::get('events/{status}' , 'EventController@indexWithStatus');
     Route::resource('conferences.events', 'EventController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',

@@ -92,7 +92,7 @@ class ProfileController extends Controller
     {
         var_dump($lol);
     }
-    public function profileConferenceRooms($pid) {
+    public function rooms($pid) {
         return \DB::table('profiles')
         ->where('profiles.id', $pid)
         ->join('profile_attends_conferences', 'profile_attends_conferences.profile_id', '=', 'profiles.id')
@@ -103,7 +103,7 @@ class ProfileController extends Controller
         ->get(['room_no', 'profiles.id', 'conferences.id']);
     }
 
-    public function profileConferenceVehicles($pid) {
+    public function conferenceVehicles($pid) {
         return \DB::table('profiles')
         ->where('profiles.id', $pid)
         ->join('profile_attends_conferences', 'profile_attends_conferences.profile_id', '=', 'profiles.id')
@@ -114,7 +114,7 @@ class ProfileController extends Controller
         ->get(['vehicles.name','conferences.id']);
     }
 
-    public function profileEventVehicles($pid) {
+    public function eventVehicles($pid) {
         return \DB::table('profiles')
         ->where('profiles.id', $pid)
         ->join('profile_attends_events', 'profile_attends_events.profile_id', '=', 'profiles.id')

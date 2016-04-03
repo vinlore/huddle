@@ -228,21 +228,4 @@ class EventController extends Controller
             return response()->error();
         }
     }
-
-    public function conferenceIndexWithStatus(Request $request, $cid, $status)
-    {
-        try {
-
-            // Check if the Conference exists.
-            $conference = Conference::find($cid);
-            if (!$conference) {
-                return response()->error(404, 'Conference Not Found');
-            }
-
-            // Retrieve its Events.
-            return $conference->events()->where('status', $status)->get();
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
 }
