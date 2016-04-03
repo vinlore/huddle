@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\AccommodationRequest;
+
 use App\Models\Accommodation;
 use App\Models\Conference;
 
@@ -23,7 +24,7 @@ class AccommodationController extends Controller
             // Check if the Conference exists.
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
             // Retrieve its Accommodations.
@@ -45,7 +46,7 @@ class AccommodationController extends Controller
             // Check if the Conference exists.
             $conference = Conference::find($cid);
             if (!$conference->exists()) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
             // Check if the User is managing the Conference.
@@ -66,7 +67,7 @@ class AccommodationController extends Controller
     /**
      * Retrieve an Accommodation.
      *
-     * @return Model|Response
+     * @return App\Models\Accommodation|Response
      */
     public function show(AccommodationRequest $request, $cid, $aid)
     {
@@ -75,13 +76,13 @@ class AccommodationController extends Controller
             // Check if the Conference exists.
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
             // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
-                return response()->error(404);
+                return response()->error(404, 'Accommodation Not Found');
             }
 
             // Retrieve the Accommodation.
@@ -103,7 +104,7 @@ class AccommodationController extends Controller
             // Check if the Conference exists.
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
             // Check if the User is managing the Conference.
@@ -114,7 +115,7 @@ class AccommodationController extends Controller
             // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
-                return response()->error(404);
+                return response()->error(404, 'Accommodation Not Found');
             }
 
             // Update the Accommodation.
@@ -138,7 +139,7 @@ class AccommodationController extends Controller
             // Check if the Conference exists.
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
             // Check if the User is managing the Conference.
@@ -149,7 +150,7 @@ class AccommodationController extends Controller
             // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
-                return response()->error(404);
+                return response()->error(404, 'Accommodation Not Found');
             }
 
             // Delete the Accommodation.
