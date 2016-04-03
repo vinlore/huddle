@@ -20,55 +20,60 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * Check if the given User is a System Administrator.
+     * Retrieve the authenticated User.
+     *
+     * @return App\Models\User|bool
+     */
+    public function getUser($request)
+    {
+        $userId = $request->header('ID');
+        $apiToken = $request->header('X-Auth-Token');
+        $user = Sentinel::findById($userId);
+        if ($user->api_token == $apiToken) {
+            return $user;
+        }
+        return false;
+    }
+
+    /**
+     * Check if the User is a System Administrator.
      *
      * @return bool
      */
     public function isSuperuser($request)
     {
-        $userId = $request->header('ID');
-        $user = Sentinel::findById($userId);
+        $user = $this->getUser($request);
         $role = $user->roles()->first();
         return $role->name == 'System Administrator';
     }
 
     /**
      * Check if the User manages the given Conference.
-     * Also returns true if the User is a System Administrator.
+     * Also return true if the User is a System Administrator.
      *
      * @return bool
      */
     public function isConferenceManager($request, $cid)
     {
-        $userId = $request->header('ID');
-        $user = Sentinel::findById($userId);
+        $user = $this->getUser($request);
         $conference = Conference::find($cid);
-        if ($this->isSuperUser($request)) {
-            return true;
-        }
-        return $conference->managers()->where('user_id', $userId)->exists();
+        $isConferenceManager = $conference->managers()->where('user_id', $user->id)->exists();
+        return $this->isSuperuser($request) || $isConferenceManager;
     }
 
     /**
      * Check if the User manages the given Event.
-     * Also returns true if the User is a System Administrator
-     * or if the User manages the parent Conference.
+     * Also return true if the User manages the parent Conference.
+     * Also return true if the User is a System Administrator
      *
      * @return bool
      */
     public function isEventManager($request, $eid)
     {
-        $userId = $request->header('ID');
-        $user = Sentinel::findById($userId);
+        $user = $this->getUser($request);
         $event = Event::find($eid);
-        $cid = $event->conference->id;
-        if ($this->isSuperUser($request)) {
-            return true;
-        }
-        if ($this->isConferenceManager($request, $cid)) {
-            return true;
-        }
-        return $event->managers()->where('user_id', $userId)->exists();
+        $isEventManager = $event->managers()->where('user_id', $user->id)->exists();
+        return $this->isSuperUser($request) || $this->isConferenceManager($request, $event->conference->id) || $isEventManager;
     }
 
 

@@ -6,8 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use Sentinel;
 
-use App\Models\User;
-
 abstract class Request extends FormRequest
 {
     /**
@@ -32,7 +30,7 @@ abstract class Request extends FormRequest
     protected $SPACES = 'regex:/^\S+(?: \S+)*$/';
 
     /**
-     * Check if the API token in the request matches the API token in the database.
+     * Verify the legitimacy of the API token.
      *
      * @return bool
      */
@@ -40,30 +38,29 @@ abstract class Request extends FormRequest
     {
         $userId = $this->header('ID');
         $apiToken = $this->header('X-Auth-Token');
-        if ($userId && $apiToken) {
-            $user = Sentinel::findById($userId);
+        $user = Sentinel::findById($userId);
+        if ($user) {
             return $user->api_token == $apiToken;
         }
         return false;
     }
 
     /**
-     * Retrieve the authenticated user.
+     * Retrieve the authenticated User.
      *
-     * @return Eloquent\Model
+     * @return App\Models\User|bool
      */
     public function getUser()
     {
         if ($this->authenticate()) {
             $userId = $this->header('ID');
-            $apiToken = $this->header('X-Auth-Token');
-            return User::find($userId);
+            return Sentinel::findById($userId);
         }
         return false;
     }
 
     /**
-     * Check if the authenticated user is a System Administrator.
+     * Check if the User is a System Administrator.
      *
      * @return bool
      */
