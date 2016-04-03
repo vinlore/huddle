@@ -8,12 +8,13 @@ use Illuminate\Http\Response;
 use Sentinel;
 
 use App\Http\Requests\ConferenceAttendeeRequest;
+
 use App\Models\Conference;
+use App\Models\Event;
 use App\Models\Profile;
-use App\Models\Vehicle;
 use App\Models\Room;
 use App\Models\User;
-use App\Models\Event;
+use App\Models\Vehicle;
 
 class ConferenceAttendeeController extends Controller
 {

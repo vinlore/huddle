@@ -9,6 +9,7 @@ use Log;
 use Sentinel;
 
 use App\Http\Requests\RegisterUserRequest;
+
 use App\Models\Profile;
 use App\Models\User;
 

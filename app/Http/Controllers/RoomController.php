@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\RoomRequest;
-use App\Models\Room;
+
 use App\Models\Accommodation;
+use App\Models\Room;
 
 class RoomController extends Controller
 {

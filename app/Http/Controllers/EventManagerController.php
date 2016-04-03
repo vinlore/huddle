@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
-use App\Http\Requests\EventRequest;
-
-use App\Models\Event as Event;
-use App\Models\User as User;
-
+use App\Models\Event;
+use App\Models\User;
 
 class EventManagerController extends Controller
 {
@@ -42,7 +38,7 @@ class EventManagerController extends Controller
             User::find($request->user_id)
                         ->Events()
                         ->attach($event);
-                        
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error($e);

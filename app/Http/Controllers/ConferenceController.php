@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\ConferenceRequest;
+
 use App\Models\Conference;
 use App\Models\User;
-use App\Models\Vehicle;
 
 class ConferenceController extends Controller
 {

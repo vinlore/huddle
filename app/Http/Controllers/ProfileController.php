@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\ProfileRequest;
+
 use App\Models\Profile;
-use App\Models\Conference;
 use App\Models\User;
 
 class ProfileController extends Controller

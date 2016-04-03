@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Cartalyst\Sentinel\Roles\EloquentRole;
 
 use App\Http\Requests\RoleRequest;
+
 use App\Models\User;
 
 class RoleController extends Controller

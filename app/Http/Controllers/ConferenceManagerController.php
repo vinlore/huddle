@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
-use App\Http\Requests\ConferenceRequest;
-
-use App\Models\Conference as Conference;
-use App\Models\User as User;
-
+use App\Models\Conference;
+use App\Models\User;
 
 class ConferenceManagerController extends Controller
 {

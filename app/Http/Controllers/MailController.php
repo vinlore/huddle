@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User as User;
-use App\Http\Controllers\Controller;
+
+use App\Models\User;
 
 class MailController extends Controller
 {
@@ -16,13 +16,13 @@ class MailController extends Controller
      */
 
     function sendCustomMail(/*$request*/){
-       
+
     /*$to = $request->email;
     $subject = $request->subject;
     $body = $request->body;
 
     $user_id = $request->userId; */
-    
+
     $email = 'gabrielahernandez@hotmail.ca';
 
     //$user = \Sentinel::findById($user_id);
@@ -36,23 +36,23 @@ class MailController extends Controller
             });
 
   //  }
-      
+
     }
 
      function conferenceStatusEmail(/*$request*/){
-       
+
     $to = $request->email;
     $subject = $request->subject;
     $body = $request->body;
 
-    $user_id = $request->userId; 
+    $user_id = $request->userId;
     $status = $request->status;
-    
+
     $email = 'gabrielahernandez@hotmail.ca';
 
     //$user = \Sentinel::findById($user_id);
    // if($user->notifications){
-        
+
 
                 //Send Email to User
             \Mail::send([], [], function ($message) use($email) {
@@ -62,24 +62,24 @@ class MailController extends Controller
             });
 
   //  }
-      
+
     }
 
          function eventStatusEmail(/*$request*/){
-       
+
     $to = $request->email;
     $subject = $request->subject;
     $body = $request->body;
 
-    $user_id = $request->userId; 
-    
+    $user_id = $request->userId;
+
     $email = 'gabrielahernandez@hotmail.ca';
 
     //$user = \Sentinel::findById($user_id);
    // if($user->notifications){
-        
 
-    
+
+
 
                 //Send Email to User
             \Mail::send([], [], function ($message) use($email) {
@@ -89,24 +89,24 @@ class MailController extends Controller
             });
 
   //  }
-      
+
     }
 
      function attendeeStatusEmail(/*$request*/){
-       
+
     $to = $request->email;
     $subject = $request->subject;
     $body = $request->body;
 
-    $user_id = $request->userId; 
-    
+    $user_id = $request->userId;
+
     $email = 'gabrielahernandez@hotmail.ca';
 
     //$user = \Sentinel::findById($user_id);
    // if($user->notifications){
-        
 
-    
+
+
 
                 //Send Email to User
             \Mail::send([], [], function ($message) use($email) {
@@ -116,7 +116,7 @@ class MailController extends Controller
             });
 
   //  }
-      
+
     }
-    
+
 }

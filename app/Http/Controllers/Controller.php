@@ -10,10 +10,10 @@ use Illuminate\Routing\Controller as BaseController;
 use Sentinel;
 
 use App\Models\Activity;
-use App\Models\User;
-use App\Models\Profile;
 use App\Models\Conference;
 use App\Models\Event;
+use App\Models\Profile;
+use App\Models\User;
 
 class Controller extends BaseController
 {

@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
+use App\Http\Requests\VehicleRequest;
 
-use App\Models\Vehicle;
 use App\Models\Event;
+use App\Models\Vehicle;
 
 class EventVehicleController extends Controller
 {

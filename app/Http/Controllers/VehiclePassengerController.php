@@ -5,11 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
-use App\Http\Requests\ConferenceRequest;
-
-use App\Models\Profile as Profile;
-use App\Models\Vehicle as Vehicle;
+use App\Models\Profile;
+use App\Models\Vehicle;
 
 class VehiclePassengerController extends Controller
 {

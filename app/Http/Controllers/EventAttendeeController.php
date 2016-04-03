@@ -8,9 +8,10 @@ use Illuminate\Http\Response;
 use Sentinel;
 
 use App\Http\Requests\EventAttendeeRequest;
-use App\Models\Vehicle;
+
 use App\Models\Event;
 use App\Models\Profile;
+use App\Models\Vehicle;
 
 class EventAttendeeController extends Controller
 {

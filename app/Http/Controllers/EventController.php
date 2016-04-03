@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\EventRequest;
+
 use App\Models\Conference;
 use App\Models\Event;
 use App\Models\User;

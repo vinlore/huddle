@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\ItemRequest;
+
+use App\Models\Conference;
 use App\Models\Item;
 
 class ItemController extends Controller
