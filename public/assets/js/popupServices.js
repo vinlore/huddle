@@ -21,6 +21,24 @@ app.factory( 'popup', function ( $uibModal, $rootScope ) {
             } )
         },
 
+        warning: function ( title, body ) {
+            return $uibModal.open( {
+                templateUrl: 'shared/popup/popupWarning.html',
+                controller: 'popupController',
+                size: 'sm',
+                windowClass: 'center-modal',
+                animation: false,
+                resolve: {
+                    content: function () {
+                        return {
+                            title: title,
+                            body: body
+                        }
+                    }
+                }
+            } )
+        },
+
         error: function ( title, body ) {
             return $uibModal.open( {
                 templateUrl: 'shared/popup/popupError.html',
@@ -61,7 +79,7 @@ app.factory( 'popup', function ( $uibModal, $rootScope ) {
             $rootScope.alerts.push( {
                 type: type,
                 msg: message
-            } )  
+            } )
         }
     }
 } );
