@@ -17,7 +17,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // ACTIVITIES
     // -------------------------------------------------------------------------
 
-    Route::get('activity', 'ActivityController@get');
+    Route::get('activities', 'ActivityController@index');
+    Route::get('users/{uid}/activities', 'ActivityController@indexWithUser');
 
     // -------------------------------------------------------------------------
     // ROLES

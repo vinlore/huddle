@@ -5,29 +5,43 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use Redis;
+use Sentinel;
 
 use App\Models\Activity;
-use App\Models\User;
 
 class ActivityController extends Controller
 {
-    function get(Request $request)
+    /**
+     * Retrieve all Activities.
+     *
+     * @return Collection|Response
+     */
+    function index(Request $request)
     {
         try {
-            $userId = $request->header('ID');
-            $apiToken = $request->header('X-Auth-Token');
+            return Activity::all();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
 
-            $user = User::find($userId);
+    /**
+     * Retrieve all Activities for a User.
+     *
+     * @return Collection|Response
+     */
+    function indexWithUser(Request $request, $uid)
+    {
+        try {
+
+            // Check if the User exists.
+            $user = Sentinel::findById($uid);
             if (!$user) {
-                return response()->error(404);
+                return response()->error(404, 'User Not Found');
             }
 
-            if ($user->api_token == $apiToken) {
-                return Activity::all();
-            } else {
-                return response()->error();
-            }
+            // Retrieve its activities.
+            return $user->activities()->get();
         } catch (Exception $e) {
             return response()->error();
         }

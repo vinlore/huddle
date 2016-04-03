@@ -5,7 +5,7 @@ angular.module( 'apiService', [] )
 })
 
 .factory('Activity', function ( $resource ){
-    return $resource('/api/activity');
+    return $resource('/api/activities');
 })
 
 .factory( 'Logout', function ( $resource ) {
