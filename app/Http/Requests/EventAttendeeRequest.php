@@ -8,30 +8,7 @@ class EventAttendeeRequest extends Request
 {
     public function authorize()
     {
-        if ($this->isSuperuser()) {
-            return true;
-        }
-
-        if ($this->authenticate()) {
-            switch (strtoupper($this->getMethod())) {
-                case 'POST':
-                    return true;
-                    break;
-                case 'GET':
-                    return true;
-                    break;
-                case 'PUT':
-                    return true;
-                    break;
-                case 'DELETE':
-                    return true;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     public function createRules()
