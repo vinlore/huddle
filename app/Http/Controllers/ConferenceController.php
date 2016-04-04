@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Sentinel;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,42 +12,6 @@ use App\Models\User;
 
 class ConferenceController extends Controller
 {
-    /**
-     * Retrieve all Conferences of a certain status.
-     *
-     * @return Collection|Response
-     */
-    public function indexWithStatus(Request $request, $status)
-    {
-        try {
-            return Conference::where('status', $status)->get();
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
-
-    /**
-     * Retrieve all Events of a Conference of a certain status.
-     *
-     * @return Collection|Response
-     */
-    public function eventsWithStatus(Request $request, $cid, $status)
-    {
-        try {
-
-            // Check if the Conference exists.
-            $conference = Conference::find($cid);
-            if (!$conference) {
-                return response()->error(404, 'Conference Not Found');
-            }
-
-            // Retrieve its Events.
-            return $conference->events()->where('status', $status)->get();
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
-
     /**
      * Retrieve all Conferences.
      *
@@ -70,19 +34,12 @@ class ConferenceController extends Controller
     public function store(ConferenceRequest $request)
     {
         try {
-
-            // Create the Conference.
             $conference = Conference::create($request->all());
 
-            // Check if the API token in the request matches the API token in the database.
-            $apiToken = $request->header('X-Auth-Token');
-            $user = User::where('api_token', $apiToken)->first();
+            $user = $this->getUser($request);
+            $conference->managers()->attach($user->id);
 
-            // Assign the User as a Conference Manager.
-            $user->conferences()->attach($conference->id);
-
-            //Add Activity to log
-            $this->addActivity($request->header('ID'),'request', $conference->id, 'conference');
+            $this->addActivity($user->id, 'requested', $conference->id, 'conference');
 
             return response()->success();
         } catch (Exception $e) {
@@ -93,19 +50,16 @@ class ConferenceController extends Controller
     /**
      * Retrieve a Conference.
      *
-     * @return Model|Response
+     * @return App\Models\Conference|Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $cid)
     {
         try {
-
-            // Check if the Conference exists.
-            $conference = Conference::find($id);
+            $conference = Conference::find($cid);
             if (!$conference) {
                 return response()->error(404);
             }
 
-            // Retrieve the Conference.
             return $conference;
         } catch (Exception $e) {
             return response()->error();
@@ -117,33 +71,49 @@ class ConferenceController extends Controller
      *
      * @return Response
      */
-    public function update(ConferenceRequest $request, $id)
+    public function update(ConferenceRequest $request, $cid)
     {
         try {
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
+            }
 
-            // Check if the Conference exists.
-            $conference = Conference::find($id);
+            $conference = Conference::find($cid);
             if (!$conference) {
                 return response()->error(404, 'Conference Not Found');
             }
 
-            if (!$this->isConferenceManager($request, $id)) {
-                return response()->error(403, 'You are not a manager of this conference.');
-            }
+            $activityType = 'updated';
 
-            if (($request->status == 'approved' || $request->status == 'denied')) {
-                $conference->update($request->all());
-                $this->addActivity($request->header('ID'),$request->status, $id, 'conference');
-                $this->sendCreationEmail('conference', $id, $request->status);
-            } elseif(($request->status != 'approved' && $request->status != 'denied')) {
-                $conference->fill($request->all())->save();
-                $this->addActivity($request->header('ID'),'update', $id, 'conference');
-            } else {
-                return response()->error(403);
+            if ($request->exists('status')) {
+
+                $oldStatus = $conference->status;
+                $newStatus = $request->status;
+
+                switch ($newStatus) {
+                    case 'approved':
+                    case 'denied':
+                        if ($oldStatus != 'pending') {
+                            break;
+                        }
+                        $activityType = $newStatus;
+                        $this->sendCreationEmail('conference', $cid, $newStatus);
+                        break;
+                    case 'pending':
+                        if ($oldStatus != 'denied') {
+                            break;
+                        }
+                        break;
+                    default:
+                        return response()->error(422);
+                        break;
+                }
             }
 
             $conference->fill($request->all())->save();
 
+            $this->addActivity($user->id, $activityType, $cid, 'conference');
 
             return response()->success();
         } catch (Exception $e) {
@@ -156,27 +126,57 @@ class ConferenceController extends Controller
      *
      * @return Response
      */
-    public function destroy(ConferenceRequest $request, $id)
+    public function destroy(ConferenceRequest $request, $cid)
     {
         try {
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
+            }
 
-            // Check if the Conference exists.
-            $conference = Conference::find($id);
+            $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
-            if (!$this->isConferenceManager($request, $id)) {
-                return response()->error(403, 'You are not a manager of this conference.');
-            }
-
-            // Delete the Conference.
             $conference->delete();
 
-            //Add Activity to log
-            $this->addActivity($request->header('ID'),'delete', $id, 'conference');
+            $this->addActivity($user->id, 'deleted', $cid, 'conference');
 
             return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
+    /**
+     * Retrieve all Conferences of a certain status.
+     *
+     * @return Collection|Response
+     */
+    public function indexWithStatus(Request $request, $status)
+    {
+        try {
+            return Conference::where('status', $status)->get();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
+
+    /**
+     * Retrieve all Events of a Conference of a certain status.
+     *
+     * @return Collection|Response
+     */
+    public function eventsWithStatus(Request $request, $cid, $status)
+    {
+        try {
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
+            return $conference->events()->where('status', $status)->get();
         } catch (Exception $e) {
             return response()->error();
         }
