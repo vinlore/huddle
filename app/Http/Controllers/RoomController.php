@@ -12,53 +12,117 @@ use App\Models\Room;
 
 class RoomController extends Controller
 {
-    public function index(RoomRequest $request, $accommodation)
+    /**
+     * Retrieve all Rooms for an Accommodation.
+     *
+     * @return Collection|Response
+     */
+    public function index(Request $request, $aid)
     {
         try {
-            return Room::where('accommodation_id', $accommodation)->get();
+
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404, 'Accommodation Not Found');
+            }
+
+            // TODO: Check manager status
+
+            // Retrieve its Accommodations.
+            return $accommodation->rooms()->get();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function store(RoomRequest $request)
+    /**
+     * Create a Room for an Accommodation.
+     *
+     * @return Response
+     */
+    public function store(RoomRequest $request, $aid)
     {
         try {
-            $accommodation = Accommodation::find($request->accommodation_id);
+
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404, 'Accommodation Not Found');
+            }
+
+            // TODO: Check manager status
+
+            // Create the Room.
             $room = new Room($request->all());
             $room->accommodation()->associate($accommodation);
             $room->save();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function update(RoomRequest $request, $accommodation, $id)
+    /**
+     * Update a Room.
+     *
+     * @return Response
+     */
+    public function update(RoomRequest $request, $aid, $rid)
     {
         try {
-            $room = Room::find($id);
-            if (!$room) {
-                return response()->error("No Room Found");
+
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404, 'Accommodation Not Found');
             }
-            $room->update($request->all());
+
+            // TODO: Check manager status.
+
+            // Check if the Room exists.
+            $room = Room::find($rid);
+            if (!$room) {
+                return response()->error(404, 'Room Not Found');
+            }
+
+            // Update the Room.
+            $room->fill($request->all())->save();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }
     }
 
-    public function destroy(RoomRequest $request, $accommodation, $id)
+    /**
+     * Delete a Room.
+     *
+     * @return Response
+     */
+    public function destroy(RoomRequest $request, $aid, $rid)
     {
         try {
-            $room = Room::find($id);
+            // Check if the Accommodation exists.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404, 'Accommodation Not Found');
+            }
+
+            // TODO: Check manager status.
+
+            // Check if the Room exists.
+            $room = Room::find($rid);
             if (!$room) {
-                return response()->error("No Room Found");
+                return response()->error(404, 'Room Not Found');
             }
-            if($room->guests()->count() > 0) {
-                return response()->error("There are still guests in this room");
-            }
+
+            // TODO: Check existence of guests.
+
+            // Delete the Room.
             $room->delete();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
