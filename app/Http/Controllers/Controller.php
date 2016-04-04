@@ -48,32 +48,40 @@ class Controller extends BaseController
     }
 
     /**
-     * Check if the User manages the given Conference.
-     * Also return true if the User is a System Administrator.
+     * Check if the User:
+     * - manages the given Conference or
+     * - is a System Administrator.
      *
-     * @return bool
+     * @return App\Models\User|bool
      */
     public function isConferenceManager($request, $cid)
     {
         $user = $this->getUser($request);
         $conference = Conference::find($cid);
         $isConferenceManager = $conference->managers()->where('user_id', $user->id)->exists();
-        return $this->isSuperuser($request) || $isConferenceManager;
+        if ($this->isSuperuser($request) || $isConferenceManager) {
+            return $user;
+        }
+        return false;
     }
 
     /**
-     * Check if the User manages the given Event.
-     * Also return true if the User manages the parent Conference.
-     * Also return true if the User is a System Administrator
+     * Check if the User:
+     * - manages the given Event,
+     * - manages the parent Conference, or
+     * - is a System Administrator.
      *
-     * @return bool
+     * @return App\Models\User|bool
      */
     public function isEventManager($request, $eid)
     {
         $user = $this->getUser($request);
         $event = Event::find($eid);
         $isEventManager = $event->managers()->where('user_id', $user->id)->exists();
-        return $this->isSuperUser($request) || $this->isConferenceManager($request, $event->conference->id) || $isEventManager;
+        if ($this->isSuperUser($request) || $this->isConferenceManager($request, $event->conference->id) || $isEventManager) {
+            return $user;
+        }
+        return false;
     }
 
 
