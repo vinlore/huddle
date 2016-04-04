@@ -45,7 +45,7 @@ class ConferenceRequest extends Request
             'city'        => ['required', 'string', 'max:255'],
             'country'     => ['required', 'string', 'max:255'],
             'capacity'    => ['required', 'integer', 'min:1'],
-            'status'      => ['string', 'in:pending']
+            'status'      => ['string', 'in:pending'],
         ];
     }
 
@@ -60,6 +60,7 @@ class ConferenceRequest extends Request
             'city'        => ['string', 'max:255'],
             'country'     => ['string', 'max:255'],
             'capacity'    => ['integer', 'min:1'],
+            'status'      => ['string', 'in:pending,approved,denied'],
         ];
     }
 }
