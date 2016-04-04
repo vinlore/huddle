@@ -26,6 +26,11 @@ class ConferenceController extends Controller
         }
     }
 
+    /**
+     * Retrieve all Events of a Conference of a certain status.
+     *
+     * @return Collection|Response
+     */
     public function eventsWithStatus(Request $request, $cid, $status)
     {
         try {
@@ -58,7 +63,7 @@ class ConferenceController extends Controller
     }
 
     /**
-     * Create a Conference and assign the creator as its Manager.
+     * Create a Conference.
      *
      * @return Response
      */
@@ -147,7 +152,7 @@ class ConferenceController extends Controller
     }
 
     /**
-     * Delete an Conference.
+     * Delete a Conference.
      *
      * @return Response
      */

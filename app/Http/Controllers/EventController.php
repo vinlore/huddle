@@ -14,7 +14,7 @@ use App\Models\User;
 class EventController extends Controller
 {
     /**
-     * Retrieve all Events for a Conference.
+     * Retrieve all Events of a Conference.
      *
      * @return Collection|Response
      */
@@ -70,9 +70,9 @@ class EventController extends Controller
     }
 
     /**
-     * Retrieve an Event.
+     * Retrieve an Event of a Conference.
      *
-     * @return Model|Response
+     * @return App\Models\Event|Response
      */
     public function show(EventRequest $request, $cid, $eid)
     {
@@ -97,13 +97,9 @@ class EventController extends Controller
         }
     }
 
-
     /**
-     * Update an Event.
+     * Update an Event of a Conference.
      *
-     * @param  EventRequest  $request
-     * @param  int  $conferences
-     * @param  int  $eid
      * @return Response
      */
     public function update(EventRequest $request, $cid, $eid)
@@ -146,11 +142,8 @@ class EventController extends Controller
     }
 
     /**
-     * Delete an Event.
+     * Delete an Event of a Conference.
      *
-     * @param  EventRequest  $request
-     * @param  int  $conferences
-     * @param  int  $id
      * @return Response
      */
     public function destroy(EventRequest $request, $cid, $eid)
@@ -184,47 +177,15 @@ class EventController extends Controller
         }
     }
 
+    /**
+     * Retrieve all Events of a certain status.
+     *
+     * @return Collection|Response
+     */
     public function indexWithStatus(Request $request)
     {
         try {
             return Event::where('status', $request->status)->get();
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
-
-    public function updateWithStatus(EventRequest $request, $id)
-    {
-        try {
-            $event = Event::find($id);
-            if (!$event) {
-                return response()->error("Event not found");
-            }
-
-            $conf = Conference::find($request->conference_id);
-            if (!$conf) {
-                return response()->error(404);
-            }
-
-            //Check if event manager belongs to this event OR admin
-            $userId = $request->header('ID');
-            if (!$event->managers()->where('user_id', $userID)->get()||
-                !$conf->managers()->where('user_id',$userID)->get() ||
-                (Sentinel::findById($userId)->roles()->first()->name !='System Administrator') ||
-                !User::find($userId)->hasAccess(['event.update'])) {
-                return response()->error("403" , "Permission Denied");
-            }
-
-            $event->update([
-                'status' => $request->status,
-            ]);
-
-            //Add Activity to log
-            $this->addActivity($request->header('ID'),$request->status, $event->id, 'event');
-
-            //Send Status update Email
-            $this->sendCreationEmail('event', $id, $request->status);
-            return response()->success();
         } catch (Exception $e) {
             return response()->error();
         }

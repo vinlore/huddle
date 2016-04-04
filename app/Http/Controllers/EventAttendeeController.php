@@ -16,7 +16,7 @@ use App\Models\Vehicle;
 class EventAttendeeController extends Controller
 {
     /**
-     * Retrieve all Attendees for an Event.
+     * Retrieve all Attendees of an Event.
      *
      * @return Collection|Response
      */
@@ -69,9 +69,9 @@ class EventAttendeeController extends Controller
     }
 
     /**
-     * Retrieve an Event Attendee.
+     * Retrieve an Attendee of an Event.
      *
-     * @return Model|Response
+     * @return App\Models\Profile|Response
      */
     public function show(EventAttendeeRequest $request, $eid, $pid)
     {
@@ -97,7 +97,7 @@ class EventAttendeeController extends Controller
     }
 
     /**
-     * Update an Event Attendee.
+     * Update an Attendee of an Event.
      *
      * @return Response
      */
@@ -162,6 +162,11 @@ class EventAttendeeController extends Controller
         }
     }
 
+    /**
+     * Delete an Attendee of an Event.
+     *
+     * @return Response
+     */
     public function destroy(EventAttendeeRequest $request, $eid, $pid)
     {
         try {

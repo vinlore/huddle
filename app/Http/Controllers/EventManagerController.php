@@ -11,23 +11,20 @@ use App\Models\User;
 class EventManagerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Retrieve all Managers of an Event.
      *
-     * @return \Illuminate\Http\Response
+     * @return Collection|Response
      */
     public function index($events)
     {
         return Event::find($events)->managers()->get(['username', 'id', 'email']);
     }
 
-
     /**
-     * Store a newly created resource in storage.
+     * Create a Manager for an Event.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-
     public function store(Request $request){
         try{
             //Saving to user_Manages_Event Table
@@ -46,10 +43,9 @@ class EventManagerController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve a Manager of an Event.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return App\Models\User|Response
      */
     public function show($id){
         try{
@@ -64,21 +60,9 @@ class EventManagerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Delete a Manager of an Event.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id){
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($events, $managers){
         try{

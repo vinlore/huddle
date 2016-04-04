@@ -13,7 +13,7 @@ use App\Models\Conference;
 class AccommodationController extends Controller
 {
     /**
-     * Retrieve all Accommodations for a Conference.
+     * Retrieve all Accommodations of a Conference.
      *
      * @return Collection|Response
      */
@@ -65,7 +65,7 @@ class AccommodationController extends Controller
     }
 
     /**
-     * Retrieve an Accommodation.
+     * Retrieve an Accommodation of a Conference
      *
      * @return App\Models\Accommodation|Response
      */
@@ -93,7 +93,7 @@ class AccommodationController extends Controller
     }
 
     /**
-     * Update an Accommodation.
+     * Update an Accommodation of a Conference.
      *
      * @return Response
      */
@@ -128,7 +128,7 @@ class AccommodationController extends Controller
     }
 
     /**
-     * Delete an Accommodation.
+     * Delete an Accommodation of a Conference.
      *
      * @return Response
      */

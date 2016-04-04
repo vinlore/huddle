@@ -12,6 +12,11 @@ use App\Models\User;
 
 class ProfileController extends Controller
 {
+    /**
+     * Retrieve all Profiles of a User.
+     *
+     * @return Collection|Response
+     */
     public function index(ProfileRequest $request, $uid)
     {
         try {
@@ -21,6 +26,11 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * Create a Profile for a User.
+     *
+     * @return Response
+     */
     public function store(ProfileRequest $request, $uid)
     {
         try {
@@ -42,6 +52,11 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * Update a Profile of a User.
+     *
+     * @return Response
+     */
     public function update(ProfileRequest $request, $uid, $pid)
     {
         try {
@@ -56,6 +71,11 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * Delete a Profile of a User.
+     *
+     * @return Response
+     */
     public function destroy(ProfileRequest $request, $uid, $pid)
     {
         try {
@@ -73,6 +93,11 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * Retrieve all Conferences a Profile attends.
+     *
+     * @return Collection|Response
+     */
     public function conferences(ProfileRequest $request, $id)
     {
         try {
@@ -88,10 +113,24 @@ class ProfileController extends Controller
         }
     }
 
-    public function test()
+    /**
+     * Retrieve all Events a Profile attends.
+     *
+     * @return Collection|Response
+     */
+    public function events(ProfileRequest $request, $id)
     {
-        var_dump($lol);
+        try {
+            $profile = Profile::find($id);
+            if (!$profile) {
+                return response()->success("204","Profile not found");
+            }
+            return $profile->events;
+        } catch (Exception $e) {
+            return response()->error();
+        }
     }
+
     public function rooms($pid) {
         return \DB::table('profiles')
         ->where('profiles.id', $pid)
@@ -124,18 +163,4 @@ class ProfileController extends Controller
         ->join('profile_rides_vehicles','profile_rides_vehicles.vehicle_id', '=', 'vehicles.id')
         ->get(['vehicles.name','events.id']);
     }
-
-    public function events(ProfileRequest $request, $id)
-    {
-        try {
-            $profile = Profile::find($id);
-            if (!$profile) {
-                return response()->success("204","Profile not found");
-            }
-            return $profile->events;
-        } catch (Exception $e) {
-            return response()->error();
-        }
-    }
-
 }

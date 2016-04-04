@@ -19,7 +19,7 @@ use App\Models\Vehicle;
 class ConferenceAttendeeController extends Controller
 {
     /**
-     * Retrieve all Attendees for a Conference.
+     * Retrieve all Attendees of a Conference.
      *
      * @return Collection|Response
      */
@@ -74,9 +74,9 @@ class ConferenceAttendeeController extends Controller
     }
 
     /**
-     * Retrieve a Conference Attendee.
+     * Retrieve an Attendee of a Conference.
      *
-     * @return Model|Response
+     * @return App\Models\Profile|Response
      */
     public function show(ConferenceAttendeeRequest $request, $cid, $pid)
     {
@@ -102,7 +102,7 @@ class ConferenceAttendeeController extends Controller
     }
 
     /**
-     * Update a Conference Attendee.
+     * Update an Attendee of a Conference.
      *
      * @return Response
      */
@@ -167,6 +167,11 @@ class ConferenceAttendeeController extends Controller
         }
     }
 
+    /**
+     * Delete an Attendee of a Conference.
+     *
+     * @return Response
+     */
     public function destroy(ConferenceAttendeeRequest $request, $cid, $pid)
     {
         try {

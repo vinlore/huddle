@@ -13,7 +13,7 @@ use App\Models\Room;
 class RoomController extends Controller
 {
     /**
-     * Retrieve all Rooms for an Accommodation.
+     * Retrieve all Rooms of an Accommodation.
      *
      * @return Collection|Response
      */
@@ -65,7 +65,7 @@ class RoomController extends Controller
     }
 
     /**
-     * Update a Room.
+     * Update a Room of an Accommodation.
      *
      * @return Response
      */
@@ -97,7 +97,7 @@ class RoomController extends Controller
     }
 
     /**
-     * Delete a Room.
+     * Delete a Room of an Accommodation.
      *
      * @return Response
      */

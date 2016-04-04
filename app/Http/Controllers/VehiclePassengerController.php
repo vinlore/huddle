@@ -11,10 +11,9 @@ use App\Models\Vehicle;
 class VehiclePassengerController extends Controller
 {
     /**
-     * Display the specified resource.
+     * Retrieve all Passengers of a Vehicle.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Collection|Response
      */
     public function index($id){
         //Show all the passengers within this one id.
@@ -29,6 +28,11 @@ class VehiclePassengerController extends Controller
         }
     }
 
+    /**
+     * Create a Passenger for a Vehicle.
+     *
+     * @return Response
+     */
     public function store(Request $request, $vid) {
         try {
             Profile::find($request->profile_id)
@@ -43,42 +47,10 @@ class VehiclePassengerController extends Controller
         }
     }
 
-
     /**
-     * Update the specified resource in storage.
+     * Delete a Passenger of a Vehicle.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $vid, $pid){
-        try {
-            //Update Profile Riding on different Vehicle
-            Profile::find($pid)
-                    ->vehicles()
-                    ->updateExistingPivot($request->old_vehicle_id, ['vehicle_id' => $vid]);
-
-            $passenger_count = Vehicle::find($vid)->passengers()->count();
-            Vehicle::where('id',$vid)->update(['passenger_count' => $passenger_count]);
-
-            $passenger_count = Vehicle::find($request->old_vehicle_id)->passengers()->count();
-            Vehicle::where('id',$request->old_vehicle_id)->update(['passenger_count' => $passenger_count]);
-
-            /*
-            *TODO: check if user wants email notifcations. If yes, send one.
-            *TODO: ADD notification column to user table.
-            */
-            return response()->success();
-         } catch (Exception $e) {
-            return response()->error($e);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($vid, $pid) {
         try {
