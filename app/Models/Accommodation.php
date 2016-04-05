@@ -10,6 +10,7 @@ class Accommodation extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'conference_id',
         'name',
         'address',
         'city',
@@ -23,9 +24,9 @@ class Accommodation extends Model
         return $this->hasMany('App\Models\Room');
     }
 
-    public function conferences()
+    public function conference()
     {
-        return $this->belongsToMany('App\Models\Conference', 'conference_accommodations')->withTimestamps();
+        return $this->belongsTo('App\Models\Conference');
     }
 
     protected static function boot()
@@ -35,7 +36,6 @@ class Accommodation extends Model
             foreach ($accommodation->rooms as $room) {
                 $room->delete();
             }
-            $accommodation->conferences()->detach();
         });
     }
 }
