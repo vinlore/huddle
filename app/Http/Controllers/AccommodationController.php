@@ -15,6 +15,8 @@ class AccommodationController extends Controller
     /**
      * Retrieve all Accommodations of a Conference.
      *
+     * @param  Request  $request
+     * @param  int  $cid
      * @return Collection|Response
      */
     public function index(Request $request, $cid)
@@ -34,6 +36,8 @@ class AccommodationController extends Controller
     /**
      * Create an Accommodation for a Conference.
      *
+     * @param  AccommodationRequest  $request
+     * @param  int  $cid
      * @return Response
      */
     public function store(AccommodationRequest $request, $cid)
@@ -61,6 +65,9 @@ class AccommodationController extends Controller
     /**
      * Retrieve an Accommodation of a Conference.
      *
+     * @param  AccommodationRequest  $request
+     * @param  int  $cid
+     * @param  int  $aid
      * @return App\Models\Accommodation|Response
      */
     public function show(AccommodationRequest $request, $cid, $aid)
@@ -85,6 +92,9 @@ class AccommodationController extends Controller
     /**
      * Update an Accommodation of a Conference.
      *
+     * @param  AccommodationRequest  $request
+     * @param  int  $cid
+     * @param  int  $aid
      * @return Response
      */
     public function update(AccommodationRequest $request, $cid, $aid)
@@ -116,6 +126,9 @@ class AccommodationController extends Controller
     /**
      * Delete an Accommodation of a Conference.
      *
+     * @param  AccommodationRequest  $request
+     * @param  int  $cid
+     * @param  int  $aid
      * @return Response
      */
     public function destroy(AccommodationRequest $request, $cid, $aid)

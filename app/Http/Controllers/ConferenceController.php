@@ -15,6 +15,7 @@ class ConferenceController extends Controller
     /**
      * Retrieve all Conferences.
      *
+     * @param  ConferenceRequest  $request
      * @return Collection|Response
      */
     public function index(ConferenceRequest $request)
@@ -29,6 +30,7 @@ class ConferenceController extends Controller
     /**
      * Create a Conference.
      *
+     * @param  ConferenceRequest  $request
      * @return Response
      */
     public function store(ConferenceRequest $request)
@@ -50,6 +52,8 @@ class ConferenceController extends Controller
     /**
      * Retrieve a Conference.
      *
+     * @param  Request  $request
+     * @param  int  $cid
      * @return App\Models\Conference|Response
      */
     public function show(Request $request, $cid)
@@ -69,6 +73,8 @@ class ConferenceController extends Controller
     /**
      * Update a Conference.
      *
+     * @param  ConferenceRequest  $request
+     * @param  int  $cid
      * @return Response
      */
     public function update(ConferenceRequest $request, $cid)
@@ -124,6 +130,8 @@ class ConferenceController extends Controller
     /**
      * Delete a Conference.
      *
+     * @param  ConferenceRequest  $request
+     * @param  int  $cid
      * @return Response
      */
     public function destroy(ConferenceRequest $request, $cid)
@@ -152,6 +160,8 @@ class ConferenceController extends Controller
     /**
      * Retrieve all Conferences of a certain status.
      *
+     * @param  Request  $request
+     * @param  string  $status
      * @return Collection|Response
      */
     public function indexWithStatus(Request $request, $status)
@@ -164,8 +174,11 @@ class ConferenceController extends Controller
     }
 
     /**
-     * Retrieve all Events of a Conference of a certain status.
+     * Retrieve all Events of a certain status from a Conference.
      *
+     * @param  Request  $request
+     * @param  int  $cid
+     * @param  string  $status
      * @return Collection|Response
      */
     public function eventsWithStatus(Request $request, $cid, $status)
