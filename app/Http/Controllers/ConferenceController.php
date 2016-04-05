@@ -98,7 +98,7 @@ class ConferenceController extends Controller
                             break;
                         }
                         $activityType = $newStatus;
-                        $this->sendCreationEmail('conference', $cid, $newStatus);
+                        $this->sendConferenceRequestEmail($cid, $newStatus);
                         break;
                     case 'pending':
                         if ($oldStatus != 'denied') {

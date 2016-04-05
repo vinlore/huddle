@@ -125,7 +125,7 @@ class EventController extends Controller
             if (($request->status == 'approved' || $request->status == 'denied')) {
                 $event->update($request->all());
                 $this->addActivity($request->header('ID'),$request->status, $eid, 'event');
-                $this->sendCreationEmail('event', $event->id, $request->status);
+                $this->sendEventRequestEmail($event->id, $request->status);
             } elseif(($request->status != 'approved' && $request->status != 'denied')) {
                 $event->fill($request->all())->save();
                  $this->addActivity($request->header('ID'),'update', $eid, 'event');
