@@ -14,6 +14,7 @@ class ActivityController extends Controller
     /**
      * Retrieve all Activities.
      *
+     * @param  Request  $request
      * @return Collection|Response
      */
     function index(Request $request)
@@ -28,19 +29,18 @@ class ActivityController extends Controller
     /**
      * Retrieve all Activities for a User.
      *
+     * @param  Request  $request
+     * @param  int  $uid
      * @return Collection|Response
      */
     function indexWithUser(Request $request, $uid)
     {
         try {
-
-            // Check if the User exists.
             $user = Sentinel::findById($uid);
             if (!$user) {
                 return response()->error(404, 'User Not Found');
             }
 
-            // Retrieve its activities.
             return $user->activities()->get();
         } catch (Exception $e) {
             return response()->error();
