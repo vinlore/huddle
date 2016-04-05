@@ -6,7 +6,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
 
     // -------------------------------------------------------------------------
     // AUTHORIZATION
-    // -------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
     Route::post('auth/register', 'AuthController@signup');
     Route::post('auth/login', 'AuthController@signin');
