@@ -22,11 +22,15 @@ class RoomController extends Controller
     public function index(Request $request, $aid)
     {
         try {
-            // TODO: Check manager status
-
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
                 return response()->error(404, 'Accommodation Not Found');
+            }
+
+            $cid = $accommodation->conference()->first()->getKey();
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
             }
 
             return $accommodation->rooms()->get();
@@ -45,11 +49,15 @@ class RoomController extends Controller
     public function store(RoomRequest $request, $aid)
     {
         try {
-            // TODO: Check manager status
-
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
                 return response()->error(404, 'Accommodation Not Found');
+            }
+
+            $cid = $accommodation->conference()->first()->getKey();
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
             }
 
             $room = new Room($request->all());
@@ -73,11 +81,15 @@ class RoomController extends Controller
     public function update(RoomRequest $request, $aid, $rid)
     {
         try {
-            // TODO: Check manager status.
-
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
                 return response()->error(404, 'Accommodation Not Found');
+            }
+
+            $cid = $accommodation->conference()->first()->getKey();
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
             }
 
             $room = Room::find($rid);
@@ -104,11 +116,15 @@ class RoomController extends Controller
     public function destroy(RoomRequest $request, $aid, $rid)
     {
         try {
-            // TODO: Check manager status.
-
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
                 return response()->error(404, 'Accommodation Not Found');
+            }
+
+            $cid = $accommodation->conference()->first()->getKey();
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
             }
 
             $room = Room::find($rid);
