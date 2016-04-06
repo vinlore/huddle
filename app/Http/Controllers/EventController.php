@@ -173,7 +173,7 @@ class EventController extends Controller
             if (!$conference) {
                 return response()->error(404, 'Conference Not Found');
             }
-.
+
             $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
