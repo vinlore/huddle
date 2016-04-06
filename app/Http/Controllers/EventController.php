@@ -44,6 +44,8 @@ class EventController extends Controller
     public function store(EventRequest $request, $cid)
     {
         try {
+            $user = $this->getUser($request);
+
             $conference = Conference::find($cid);
             if (!$conference->exists()) {
                 return response()->error(404, 'Conference Not Found');
