@@ -59,7 +59,7 @@ class ConferenceAttendeeRequest extends Request
             'birthdate'          => ['date', 'before:today'],
             'gender'             => ['string', 'max:255'],
             'accommodation_req'  => ['boolean'],
-            'accommodation_pref' => ['string', 'max:255'],
+            'accommodation_pref' => ['integer'],
             'arrv_ride_req'      => ['boolean'],
             'arrv_date'          => ['date'],
             'arrv_time'          => ['date_format:H:i'],
