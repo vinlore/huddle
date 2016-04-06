@@ -177,7 +177,7 @@ class EventAttendeeController extends Controller
     public function destroy(EventAttendeeRequest $request, $eid, $pid)
     {
         try {
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }
