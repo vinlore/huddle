@@ -174,9 +174,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
+                            <label for="ce-start_time" class="col-sm-4 control-label">Arrival Time</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputUser" ng-model="arrival.arrv_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req" ui-mask="?29:69">
+                                <uib-timepicker id="ce-start_time" ng-model="arrival.arrv_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req" show-spinners="false" pad-hours="false" required></uib-timepicker>
                             </div>
                         </div>
                     </form>
@@ -209,7 +209,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="departureDate" class="col-sm-4 control-label">Departure Date</label>
+                            <label for="inputUser" class="col-sm-4 control-label">Departure Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
                                     <input type="text" class="form-control" ng-model="departure.dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen3" placeholder="YYYY-MM-DD" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
@@ -222,9 +222,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Departure Time</label>
+                            <label for="ce-start_time" class="col-sm-4 control-label">Departure Time</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputUser" ng-model="departure.dept_time" ng-disabled="!departure.dept_ride_req" ui-mask="?29:69">
+                                <uib-timepicker id="ce-start_time" ng-model="departure.dept_time" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req" show-spinners="false" pad-hours="false" required></uib-timepicker>
                             </div>
                         </div>
                     </form>
@@ -276,19 +276,25 @@
                             <label for="arrivalDate" class="col-sm-4 control-label">Arrival Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" id="arrivalDate" class="form-control" ng-model="familyMembers[$index].arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req">
+                                    <input type="text" id="arrivalDate" class="form-control" ng-model="familyMembers[$index].arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen4" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req">
                                     <span class="input-group-btn">
-                                <button class="btn btn-link" type="button" ng-click="calendar.isOpen2 = !calendar.isOpen2">
+                                <button class="btn btn-link" type="button" ng-click="calendar.isOpen4 = !calendar.isOpen4">
                                   <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                               </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control" id="inputUser" ng-model="familyMembers[$index].arrv_time" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req" ui-mask="?29:69">
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <label for="ce-start_time" class="col-sm-4 control-label">Arrival Time</label>
+                            <div class="col-sm-7">
+                                <uib-timepicker id="ce-start_time" ng-model="familyMembers[$index].arrv_time" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req" show-spinners="false" pad-hours="false" required></uib-timepicker>
                             </div>
                         </div>
                     </form>
@@ -324,19 +330,25 @@
                             <label for="departureDate" class="col-sm-4 control-label">Departure Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" ng-model="familyMembers[$index].dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen3" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req">
+                                    <input type="text" class="form-control" ng-model="familyMembers[$index].dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen5" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req">
                                     <span class="input-group-btn">
-                                    <button class="btn btn-link" type="button" ng-click="calendar.isOpen3 = !calendar.isOpen3">
+                                    <button class="btn btn-link" type="button" ng-click="calendar.isOpen5 = !calendar.isOpen5">
                                       <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
                                   </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="inputUser" class="col-sm-4 control-label">Departure Time</label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control" id="inputUser" ng-model="familyMembers[$index].dept_time" ng-disabled="!familyMembers[$index].dept_ride_req" ui-mask="?29:69">
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <label for="ce-start_time" class="col-sm-4 control-label">Departure Time</label>
+                            <div class="col-sm-7">
+                                <uib-timepicker id="ce-start_time" ng-model="familyMembers[$index].dept_time" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req" show-spinners="false" pad-hours="false" required></uib-timepicker>
                             </div>
                         </div>
                     </form>

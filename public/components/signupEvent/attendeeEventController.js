@@ -12,9 +12,7 @@ angular.module('attendeeEventCtrl',[])
     Events.attendees().get({eid: $stateParams.event_id, pid: $stateParams.profile_id})
     .$promise.then(function(response){
       if(response){
-        var profile = response.pivot;
-        $scope.attendee = profile;
-        console.log(profile);
+        $scope.attendee = response.pivot;
       } else {
         popup.error( 'Error', response.message );
       }
@@ -26,6 +24,8 @@ angular.module('attendeeEventCtrl',[])
 
   $scope.submitRequest = function(){
       var attendee = {
+        event_id: $stateParams.event_id,
+        profile_id: $stateParams.profile_id,
         arrv_ride_req: $scope.attendee.arrv_ride_req,
         dept_ride_req: $scope.attendee.dept_ride_req,
         status:'pending'

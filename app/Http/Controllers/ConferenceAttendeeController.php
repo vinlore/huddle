@@ -248,7 +248,7 @@ class ConferenceAttendeeController extends Controller
 
                         //Update Event attendee count
                         $count = $current_event->where('status','approved')->count();
-                        Event::where('id',$eid_id)->update(['attendee_count' => $count]);
+                        Event::where('id',$eid->id)->update(['attendee_count' => $count]);
                    }
 
             Profile::find($pid)->conferences()->detach($cid);

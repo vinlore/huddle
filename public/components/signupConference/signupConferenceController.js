@@ -4,7 +4,9 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
     $scope.calendar = {
         isOpen1: false,
         isOpen2: false,
-        isOpen3: false
+        isOpen3: false,
+        isOpen4: false,
+        isOpen5: false
     };
 
     $scope.accordionIsOpen = [];
@@ -62,8 +64,8 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
                         var date = response[i].birthdate.split('-');
                         response[i]['profile_id'] = response[i]['id'];
                         delete response[i]['id'];
-                        response[i].country = null;
-                        response[i].city = null;
+                        //response[i].country = null;
+                        //response[i].city = null;
                         delete response[i]['user_id'];
                         response[i].birthdate = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
                         if (response[i]['is_owner']) {
@@ -144,10 +146,10 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
         for (var i=0; i < family.length; i++) {
             console.log(family[i])
             family[i].birthdate = $filter('date')(family[i].birthdate, 'yyyy-MM-dd');
-            family[i].arrv_time = $filter('time')(family[i].arrv_time);
-            family[i].arrv_date = $filter('date')(family[i].arrv_date);
-            family[i].dept_time = $filter('time')(family[i].dept_time);
-            family[i].dept_date = $filter('date')(family[i].dept_date);
+            family[i].arrv_time = $filter('date')(family[i].arrv_time, 'HH:mm');
+            family[i].arrv_date = $filter('date')(family[i].arrv_date, 'yyyy-MM-dd');
+            family[i].dept_time = $filter('date')(family[i].dept_time, 'HH:mm');
+            family[i].dept_date = $filter('date')(family[i].dept_date, 'yyyy-MM-dd');
             family[i].phone = $scope.user.phone;
             family[i].contact_first_name = $scope.emergencyContact.contact_first_name,
             family[i].contact_last_name = $scope.emergencyContact.contact_last_name,
@@ -202,8 +204,8 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
             angular.extend(profile, $scope.arrival);
             angular.extend(profile, $scope.departure);
             angular.extend(profile, $scope.emergencyContact);
-            profile.arrv_time = $filter('time')(profile.arrv_time);
-            profile.dept_time = $filter('time')(profile.dept_time);
+            profile.arrv_time = $filter('date')(profile.arrv_time,'HH:mm');
+            profile.dept_time = $filter('date')(profile.dept_time,'HH:mm');
             var members = processMembers($scope.familyMembers);
             for (var i=0; i<members.length; i++) {
                 console.log(members[i])

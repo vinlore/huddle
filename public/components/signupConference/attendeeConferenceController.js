@@ -19,7 +19,6 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
 
   $scope.changeCountry = function(country) {
     $scope.citiesOnly.componentRestrictions = { country: country.code };
-    //console.log($scope.citiesOnly)
   };
 
   $scope.citiesOnly = {
@@ -31,7 +30,36 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
     Conferences.attendees().get({cid: $stateParams.conference_id, pid: $stateParams.profile_id})
     .$promise.then(function(response){
       if(response){
-        $scope.user = response.pivot;
+        response = response.pivot;
+        var date = response.birthdate.split('-');
+        response.birthdate = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+
+        if (response.arrv_date != null ){
+          var date = response.arrv_date.split('-');
+          response.arrv_date = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+        }
+        if (response.arrv_time != null ){
+          // Parse arrv_time from database to Date object
+          var time1 = response.arrv_time.split(':');
+          var arrvTime = new Date();
+          arrvTime.setHours(time1[0]);
+          arrvTime.setMinutes(time1[1]);
+          response.arrv_time = arrvTime;
+        }
+
+        if (response.dept_date != null ){
+          var date = response.dept_date.split('-');
+          response.dept_date = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+        }
+        if (response.dept_time != null){
+          // Parse dept_time from database to Date object
+          var time2 = response.dept_time.split(':');
+          var deptTime = new Date();
+          deptTime.setHours(time2[0]);
+          deptTime.setMinutes(time2[1]);
+          response.dept_time = deptTime;
+        }
+        $scope.user  = response;
       } else {
         popup.error( 'Error', response.message );
       }
@@ -47,33 +75,27 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
     .$promise.then( function( response ) {
       if ( response ) {
         $scope.accommodations = response;
-        //console.log(response);
       } else {
-        // TODO error
+        popup.error( 'Error', response.message );
       }
+    }, function () {
+      popup.connection();
     })
   }
   $scope.loadAccommodations();
 
-  
-
-  $scope.arrival = {
-    arrv_time: null,
-  }
-
-  $scope.departure = {
-    dept_time: null,
-  }
 
   $scope.submitRequest = function(){
     if(!$scope.user.arrv_ride_req){
       $scope.user.arrv_date = null;
       $scope.user.arrv_airport = null;
+      $scope.user.arrv_flight = null;
       $scope.user.arrv_time = null;
     }
     if(!$scope.user.dept_ride_req){
       $scope.user.dept_date = null;
       $scope.user.dept_airport = null;
+      $scope.user.dept_flight = null;
       $scope.user.dept_time = null;
     }
     var profile = {
@@ -92,18 +114,20 @@ app.controller('attendeeConferenceController', function($scope, $stateParams, Co
       contact_last_name: $scope.user.contact_last_name,
       contact_email: $scope.user.contact_email,
       contact_phone: $scope.user.contact_phone,
-      arrv_time: $filter('time')($scope.arrival.arrv_time),
+      arrv_time: $filter('date')($scope.user.arrv_time, 'HH:mm'),
       arrv_date: $filter('date')($scope.user.arrv_date, 'yyyy-MM-dd'),
       arrv_airport: $scope.user.arrv_airport,
+      arrv_flight: $scope.user.arrv_flight,
       arrv_ride_req: $scope.user.arrv_ride_req,
       dept_ride_req: $scope.user.dept_ride_req,
       dept_airport: $scope.user.dept_airport,
-      dept_time: $filter('time')($scope.departure.dept_time),
+      dept_flight: $scope.user.dept_flight,
+      dept_time: $filter('date')($scope.user.dept_time, 'HH:mm'),
       dept_date:  $filter('date')($scope.user.dept_date, 'yyyy-MM-dd'),
       accommodation_req: $scope.user.accommodation_req,
       accommodation_pref: String($scope.user.accommodation_pref)
     }
-    //console.log(profile);
+
     Conferences.attendees().update({cid: $stateParams.conference_id, pid: $stateParams.profile_id}, profile)
     .$promise.then( function ( response ) {
       if ( response.status == 200 ) {

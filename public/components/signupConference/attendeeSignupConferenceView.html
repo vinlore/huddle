@@ -175,9 +175,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
+                            <label for="ce-start_time" class="col-sm-4 control-label">Arrival Time</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputUser" ng-model="arrival.arrv_time" ng-disabled="!user.arrv_ride_req" ng-required="user.arrv_ride_req" ui-mask="?29:69" required>
+                                <uib-timepicker id="ce-start_time" ng-model="user.arrv_time" ng-disabled="!user.arrv_ride_req" ng-required="user.arrv_ride_req" show-spinners="false" pad-hours="false" required></uib-timepicker>
                             </div>
                         </div>
                     </form>
@@ -223,9 +223,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Departure Time</label>
+                            <label for="ce-start_time" class="col-sm-4 control-label">Departure Time</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputUser" ng-model="departure.dept_time" ng-disabled="!user.dept_ride_req" ui-mask="?29:69" required>
+                                <uib-timepicker id="ce-start_time" ng-model="user.dept_time" ng-disabled="!user.dept_ride_req" ng-required="user.dept_ride_req" show-spinners="false" pad-hours="false" required></uib-timepicker>
                             </div>
                         </div>
                     </form>
