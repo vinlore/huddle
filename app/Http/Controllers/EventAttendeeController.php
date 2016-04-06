@@ -156,7 +156,7 @@ class EventAttendeeController extends Controller
                 }
             }
 
-            $event->attendees()->updateExistingPivot($profile, $request->all());
+            $event->attendees()->updateExistingPivot($pid, $request->all());
 
             $this->addActivity($request->header('ID'),'update', $eid, 'event application', $pid);
 

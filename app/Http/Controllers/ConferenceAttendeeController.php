@@ -158,7 +158,7 @@ class ConferenceAttendeeController extends Controller
                 }
             }
 
-            $conference->attendees()->updateExistingPivot($profile, $request->all());
+            $conference->attendees()->updateExistingPivot($pid, $request->all());
 
             $this->addActivity($userId, $activityType, $cid, 'conference application', $pid);
 
