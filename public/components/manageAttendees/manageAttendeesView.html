@@ -10,88 +10,179 @@
 
    <div class="panel panel-default margin-top-25">
       <div class="panel-body">
+         <div class="row">
+            <!-- Radio buttons to filter by status -->
+            <div class="col-md-6">
+               <div class="btn-group">
+                  <label class="btn btn-default" ng-model="statusRadio" uib-btn-radio="''" ng-change="load()">All</label>
+                  <label class="btn btn-primary" ng-model="statusRadio" uib-btn-radio="'approved'" ng-change="load()">Approved</label>
+                  <label class="btn btn-primary" ng-model="statusRadio" uib-btn-radio="'pending'" ng-change="load()">Pending</label>
+                  <label class="btn btn-primary" ng-model="statusRadio" uib-btn-radio="'denied'" ng-change="load()">Denied</label>
+               </div>
+            </div>
 
-         <div class="btn-group">
-            <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="''" ng-change="load()">All</label>
-            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'approved'" ng-change="load()">Approved</label>
-            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'pending'" ng-change="load()">Pending</label>
-            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'denied'" ng-change="load()">Denied</label>
+            <!-- Radio buttons to filter for flight info-->
+            <div class="col-md-6">
+               <div class="btn-group pull-right">
+                  <label class="btn btn-default" ng-model="flightRadio" uib-btn-radio="false">General</label>
+                  <label class="btn btn-warning" ng-model="flightRadio" uib-btn-radio="true">Flight</label>
+               </div>
+            </div>
          </div>
 
-         <div class="table-responsive">
-            <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
+         <!-- Show attendee general info -->
+         <div ng-show="!flightRadio">
+            <div class="table-responsive">
+               <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
 
-               <colgroup>
-                  <col width="5%" />
-                  <col width="10%" />
-                  <col width="10%" />
-                  <col width="10%" />
-                  <col width="10%" />
-                  <col width="5%" />
-                  <col width="10%" />
-                  <col width="10%" />
-                  <col width="10%" />
-                  <col width="10%" />
-                  <col width="25%" />
-               </colgroup>
+                  <colgroup>
+                     <col width="5%" />
+                     <col width="10%" />
+                     <col width="10%" />
+                     <col width="10%" />
+                     <col width="10%" />
+                     <col width="5%" />
+                     <col width="10%" />
+                     <col width="10%" />
+                     <col width="10%" />
+                     <col width="10%" />
+                     <col width="25%" />
+                  </colgroup>
 
-   <!--             <tr class="ng-table-group" ng-repeat-start="group in $data">
-                  <td colspan="10">
-                     <a href="" ng-click="group.$hideRows = !group.$hideRows">
-                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
-                        <strong>{{ group.user_id }}</strong>
-                     </a>
-                  </td>
-               </tr>
+      <!--             <tr class="ng-table-group" ng-repeat-start="group in $data">
+                     <td colspan="10">
+                        <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                           <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                           <strong>{{ group.user_id }}</strong>
+                        </a>
+                     </td>
+                  </tr>
 
 
-                <tr ng-hide="group.$hideRows" ng-repeat="a in group" ng-repeat-end> -->
-               <tr ng-repeat="a in $data">
-                  <td title="'UID'" filter="{ 'user_id': 'number'}" sortable="'user_id'">
-                     {{a.user_id}}
-                  </td>
-                  <td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
-                     {{a.first_name}}
-                  </td>
-                  <td title="'Middle Name'" filter="{ 'middle_name': 'text'}" sortable="'middle_name'">
-                     {{a.middle_name}}
-                  </td>
-                  <td title="'Last Name'" filter="{ 'last_name': 'text'}" sortable="'last_name'">
-                     {{a.last_name}}
-                  </td>
-                  <td title="'Birthdate'" filter="{ 'birthdate': 'text'}" sortable="'birthdate'">
-                     {{a.birthdate}}
-                  </td>
-                  <td title="'Gender'" filter="{ 'gender': 'text'}" sortable="'gender'">
-                     {{a.gender}}
-                  </td>
-                  <td title="'Email'" filter="{ 'email': 'text'}" sortable="'email'">
-                     {{a.email}}
-                  </td>
-                  <td title="'Home Phone'" filter="{ 'phone': 'text'}" sortable="'phone'">
-                     {{a.phone}}
-                  </td>
-                  <td title="'Mobile Phone'" filter="{ 'phone2': 'text'}" sortable="'phone2'">
-                     {{a.phone2}}
-                  </td>
-                  <td title="'Status'" filter="{ 'pivot.status': 'text'}" sortable="'pivot.status'">
-                     {{a.pivot.status}}
-                  </td>
+                   <tr ng-hide="group.$hideRows" ng-repeat="a in group" ng-repeat-end> -->
+                  <tr ng-repeat="a in $data">
+                     <td title="'UID'" filter="{ 'user_id': 'number'}" sortable="'user_id'">
+                        {{a.user_id}}
+                     </td>
+                     <td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
+                        {{a.first_name}}
+                     </td>
+                     <td title="'Middle Name'" filter="{ 'middle_name': 'text'}" sortable="'middle_name'">
+                        {{a.middle_name}}
+                     </td>
+                     <td title="'Last Name'" filter="{ 'last_name': 'text'}" sortable="'last_name'">
+                        {{a.last_name}}
+                     </td>
+                     <td title="'Birthdate'" filter="{ 'birthdate': 'text'}" sortable="'birthdate'">
+                        {{a.birthdate}}
+                     </td>
+                     <td title="'Gender'" filter="{ 'gender': 'text'}" sortable="'gender'">
+                        {{a.gender}}
+                     </td>
+                     <td title="'Email'" filter="{ 'email': 'text'}" sortable="'email'">
+                        {{a.email}}
+                     </td>
+                     <td title="'Home Phone'" filter="{ 'phone': 'text'}" sortable="'phone'">
+                        {{a.phone}}
+                     </td>
+                     <td title="'Mobile Phone'" filter="{ 'phone2': 'text'}" sortable="'phone2'">
+                        {{a.phone2}}
+                     </td>
+                     <td title="'Status'" filter="{ 'pivot.status': 'text'}" sortable="'pivot.status'">
+                        {{a.pivot.status}}
+                     </td>
 
-                  <td>
-                     <div class="btn-group">
-                        <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a)">
-                              <span class="glyphicon glyphicon-ok"></span>
-                        </button>
-                        <button class="btn btn-sm btn-danger" ng-disabled="a.pivot.status == 'denied' || a.pivot.status == 'approved'" ng-click="deny(a.id)">
-                              <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                     </div>
-                  </td>
-               </tr>
-            </table>
+                     <td>
+                        <div class="btn-group">
+                           <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a)">
+                                 <span class="glyphicon glyphicon-ok"></span>
+                           </button>
+                           <button class="btn btn-sm btn-danger" ng-disabled="a.pivot.status == 'denied' || a.pivot.status == 'approved'" ng-click="deny(a.id)">
+                                 <span class="glyphicon glyphicon-remove"></span>
+                           </button>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </div>
          </div>
 
+         <!-- Show attendee flight info -->
+         <div ng-show="flightRadio">
+            <div class="table-responsive">
+               <table ng-table="tableParams" class="table table-condensed table-bordered table-striped margin-top-25" show-filter="true">
+
+                  <colgroup>
+                     <col width="5%" />
+                     <col width="10%" />
+                     <col width="10%" />
+                     <col width="5%" />
+                     <col width="5%" />
+                     <col width="10%" />
+                     <col width="10%" />
+                     <col width="5%" />
+                     <col width="5%" />
+                     <col width="10%" />
+                     <col width="10%" />
+                     <col width="15%" />
+                  </colgroup>
+
+<!-- arrv_ride_req":0,"arrv_date":null,"arrv_time":null,"arrv_airport":null,"arrv_flight":null,"dept_ride_req":0,"dept_date":null,"dept_time":null,"dept_airport":null,"dept_flight":null -->
+
+                  <tr ng-repeat="a in $data" ng-if="a.pivot.arrv_ride_req || a.pivot.dept_ride_req">
+                        <td title="'UID'" filter="{ 'user_id': 'number'}" sortable="'user_id'">
+                           {{a.user_id}}
+                        </td>
+                        <td title="'First Name'" filter="{ 'first_name': 'text'}" sortable="'first_name'">
+                           {{a.first_name}}
+                        </td>
+                        <td title="'Last Name'" filter="{ 'last_name': 'text'}" sortable="'last_name'">
+                           {{a.last_name}}
+                        </td>
+                        <td title="'Arrival Airport'" filter="{ 'pivot.arrv_airport': 'text'}" sortable="'pivot.arrv_airport'">
+                           {{a.pivot.arrv_airport}}
+                        </td>
+                        <td title="'Arrival Flight #'" filter="{ 'pivot.arrv_flight': 'text'}" sortable="'pivot.arrv_flight'">
+                           {{a.pivot.arrv_flight}}
+                        </td>
+                        <td title="'Arrival Date'" filter="{ 'pivot.arrv_date': 'text'}" sortable="'pivot.arrv_date'">
+                           {{a.pivot.arrv_date}}
+                        </td>
+                        <td title="'Arrival Time'" filter="{ 'pivot.arrv_time': 'text'}" sortable="'pivot.arrv_time'">
+                           {{a.pivot.arrv_time}}
+                        </td>
+                        <td title="'Departure Airport'" filter="{ 'pivot.dept_airport': 'text'}" sortable="'pivot.dept_airport'">
+                           {{a.pivot.dept_airport}}
+                        </td>
+                        <td title="'Departure Flight #'" filter="{ 'pivot.dept_flight': 'text'}" sortable="'pivot.dept_flight'">
+                           {{a.pivot.dept_flight}}
+                        </td>
+                        <td title="'Departure Date'" filter="{ 'pivot.dept_date': 'text'}" sortable="'pivot.dept_date'">
+                           {{a.pivot.dept_date}}
+                        </td>
+                        <td title="'Departure Time'" filter="{ 'pivot.dept_time': 'text'}" sortable="'pivot.dept_time'">
+                           {{a.pivot.dept_time}}
+                        </td>
+                        <td title="'Status'" filter="{ 'pivot.status': 'text'}" sortable="'pivot.status'">
+                           {{a.pivot.status}}
+                        </td>
+
+                        <td>
+                           <div class="btn-group">
+                              <button class="btn btn-sm btn-success" ng-disabled="a.pivot.status == 'approved'" ng-click="approve(a)">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                              </button>
+                              <button class="btn btn-sm btn-danger" ng-disabled="a.pivot.status == 'denied' || a.pivot.status == 'approved'" ng-click="deny(a.id)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                              </button>
+                           </div>
+                        </td>
+                  </tr>
+               </table>
+            </div>
+         </div>
+
+         <!-- Export button -->
          <div ng-if="conferenceId != null">
             <div class="pull-right">
                <button button class="btn btn-info" ng-csv="csvData" csv-header="['Email', 'Home Phone', 'First Name', 'Middle Name', 'Last Name', 'Birthdate', 'Gender', 'Status', 'Mobile Phone']" filename="Conference-{{conference.name}}-Attendees.csv">
@@ -108,7 +199,6 @@
                </button>
             </div>
          </div>
-
       </div>
    </div>
 </div>

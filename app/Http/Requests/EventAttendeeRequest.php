@@ -8,30 +8,7 @@ class EventAttendeeRequest extends Request
 {
     public function authorize()
     {
-        if ($this->isSuperuser()) {
-            return true;
-        }
-
-        if ($this->authenticate()) {
-            switch (strtoupper($this->getMethod())) {
-                case 'POST':
-                    return true;
-                    break;
-                case 'GET':
-                    return true;
-                    break;
-                case 'PUT':
-                    return true;
-                    break;
-                case 'DELETE':
-                    return true;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     public function createRules()
@@ -39,7 +16,7 @@ class EventAttendeeRequest extends Request
         return [
             'arrv_ride_req' => ['required', 'boolean'],
             'dept_ride_req' => ['required', 'boolean'],
-            'status'        => ['string', 'in:pending']
+            'status'        => ['string', 'in:pending'],
         ];
     }
 
@@ -48,6 +25,7 @@ class EventAttendeeRequest extends Request
         return [
             'arrv_ride_req' => ['boolean'],
             'dept_ride_req' => ['boolean'],
+            'status'        => ['string', 'in:pending,approved,denied'],
         ];
     }
 }

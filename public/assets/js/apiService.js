@@ -5,7 +5,7 @@ angular.module( 'apiService', [] )
 })
 
 .factory('Activity', function ( $resource ){
-    return $resource('/api/activity');
+    return $resource('/api/activities');
 })
 
 .factory( 'Logout', function ( $resource ) {
@@ -28,6 +28,22 @@ angular.module( 'apiService', [] )
   return {
     fetch: function () {
         return $resource( '/api/profile/:pid/events', { pid: '@pid'});
+    }
+  }
+})
+
+.factory('ProfileRooms', function ( $resource ){
+  return {
+    fetch: function () {
+        return $resource( '/api/profile/:pid/rooms', { pid: '@pid'});
+    }
+  }
+})
+
+.factory('ProfileConferenceVehicles', function ( $resource ){
+  return {
+    fetch: function () {
+        return $resource( '/api/profile/:pid/conferences/vehicles', { pid: '@pid'});
     }
   }
 })

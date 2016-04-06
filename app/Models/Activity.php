@@ -14,7 +14,7 @@ class Activity extends Model
         'activity_type',
         'source_id',
         'source_type',
-        'profile_id'
+        'profile_id',
     ];
 
     protected $dates = ['deleted_at'];

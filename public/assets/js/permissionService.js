@@ -2,7 +2,7 @@ var app = angular.module('permissionService', []);
 
 app.service('checkPermissions', function ($rootScope) {
     return function (type, thing, id) {
-        if (!$rootScope.user) return false;
+        if (!$rootScope.user || !$rootScope.user.permissions) return false;
         var p = $rootScope.user.permissions;
         var id = parseInt(id);
         var isManager = false;
@@ -68,7 +68,7 @@ app.service('checkPermissions', function ($rootScope) {
 
 app.service('checkPermission', function ($rootScope) {
     return function (permission, thing, id) {
-        if (!$rootScope.user) return false;
+        if (!$rootScope.user || !$rootScope.user.permissions) return false;
         var id = parseInt(id);
         var p = $rootScope.user.permissions;
         var isManager = false;

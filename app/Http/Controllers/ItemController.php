@@ -6,10 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\ItemRequest;
+
+use App\Models\Conference;
 use App\Models\Item;
 
 class ItemController extends Controller
 {
+    /**
+     * Retrieve all Items of a Conference.
+     *
+     * @return Collection|Response
+     */
     public function index(Request $request, $cid)
     {
         try {
@@ -19,6 +26,11 @@ class ItemController extends Controller
         }
     }
 
+    /**
+     * Create an Item for a Conference.
+     *
+     * @return Response
+     */
     public function store(ItemRequest $request)
     {
         try {
@@ -29,6 +41,11 @@ class ItemController extends Controller
         }
     }
 
+    /**
+     * Retrieve an Item of a Conference
+     *
+     * @return App\Models\Item|Response
+     */
     public function show(ItemRequest $request, $cid, $iid)
     {
         try {
@@ -42,6 +59,11 @@ class ItemController extends Controller
         }
     }
 
+    /**
+     * Update an Item of a Conference.
+     *
+     * @return Response
+     */
     public function update(ItemRequest $request, $cid, $iid)
     {
         try {
@@ -56,6 +78,11 @@ class ItemController extends Controller
         }
     }
 
+    /**
+     * Delete an Item of a Conference.
+     *
+     * @return Response
+     */
     public function destroy(ItemRequest $request, $cid, $iid)
     {
         try {

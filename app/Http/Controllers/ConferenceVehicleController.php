@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
+use App\Http\Requests\VehicleRequest;
 
-use App\Models\Vehicle as Vehicle;
-use App\Models\Conference as Conference;
+use App\Models\Conference;
+use App\Models\Vehicle;
 
 class ConferenceVehicleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Retrieve all Vehicles of a Conference.
      *
-     * @return \Illuminate\Http\Response
+     * @return Collection|Response
      */
     public function index($cid, Request $request)
     {
@@ -27,10 +27,9 @@ class ConferenceVehicleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a Vehicle for a Conference.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store($cid, Request $request)
     {
@@ -59,10 +58,9 @@ class ConferenceVehicleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve a Vehicle of a Conference
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return App\Models\Vehicle|Response
      */
     public function show($id)
     {
@@ -79,11 +77,9 @@ class ConferenceVehicleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a Vehicle of a Conference.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update($cid, Request $request)
     {
@@ -118,10 +114,9 @@ class ConferenceVehicleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a Vehicle of a Conference.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Request $request, $cid, $vehicles)
     {

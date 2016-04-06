@@ -11,7 +11,9 @@ use App\Models\Room;
 class RoomGuestController extends Controller
 {
     /**
-     * @return
+     * Retrieve all Guests of a Room.
+     *
+     * @return Collection|Response
      */
     public function index($rid)
     {
@@ -31,7 +33,9 @@ class RoomGuestController extends Controller
     }
 
     /**
-     * @return
+     * Create a Guest for a Room.
+     *
+     * @return Response
      */
     public function store(Request $request, $rid)
     {
@@ -67,10 +71,9 @@ class RoomGuestController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve a Guest of a Room.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return App\Models\Profile|Response
      */
     public function show($id){
         //Show all the passengers within this one id.
@@ -86,10 +89,9 @@ class RoomGuestController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a Guest of a Room.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($rid, $pid) {
         try {

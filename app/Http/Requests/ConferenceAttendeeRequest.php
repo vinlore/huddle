@@ -8,30 +8,7 @@ class ConferenceAttendeeRequest extends Request
 {
     public function authorize()
     {
-        if ($this->isSuperuser()) {
-            return true;
-        }
-
-        if ($this->authenticate()) {
-            switch (strtoupper($this->getMethod())) {
-                case 'POST':
-                    return true;
-                    break;
-                case 'GET':
-                    return true;
-                    break;
-                case 'PUT':
-                    return true;
-                    break;
-                case 'DELETE':
-                    return true;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     public function createRules()
@@ -64,7 +41,7 @@ class ConferenceAttendeeRequest extends Request
             'contact_email'      => ['email', 'max:255'],
             'contact_phone'      => ['string'],
             'medical_conditions' => ['string', 'max:255'],
-            'status'             => ['string', 'in:pending']
+            'status'             => ['string', 'in:pending'],
         ];
     }
 
@@ -82,7 +59,7 @@ class ConferenceAttendeeRequest extends Request
             'birthdate'          => ['date', 'before:today'],
             'gender'             => ['string', 'max:255'],
             'accommodation_req'  => ['boolean'],
-            'accommodation_pref' => ['string', 'max:255'],
+            'accommodation_pref' => ['integer'],
             'arrv_ride_req'      => ['boolean'],
             'arrv_date'          => ['date'],
             'arrv_time'          => ['date_format:H:i'],
@@ -98,6 +75,7 @@ class ConferenceAttendeeRequest extends Request
             'contact_email'      => ['email', 'max:255'],
             'contact_phone'      => ['string'],
             'medical_conditions' => ['string', 'max:255'],
+            'status'             => ['string', 'in:pending,approved,denied'],
         ];
     }
 }

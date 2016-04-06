@@ -8,14 +8,15 @@ use Illuminate\Http\Response;
 use Cartalyst\Sentinel\Roles\EloquentRole;
 
 use App\Http\Requests\RoleRequest;
+
 use App\Models\User;
 
 class RoleController extends Controller
 {
     /**
-     * Display a listing of Roles
-
-     * @return \Illuminate\Http\Response
+     * Retrieve all Roles.
+     *
+     * @return Collection|Response
      */
     public function index(RoleRequest $request)
     {
@@ -31,10 +32,9 @@ class RoleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a Role.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(RoleRequest $request)
     {
@@ -54,24 +54,10 @@ class RoleController extends Controller
         return response()->success();
     }
 
-
     /**
-     * Display the specified resource.
+     * Update a Role.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(RoleRequest $request, $id)
-    {
-
-    }
-
-    /**
-     * Update the permissions of a role
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $roles
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(RoleRequest $request, $roles)
     {
@@ -90,11 +76,10 @@ class RoleController extends Controller
          return response()->success();
     }
 
-
     /**
-     * Destroy the Role from role table
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Delete a Role.
+     *
+     * @return Response
      */
     public function destroy(RoleRequest $request, $roles)
     {

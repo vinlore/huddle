@@ -33,6 +33,9 @@ angular.module( 'conferenceCtrl', [] )
 
     var conferenceBackup = {};
 
+    $scope.attendanceLoaded = false; // hide sign up button while conference attendance is loading
+    $scope.attendanceLoaded2 = false; // hide sign up button while event attendance is loading
+
     $scope.background = { 'background-image': 'url(assets/img/overlay.png), url(assets/img/' + $scope.conference.country + '/big/' + $filter( 'randomize' )( 3 ) + '.jpg)' };
 
     $scope.inventory = []
@@ -257,13 +260,14 @@ angular.module( 'conferenceCtrl', [] )
         if ($rootScope.user)
         Conferences.attendees().get({cid: $stateParams.conferenceId, pid: $rootScope.user.profile_id})
             .$promise.then( function (response) {
+                $scope.attendanceLoaded = true;
                 if (response.pivot) {
                     $scope.conferenceAttendance = response.pivot.status;
                 } else {
                     $scope.conferenceAttendance = null;
                 }
             }, function () {
-                $scope.conferenceAttendance = null;
+                $scope.attendanceLoaded = true;
             })
     }
 
@@ -275,6 +279,7 @@ angular.module( 'conferenceCtrl', [] )
         if ($rootScope.user)
         Events.attendees().get({eid: eid, pid: $rootScope.user.profile_id})
             .$promise.then( function (response) {
+                $scope.attendanceLoaded2 = true;
                 if (response.pivot) {
                     $scope.eventAttendance[ind] = response.pivot.status;
                 } else {

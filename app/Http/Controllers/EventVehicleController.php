@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
+use App\Http\Requests\VehicleRequest;
 
-use App\Models\Vehicle;
 use App\Models\Event;
+use App\Models\Vehicle;
 
 class EventVehicleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Retrieve all Vehicles of an Event.
      *
-     * @return \Illuminate\Http\Response
+     * @return Collection|Response
      */
     public function index($events, Request $request)
     {
@@ -27,10 +27,9 @@ class EventVehicleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a Vehicle for an Event.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store($events, Request $request)
     {
@@ -50,10 +49,9 @@ class EventVehicleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve a Vehicle of an Event.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return App\Models\Vehicle|Response
      */
     public function show($id)
     {
@@ -70,11 +68,9 @@ class EventVehicleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a Vehicle of an Event.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update($events, Request $request)
     {
@@ -97,10 +93,9 @@ class EventVehicleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a Vehicle of an Event.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($eid, $id)
     {

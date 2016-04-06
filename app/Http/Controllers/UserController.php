@@ -6,11 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\UserRequest;
+
 use App\Models\User;
 
 class UserController extends Controller
 {
 
+    /**
+     * Retrieve all Users.
+     *
+     * @return Collection|Response
+     */
     public function index(UserRequest $request)
     {
         // TODO pagination - Should only get certain rows
@@ -24,33 +30,9 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update a User.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(UserRequest $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * Update the user's permissions and Role with the request state of their permissions and Roles.
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(UserRequest $request, $users)
     {
@@ -98,17 +80,20 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a User.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(UserRequest $request, $id)
     {
         //Not Allowed to destroy
     }
 
-    //Password reset
+    /**
+     * Reset the password of a User.
+     *
+     * @return Response
+     */
     public function resetPassword(UserRequest $request)
     {
         try {

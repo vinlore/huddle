@@ -5,19 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Http\Requests;
-use App\Http\Requests\ConferenceRequest;
-
-use App\Models\Conference as Conference;
-use App\Models\User as User;
-
+use App\Models\Conference;
+use App\Models\User;
 
 class ConferenceManagerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Retrieve all Managers of a Conference.
      *
-     * @return \Illuminate\Http\Response
+     * @return Collection|Response
      */
     public function index($conferences)
     {
@@ -25,12 +21,10 @@ class ConferenceManagerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a Manager for a Conference.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-
     public function store(Request $request, $cid){
         try{
             //Saving to user_Manages_conference Table
@@ -42,10 +36,9 @@ class ConferenceManagerController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve a Manager of a Conference.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return App\Models\User|Response
      */
     public function show($id){
         try{
@@ -60,21 +53,9 @@ class ConferenceManagerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Delete a Manager of a Conference.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id){
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($conferences, $managers){
         try{

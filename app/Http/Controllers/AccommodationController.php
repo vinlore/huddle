@@ -6,27 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Http\Requests\AccommodationRequest;
+
 use App\Models\Accommodation;
 use App\Models\Conference;
 
 class AccommodationController extends Controller
 {
     /**
-     * Retrieve all Accommodations for a Conference.
+     * Retrieve all Accommodations of a Conference.
      *
+     * @param  Request  $request
+     * @param  int  $cid
      * @return Collection|Response
      */
     public function index(Request $request, $cid)
     {
         try {
-
-            // Check if the Conference exists.
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
-            // Retrieve its Accommodations.
             return $conference->accommodations()->get();
         } catch (Exception $e) {
             return response()->error();
@@ -36,24 +36,23 @@ class AccommodationController extends Controller
     /**
      * Create an Accommodation for a Conference.
      *
+     * @param  AccommodationRequest  $request
+     * @param  int  $cid
      * @return Response
      */
     public function store(AccommodationRequest $request, $cid)
     {
         try {
-
-            // Check if the Conference exists.
-            $conference = Conference::find($cid);
-            if (!$conference->exists()) {
-                return response()->error(404);
-            }
-
-            // Check if the User is managing the Conference.
-            if (!$this->isConferenceManager($request, $cid)) {
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
                 return response()->error(403);
             }
 
-            // Create the Accommodation.
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
             $accommodation = Accommodation::create($request->all());
             $accommodation->conferences()->attach($cid);
 
@@ -64,27 +63,26 @@ class AccommodationController extends Controller
     }
 
     /**
-     * Retrieve an Accommodation.
+     * Retrieve an Accommodation of a Conference.
      *
-     * @return Model|Response
+     * @param  AccommodationRequest  $request
+     * @param  int  $cid
+     * @param  int  $aid
+     * @return App\Models\Accommodation|Response
      */
     public function show(AccommodationRequest $request, $cid, $aid)
     {
         try {
-
-            // Check if the Conference exists.
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
-            // Check if the Accommodation exists.
             $accommodation = Accommodation::find($aid);
             if (!$accommodation) {
-                return response()->error(404);
+                return response()->error(404, 'Accommodation Not Found');
             }
 
-            // Retrieve the Accommodation.
             return $accommodation;
         } catch (Exception $e) {
             return response()->error();
@@ -92,32 +90,31 @@ class AccommodationController extends Controller
     }
 
     /**
-     * Update an Accommodation.
+     * Update an Accommodation of a Conference.
      *
+     * @param  AccommodationRequest  $request
+     * @param  int  $cid
+     * @param  int  $aid
      * @return Response
      */
     public function update(AccommodationRequest $request, $cid, $aid)
     {
         try {
-
-            // Check if the Conference exists.
-            $conference = Conference::find($cid);
-            if (!$conference) {
-                return response()->error(404);
-            }
-
-            // Check if the User is managing the Conference.
-            if (!$this->isConferenceManager($request, $cid)) {
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
                 return response()->error(403);
             }
 
-            // Check if the Accommodation exists.
-            $accommodation = Accommodation::find($aid);
-            if (!$accommodation) {
-                return response()->error(404);
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
             }
 
-            // Update the Accommodation.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404, 'Accommodation Not Found');
+            }
+
             $accommodation->fill($request->all())->save();
 
             return response()->success();
@@ -127,32 +124,31 @@ class AccommodationController extends Controller
     }
 
     /**
-     * Delete an Accommodation.
+     * Delete an Accommodation of a Conference.
      *
+     * @param  AccommodationRequest  $request
+     * @param  int  $cid
+     * @param  int  $aid
      * @return Response
      */
     public function destroy(AccommodationRequest $request, $cid, $aid)
     {
         try {
-
-            // Check if the Conference exists.
-            $conference = Conference::find($cid);
-            if (!$conference) {
-                return response()->error(404);
-            }
-
-            // Check if the User is managing the Conference.
-            if (!$this->isConferenceManager($request, $cid)) {
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
                 return response()->error(403);
             }
 
-            // Check if the Accommodation exists.
-            $accommodation = Accommodation::find($aid);
-            if (!$accommodation) {
-                return response()->error(404);
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
             }
 
-            // Delete the Accommodation.
+            $accommodation = Accommodation::find($aid);
+            if (!$accommodation) {
+                return response()->error(404, 'Accommodation Not Found');
+            }
+
             $accommodation->delete();
 
             return response()->success();

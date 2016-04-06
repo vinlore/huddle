@@ -4,7 +4,8 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 	// Event ID
 	$scope.eventId = $stateParams.eventId;
 
-	$scope.radioModel = '';
+	$scope.statusRadio = '';
+    $scope.flightRadio = false;
 
 	$scope.csvData = [];
 
@@ -14,7 +15,7 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 		$scope.tableParams = new ngTableParams(
 		  {
 		  	filter: {
-                'pivot.status' : $scope.radioModel
+                'pivot.status' : $scope.statusRadio
             }
 		  },
 		  {

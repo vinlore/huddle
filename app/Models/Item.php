@@ -9,7 +9,7 @@ class Item extends Model
 {
     use SoftDeletes;
 
-	protected $fillable = [
+    protected $fillable = [
         'conference_id',
         'name',
         'quantity',

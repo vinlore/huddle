@@ -4,19 +4,22 @@ angular.module('manageConferenceAttendeesCtrl', [])
     // Conference ID
     $scope.conferenceId = $stateParams.conferenceId;
 
-    $scope.radioModel = '';
+    $scope.statusRadio = '';
+    $scope.flightRadio = false;
 
-    console.log($scope.radioModel);
+    console.log($scope.statusRadio);
+    console.log($scope.flightRadio);
 
     $scope.csvData = [];
 
     //////// Load Data //////// 
 
     $scope.load = function() {
+        console.log($scope.flightRadio);
         $scope.tableParams = new ngTableParams(
         {
             filter: {
-                'pivot.status' : $scope.radioModel
+                'pivot.status' : $scope.statusRadio
             }
         }, {
             counts: [],
@@ -42,8 +45,6 @@ angular.module('manageConferenceAttendeesCtrl', [])
                         if (response) {
                             $scope.data = response;
 
-                            console.log(JSON.stringify(params.filter()));
-
                             // filter with $filter (don't forget to inject it)
                             var filteredDatas =
                                 params.filter() ?
@@ -54,6 +55,8 @@ angular.module('manageConferenceAttendeesCtrl', [])
                             var sorting = params.sorting();
                             var key = sorting ? Object.keys(sorting)[0] : null;
                             var orderedDatas = sorting ? $filter('orderBy')(filteredDatas, key, sorting[key] == 'desc') : filteredDatas;
+
+                            //console.log(JSON.stringify(orderedDatas));
 
                             $defer.resolve(orderedDatas);
                             $scope.setCSVData(orderedDatas);
