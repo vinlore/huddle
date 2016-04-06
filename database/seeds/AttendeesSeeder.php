@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
+use Faker\Factory as Faker;
+
 use App\Models\Conference;
 use App\Models\Profile;
 
@@ -15,142 +17,85 @@ class AttendeesSeeder extends Seeder
     public function run()
     {
         // ---------------------------------------------------------------------
+        // CONFERENCE 1
+        // ---------------------------------------------------------------------
+
+        $faker = Faker::create();
+
+        $user = Sentinel::findById(6);
+        $conference = Conference::find(1);
+
+        $countries = [
+            'Canada',
+            'France',
+            'India',
+            'United States',
+        ];
+
+        $genders = [
+            'female',
+            'male',
+        ];
+
+        for ($i = 0; $i < 100; ++$i) {
+            $profile = [
+                'first_name' => $faker->firstName,
+                'last_name'  => $faker->lastName,
+                'city'       => $faker->city,
+                'country'    => $countries[rand(0, 3)],
+                'birthdate'  => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'gender'     => $genders[rand(0, 1)],
+            ];
+            $profile = new Profile($profile);
+            $profile->user()->associate($user);
+            $profile->save();
+            $profile->conferences()->attach($conference->id, [
+                'birthdate' => $profile->birthdate,
+                'country'   => $profile->country,
+                'gender'    => $profile->gender,
+                'status'    => 'approved',
+            ]);
+            $conference->increment('attendee_count');
+        }
+
+        // ---------------------------------------------------------------------
         // CONFERENCE 2
         // ---------------------------------------------------------------------
 
         $conference = Conference::find(2);
+        $event = $conference->events()->first();
+        $room = $conference->accommodations()->first()->rooms()->first();
+        $conferenceVehicle = $conference->vehicles()->first();
+        $eventVehicle = $event->vehicles()->first();
 
-        $profile = Profile::find(1);
-        $attendee = [
-            'email'              => $profile->email,
-            'phone'              => $profile->phone,
-            'first_name'         => $profile->first_name,
-            'middle_name'        => $profile->middle_name,
-            'last_name'          => $profile->last_name,
-            'city'               => $profile->city,
-            'country'            => $profile->country,
-            'birthdate'          => $profile->birthdate,
-            'gender'             => $profile->gender,
-            'accommodation_req'  => true,
-            'accommodation_pref' => 1,
-            'arrv_ride_req'      => false,
-            'dept_ride_req'      => false,
-            'status'             => 'pending',
-        ];
-        $profile->conferences()->attach($conference->id, $attendee);
-
-        $profile = Profile::find(2);
-        $attendee = [
-            'email'              => $profile->email,
-            'phone'              => $profile->phone,
-            'first_name'         => $profile->first_name,
-            'middle_name'        => $profile->middle_name,
-            'last_name'          => $profile->last_name,
-            'city'               => $profile->city,
-            'country'            => $profile->country,
-            'birthdate'          => $profile->birthdate,
-            'gender'             => $profile->gender,
-            'accommodation_req'  => true,
-            'accommodation_pref' => 1,
-            'arrv_ride_req'      => false,
-            'dept_ride_req'      => false,
-            'status'             => 'pending',
-        ];
-        $profile->conferences()->attach($conference->id, $attendee);
-
-        $profile = Profile::find(3);
-        $attendee = [
-            'email'              => $profile->email,
-            'phone'              => $profile->phone,
-            'first_name'         => $profile->first_name,
-            'middle_name'        => $profile->middle_name,
-            'last_name'          => $profile->last_name,
-            'city'               => $profile->city,
-            'country'            => $profile->country,
-            'birthdate'          => $profile->birthdate,
-            'gender'             => $profile->gender,
-            'accommodation_req'  => true,
-            'accommodation_pref' => 1,
-            'arrv_ride_req'      => false,
-            'dept_ride_req'      => false,
-            'status'             => 'pending',
-        ];
-        $profile->conferences()->attach($conference->id, $attendee);
-
-        $profile = Profile::find(4);
-        $attendee = [
-            'email'              => $profile->email,
-            'phone'              => $profile->phone,
-            'first_name'         => $profile->first_name,
-            'middle_name'        => $profile->middle_name,
-            'last_name'          => $profile->last_name,
-            'city'               => $profile->city,
-            'country'            => $profile->country,
-            'birthdate'          => $profile->birthdate,
-            'gender'             => $profile->gender,
-            'accommodation_req'  => true,
-            'accommodation_pref' => 1,
-            'arrv_ride_req'      => false,
-            'dept_ride_req'      => false,
-            'status'             => 'pending',
-        ];
-        $profile->conferences()->attach($conference->id, $attendee);
-
-        $profile = Profile::find(5);
-        $attendee = [
-            'email'              => $profile->email,
-            'phone'              => $profile->phone,
-            'first_name'         => $profile->first_name,
-            'middle_name'        => $profile->middle_name,
-            'last_name'          => $profile->last_name,
-            'city'               => $profile->city,
-            'country'            => $profile->country,
-            'birthdate'          => $profile->birthdate,
-            'gender'             => $profile->gender,
-            'accommodation_req'  => true,
-            'accommodation_pref' => 1,
-            'arrv_ride_req'      => false,
-            'dept_ride_req'      => false,
-            'status'             => 'pending',
-        ];
-        $profile->conferences()->attach($conference->id, $attendee);
-
-        $profile = Profile::find(6);
-        $attendee = [
-            'email'              => $profile->email,
-            'phone'              => $profile->phone,
-            'first_name'         => $profile->first_name,
-            'middle_name'        => $profile->middle_name,
-            'last_name'          => $profile->last_name,
-            'city'               => $profile->city,
-            'country'            => $profile->country,
-            'birthdate'          => $profile->birthdate,
-            'gender'             => $profile->gender,
-            'accommodation_req'  => true,
-            'accommodation_pref' => 1,
-            'arrv_ride_req'      => false,
-            'dept_ride_req'      => false,
-            'status'             => 'pending',
-        ];
-        $profile->conferences()->attach($conference->id, $attendee);
-
-        $profile = Profile::find(7);
-        $attendee = [
-            'email'              => $profile->email,
-            'phone'              => $profile->phone,
-            'first_name'         => $profile->first_name,
-            'middle_name'        => $profile->middle_name,
-            'last_name'          => $profile->last_name,
-            'city'               => $profile->city,
-            'country'            => $profile->country,
-            'birthdate'          => $profile->birthdate,
-            'gender'             => $profile->gender,
-            'accommodation_req'  => true,
-            'accommodation_pref' => 1,
-            'arrv_ride_req'      => false,
-            'dept_ride_req'      => false,
-            'status'             => 'pending',
-        ];
-        $profile->conferences()->attach($conference->id, $attendee);
+        for ($i = 1; $i <= 7; ++$i) {
+            $profile = Profile::find($i);
+            $attendee = [
+                'email'              => $profile->email,
+                'phone'              => $profile->phone,
+                'first_name'         => $profile->first_name,
+                'middle_name'        => $profile->middle_name,
+                'last_name'          => $profile->last_name,
+                'city'               => $profile->city,
+                'country'            => $profile->country,
+                'birthdate'          => $profile->birthdate,
+                'gender'             => $profile->gender,
+                'accommodation_req'  => true,
+                'accommodation_pref' => 1,
+                'arrv_ride_req'      => false,
+                'dept_ride_req'      => false,
+                'status'             => 'pending',
+            ];
+            $profile->conferences()->attach($conference, $attendee);
+            $conference->increment('attendee_count');
+            $profile->events()->attach($event);
+            $event->increment('attendee_count');
+            $profile->rooms()->attach($room);
+            $room->increment('guest_count');
+            $profile->conferenceVehicles()->attach($conferenceVehicle);
+            $conferenceVehicle->increment('passenger_count');
+            $profile->eventVehicles()->attach($eventVehicle);
+            $eventVehicle->increment('passenger_count');
+        }
     }
 }

@@ -36,7 +36,7 @@ class Event extends Model
 
     public function vehicles()
     {
-        return $this->belongsToMany('App\Models\Vehicle', 'event_vehicles')->withTimestamps();
+        return $this->hasMany('App\Models\EventVehicle');
     }
 
     public function managers()

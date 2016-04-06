@@ -8,111 +8,154 @@ use Illuminate\Http\Response;
 use App\Http\Requests\VehicleRequest;
 
 use App\Models\Event;
-use App\Models\Vehicle;
+use App\Models\EventVehicle;
 
 class EventVehicleController extends Controller
 {
     /**
      * Retrieve all Vehicles of an Event.
      *
+     * @param  Request  $request
+     * @param  int  $eid
      * @return Collection|Response
      */
-    public function index($events, Request $request)
+    public function index(Request $request, $eid)
     {
-       try {
-            return Event::find($events)->vehicles()->wherePivot('type', $request->type)->get();
-        } catch (Exception $e){
-            return response()->error("500" , $e);
+        try {
+            $event = Event::find($cid);
+            if (!$event) {
+                return response()->error(404, 'Event Not Found');
+            }
+
+            return $event->vehicles()->get();
+        } catch (Exception $e) {
+            return response()->error();
         }
     }
 
     /**
      * Create a Vehicle for an Event.
      *
+     * @param  VehicleRequest  $request
+     * @param  int  $eid
      * @return Response
      */
-    public function store($events, Request $request)
+    public function store(VehicleRequest $request, $eid)
     {
         try {
-            $vehicle = Vehicle::create($request->all());
+            $user = $this->isEventManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
+            }
 
-            //Storing new objects into pivot table.
-            //Creating the pivot between event & vehicle
-            Event::find($events)
-                    ->vehicles()
-                    ->attach($vehicle, ['type' => $request->type]);
+            $event = Event::find($cid);
+            if (!$event) {
+                return response()->error(404, 'Event Not Found');
+            }
+
+            $vehicle = new EventVehicle($request->all());
+            $vehicle->event()->associate($event);
+            $vehicle->save();
 
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("Viper" , $e);
+            return response()->error();
         }
     }
 
     /**
      * Retrieve a Vehicle of an Event.
      *
-     * @return App\Models\Vehicle|Response
+     * @param  VehicleRequest  $request
+     * @param  int  $eid
+     * @param  int  $vid
+     * @return App\Models\EventVehicle|Response
      */
-    public function show($id)
+    public function show(VehicleRequest $request, $eid, $vid)
     {
         try {
-            $vehicle = Vehicle::find($id);
-            //Check if the item Exists
-            if (!$vehicle) {
-                return response()->error("Vulture" , "Item could not be found.");
+            $event = Event::find($cid);
+            if (!$event) {
+                return response()->error(404, 'Event Not Found');
             }
+
+            $vehicle = EventVehicle::find($vid);
+            if (!$vehicle) {
+                return response()->error(404, 'Vehicle Not Found');
+            }
+
             return $vehicle;
         } catch (Exception $e) {
-            return response()->error("Vine" , $e);
+            return response()->error();
         }
     }
 
     /**
      * Update a Vehicle of an Event.
      *
+     * @param  VehicleRequest  $request
+     * @param  int  $eid
+     * @param  int  $vid
      * @return Response
      */
-    public function update($events, Request $request)
+    public function update(VehicleRequest $request, $eid, $vid)
     {
         try {
-            $newVehicleData = array (
-                'name' => $request->name,
-                'passenger_count' => $request->passenger_count,
-                'capacity' => $request->capacity
-            );
-            Vehicle::where('id', $id)->update($newVehicleData);
+            $user = $this->isEventManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
+            }
 
-            //Updating Pivot Table
-            Event::find($events)
-                    ->vehicles()
-                    ->updateExistingPivot($id , ['type' => $request->type]);
+            $event = Event::find($cid);
+            if (!$event) {
+                return response()->error(404, 'Event Not Found');
+            }
+
+            $vehicle = EventVehicle::find($vid);
+            if (!$vehicle) {
+                return response()->error(404, 'Vehicle Not Found');
+            }
+
+            $vehicle->fill($request->all());
+            $vehicle->save();
+
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("500" , $e);
+            return response()->error();
         }
     }
 
     /**
      * Delete a Vehicle of an Event.
      *
+     * @param  VehicleRequest  $request
+     * @param  int  $eid
+     * @param  int  $vid
      * @return Response
      */
-    public function destroy($eid, $id)
+    public function destroy(VehicleRequest $request, $eid, $vid)
     {
         try {
-            $vehicle = Vehicle::find($id);
-            if (count($vehicle->passengers()->get())) {
-                return response()->error("409" , "Passengers still in this Vehicle");
+            $user = $this->isEventManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
             }
 
-            $vehicle->find($id)
-                    ->events()
-                    ->detach();
+            $event = Event::find($cid);
+            if (!$event) {
+                return response()->error(404, 'Event Not Found');
+            }
+
+            $vehicle = EventVehicle::find($vid);
+            if (!$vehicle) {
+                return response()->error(404, 'Vehicle Not Found');
+            }
 
             $vehicle->delete();
+
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("500" , $e);
+            return response()->error();
         }
     }
 }

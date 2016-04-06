@@ -31,7 +31,12 @@ class Conference extends Model
 
     public function accommodations()
     {
-        return $this->belongsToMany('App\Models\Accommodation', 'conference_accommodations')->withTimestamps();
+        return $this->hasMany('App\Models\Accommodation');
+    }
+
+    public function rooms()
+    {
+        return $this->hasManyThrough('App\Models\Room', 'App\Models\Accommodation');
     }
 
     public function items()
@@ -41,7 +46,12 @@ class Conference extends Model
 
     public function vehicles()
     {
-        return $this->belongsToMany('App\Models\Vehicle', 'conference_vehicles')->withTimestamps();
+        return $this->hasMany('App\Models\ConferenceVehicle');
+    }
+
+    public function eventVehicles()
+    {
+        return $this->hasManyThrough('App\Models\EventVehicle', 'App\Models\Event');
     }
 
     public function managers()

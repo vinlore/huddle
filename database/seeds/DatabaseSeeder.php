@@ -24,8 +24,6 @@ class DatabaseSeeder extends Seeder
         DB::table('accommodations')->truncate();
         DB::table('rooms')->truncate();
         DB::table('items')->truncate();
-        DB::table('vehicles')->truncate();
-        DB::table('conference_accommodations')->truncate();
         DB::table('conference_vehicles')->truncate();
         DB::table('event_vehicles')->truncate();
         DB::table('user_manages_conferences')->truncate();
@@ -33,7 +31,8 @@ class DatabaseSeeder extends Seeder
         DB::table('profile_attends_conferences')->truncate();
         DB::table('profile_attends_events')->truncate();
         DB::table('profile_stays_in_rooms')->truncate();
-        DB::table('profile_rides_vehicles')->truncate();
+        DB::table('conference_vehicle_passengers')->truncate();
+        DB::table('event_vehicle_passengers')->truncate();
         DB::table('activities')->truncate();
 
         $this->call(ActivitySeeder::class);
