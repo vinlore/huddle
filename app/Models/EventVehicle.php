@@ -26,7 +26,7 @@ class EventVehicle extends Model
 
     public function passengers()
     {
-        return $this->belongsToMany('App\Models\Profile', 'event_vehicle_passengers')->withTimestamps();
+        return $this->belongsToMany('App\Models\Profile', 'event_vehicle_passengers', 'vehicle_id')->withTimestamps();
     }
 
     protected static function boot()
