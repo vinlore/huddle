@@ -107,14 +107,6 @@ class ConferenceAttendeeController extends Controller
     public function update(ConferenceAttendeeRequest $request, $cid, $pid)
     {
         try {
-            $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->id;
-            if ($userId != $profileOwnerId) {
-                if (!$this->isConferenceManager($request, $cid)) {
-                    return response()->error(403);
-                }
-            }
-
             $conference = Conference::find($cid);
             if (!$conference) {
                 return response()->error(404, 'Conference Not Found');
@@ -123,6 +115,14 @@ class ConferenceAttendeeController extends Controller
             $profile = Profile::find($pid);
             if (!$profile) {
                 return response()->error(404, 'Profile Not Found');
+            }
+
+            $userId = $request->header('ID');
+            $profileOwnerId = $profile->user()->first()->id;
+            if ($userId != $profileOwnerId) {
+                if (!$this->isConferenceManager($request, $cid)) {
+                    return response()->error(403);
+                }
             }
 
             $activityType = 'updated';
