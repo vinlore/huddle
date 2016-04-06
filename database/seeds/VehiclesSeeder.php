@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Conference;
 use App\Models\ConferenceVehicle;
+use App\Models\EventVehicle;
 
 class VehiclesSeeder extends Seeder
 {
@@ -38,6 +39,28 @@ class VehiclesSeeder extends Seeder
         ];
         $vehicle = new ConferenceVehicle($vehicle);
         $vehicle->conference()->associate($conference);
+        $vehicle->save();
+
+        $event = $conference->events()->first();
+
+        $vehicle = [
+            'name'            => 'Hotel Shuttle',
+            'passenger_count' => 0,
+            'capacity'        => 50,
+            'type'            => 'arrival',
+        ];
+        $vehicle = new EventVehicle($vehicle);
+        $vehicle->event()->associate($event);
+        $vehicle->save();
+
+        $vehicle = [
+            'name'            => 'Hotel Shuttle',
+            'passenger_count' => 0,
+            'capacity'        => 50,
+            'type'            => 'departure',
+        ];
+        $vehicle = new EventVehicle($vehicle);
+        $vehicle->event()->associate($event);
         $vehicle->save();
     }
 }

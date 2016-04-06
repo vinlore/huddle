@@ -63,6 +63,10 @@ class AttendeesSeeder extends Seeder
         // ---------------------------------------------------------------------
 
         $conference = Conference::find(2);
+        $event = $conference->events()->first();
+        $room = $conference->accommodations()->first()->rooms()->first();
+        $conferenceVehicle = $conference->vehicles()->first();
+        $eventVehicle = $event->vehicles()->first();
 
         for ($i = 1; $i <= 7; ++$i) {
             $profile = Profile::find($i);
@@ -82,7 +86,11 @@ class AttendeesSeeder extends Seeder
                 'dept_ride_req'      => false,
                 'status'             => 'pending',
             ];
-            $profile->conferences()->attach($conference->id, $attendee);
+            $profile->conferences()->attach($conference, $attendee);
+            $profile->events()->attach($event);
+            $profile->rooms()->attach($room);
+            $profile->conferenceVehicles()->attach($conferenceVehicle);
+            $profile->eventVehicles()->attach($eventVehicle);
         }
     }
 }
