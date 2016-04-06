@@ -22,7 +22,7 @@ class EventVehicleController extends Controller
     public function index(Request $request, $eid)
     {
         try {
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }
@@ -43,12 +43,12 @@ class EventVehicleController extends Controller
     public function store(VehicleRequest $request, $eid)
     {
         try {
-            $user = $this->isEventManager($request, $cid);
+            $user = $this->isEventManager($request, $eid);
             if (!$user) {
                 return response()->error(403);
             }
 
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }
@@ -74,7 +74,7 @@ class EventVehicleController extends Controller
     public function show(VehicleRequest $request, $eid, $vid)
     {
         try {
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }
@@ -101,12 +101,12 @@ class EventVehicleController extends Controller
     public function update(VehicleRequest $request, $eid, $vid)
     {
         try {
-            $user = $this->isEventManager($request, $cid);
+            $user = $this->isEventManager($request, $eid);
             if (!$user) {
                 return response()->error(403);
             }
 
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }
@@ -136,12 +136,12 @@ class EventVehicleController extends Controller
     public function destroy(VehicleRequest $request, $eid, $vid)
     {
         try {
-            $user = $this->isEventManager($request, $cid);
+            $user = $this->isEventManager($request, $eid);
             if (!$user) {
                 return response()->error(403);
             }
 
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }
