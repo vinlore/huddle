@@ -137,9 +137,10 @@ class ProfileController extends Controller
         ->join('profile_attends_conferences', 'profile_attends_conferences.profile_id', '=', 'profiles.id')
         ->join('conferences','conferences.id','=','profile_attends_conferences.conference_id')
         ->join('conference_accommodations','conferences.id','=','conference_accommodations.conference_id')
+        ->join('accommodations','conference_accommodations.accommodation_id','=','accommodations.id')
         ->join('rooms', 'conference_accommodations.accommodation_id','=','rooms.accommodation_id')
         ->join('profile_stays_in_rooms','profile_stays_in_rooms.room_id', '=', 'rooms.id')
-        ->get(['room_no', 'profiles.id', 'conferences.id']);
+        ->get(['room_no', 'profiles.id', 'conferences.id', 'accommodations.name']);
     }
 
     public function conferenceVehicles($pid) {
