@@ -29,7 +29,7 @@ class ConferenceAttendeeController extends Controller
         try {
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
             return $conference->attendees()->get();
@@ -50,13 +50,13 @@ class ConferenceAttendeeController extends Controller
         try {
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
             $pid = $request->profile_id;
             $profile = Profile::find($pid);
             if (!$profile) {
-                return response()->error(404);
+                return response()->error(404, 'Profile Not Found');
             }
 
             $profile->conferences()->attach($cid, $request->except('profile_id'));
@@ -82,12 +82,12 @@ class ConferenceAttendeeController extends Controller
         try {
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
             $profile = Profile::find($pid);
             if (!$profile) {
-                return response()->error(404);
+                return response()->error(404, 'Profile Not Found');
             }
 
             return $conference->attendees()->where('profile_id', $pid)->first();

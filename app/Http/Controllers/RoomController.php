@@ -116,8 +116,6 @@ class RoomController extends Controller
                 return response()->error(404, 'Room Not Found');
             }
 
-            // TODO: Check existence of guests.
-
             $room->delete();
 
             return response()->success();

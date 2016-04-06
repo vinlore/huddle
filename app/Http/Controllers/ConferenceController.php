@@ -8,7 +8,6 @@ use Illuminate\Http\Response;
 use App\Http\Requests\ConferenceRequest;
 
 use App\Models\Conference;
-use App\Models\User;
 
 class ConferenceController extends Controller
 {
@@ -36,10 +35,10 @@ class ConferenceController extends Controller
     public function store(ConferenceRequest $request)
     {
         try {
-            $conference = Conference::create($request->all());
-
             $user = $this->getUser($request);
-            $conference->managers()->attach($user->id);
+
+            $conference = Conference::create($request->all());
+            $conference->managers()->attach($user);
 
             $this->addActivity($user->id, 'requested', $conference->id, 'conference');
 
@@ -117,7 +116,8 @@ class ConferenceController extends Controller
                 }
             }
 
-            $conference->fill($request->all())->save();
+            $conference->fill($request->all());
+            $conference->save();
 
             $this->addActivity($user->id, $activityType, $cid, 'conference');
 

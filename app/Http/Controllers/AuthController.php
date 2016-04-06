@@ -11,7 +11,6 @@ use Sentinel;
 use App\Http\Requests\RegisterUserRequest;
 
 use App\Models\Profile;
-use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -30,15 +29,13 @@ class AuthController extends Controller
                 'password' => $request->password,
             ];
             $user = Sentinel::registerAndActivate($user);
-
             $role = Sentinel::findRoleByName('Regular User');
             $role->users()->attach($user);
-
             $user->permissions = $role->permissions;
             $user->save();
 
             $profile = [
-                'is_owner'    => 1,
+                'is_owner'    => true,
                 'email'       => $request->email,
                 'phone'       => $request->phone,
                 'first_name'  => $request->first_name,
