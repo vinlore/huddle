@@ -7,77 +7,85 @@
                     <h3 class="text-center">Profile </h3>
                     <hr>
                     <!-- Profile -->
-                    <form role="form" name="profileForm" class="form-horizontal">
-                        <div class="form-group">
+                    <form name="profileForm" class="form-horizontal" ng-submit="submitRequest()">
+                        <div class="form-group" ng-class="{'has-error': profileForm.firstName.$error.names}">
                             <label for="c-signup-first-name" class="col-sm-3 control-label">*First Name: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" id="c-signup-first-name" placeholder="First Name" ng-model="user.first_name" required disabled>
+                                <input class="form-control" name="firstName" id="c-signup-first-name" placeholder="First Name" ng-model="user.first_name" required disabled names>
+                                <uib-alert class="input-alert" type="danger"> Invalid First Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': profileForm.middleName.$error.names}">
                             <label for="c-signup-middle-name" class="col-sm-3 control-label">Middle Name: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" id="c-signup-middle-name" placeholder="Middle Name" ng-model="user.middle_name">
+                                <input class="form-control" name="middleName" id="c-signup-middle-name" placeholder="Middle Name" ng-model="user.middle_name" names>
+                                <uib-alert class="input-alert" type="danger">Invalid Middle Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': profileForm.lastName.$error.names}">
                             <label for="c-signup-last-name" class="col-sm-3 control-label">*Last Name: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" id="c-signup-last-name" placeholder="Last Name" ng-model="user.last_name" required disabled>
+                                <input class="form-control" name="lastName" id="c-signup-last-name" placeholder="Last Name" ng-model="user.last_name" required disabled names>
+                                <uib-alert class="input-alert" type="danger">Invalid Last Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': profileForm.birthdate.$error.birthdate}">
                             <label for="c-signup-birthdate" class="col-sm-3 control-label">*Birthdate</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="c-signup-birthdate" ng-model="user.birthdate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen1" placeholder="YYYY-MM-DD" disabled required>
+                                    <input type="text" name="birthdate" class="form-control" id="c-signup-birthdate" ng-model="user.birthdate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[0]" placeholder="YYYY-MM-DD" disabled required birthdate>
                                     <span class="input-group-btn">
-                    <button class="btn btn-link" type="button" ng-click="calendar.isOpen1 = !calendar.isOpen1">
-                      <i class="glyphicon glyphicon-calendar"></i>
-                    </button>
-                  </span>
+                                        <button class="btn btn-link" type="button" ng-click="calendar[0] = !calendar[0]">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
                                 </div>
+                                <uib-alert class="input-alert" type="danger">Birthdate can't be after today!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group dropdown">
+                        <div class="form-group dropdown" ng-class="{'has-error': profileForm.gender.$invalid}">
                             <label for="c-signup-gender" class="col-sm-3 control-label">*Gender: </label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="c-signup-gender" ng-model="user.gender" disabled>
+                                <select name="gender" class="form-control" id="c-signup-gender" ng-model="user.gender" disabled>
                                     <option value="" disabled>Select a gender ...</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                     <option value="other">Other</option>
                                 </select>
+                                <uib-alert class="input-alert" type="danger">Select a Gender!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': profileForm.country.$invalid}">
                             <label for="c-signup-country" class="col-sm-3 control-label">*Country: </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="c-signup-country" ng-model="user.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="changeCountry($item)" placeholder="Country" required>
+                                <input type="text" name="country" class="form-control" id="c-signup-country" ng-model="user.country" uib-typeahead="country as country.name for country in countries | filter: {name:$viewValue} | limitTo: 20" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="changeCountry($item)" placeholder="Country" required>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': profileForm.city.$invalid}">
                             <label for="c-signup-city" class="col-sm-3 control-label">*City: </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="c-signup-city" ng-model="user.city" placeholder="City" g-places-autocomplete options="citiesOnly" required>
+                                <input type="text" name="city" class="form-control" id="c-signup-city" ng-model="user.city" placeholder="City" g-places-autocomplete options="citiesOnly" required>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': profileForm.homePhone.$error.phone}">
                             <label for="c-signup-home-phone" class="col-sm-3 control-label">*Home Phone: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" type="text" id="c-signup-home-phone" placeholder="Home Phone #" ng-model="user.phone" required>
+                                <input class="form-control" name="homePhone" type="text" id="c-signup-home-phone" placeholder="Home Phone #" ng-model="user.phone" required phone>
+                                <uib-alert class="input-alert" type="danger">Numbers only!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': profileForm.mobilePhone.$error.phone}">
                             <label for="c-signup-mobile-phone" class="col-sm-3 control-label">Mobile Phone: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" type="text" id="c-signup-mobile-phone" placeholder="Mobile Phone #" ng-model="user.phone2">
+                                <input class="form-control" name="mobilePhone" type="text" id="c-signup-mobile-phone" placeholder="Mobile Phone #" ng-model="user.phone2" phone>
+                                <uib-alert class="input-alert" type="danger">Numbers only!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': profileForm.email.$error.email}">
                             <label for="c-signup-email" class="col-sm-3 control-label">Email: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" type="email" id="c-signup-email" placeholder="Email" ng-model="user.email">
+                                <input class="form-control" name="email" type="email" id="c-signup-email" placeholder="Email" ng-model="user.email" overwrite-email>
+                                <uib-alert class="input-alert" type="danger">Invalid Email!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
                     </form>
@@ -86,44 +94,48 @@
                     <h3 class="text-center">Emergency Contact</h3>
                     <hr>
                     <!-- Emergency Contact Form -->
-                    <form class="form-horizontal">
-                        <div class="form-group">
+                    <form class="form-horizontal" name="contactForm">
+                        <div class="form-group" ng-class="{'has-error': contactForm.firstName.$error.names}">
                             <label for="c-signup-ec-first-name" class="col-sm-3 control-label">First Name: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" id="c-signup-ec-first-name" placeholder="First Name" ng-model="emergencyContact.contact_first_name">
+                                <input class="form-control" name="firstName" id="c-signup-ec-first-name" placeholder="First Name" ng-model="emergencyContact.contact_first_name" names>
+                                <uib-alert class="input-alert" type="danger">Invalid First Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': contactForm.lastName.$error.names}">
                             <label for="c-signup-ec-last-name" class="col-sm-3 control-label">Last Name: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" id="c-signup-ec-last-name" placeholder="Last Name" ng-model="emergencyContact.contact_last_name">
+                                <input class="form-control" name="lastName" id="c-signup-ec-last-name" placeholder="Last Name" ng-model="emergencyContact.contact_last_name" names>
+                                <uib-alert class="input-alert" type="danger">Invalid Last Name!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': contactForm.phone.$error.phone}">
                             <label for="c-signup-ec-phone" class="col-sm-3 control-label">Phone: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" type="text" id="c-signup-ec-phone" placeholder="Phone #" ng-model="emergencyContact.contact_phone">
+                                <input class="form-control" name="phone" type="text" id="c-signup-ec-phone" placeholder="Phone #" ng-model="emergencyContact.contact_phone" phone>
+                                <uib-alert class="input-alert" type="danger">Numbers only!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': contactForm.email.$error.email}">
                             <label for="c-signup-ec-email" class="col-sm-3 control-label">Email: </label>
                             <div class="col-sm-8">
-                                <input class="form-control" type="email" id="c-signup-ec-email" placeholder="Email" ng-model="emergencyContact.contact_email">
+                                <input class="form-control" name="email" type="email" id="c-signup-ec-email" placeholder="Email" ng-model="emergencyContact.contact_email" overwrite-email>
+                                <uib-alert class="input-alert" type="danger">Invalid Email!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
                     </form>
                     <h3 class="text-center">Accommodation</h3>
                     <hr>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" name="accommForm">
                         <div class="form-group">
                             <label for="inputUser" class="col-sm-4 control-label">*Required</label>
                             <div class="radio-inline col-sm-2 control-label">
                                 <label>
-                                    <input type="radio" ng-model="accommodation.accommodation_req" ng-value="true" required>Yes</label>
+                                    <input type="radio" ng-model="accommodation.accommodation_req" ng-value="true" required ng-change="resetFields(accommodation)">Yes</label>
                             </div>
                             <div class="radio-inline col-sm-2 control-label">
                                 <label>
-                                    <input type="radio" ng-model="accommodation.accommodation_req" ng-value="false" required>No</label>
+                                    <input type="radio" ng-model="accommodation.accommodation_req" ng-value="false" required ng-change="resetFields(accommodation)">No</label>
                             </div>
                         </div>
                         <label ng-repeat="accom in accommodations" ng-if="accommodation.accommodation_req">
@@ -136,47 +148,50 @@
                 <div class="col-md-6">
                     <h3 class="text-center">Arrival Information</h3>
                     <hr>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" name="arrivalForm">
                         <div class="form-group">
                             <label for="inputUser" class="col-sm-4 control-label">*Ride Required</label>
                             <div class="radio-inline col-sm-2 control-label">
                                 <label>
-                                    <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="true">Yes</label>
+                                    <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="true" required ng-change="resetFields(arrival)">Yes
+                                </label>
                             </div>
                             <div class="radio-inline col-sm-2 control-label">
                                 <label>
-                                    <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="false">No</label>
+                                    <input type="radio" ng-model="arrival.arrv_ride_req" ng-value="false" required ng-change="resetFields(arrival)">No
+                                </label>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
+                        <div class="form-group" ng-class="{'has-error': arrivalForm.flightCode.$invalid}">
+                            <label for="arrival-code" class="col-sm-4 control-label">Flight Code</label>
                             <div class="col-sm-7">
-                                <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="arrival.arrv_flight" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                                <input class="form-control" name="flightCode" id="arrival-code" placeholder="Flight Code" ng-model="arrival.arrv_flight" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Airport</label>
+                        <div class="form-group" ng-class="{'has-error': arrivalForm.airport.$invalid}">
+                            <label for="arrival-airport" class="col-sm-4 control-label">Airport</label>
                             <div class="col-sm-7">
-                                <input class="form-control" id="inputUser" placeholder="Airport" ng-model="arrival.arrv_airport" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                                <input class="form-control" name="airport" id="arrival-airport" placeholder="Airport" ng-model="arrival.arrv_airport" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="arrivalDate" class="col-sm-4 control-label">Arrival Date</label>
+                        <div class="form-group" ng-class="{'has-error': arrivalForm.arrivalDate.$error.futureDate}">
+                            <label for="arrival-date" class="col-sm-4 control-label">Arrival Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" id="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req">
+                                    <input type="text" id="arrival-date" name="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[1]" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req" future-date minDate="today">
                                     <span class="input-group-btn">
-                        <button class="btn btn-link" type="button" ng-click="calendar.isOpen2 = !calendar.isOpen2">
-                          <i class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                      </span>
+                                        <button class="btn btn-link" type="button" ng-click="calendar[1] = !calendar[1]">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
                                 </div>
+                                <uib-alert class="input-alert" type="danger" ng-if="arrival.arrv_ride_req">Date must be after today!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
+                        <div class="form-group" ng-class="{'has-error': arrivalForm.arrivalTime.$invalid}">
+                            <label for="arrival-time" class="col-sm-4 control-label">Arrival Time</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputUser" ng-model="arrival.arrv_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req" ui-mask="?29:69">
+                                <uib-timepicker name="arrivalTime" id="arrival-time" show-spinners="false" pad-hours="false" ng-model="arrival.arrv_time" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req"></uib-timepicker>
                             </div>
                         </div>
                     </form>
@@ -184,47 +199,50 @@
                 <div class="col-md-6">
                     <h3 class="text-center">Departure Information</h3>
                     <hr>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" name="departureForm">
                         <div class="form-group">
                             <label for="inputUser" class="col-sm-4 control-label">*Ride Required</label>
                             <div class="radio-inline col-sm-2 control-label">
                                 <label>
-                                    <input type="radio" ng-model="departure.dept_ride_req" ng-value="true">Yes</label>
+                                    <input type="radio" ng-model="departure.dept_ride_req" ng-value="true" required ng-change="resetFields(departure)">Yes
+                                </label>
                             </div>
                             <div class="radio-inline col-sm-2 control-label">
                                 <label>
-                                    <input type="radio" ng-model="departure.dept_ride_req" ng-value="false">No</label>
+                                    <input type="radio" ng-model="departure.dept_ride_req" ng-value="false" required ng-change="resetFields(departure)">No
+                                </label>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
+                        <div class="form-group" ng-class="{'has-error': departureForm.flightCode.$invalid}">
+                            <label for="depart-code" class="col-sm-4 control-label">Flight Code</label>
                             <div class="col-sm-7">
-                                <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="departure.dept_flight" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
+                                <input class="form-control" name="flightCode" id="depart-code" placeholder="Flight Code" ng-model="departure.dept_flight" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Airport</label>
+                        <div class="form-group" ng-class="{'has-error': departureForm.airport.$invalid}">
+                            <label for="depart-airport" class="col-sm-4 control-label">Airport</label>
                             <div class="col-sm-7">
-                                <input class="form-control" id="inputUser" placeholder="Airport" ng-model="departure.dept_airport" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
+                                <input class="form-control" name="airport" id="depart-airport" placeholder="Airport" ng-model="departure.dept_airport" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="departureDate" class="col-sm-4 control-label">Departure Date</label>
+                        <div class="form-group" ng-class="{'has-error': departureForm.departDate.$error.futureDate}">
+                            <label for="depart-date" class="col-sm-4 control-label">Departure Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" ng-model="departure.dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen3" placeholder="YYYY-MM-DD" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req">
+                                    <input type="text" name="departDate" class="form-control" ng-model="departure.dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[2]" placeholder="YYYY-MM-DD" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req" datepicker-options="{minDate:arrival.arrv_date}" future-date>
                                     <span class="input-group-btn">
-                            <button class="btn btn-link" type="button" ng-click="calendar.isOpen3 = !calendar.isOpen3">
-                              <i class="glyphicon glyphicon-calendar"></i>
-                            </button>
-                          </span>
+                                        <button class="btn btn-link" type="button" ng-click="calendar[2] = !calendar[2]">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
                                 </div>
+                                <uib-alert class="input-alert" type="danger">Date must be after today and Arrival Date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Departure Time</label>
+                        <div class="form-group" ng-class="{'has-error': departureForm.departTime.$invalid}">
+                            <label for="depart-time" class="col-sm-4 control-label">Departure Time</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputUser" ng-model="departure.dept_time" ng-disabled="!departure.dept_ride_req" ui-mask="?29:69">
+                                <uib-timepicker name="departTime" id="depart-time" show-spinners="false" pad-hours="false" ng-model="departure.dept_time" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req"></uib-timepicker>
                             </div>
                         </div>
                     </form>
@@ -248,47 +266,50 @@
                 <div class="col-md-6">
                     <h3 class="text-center">Arrival Information</h3>
                     <hr>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" name="memberArrivalForm[{{$index}}]">
                         <div class="form-group">
                             <label for="inputUser" class="col-sm-4 control-label">*Ride Required</label>
                             <div class="radio-inline col-sm-2 control-label">
                                 <label>
-                                    <input type="radio" ng-model="familyMembers[$index].arrv_ride_req" ng-value="true">Yes</label>
+                                    <input type="radio" ng-model="familyMembers[$index].arrv_ride_req" ng-value="true">Yes
+                                </label>
                             </div>
                             <div class="radio-inline col-sm-2 control-label">
                                 <label>
-                                    <input type="radio" ng-model="familyMembers[$index].arrv_ride_req" ng-value="false">No</label>
+                                    <input type="radio" ng-model="familyMembers[$index].arrv_ride_req" ng-value="false">No
+                                </label>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': memberArrivalForm[{{$index}}].code.$invalid}">
                             <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
                             <div class="col-sm-7">
-                                <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="familyMembers[$index].arrv_flight" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req">
+                                <input class="form-control" name="code" id="inputUser" placeholder="Flight Code" ng-model="familyMembers[$index].arrv_flight" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': memberArrivalForm[{{$index}}].airport.$invalid}">
                             <label for="inputUser" class="col-sm-4 control-label">Airport</label>
                             <div class="col-sm-7">
-                                <input class="form-control" id="inputUser" placeholder="Airport" ng-model="familyMembers[$index].arrv_airport" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req">
+                                <input class="form-control" name="airport" id="inputUser" placeholder="Airport" ng-model="familyMembers[$index].arrv_airport" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': memberArrivalForm[{{$index}}].arrivalDate.$error.futureDate}">
                             <label for="arrivalDate" class="col-sm-4 control-label">Arrival Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" id="arrivalDate" class="form-control" ng-model="familyMembers[$index].arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req">
+                                    <input type="text" id="arrivalDate" class="form-control" ng-model="familyMembers[$index].arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[$index+3]" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req" future-date>
                                     <span class="input-group-btn">
-                                <button class="btn btn-link" type="button" ng-click="calendar.isOpen2 = !calendar.isOpen2">
-                                  <i class="glyphicon glyphicon-calendar"></i>
-                                </button>
-                              </span>
+                                        <button class="btn btn-link" type="button" ng-click="calendar[$index+3] = !calendar[$index+3]">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
                                 </div>
+                                <uib-alert class="input-alert" type="danger">Date must be after today and Arrival Date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Arrival Time</label>
+                        <div class="form-group" ng-class="{'has-error': memberArrivalForm[{{$index}}].arrivalTime.$invalid}">
+                            <label for="member-arrival-time" class="col-sm-4 control-label">Arrival Time</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputUser" ng-model="familyMembers[$index].arrv_time" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req" ui-mask="?29:69">
+                                <uib-timepicker name="arrivalTime" id="member-arrival-time" show-spinners="false" pad-hours="false" ng-model="familyMembers[$index].arrv_time" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req"></uib-timepicker>
                             </div>
                         </div>
                     </form>
@@ -296,7 +317,7 @@
                 <div class="col-md-6">
                     <h3 class="text-center">Departure Information</h3>
                     <hr>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" name="memberDepartForm[{{$index}}]">
                         <div class="form-group">
                             <label for="inputUser" class="col-sm-4 control-label">*Ride Required</label>
                             <div class="radio-inline col-sm-2 control-label">
@@ -308,41 +329,42 @@
                                     <input type="radio" ng-model="familyMembers[$index].dept_ride_req" ng-value="false">No</label>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': memberDepartForm[{{$index}}].code.$invalid}">
                             <label for="inputUser" class="col-sm-4 control-label">Flight Code</label>
                             <div class="col-sm-7">
-                                <input class="form-control" id="inputUser" placeholder="Flight Code" ng-model="familyMembers[$index].dept_flight" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req">
+                                <input class="form-control" name="code" id="inputUser" placeholder="Flight Code" ng-model="familyMembers[$index].dept_flight" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': memberDepartForm[{{$index}}].airport.$invalid}">
                             <label for="inputUser" class="col-sm-4 control-label">Airport</label>
                             <div class="col-sm-7">
-                                <input class="form-control" id="inputUser" placeholder="Airport" ng-model="familyMembers[$index].dept_airport" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req">
+                                <input class="form-control" name="airport" id="inputUser" placeholder="Airport" ng-model="familyMembers[$index].dept_airport" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{'has-error': memberDepartForm[{{$index}}].departDate.$error.futureDate}">
                             <label for="departureDate" class="col-sm-4 control-label">Departure Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" ng-model="familyMembers[$index].dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen3" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req">
+                                    <input type="text" name="departDate" class="form-control" ng-model="familyMembers[$index].dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar2[$index]" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req" future-date>
                                     <span class="input-group-btn">
-                                    <button class="btn btn-link" type="button" ng-click="calendar.isOpen3 = !calendar.isOpen3">
-                                      <i class="glyphicon glyphicon-calendar"></i>
-                                    </button>
-                                  </span>
+                                        <button class="btn btn-link" type="button" ng-click="calendar2[$index] = !calendar2[$index]">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
                                 </div>
+                                <uib-alert class="input-alert" type="danger">Date must be after today and Arrival Date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputUser" class="col-sm-4 control-label">Departure Time</label>
+                        <div class="form-group" ng-class="{'has-error': memberDepartForm[{{$index}}].departTime.$invalid}">
+                            <label for="member-depart-time" class="col-sm-4 control-label">Departure Time</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputUser" ng-model="familyMembers[$index].dept_time" ng-disabled="!familyMembers[$index].dept_ride_req" ui-mask="?29:69">
+                                <uib-timepicker name="departTime" id="member-depart-time" show-spinners="false" pad-hours="false" ng-model="familyMembers[$index].dept_time" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req"></uib-timepicker>
                             </div>
                         </div>
                     </form>
                     <h3 class="text-center">Accommodation</h3>
                     <hr>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" name="memberAccommForm[{{$index}}]">
                         <div class="form-group">
                             <label for="inputUser" class="col-sm-4 control-label">*Required</label>
                             <div class="radio-inline col-sm-2 control-label">
@@ -354,8 +376,8 @@
                                     <input type="radio" ng-model="familyMembers[$index].accommodation_req" ng-value="false" required>No</label>
                             </div>
                         </div>
-                        <label ng-repeat="accom in accommodations">
-                            <input type="radio" ng-model="familyMembers[$parent.$index].accommodation_pref" ng-value="accom.id" ng-disabled="!familyMembers[$parent.$index].accommodation_req" ng-required="familyMembers[$parent.$index].accommodation_req">&nbsp{{accom.name}} @ {{accom.address}}
+                        <label ng-repeat="accom in accommodations track by accom.id" ng-if="familyMembers[$parent.$index].accommodation_req">
+                            <input type="radio" ng-model="familyMembers[$parent.$parent.$index].accommodation_pref" ng-value="accom.id" ng-required="familyMembers[$parent.$parent.$index].accommodation_req" ng-disabled="!familyMembers[$parent.$parent.$index].accommodation_req">&nbsp{{accom.name}} @ {{accom.address}}
                         </label>
                     </form>
                 </div>

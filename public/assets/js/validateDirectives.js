@@ -75,7 +75,7 @@ app.directive( 'confirmPassword', function () {
 })
 
 // All letters with option of hyphen and commas (non-consecutively)
-var NAME_REGEXP = /^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/;
+var NAME_REGEXP = /^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,(0-9)]$/;
 app.directive( 'names', function () {
     return {
         require: 'ngModel',
@@ -99,7 +99,31 @@ app.directive( 'names', function () {
     }
 })
 
-app.directive( 'birthdate', function () {
+var PHONE_REGEXP = /^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/;
+app.directive( 'phone', function () {
+    return {
+        require: 'ngModel',
+        link: function ( scope, elm, attrs, ctrl ) {
+            ctrl.$validators.phone = function( modelValue, viewValue ) {
+
+                // Empty models are valid
+                if ( ctrl.$isEmpty( modelValue ) ) {
+                    return true;
+                }
+
+                // Match regexp
+                if ( PHONE_REGEXP.test( viewValue )) {
+                    return true;
+                }
+
+                // Doesn't match
+                return false;
+            }
+        }
+    }
+})
+
+app.directive( 'birthdate', function ($filter) {
 	return {
 		require: 'ngModel',
 		link: function ( scope, elm, attrs, ctrl ) {
@@ -111,12 +135,14 @@ app.directive( 'birthdate', function () {
                 }
 
                 var today = new Date();
-                var enteredDate = new Date( viewValue );
+                var date = $filter('date')(viewValue, 'yyyy-MM-dd');
+                date = date.split('-');
+                var enteredDate = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
                 if ( !enteredDate ) {
                 	return false;
                 }
 
-                if ( enteredDate <= today ) {
+                if ( enteredDate < today ) {
                     return true;
                 }
 
@@ -125,4 +151,58 @@ app.directive( 'birthdate', function () {
 			}
 		}
 	}
+})
+
+app.directive( 'futureDate', function ($filter) {
+    return {
+        require: 'ngModel',
+        link: function ( scope, elm, attrs, ctrl ) {
+            ctrl.$validators.futureDate = function( modelValue, viewValue ) {
+
+                // Empty models are valid
+                if ( ctrl.$isEmpty( modelValue ) ) {
+                    return true;
+                }
+
+                var today = new Date();
+                var date = $filter('date')(viewValue, 'yyyy-MM-dd');
+                date = date.split('-');
+                var enteredDate = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+                if ( !enteredDate ) {
+                    return false;
+                }
+
+                if ( enteredDate > today ) {
+                    return true;
+                }
+
+                return false;
+
+            }
+        }
+    }
+})
+
+var EMAIL_REGEX = /^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$/;
+app.directive( 'overwriteEmail', function () {
+    return {
+        require: 'ngModel',
+        link: function ( scope, elm, attrs, ctrl ) {
+            ctrl.$validators.email = function( modelValue, viewValue ) {
+
+                // Empty models are valid
+                if ( ctrl.$isEmpty( modelValue ) ) {
+                    return true;
+                }
+
+                // Match regexp
+                if ( EMAIL_REGEX.test( viewValue )) {
+                    return true;
+                }
+
+                // Doesn't match
+                return false;
+            }
+        }
+    }
 })
