@@ -34,6 +34,11 @@ class Conference extends Model
         return $this->hasMany('App\Models\Accommodation');
     }
 
+    public function rooms()
+    {
+        return $this->hasManyThrough('App\Models\Room', 'App\Models\Accommodation');
+    }
+
     public function items()
     {
         return $this->hasMany('App\Models\Item');
@@ -42,6 +47,11 @@ class Conference extends Model
     public function vehicles()
     {
         return $this->hasMany('App\Models\ConferenceVehicle');
+    }
+
+    public function eventVehicles()
+    {
+        return $this->hasManyThrough('App\Models\EventVehicle', 'App\Models\Event');
     }
 
     public function managers()
