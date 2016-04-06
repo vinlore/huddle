@@ -1,5 +1,5 @@
 angular.module( 'profileCtrl', [] )
-.controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, ProfileRooms, ProfileConferenceVehicles, Conferences, Events, $filter, popup, Users, $rootScope, $state, ngTableParams ) {
+.controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, ProfileRooms, ProfileConferenceVehicles, ProfileEventVehicles, Conferences, Events, $filter, popup, Users, $rootScope, $state, ngTableParams ) {
 
 
     $scope.user = {};
@@ -129,6 +129,9 @@ angular.module( 'profileCtrl', [] )
         ProfileAttendsEvents.fetch().query({pid: $scope.user.id})
             .$promise.then( function ( response ) {
                 if ( response ) {
+                    for (var i=0; i < response.length; i++) {
+                        response[i].vehicles = ProfileEventVehicles.fetch().query({pid: $scope.user.id});
+                    }
                     $scope.events = response;
                     console.log(response);
                 } else {

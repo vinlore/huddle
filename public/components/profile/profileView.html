@@ -265,6 +265,26 @@
                                 <h4 class="card-text">Facilitator: {{eve.facilitator}}</h4>
                                 <h5 class="card-text">From: {{eve.start_time}} to {{eve.end_time}}</h5>
                                 <h5 class="card-text">Date: {{eve.date}}</h5>
+
+                                <div class="row">
+                                  <div class="col-sm-6" ng-if="eve.vehicles.length > 0">
+                                      <h4>Arrival Vehicle</h4>
+                                      <ul class="list-group">
+                                          <li class="list-group-item" ng-repeat="vehicle in eve.vehicles" ng-if="vehicle.type == 'arrival'">
+                                              {{vehicle.name}}
+                                          </li>
+                                      </ul>
+                                  </div>
+                                  <div class="col-sm-6" ng-if="eve.vehicles.length > 0">
+                                      <h4>Departure Vehicle</h4>
+                                      <ul class="list-group">
+                                          <li class="list-group-item" ng-repeat="vehicle in eve.vehicles" ng-if="vehicle.type == 'departure'">
+                                              {{vehicle.name}}
+                                          </li>
+                                      </ul>
+                                  </div>
+                                </div>
+
                                 <!-- <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">Edit Application</button> -->
                                 <button class="btn btn-danger btn-sm" ng-click="cancelEventApplication($index)">Delete Application</button>
                             </div>

@@ -162,6 +162,6 @@ class ProfileController extends Controller
         ->join('event_vehicles','events.id','=','event_vehicles.event_id')
         ->join('vehicles', 'event_vehicles.vehicle_id','=','vehicles.id')
         ->join('profile_rides_vehicles','profile_rides_vehicles.vehicle_id', '=', 'vehicles.id')
-        ->get(['vehicles.name','events.id']);
+        ->get(['vehicles.name','events.id', 'event_vehicles.type']);
     }
 }
