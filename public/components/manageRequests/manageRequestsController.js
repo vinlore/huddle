@@ -93,6 +93,16 @@ angular.module( 'manageRequestsCtrl', [] )
   };
 
   $scope.declineConference = function (index) {
+      var modalInstance = popup.prompt('Decline', 'Are you sure you want to decline this Conference?');
+
+      modalInstance.result.then( function ( result ) {
+          if (result) {
+              $scope.declineConferenceAction(index);
+          }
+      })
+  };
+
+  $scope.declineConferenceAction = function (index) {
     var conference = {
       id: $scope.conferences[index].id,
       status: 'denied'
@@ -101,7 +111,7 @@ angular.module( 'manageRequestsCtrl', [] )
     .$promise.then( function (response) {
       if ( response.status == 200 ) {
         $scope.loadPendingConferences();
-        popup.alert( 'success', 'Conference request denied.' );
+        popup.alert( 'danger', 'Conference request denied.' );
       } else {
         popup.error( 'Error', response.message );
       }
@@ -128,7 +138,7 @@ angular.module( 'manageRequestsCtrl', [] )
         if (response.status =="approved"){
           $scope.approveEvent(_event);
         } else {
-          var warningMessage = 'Unable to perform action. Please approve ' + response.name + 'Conference first.'
+          var warningMessage = 'Unable to perform action. Please approve ' + response.name + ' Conference first.'
           var modalInstance = popup.warning('Publish', warningMessage);
           modalInstance.result.then( function ( result ) {
             if (result) {
@@ -157,8 +167,17 @@ angular.module( 'manageRequestsCtrl', [] )
       popup.connection();
     })
   }
-
   $scope.declineEvent = function (index) {
+      var modalInstance = popup.prompt('Decline', 'Are you sure you want to decline this Event?');
+
+      modalInstance.result.then( function ( result ) {
+          if (result) {
+              $scope.cancelEventAction(index);
+          }
+      })
+  };
+
+  $scope.declineEventAction = function (index) {
     var _event = {
       eid: $scope.events[index].id,
       cid: $scope.events[index].conference_id,
@@ -168,7 +187,7 @@ angular.module( 'manageRequestsCtrl', [] )
     .$promise.then( function ( response ) {
       if ( response.status == 200 ) {
         $scope.loadPendingEvents();
-        popup.alert( 'success', 'Event request denied.' );
+        popup.alert( 'danger', 'Event request denied.' );
       } else {
         popup.error( 'Error', response.message );
       }
