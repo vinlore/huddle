@@ -108,7 +108,7 @@ class EventAttendeeController extends Controller
             $userId = $request->header('ID');
             $profileOwnerId = $profile->user()->first()->id;
             if ($userId != $profileOwnerId) {
-                if (!$this->isEventManager($request, $cid)) {
+                if (!$this->isEventManager($request, $eid)) {
                     return response()->error(403);
                 }
             }
@@ -177,7 +177,7 @@ class EventAttendeeController extends Controller
     public function destroy(EventAttendeeRequest $request, $eid, $pid)
     {
         try {
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }

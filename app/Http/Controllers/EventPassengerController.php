@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use App\Models\Conference;
 use App\Models\ConferenceVehicle;
 use App\Models\Profile;
 
@@ -22,12 +21,12 @@ class EventPassengerController extends Controller
     public function index(Request $request, $eid, $vid)
     {
         try {
-            $user = $this->isEventManager($request, $cid);
+            $user = $this->isEventManager($request, $eid);
             if (!$user) {
                 return response()->error(403);
             }
 
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }
@@ -54,7 +53,7 @@ class EventPassengerController extends Controller
     public function store(Request $request, $eid, $vid)
     {
         try {
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }
@@ -90,7 +89,7 @@ class EventPassengerController extends Controller
     public function destroy(Request $request, $eid, $vid, $pid)
     {
         try {
-            $event = Event::find($cid);
+            $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
             }
