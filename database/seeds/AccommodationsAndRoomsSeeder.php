@@ -28,7 +28,7 @@ class AccommodationsAndRoomsSeeder extends Seeder
             'country' => 'Canada',
         ];
         $accommodation = Accommodation::create($accommodation);
-        $accommodation->conferences()->attach($conference);
+        $accommodation->conference()->associate($conference);
 
         $room = [
             'room_no'     => '100',
@@ -68,7 +68,7 @@ class AccommodationsAndRoomsSeeder extends Seeder
             'country' => 'Canada',
         ];
         $accommodation = Accommodation::create($accommodation);
-        $accommodation->conferences()->attach($conference);
+        $accommodation->conference()->associate($conference);
 
         $room = [
             'room_no'     => '200',

@@ -128,7 +128,7 @@ class ConferencesAndEventsSeeder extends Seeder
             'address'     => 'Hugh Dempster Pavilion, 6245 Agronomy Road, Vancouver, BC V6T 1Z4',
             'city'        => 'Vancouver',
             'country'     => 'Canada',
-            'capacity'    => 74,
+            'capacity'    => 100,
             'status'      => 'approved',
         ];
         $conference = Conference::create($conference);
@@ -143,7 +143,7 @@ class ConferencesAndEventsSeeder extends Seeder
             'address'      => 'Hugh Dempster Pavilion, 6245 Agronomy Road, Vancouver, BC V6T 1Z4',
             'city'         => 'Vancouver',
             'country'      => 'Canada',
-            'capacity'     => 74,
+            'capacity'     => 100,
             'status'       => 'approved',
         ];
         $event = new Event($event);
@@ -160,7 +160,7 @@ class ConferencesAndEventsSeeder extends Seeder
             'address'      => 'Hugh Dempster Pavilion, 6245 Agronomy Road, Vancouver, BC V6T 1Z4',
             'city'         => 'Vancouver',
             'country'      => 'Canada',
-            'capacity'     => 74,
+            'capacity'     => 100,
             'status'       => 'pending',
         ];
         $event = new Event($event);
@@ -177,7 +177,7 @@ class ConferencesAndEventsSeeder extends Seeder
             'address'      => 'Hugh Dempster Pavilion, 6245 Agronomy Road, Vancouver, BC V6T 1Z4',
             'city'         => 'Vancouver',
             'country'      => 'Canada',
-            'capacity'     => 74,
+            'capacity'     => 100,
             'status'       => 'pending',
         ];
         $event = new Event($event);

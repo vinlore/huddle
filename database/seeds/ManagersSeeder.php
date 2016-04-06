@@ -3,7 +3,6 @@
 use Illuminate\Database\Seeder;
 
 use App\Models\Conference;
-use App\Models\User;
 
 class ManagersSeeder extends Seeder
 {
