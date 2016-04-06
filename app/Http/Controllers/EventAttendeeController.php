@@ -57,7 +57,7 @@ class EventAttendeeController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
-            $profile->events()->attach($eid, $request->except('profile_id'));
+            $event->attendees()->attach($profile, $request->except('profile_id'));
 
             $this->addActivity($userId, $activityType, $eid, 'event application', $pid);
 
@@ -156,7 +156,7 @@ class EventAttendeeController extends Controller
                 }
             }
 
-            $profile->events()->updateExistingPivot($eid, $request->all());
+            $event->attendees()->updateExistingPivot($profile, $request->all());
 
             $this->addActivity($request->header('ID'),'update', $eid, 'event application', $pid);
 

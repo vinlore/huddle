@@ -59,7 +59,7 @@ class ConferenceAttendeeController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
-            $profile->conferences()->attach($cid, $request->except('profile_id'));
+            $conference->attendees()->attach($profile, $request->except('profile_id'));
 
             $this->addActivity($profile->user()->first()->id, 'requested', $cid, 'conference application', $pid);
 
@@ -158,7 +158,7 @@ class ConferenceAttendeeController extends Controller
                 }
             }
 
-            $profile->conferences()->updateExistingPivot($cid, $request->all());
+            $conference->attendees()->updateExistingPivot($profile, $request->all());
 
             $this->addActivity($userId, $activityType, $cid, 'conference application', $pid);
 
