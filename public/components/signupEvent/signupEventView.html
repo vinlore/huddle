@@ -1,4 +1,4 @@
-<div id="signupConf" class="container has-header">
+<div id="signupEvent" class="container has-header">
   <h1 class="page-header text-center">{{header}} for the {{event.name}}</h1>
   <div class="panel panel-default">
     <div class="panel-body">
@@ -9,11 +9,11 @@
         <div class="form-group">
           <label for="inputUser" class="col-sm-2 col-sm-offset-1 control-label">Arrival:</label>
           <div class="radio-inline col-sm-2 col-sm-offset-3 control-label">
-            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="1">Yes</label>
+            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="true" ng-required="attendee.arrv_ride_req">Yes</label>
           </div>
 
           <div class="radio-inline col-sm-2 col-sm-offset-3 control-label">
-            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="0">No</label>
+            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="false" ng-required="attendee.arrv_ride_req">No</label>
           </div>
         </div>
 
@@ -21,11 +21,11 @@
           <label for="inputUser" class="col-sm-2 col-sm-offset-1 control-label">Departure:</label>
 
           <div class="radio-inline col-sm-2 col-sm-offset-3 control-label">
-            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="1">Yes</label>
+            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="true" ng-required="attendee.dept_ride_req">Yes</label>
           </div>
 
           <div class="radio-inline col-sm-2 col-sm-offset-3 control-label">
-            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="0">No</label>
+            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="false" ng-required="attendee.dept_ride_req">No</label>
           </div>
         </div>
       </form>

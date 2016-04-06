@@ -62,6 +62,7 @@ angular.module('manageConferenceTransportationCtrl',[])
 
   $scope.loadVehicles();
   $scope.loadConferenceData();
+  console.log($scope.data);
 
   //////// Button Functions ////////
 

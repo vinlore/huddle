@@ -32,6 +32,22 @@ angular.module( 'apiService', [] )
   }
 })
 
+.factory('ProfileRooms', function ( $resource ){
+  return {
+    fetch: function () {
+        return $resource( '/api/profile/:pid/rooms', { pid: '@pid'});
+    }
+  }
+})
+
+.factory('ProfileConferenceVehicles', function ( $resource ){
+  return {
+    fetch: function () {
+        return $resource( '/api/profile/:pid/conferences/vehicles', { pid: '@pid'});
+    }
+  }
+})
+
 .factory( 'Profile', function ( $resource ) {
     return $resource( '/api/users/:uid/profiles/:pid', { uid: '@uid', pid: '@pid' }, { 'update': { method: 'PUT' } } );
 })

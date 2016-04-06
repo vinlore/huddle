@@ -56,11 +56,12 @@ angular.module('cms', [
     'draftConferenceCtrl'
 ])
 
-.run( function( $rootScope, $auth, $localStorage, $http, popup ) {
+.run( function( $rootScope, $auth, $localStorage, $http, popup, $uibModalStack ) {
     $rootScope.auth = $auth.isAuthenticated();
 
     $rootScope.$on('$stateChangeStart',
         function () {
+            $uibModalStack.dismissAll();
             var user;
             if ($rootScope.user) {
                 user = $rootScope.user.id;

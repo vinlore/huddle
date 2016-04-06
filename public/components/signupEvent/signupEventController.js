@@ -1,5 +1,5 @@
 angular.module('signupEventCtrl',[])
-.controller('signupEventController', function($scope, $stateParams, Events, popup, $state, $rootScope){
+.controller('signupEventController', function($scope, $stateParams, Profile, Events, popup, $state, $rootScope){
 
   $scope.header = "Sign Up";
 
@@ -11,7 +11,6 @@ angular.module('signupEventCtrl',[])
   $scope.attendee = {
     arrv_ride_req: false,
     dept_ride_req: false,
-    status: 'pending'
   }
 
   $scope.submitRequest = function() {

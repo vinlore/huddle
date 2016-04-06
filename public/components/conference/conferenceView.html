@@ -47,7 +47,7 @@
             </div>
             <div class="page-header">
                 <h1>Events</h1>
-                <a type="button" class="btn btn-primary attendance no-animate" ui-sref="conference-signup({conferenceId: conference.id, name: conference.name})" ng-if="auth && !conferenceAttendance">
+                <a type="button" class="btn btn-primary attendance no-animate" ui-sref="conference-signup({conferenceId: conference.id, name: conference.name})" ng-if="auth && !conferenceAttendance && attendanceLoaded">
                     <span class="glyphicon glyphicon-edit"></span>
                     <label> Sign up</label>
                 </a>
@@ -130,7 +130,7 @@
                             <span ng-if="event.age_limit">Ages: <strong>{{event.age_limit}}+</strong></span>
                             <span ng-if="!event.age_limit && !event.gender_limit">No restrictions</span>
                             <span>&nbspSeats: <strong>{{event.attendee_count}}/{{event.capacity}}</strong></span>
-                            <a type="button" class="btn btn-primary" ui-sref="event-signup({eventId: event.id, name: event.name})" ng-if="auth && !eventAttendance[$index] && conferenceAttendance == 'approved'">
+                            <a type="button" class="btn btn-primary" ui-sref="event-signup({eventId: event.id, name: event.name})" ng-if="auth && !eventAttendance[$index] && conferenceAttendance == 'approved' && attendanceLoaded2">
                                 <span class="glyphicon glyphicon-edit"></span>
                                 <label> Sign Up</label>
                             </a>
