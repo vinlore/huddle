@@ -105,14 +105,6 @@ class EventAttendeeController extends Controller
     public function update(EventAttendeeRequest $request, $eid, $pid)
     {
         try {
-            $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->id;
-            if ($userId != $profileOwnerId) {
-                if (!$this->isEventManager($request, $eid)) {
-                    return response()->error(403);
-                }
-            }
-
             $event = Event::find($eid);
             if (!$event) {
                 return response()->error(404, 'Event Not Found');
@@ -121,6 +113,14 @@ class EventAttendeeController extends Controller
             $profile = Profile::find($pid);
             if (!$profile) {
                 return response()->error(404, 'Profile Not Found');
+            }
+
+            $userId = $request->header('ID');
+            $profileOwnerId = $profile->user()->first()->id;
+            if ($userId != $profileOwnerId) {
+                if (!$this->isEventManager($request, $eid)) {
+                    return response()->error(403);
+                }
             }
 
             $activityType = 'updated';
