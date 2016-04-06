@@ -108,7 +108,7 @@ class EventAttendeeController extends Controller
             $userId = $request->header('ID');
             $profileOwnerId = $profile->user()->first()->id;
             if ($userId != $profileOwnerId) {
-                if (!$this->isEventManager($request, $cid)) {
+                if (!$this->isEventManager($request, $eid)) {
                     return response()->error(403);
                 }
             }
