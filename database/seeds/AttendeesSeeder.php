@@ -87,10 +87,15 @@ class AttendeesSeeder extends Seeder
                 'status'             => 'pending',
             ];
             $profile->conferences()->attach($conference, $attendee);
+            $conference->increment('attendee_count');
             $profile->events()->attach($event);
+            $event->increment('attendee_count');
             $profile->rooms()->attach($room);
+            $room->increment('guest_count');
             $profile->conferenceVehicles()->attach($conferenceVehicle);
+            $conferenceVehicle->increment('passenger_count');
             $profile->eventVehicles()->attach($eventVehicle);
+            $eventVehicle->increment('passenger_count');
         }
     }
 }

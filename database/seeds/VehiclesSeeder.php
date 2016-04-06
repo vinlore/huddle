@@ -24,7 +24,7 @@ class VehiclesSeeder extends Seeder
         $vehicle = [
             'name'            => 'Airport Taxi',
             'passenger_count' => 0,
-            'capacity'        => 4,
+            'capacity'        => 7,
             'type'            => 'arrival',
         ];
         $vehicle = new ConferenceVehicle($vehicle);
@@ -34,7 +34,7 @@ class VehiclesSeeder extends Seeder
         $vehicle = [
             'name'            => 'Airport Taxi',
             'passenger_count' => 0,
-            'capacity'        => 4,
+            'capacity'        => 7,
             'type'            => 'departure',
         ];
         $vehicle = new ConferenceVehicle($vehicle);
