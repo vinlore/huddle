@@ -22,6 +22,10 @@ class RolesSeeder extends Seeder
             'conference.update'           => true,
             'conference.destroy'          => true,
 
+            'conference_manager.store'    => true,
+            'conference_manager.show'     => true,
+            'conference_manager.destroy'  => true,
+
             'conference_attendee.show'    => true,
             'conference_attendee.update'  => true,
             'conference_attendee.destroy' => true,
@@ -36,6 +40,10 @@ class RolesSeeder extends Seeder
             'event.show'                  => true,
             'event.update'                => true,
             'event.destroy'               => true,
+
+            'event_manager.store'         => true,
+            'event_manager.show'          => true,
+            'event_manager.destroy'       => true,
 
             'event_attendee.show'         => true,
             'event_attendee.update'       => true,
@@ -87,6 +95,10 @@ class RolesSeeder extends Seeder
             'conference.update'           => false,
             'conference.destroy'          => false,
 
+            'conference_manager.store'    => false,
+            'conference_manager.show'     => false,
+            'conference_manager.destroy'  => false,
+
             'conference_attendee.show'    => true,
             'conference_attendee.update'  => true,
             'conference_attendee.destroy' => false,
@@ -100,6 +112,10 @@ class RolesSeeder extends Seeder
             'event.show'                  => true,
             'event.update'                => false,
             'event.destroy'               => false,
+
+            'event_manager.store'         => false,
+            'event_manager.show'          => false,
+            'event_manager.destroy'       => false,
 
             'event_attendee.show'         => true,
             'event_attendee.update'       => true,
