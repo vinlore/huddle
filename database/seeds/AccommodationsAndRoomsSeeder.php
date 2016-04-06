@@ -16,7 +16,7 @@ class AccommodationsAndRoomsSeeder extends Seeder
     public function run()
     {
         // ---------------------------------------------------------------------
-        // CONFERENCE 2 - ACCOMMODATION 1
+        // CONFERENCE 2
         // ---------------------------------------------------------------------
 
         $conference = Conference::find(2);
@@ -27,8 +27,9 @@ class AccommodationsAndRoomsSeeder extends Seeder
             'city'    => 'Vancouver',
             'country' => 'Canada',
         ];
-        $accommodation = Accommodation::create($accommodation);
-        $accommodation->conferences()->attach($conference);
+        $accommodation = new Accommodation($accommodation);
+        $accommodation->conference()->associate($conference);
+        $accommodation->save();
 
         $room = [
             'room_no'     => '100',
@@ -57,18 +58,15 @@ class AccommodationsAndRoomsSeeder extends Seeder
         $room->accommodation()->associate($accommodation);
         $room->save();
 
-        // ---------------------------------------------------------------------
-        // CONFERENCE 2 - ACCOMMODATION 2
-        // ---------------------------------------------------------------------
-
         $accommodation = [
             'name'    => 'The Fairmont Hotel Vancouver',
             'address' => '900 West Georgia Street',
             'city'    => 'Vancouver',
             'country' => 'Canada',
         ];
-        $accommodation = Accommodation::create($accommodation);
-        $accommodation->conferences()->attach($conference);
+        $accommodation = new Accommodation($accommodation);
+        $accommodation->conference()->associate($conference);
+        $accommodation->save();
 
         $room = [
             'room_no'     => '200',

@@ -15,12 +15,19 @@ class ItemController extends Controller
     /**
      * Retrieve all Items of a Conference.
      *
+     * @param  Request  $request
+     * @param  int  $cid
      * @return Collection|Response
      */
     public function index(Request $request, $cid)
     {
         try {
-            return Item::where('conference_id', $cid)->get();
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
+            return $conference->items()->get();
         } catch (Exception $e) {
             return response()->error();
         }
@@ -29,12 +36,27 @@ class ItemController extends Controller
     /**
      * Create an Item for a Conference.
      *
+     * @param  ItemRequest  $request
+     * @param  int  $cid
      * @return Response
      */
     public function store(ItemRequest $request)
     {
         try {
-            Item::create($request->all());
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
+            }
+
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
+            $item = new Item($request->all());
+            $item->conference()->associate($conference);
+            $item->save();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -44,15 +66,24 @@ class ItemController extends Controller
     /**
      * Retrieve an Item of a Conference
      *
+     * @param  ItemRequest  $request
+     * @param  int  $cid
+     * @param  int  $iid
      * @return App\Models\Item|Response
      */
     public function show(ItemRequest $request, $cid, $iid)
     {
         try {
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
             $item = Item::find($iid);
             if (!$item) {
-                return response()->error(404);
+                return response()->error(404, 'Item Not Found');
             }
+
             return $item;
         } catch (Exception $e) {
             return response()->error();
@@ -62,16 +93,32 @@ class ItemController extends Controller
     /**
      * Update an Item of a Conference.
      *
+     * @param  ItemRequest  $request
+     * @param  int  $cid
+     * @param  int  $iid
      * @return Response
      */
     public function update(ItemRequest $request, $cid, $iid)
     {
         try {
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
+            }
+
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
             $item = Item::find($iid);
             if (!$item) {
-                return response()->error(404);
+                return response()->error(404, 'Item Not Found');
             }
-            $item->update($request->all());
+
+            $item->fill($request->all());
+            $item->save();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
@@ -81,16 +128,31 @@ class ItemController extends Controller
     /**
      * Delete an Item of a Conference.
      *
+     * @param  ItemRequest  $request
+     * @param  int  $cid
+     * @param  int  $iid
      * @return Response
      */
     public function destroy(ItemRequest $request, $cid, $iid)
     {
         try {
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
+            }
+
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
             $item = Item::find($iid);
             if (!$item) {
-                return response()->error(404);
+                return response()->error(404, 'Item Not Found');
             }
+
             $item->delete();
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();

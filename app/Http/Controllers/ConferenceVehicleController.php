@@ -8,150 +8,154 @@ use Illuminate\Http\Response;
 use App\Http\Requests\VehicleRequest;
 
 use App\Models\Conference;
-use App\Models\Vehicle;
+use App\Models\ConferenceVehicle;
 
 class ConferenceVehicleController extends Controller
 {
     /**
      * Retrieve all Vehicles of a Conference.
      *
+     * @param  Request  $request
+     * @param  int  $cid
      * @return Collection|Response
      */
-    public function index($cid, Request $request)
+    public function index(Request $request, $cid)
     {
         try {
-            return Conference::find($cid)->vehicles()->wherePivot('type', $request->type)->get();
-        } catch (Exception $e){
-            return response()->error("500" , $e);
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
+            return $conference->vehicles()->get();
+        } catch (Exception $e) {
+            return response()->error();
         }
     }
 
     /**
      * Create a Vehicle for a Conference.
      *
+     * @param  VehicleRequest  $request
+     * @param  int  $cid
      * @return Response
      */
-    public function store($cid, Request $request)
+    public function store(VehicleRequest $request, $cid)
     {
         try {
-            // Check if the Conference exists.
-            $conf = Conference::find($cid);
-            if (!$conf) {
-                return response()->error(404);
-            }
-
-            // Check if the User is managing the Conference.
-            if (!$this->isConferenceManager($request, $cid)) {
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
                 return response()->error(403);
             }
 
-            $vehicle = Vehicle::create($request->all());
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
 
-            //Storing new objects into pivot table.
-            //Creating the pivot between conf & vehicle
-            $conf->vehicles()
-                 ->attach($vehicle, ['type' => $request->type]);
+            $vehicle = new ConferenceVehicle($request->all());
+            $vehicle->conference()->associate($conference);
+            $vehicle->save();
+
             return response()->success();
         } catch (Exception $e) {
-            return response()->error(500 , $e);
+            return response()->error();
         }
     }
 
     /**
      * Retrieve a Vehicle of a Conference
      *
-     * @return App\Models\Vehicle|Response
+     * @param  VehicleRequest  $request
+     * @param  int  $cid
+     * @param  int  $vid
+     * @return App\Models\ConferenceVehicle|Response
      */
-    public function show($id)
+    public function show(VehicleRequest $request, $cid, $vid)
     {
         try {
-            $vehicle = Vehicle::find($id);
-            //Check if the item Exists
-            if (!$vehicle) {
-                return response()->error("Vulture" , "Item could not be found.");
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
             }
+
+            $vehicle = ConferenceVehicle::find($vid);
+            if (!$vehicle) {
+                return response()->error(404, 'Vehicle Not Found');
+            }
+
             return $vehicle;
         } catch (Exception $e) {
-            return response()->error(500 , $e);
+            return response()->error();
         }
     }
 
     /**
      * Update a Vehicle of a Conference.
      *
+     * @param  VehicleRequest  $request
+     * @param  int  $cid
+     * @param  int  $vid
      * @return Response
      */
-    public function update($cid, Request $request)
+    public function update(VehicleRequest $request, $cid, $vid)
     {
         try {
-            // Check if the Conference exists.
-            $conf = Conference::find($cid);
-            if (!$conf) {
-                return response()->error(404);
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
             }
 
-            //Check if conference manager belongs to this conference OR admin
-            $userId = $request->header('ID');
-            if (!$conf->managers()->where('user_id', $userID)->get() ||
-                Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
-                return response()->error("403" , "Permission Denied");
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
             }
 
-            $newVehicleData = array (
-                'name' => $request->name,
-                'passenger_count' => $request->passenger_count,
-                'capacity' => $request->capacity
-            );
-            Vehicle::where('id', $id)->update($newVehicleData);
+            $vehicle = ConferenceVehicle::find($vid);
+            if (!$vehicle) {
+                return response()->error(404, 'Vehicle Not Found');
+            }
 
-            //Updating Pivot Table
-            $conf->vehicles()
-                 ->updateExistingPivot($id,['type' => $request->type]);
+            $vehicle->fill($request->all());
+            $vehicle->save();
+
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("500" , $e);
+            return response()->error();
         }
     }
 
     /**
      * Delete a Vehicle of a Conference.
      *
+     * @param  VehicleRequest  $request
+     * @param  int  $cid
+     * @param  int  $vid
      * @return Response
      */
-    public function destroy(Request $request, $cid, $vehicles)
+    public function destroy(VehicleRequest $request, $cid, $vid)
     {
         try {
-            // Check if the Conference exists.
-            $conf = Conference::find($cid);
-            if (!$conf) {
-                return response()->error(404);
+            $user = $this->isConferenceManager($request, $cid);
+            if (!$user) {
+                return response()->error(403);
             }
 
-            //Check if conference manager belongs to this conference OR admin
-            $userId = $request->header('ID');
-            if (!$conf->managers()->where('user_id', $userId)->get() ||
-                \Sentinel::findById($userId)->roles()->first()->name != 'System Administrator') {
-                return response()->error("403" , "Permission Denied");
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
             }
 
-
-            $vehicle = Vehicle::find($vehicles);
+            $vehicle = ConferenceVehicle::find($vid);
             if (!$vehicle) {
-                return response()->error(404);
+                return response()->error(404, 'Vehicle Not Found');
             }
 
-            if ($vehicle->passengers()->count()){
-                return response()->error("409" , "Passengers still in this Vehicle");
-            }
+            $vehicle->delete();
 
-            //Remove the Pivot Row - From Conference/Event - Vehicles
-            $vehicle->conferences()
-                    ->detach();
-
-            Vehicle::destroy($vehicles);
             return response()->success();
         } catch (Exception $e) {
-            return response()->error("500" , $e);
+            return response()->error();
         }
     }
 }

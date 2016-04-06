@@ -15,7 +15,7 @@ class ItemsSeeder extends Seeder
     public function run()
     {
         // ---------------------------------------------------------------------
-        // CONFERENCE 4 - ITEMS
+        // CONFERENCE 4
         // ---------------------------------------------------------------------
 
         $conference = Conference::find(4);

@@ -53,8 +53,9 @@ class AccommodationController extends Controller
                 return response()->error(404, 'Conference Not Found');
             }
 
-            $accommodation = Accommodation::create($request->all());
-            $accommodation->conferences()->attach($cid);
+            $accommodation = new Accommodation($request->all());
+            $accommodation->conference()->associate($conference);
+            $accommodation->save();
 
             return response()->success();
         } catch (Exception $e) {
@@ -115,7 +116,8 @@ class AccommodationController extends Controller
                 return response()->error(404, 'Accommodation Not Found');
             }
 
-            $accommodation->fill($request->all())->save();
+            $accommodation->fill($request->all());
+            $accommodation->save();
 
             return response()->success();
         } catch (Exception $e) {

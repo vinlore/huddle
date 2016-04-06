@@ -13,67 +13,89 @@ class EventManagerController extends Controller
     /**
      * Retrieve all Managers of an Event.
      *
+     * @param  Request  $request
+     * @param  int  $eid
      * @return Collection|Response
      */
-    public function index($events)
+    public function index(Request $request, $eid)
     {
-        return Event::find($events)->managers()->get(['username', 'id', 'email']);
+        try {
+            $event = Event::find($eid);
+            if (!$event) {
+                return response()->error(404, 'Event Not Found');
+            }
+
+            return $event->managers()->get(['username', 'id', 'email']);
+        } catch (Exception $e) {
+            return response()->error();
+        }
     }
 
     /**
      * Create a Manager for an Event.
      *
+     * @param  Request  $request
+     * @param  int  $eid
      * @return Response
      */
-    public function store(Request $request){
-        try{
-            //Saving to user_Manages_Event Table
-            $event = Event::find($request->events);
-            if (!$event) {
-                return response()->error(404);
+    public function store(Request $request, $eid)
+    {
+        try {
+            $user = $this->isEventManager($request, $eid);
+            if (!$user) {
+                return response()->error(403);
             }
-            User::find($request->user_id)
-                        ->Events()
-                        ->attach($event);
+
+            $event = Event::find($eid);
+            if (!$event) {
+                return response()->error(404, 'Event Not Found');
+            }
+
+            $uid = $request->user_id;
+            $user = User::find($uid);
+            if (!$user) {
+                return response()->error(404, 'User Not Found');
+            }
+
+            $event->managers()->attach($user);
 
             return response()->success();
         } catch (Exception $e) {
-            return response()->error($e);
-        }
-    }
-
-    /**
-     * Retrieve a Manager of an Event.
-     *
-     * @return App\Models\User|Response
-     */
-    public function show($id){
-        try{
-            $user = User::find($id)->Events()->get();
-            if(!$event){
-                return response()->success("204", "No Event found.");
-            }
-            return $event;
-        } catch (Exception $e) {
-            return response()->error($e);
+            return response()->error();
         }
     }
 
     /**
      * Delete a Manager of an Event.
      *
+     * @param  Request  $request
+     * @param  int  $eid
+     * @param  int  $uid
      * @return Response
      */
-    public function destroy($events, $managers){
-        try{
-            //Deleting from the user_manages_Events table
-            $event = Event::find($events);
-            User::find($managers)
-                        ->Events()
-                        ->detach($event);
+    public function destroy(Request $request, $eid, $uid)
+    {
+        try {
+            $user = $this->isEventManager($request, $eid);
+            if (!$user) {
+                return response()->error(403);
+            }
+
+            $event = Event::find($eid);
+            if (!$event) {
+                return response()->error(404, 'Event Not Found');
+            }
+
+            $user = User::find($uid);
+            if (!$user) {
+                return response()->error(404, 'User Not Found');
+            }
+
+            $event->managers()->detach($user);
+
             return response()->success();
         } catch (Exception $e) {
-                return response()->error($e);
+            return response()->error();
         }
     }
 }

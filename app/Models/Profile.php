@@ -78,8 +78,13 @@ class Profile extends Model
         return $this->belongsToMany('App\Models\Room', 'profile_stays_in_rooms')->withTimestamps();
     }
 
-    public function vehicles()
+    public function conferenceVehicles()
     {
-        return $this->belongsToMany('App\Models\Vehicle', 'profile_rides_vehicles')->withTimestamps();
+        return $this->belongsToMany('App\Models\ConferenceVehicle', 'conference_vehicle_passengers', 'profile_id', 'vehicle_id')->withTimestamps();
+    }
+
+    public function eventVehicles()
+    {
+        return $this->belongsToMany('App\Models\EventVehicle', 'event_vehicle_passengers', 'profile_id', 'vehicle_id')->withTimestamps();
     }
 }

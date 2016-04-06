@@ -108,7 +108,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 
-    Route::resource('vehicles.passengers', 'VehiclePassengerController', ['only' => [
+    Route::resource('conferences.vehicles.passengers', 'ConferencePassengerController', ['only' => [
+        'index', 'store', 'show', 'update', 'destroy',
+    ]]);
+
+    Route::resource('events.vehicles.passengers', 'EventPassengerController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
 

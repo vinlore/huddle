@@ -13,60 +13,79 @@ class ConferenceManagerController extends Controller
     /**
      * Retrieve all Managers of a Conference.
      *
+     * @param  Request  $request
+     * @param  int  $cid
      * @return Collection|Response
      */
-    public function index($conferences)
+    public function index(Request $request, $cid)
     {
-        return Conference::find($conferences)->managers()->get(['username', 'id', 'email']);
+        try {
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
+            return $conference->managers()->get(['username', 'id', 'email']);
+        } catch (Exception $e) {
+            return response()->error();
+        }
     }
 
     /**
      * Create a Manager for a Conference.
      *
+     * @param  Request  $request
+     * @param  int  $cid
      * @return Response
      */
-    public function store(Request $request, $cid){
-        try{
-            //Saving to user_Manages_conference Table
-            $conference = Conference::find($cid)->managers()->attach($request->user_id);
+    public function store(Request $request, $cid)
+    {
+        try {
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
+            $uid = $request->user_id;
+            $user = User::find($uid);
+            if (!$user) {
+                return response()->error(404, 'User Not Found');
+            }
+
+            $conference->managers()->attach($user);
+
             return response()->success();
         } catch (Exception $e) {
-            return response()->error($e);
-        }
-    }
-
-    /**
-     * Retrieve a Manager of a Conference.
-     *
-     * @return App\Models\User|Response
-     */
-    public function show($id){
-        try{
-            $user = User::find($id)->conferences()->get();
-            if(!$conference){
-                return response()->success("204", "No conference found.");
-            }
-            return $conference;
-        } catch (Exception $e) {
-            return response()->error($e);
+            return response()->error();
         }
     }
 
     /**
      * Delete a Manager of a Conference.
      *
+     * @param  Request  $request
+     * @param  int  $cid
+     * @param  int  $uid
      * @return Response
      */
-    public function destroy($conferences, $managers){
-        try{
-            //Deleting from the user_manages_conferences table
-            $conference =  Conference::find($conferences);
-            User::find($managers)
-                        ->conferences()
-                        ->detach($conference);
+    public function destroy(Request $request, $cid, $uid)
+    {
+        try {
+            $conference = Conference::find($cid);
+            if (!$conference) {
+                return response()->error(404, 'Conference Not Found');
+            }
+
+            $user = User::find($uid);
+            if (!$user) {
+                return response()->error(404, 'User Not Found');
+            }
+
+            $conference->managers()->detach($user);
+
             return response()->success();
         } catch (Exception $e) {
-                return response()->error($e);
+            return response()->error();
         }
     }
 }
