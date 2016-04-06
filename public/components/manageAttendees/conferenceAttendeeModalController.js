@@ -16,8 +16,6 @@ angular.module('conferenceAttendeeModalCtrl', [])
                     $scope.accommodations = response;
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -30,8 +28,6 @@ angular.module('conferenceAttendeeModalCtrl', [])
                     $scope.arrivalVehicles = response;
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -44,8 +40,6 @@ angular.module('conferenceAttendeeModalCtrl', [])
                     $scope.departVehicles = response;
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
 

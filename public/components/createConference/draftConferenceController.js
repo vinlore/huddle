@@ -31,8 +31,6 @@ angular.module( 'draftConferenceCtrl', [])
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             } )
     }
     $scope.loadConference();
@@ -80,8 +78,6 @@ angular.module( 'draftConferenceCtrl', [])
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
           }
 
@@ -127,8 +123,6 @@ angular.module( 'draftConferenceCtrl', [])
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
           }
 

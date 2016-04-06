@@ -98,8 +98,6 @@ angular.module( 'reportsCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     }
     $scope.loadEvents();

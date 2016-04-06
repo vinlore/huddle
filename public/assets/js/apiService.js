@@ -48,6 +48,14 @@ angular.module( 'apiService', [] )
   }
 })
 
+.factory('ProfileEventVehicles', function ( $resource ){
+  return {
+    fetch: function () {
+        return $resource( '/api/profile/:pid/events/vehicles', { pid: '@pid'});
+    }
+  }
+})
+
 .factory( 'Profile', function ( $resource ) {
     return $resource( '/api/users/:uid/profiles/:pid', { uid: '@uid', pid: '@pid' }, { 'update': { method: 'PUT' } } );
 })

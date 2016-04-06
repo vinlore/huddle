@@ -18,8 +18,6 @@ angular.module('guestsModalCtrl', [])
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
 
         }

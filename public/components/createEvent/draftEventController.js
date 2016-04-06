@@ -48,8 +48,6 @@ angular.module( 'draftEventCtrl', [])
               } else {
                   popup.error( 'Error', response.message );
               }
-          }, function () {
-              popup.connection();
           })
     }
     $scope.loadEvent();
@@ -102,8 +100,6 @@ angular.module( 'draftEventCtrl', [])
             } else {
                 popup.error( 'Error', response.message );
             }
-        }, function () {
-            popup.connection();
         })
       }
 
@@ -152,11 +148,7 @@ angular.module( 'draftEventCtrl', [])
                 if ( response.status == 200 ) {
                     popup.alert('success', 'Event has been updated!');
                     $state.go('requests');
-                } else {
-                    popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
-            })
+              })
     }
 })

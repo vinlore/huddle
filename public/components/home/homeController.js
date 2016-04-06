@@ -11,8 +11,6 @@ angular.module ( 'homeCtrl', [] )
                 } else {
                     $scope.conferences = {};
                 }
-            }, function () {
-                popup.connection();
             })
     };
 
