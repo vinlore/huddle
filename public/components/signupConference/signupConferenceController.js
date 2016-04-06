@@ -76,8 +76,6 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
                     console.log(profiles);
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
     $scope.loadProfiles();

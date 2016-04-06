@@ -15,8 +15,6 @@ angular.module( 'manageAccountsCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -169,8 +167,6 @@ angular.module( 'manageAccountsCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     }
 

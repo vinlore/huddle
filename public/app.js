@@ -99,6 +99,7 @@ angular.module('cms', [
     $authProvider.httpInterceptor = false;
 
     $httpProvider.interceptors.push('tokenInterceptor');
+    $httpProvider.interceptors.push('errorInterceptor');
     $httpProvider.defaults.headers.common["Accept"] = 'application/json';
     $httpProvider.defaults.headers.common["X-frame-options"] = "DENY";
 
@@ -574,6 +575,29 @@ angular.module('cms', [
             }
             $http.defaults.headers.common["ID"]=id;
             return response || $q.when(response);
+        }
+    };
+})
+
+.factory('errorInterceptor', function ($q, $injector) {
+    return {
+        'responseError': function(errorResponse) {
+            var popup = $injector.get('popup');
+            switch (errorResponse.status) {
+                case 401:
+                    popup.error('Unauthorized', 'Access denied. You do not have the required permissions.');
+                case 403:
+                    popup.error('Forbidden', 'Access denied. Please try again later.');
+                    break;
+                case 422:
+                    popup.error('Invalid Request', 'Check that all input fields are valid.');
+                    break;
+                case 500:
+                    popup.alert('info', 'hi');
+                    // TODO 500 page
+                    break;
+            }
+            return $q.reject(errorResponse);
         }
     };
 });

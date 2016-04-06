@@ -24,8 +24,6 @@ angular.module('adminCtrl', [])
                 } else {
                     $scope.conferences = [];
                 }
-            }, function () {
-                popup.connection();
             })
     };
 
@@ -57,8 +55,6 @@ angular.module('adminCtrl', [])
                 } else {
                     $scope.events[index] = [];
                 }
-            }, function () {
-                popup.connection();
             })
     }
 

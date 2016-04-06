@@ -24,8 +24,6 @@ angular.module( 'conferenceCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             } )
     }
 
@@ -111,8 +109,6 @@ angular.module( 'conferenceCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -152,8 +148,6 @@ angular.module( 'conferenceCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     };
 
@@ -193,8 +187,6 @@ angular.module( 'conferenceCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -207,8 +199,6 @@ angular.module( 'conferenceCtrl', [] )
                     $scope.inventory = response;
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -221,8 +211,6 @@ angular.module( 'conferenceCtrl', [] )
                     $scope.accommodations = response;
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -235,8 +223,6 @@ angular.module( 'conferenceCtrl', [] )
                     $scope.arrivalVehicles = response;
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -249,8 +235,6 @@ angular.module( 'conferenceCtrl', [] )
                     $scope.departVehicles = response;
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
 

@@ -84,8 +84,6 @@ angular.module( 'createEventCtrl', [])
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     }
 

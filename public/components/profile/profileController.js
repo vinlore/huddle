@@ -49,8 +49,6 @@ angular.module( 'profileCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     };
 
@@ -66,8 +64,6 @@ angular.module( 'profileCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     };
 
@@ -83,8 +79,6 @@ angular.module( 'profileCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     };
 
@@ -99,8 +93,6 @@ angular.module( 'profileCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     };
 
@@ -112,8 +104,6 @@ angular.module( 'profileCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     };
 
@@ -131,8 +121,6 @@ angular.module( 'profileCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     };
 
@@ -146,8 +134,6 @@ angular.module( 'profileCtrl', [] )
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     };
 

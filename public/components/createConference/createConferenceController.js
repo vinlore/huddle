@@ -174,8 +174,6 @@ angular.module( 'createConferenceCtrl', [])
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     }
 

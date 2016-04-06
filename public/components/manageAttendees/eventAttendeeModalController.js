@@ -17,8 +17,6 @@ angular.module('eventAttendeeModalCtrl', [])
                     $scope.arrivalVehicles = response;
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -31,8 +29,6 @@ angular.module('eventAttendeeModalCtrl', [])
                     $scope.departVehicles = response;
                 } else {
                 }
-            }, function () {
-                popup.connection();
             })
     }
 

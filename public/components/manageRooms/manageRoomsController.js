@@ -28,8 +28,6 @@ angular.module('manageRoomsCtrl',[])
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
     }
 
@@ -54,8 +52,6 @@ angular.module('manageRoomsCtrl',[])
                 } else {
                     popup.error( 'Error', response.message );
                 }
-            }, function () {
-                popup.connection();
             })
 
         }
