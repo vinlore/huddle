@@ -37,7 +37,7 @@ class RoleRequest extends Request
     public function createRules()
     {
         return [
-            'slug'        => ['required', 'string', 'max:255', 'unique:roles'],
+            'slug'        => ['string', 'max:255', 'unique:roles'],
             'name'        => ['required', 'string', 'max:255', 'unique:roles'],
             'permissions' => ['required', 'array'],
         ];

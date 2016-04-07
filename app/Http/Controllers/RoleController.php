@@ -5,101 +5,106 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use Cartalyst\Sentinel\Roles\EloquentRole;
+use Cartalyst\Sentinel\Roles\EloquentRole as Role;
+use Sentinel;
 
 use App\Http\Requests\RoleRequest;
-
-use App\Models\User;
 
 class RoleController extends Controller
 {
     /**
      * Retrieve all Roles.
      *
+     * @param  RoleRequest  $request
      * @return Collection|Response
      */
     public function index(RoleRequest $request)
     {
         try {
-            $role = EloquentRole::all();
-            if (!$role) {
-                return response()->success(404);
-            }
-            return $role;
+            return Role::all();
         } catch (Exception $e) {
-            return response()->error(500);
+            return response()->error();
         }
     }
 
     /**
      * Create a Role.
      *
+     * @param  RoleRequest  $request
      * @return Response
      */
     public function store(RoleRequest $request)
     {
-        $slug = strtolower($request->name);
-        $name = $request->name;
+        try {
+            $name = $request->name;
+            $slug = strtolower($name);
+            $permissions = $request->permissions;
 
-        if (\Sentinel::findRoleBySlug($slug) || \Sentinel::findRoleByName($name)) {
-            return response()->error(409);
+            $role = [
+                'name'        => $name,
+                'slug'        => $slug,
+                'permissions' => $permissions,
+            ];
+            Role::create($role);
+
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
         }
-
-        $role = \Sentinel::getRoleRepository()->createModel()->create([
-                'name' => $request->name,
-                'slug' => strtolower($request->name),
-                'permissions' => json_decode(json_encode($request->permissions), true)
-            ]);
-
-        return response()->success();
     }
 
     /**
      * Update a Role.
      *
+     * @param  RoleRequest  $request
+     * @param  int  $rid
      * @return Response
      */
-    public function update(RoleRequest $request, $roles)
+    public function update(RoleRequest $request, $rid)
     {
-         //Check if Role Id exists
-         if (!\Sentinel::findRoleById($roles)) {
-             return response()->error("Remi" , "Unable to find Role with role_id ".$roles);
-         }
+        try {
+            $role = Role::find($rid);
+            if (!$role) {
+                return response()->error(404, 'Role Not Found');
+            }
 
-         $role = \Sentinel::findRoleById($roles);
+            $role->fill($request->all());
+            $role->save();
 
-         //Convert into String, then back into array
-         //Place array into the roles permissions
-         $role->permissions = json_decode(json_encode($request->permissions), True);
-         $role->save();
-
-         return response()->success();
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
     }
 
     /**
      * Delete a Role.
      *
+     * @param  RoleRequest  $request
+     * @param  int  $rid
      * @return Response
      */
-    public function destroy(RoleRequest $request, $roles)
+    public function destroy(RoleRequest $request, $rid)
     {
-        //Check if Role Id exists
-        if (!\Sentinel::findRoleById($roles)) {
-            return response()->error(404);
-        }
+        try {
+            if ($rid == 1) {
+                return response()->error(403);
+            }
 
-        //Check if Users have this role_id
-        $role = \Sentinel::findRoleById($roles);
-        if($role->users()->with('roles')->first()) {
-            return response()->error("404" , "Users are assigned to this role, unable to delete role, Make sure to remove this role from all Users");
-        }
+            $role = Role::find($rid);
+            if (!$role) {
+                return response()->error(404, 'Role Not Found');
+            }
 
-        if ($roles == 1) {
-            return response()->error(406);
-        }
+            if ($role->users()->count()) {
+                return response()->error(409, 'There are still users assigned to this role.');
+            }
 
-        //Destroy Role
-        \Sentinel::findRoleById($roles)->delete();
-        return response()->success();
+            $role->delete();
+
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
     }
 }
