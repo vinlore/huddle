@@ -89,7 +89,7 @@ class AuthController extends Controller
                 'token'         => $apiToken,
                 'user_id'       => $user->id,
                 'permissions'   => $user->permissions,
-                'profile_id'    => $user->profiles()->where('is_owner', 1)->first()->id,
+                'profile_id'    => $user->profiles()->where('is_owner', true)->first()->id,
                 'manages_conf'  => $user->conferences()->lists('conference_id'),
                 'manages_event' => $user->events()->lists('event_id'),
             ]);
@@ -141,7 +141,7 @@ class AuthController extends Controller
                 'status'        => 200,
                 'message'       => 'OK',
                 'permissions'   => $user->permissions,
-                'profile_id'    => $user->profiles()->where('is_owner', 1)->first()->id,
+                'profile_id'    => $user->profiles()->where('is_owner', true)->first()->id,
                 'manages_conf'  => $user->conferences()->lists('conference_id'),
                 'manages_event' => $user->events()->lists('event_id'),
             ]);
