@@ -37,7 +37,28 @@ class ConferencePassengerController extends Controller
                 return response()->error(404, 'Vehicle Not Found');
             }
 
-            return $vehicle->passengers()->get();
+            $passengers = $vehicle->passengers()->get();
+
+            $flightAttrs = [];
+            foreach ($passengers as $passenger) {
+                $attendee = $passenger->conferences()->where('conference_id', $cid)->first()->pivot;
+                if ($attendee->arrv_ride_req) {
+                    $passenger->setAttribute('arrv_date', $attendee->arrv_date);
+                    $passenger->setAttribute('arrv_time', $attendee->arrv_time);
+                    $passenger->setAttribute('arrv_airport', $attendee->arrv_airport);
+                    $passenger->setAttribute('arrv_flight', $attendee->arrv_flight);
+                    $flightAttrs = array_merge($flightAttrs, ['arrv_date', 'arrv_time', 'arrv_airport', 'arrv_flight']);
+                }
+                if ($attendee->dept_ride_req) {
+                    $passenger->setAttribute('dept_date', $attendee->dept_date);
+                    $passenger->setAttribute('dept_time', $attendee->dept_time);
+                    $passenger->setAttribute('dept_airport', $attendee->dept_airport);
+                    $passenger->setAttribute('dept_flight', $attendee->dept_flight);
+                    $flightAttrs = array_merge($flightAttrs, ['dept_date', 'dept_time', 'dept_airport', 'dept_flight']);
+                }
+            }
+
+            return $passengers->makeVisible($flightAttrs);
         } catch (Exception $e) {
             return response()->error($e);
         }

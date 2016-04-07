@@ -25,6 +25,28 @@ class Profile extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected $hidden = [
+        'arrv_date',
+        'arrv_time',
+        'arrv_airport',
+        'arrv_flight',
+        'dept_date',
+        'dept_time',
+        'dept_airport',
+        'dept_flight',
+    ];
+
+    protected $appends = [
+        'arrv_date',
+        'arrv_time',
+        'arrv_airport',
+        'arrv_flight',
+        'dept_date',
+        'dept_time',
+        'dept_airport',
+        'dept_flight',
+    ];
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');
@@ -86,5 +108,49 @@ class Profile extends Model
     public function eventVehicles()
     {
         return $this->belongsToMany('App\Models\EventVehicle', 'event_vehicle_passengers', 'profile_id', 'vehicle_id')->withTimestamps();
+    }
+
+    // -------------------------------------------------------------------------
+    // FLIGHT INFORMATION
+    // -------------------------------------------------------------------------
+
+    public function getArrvDateAttribute()
+    {
+        return $this->attributes['arrv_date'];
+    }
+
+    public function getArrvTimeAttribute()
+    {
+        return $this->attributes['arrv_time'];
+    }
+
+    public function getArrvAirportAttribute()
+    {
+        return $this->attributes['arrv_airport'];
+    }
+
+    public function getArrvFlightAttribute()
+    {
+        return $this->attributes['arrv_flight'];
+    }
+
+    public function getDeptDateAttribute()
+    {
+        return $this->attributes['dept_date'];
+    }
+
+    public function getDeptTimeAttribute()
+    {
+        return $this->attributes['dept_time'];
+    }
+
+    public function getDeptAirportAttribute()
+    {
+        return $this->attributes['dept_airport'];
+    }
+
+    public function getDeptFlightAttribute()
+    {
+        return $this->attributes['dept_flight'];
     }
 }
