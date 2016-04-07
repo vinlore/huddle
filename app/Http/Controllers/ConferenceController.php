@@ -60,7 +60,7 @@ class ConferenceController extends Controller
         try {
             $conference = Conference::find($cid);
             if (!$conference) {
-                return response()->error(404);
+                return response()->error(404, 'Conference Not Found');
             }
 
             return $conference;

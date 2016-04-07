@@ -10,10 +10,7 @@ use Sentinel;
 use App\Http\Requests\ConferenceAttendeeRequest;
 
 use App\Models\Conference;
-use App\Models\ConferenceVehicle;
-use App\Models\Event;
 use App\Models\Profile;
-use App\Models\Room;
 
 class ConferenceAttendeeController extends Controller
 {
@@ -59,9 +56,15 @@ class ConferenceAttendeeController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
+            if ($conference->attendee_count >= $conference->capacity) {
+                return response()->error(422, 'Exceed Capacity Error');
+            }
+
+            $activityType = 'requested';
+
             $conference->attendees()->attach($profile, $request->except('profile_id'));
 
-            $this->addActivity($profile->user()->first()->id, 'requested', $cid, 'conference application', $pid);
+            $this->addActivity($profile->user()->first()->id, $activityType, $cid, 'conference application', $pid);
 
             return response()->success();
         } catch (Exception $e) {

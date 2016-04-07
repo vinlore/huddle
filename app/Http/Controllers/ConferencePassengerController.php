@@ -70,7 +70,12 @@ class ConferencePassengerController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
-            $vehicle->passengers()->attach($pid);
+            if ($vehicle->passenger_count >= $vehicle->capacity) {
+                return response()->error(422, 'Exceed Capacity Error');
+            }
+
+            $vehicle->passengers()->attach($profile);
+            $vehicle->increment('passenger_count');
 
             return response()->success();
         } catch (Exception $e) {

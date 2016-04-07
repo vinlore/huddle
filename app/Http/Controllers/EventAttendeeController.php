@@ -10,7 +10,6 @@ use Sentinel;
 use App\Http\Requests\EventAttendeeRequest;
 
 use App\Models\Event;
-use App\Models\EventVehicle;
 use App\Models\Profile;
 
 class EventAttendeeController extends Controller
@@ -57,9 +56,15 @@ class EventAttendeeController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
+            if ($event->attendee_count >= $event->capacity) {
+                return response()->error(422, 'Exceed Capacity Error');
+            }
+
+            $activityType = 'requested';
+
             $event->attendees()->attach($profile, $request->except('profile_id'));
 
-            $this->addActivity($profile->user()->first()->id, 'requested', $eid, 'event application', $pid);
+            $this->addActivity($profile->user()->first()->id, $activityType, $eid, 'event application', $pid);
 
             return response()->success();
         } catch (Exception $e) {
