@@ -202,7 +202,7 @@ angular.module('cms', [
     })
 
     .state( 'event-signup', {
-        url: '/event-:eventId/signup?name',
+        url: '/event-:conferenceId?eventId/signup?name',
         templateUrl: 'components/signupEvent/signupEventView.html',
         controller: 'signupEventController',
         resolve: {
