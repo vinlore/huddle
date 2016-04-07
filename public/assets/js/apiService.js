@@ -15,7 +15,7 @@ angular.module( 'apiService', [] )
 .factory('ProfileAttendsConferences', function ( $resource ){
   return {
     fetch: function () {
-        return $resource( '/api/profile/:pid/conferences', { pid: '@pid'});
+        return $resource( '/api/profiles/:pid/conferences', { pid: '@pid'});
     },
 
     status: function () {
@@ -27,7 +27,7 @@ angular.module( 'apiService', [] )
 .factory('ProfileAttendsEvents', function ( $resource ){
   return {
     fetch: function () {
-        return $resource( '/api/profile/:pid/events', { pid: '@pid'});
+        return $resource( '/api/profiles/:pid/events', { pid: '@pid'});
     }
   }
 })
@@ -35,7 +35,7 @@ angular.module( 'apiService', [] )
 .factory('ProfileRooms', function ( $resource ){
   return {
     fetch: function () {
-        return $resource( '/api/profile/:pid/rooms', { pid: '@pid'});
+        return $resource( '/api/profiles/:pid/rooms', { pid: '@pid'});
     }
   }
 })
@@ -43,7 +43,7 @@ angular.module( 'apiService', [] )
 .factory('ProfileConferenceVehicles', function ( $resource ){
   return {
     fetch: function () {
-        return $resource( '/api/profile/:pid/conferences/vehicles', { pid: '@pid'});
+        return $resource( '/api/profiles/:pid/conferences/vehicles', { pid: '@pid'});
     }
   }
 })
@@ -51,7 +51,7 @@ angular.module( 'apiService', [] )
 .factory('ProfileEventVehicles', function ( $resource ){
   return {
     fetch: function () {
-        return $resource( '/api/profile/:pid/events/vehicles', { pid: '@pid'});
+        return $resource( '/api/profiles/:pid/events/vehicles', { pid: '@pid'});
     }
   }
 })

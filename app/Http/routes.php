@@ -40,11 +40,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // PROFILES
     // -------------------------------------------------------------------------
 
-    Route::get('profile/{pid}/conferences', 'ProfileController@conferences');
-    Route::get('profile/{pid}/events', 'ProfileController@events');
-    Route::get('profile/{pid}/rooms', 'ProfileController@rooms');
-    Route::get('profile/{pid}/conferences/vehicles', 'ProfileController@conferenceVehicles');
-    Route::get('profile/{pid}/events/vehicles', 'ProfileController@eventVehicles');
+    Route::get('profiles/{pid}/conferences', 'ProfileController@conferences');
+    Route::get('profiles/{pid}/events', 'ProfileController@events');
+    Route::get('profiles/{pid}/rooms', 'ProfileController@rooms');
+    Route::get('profiles/{pid}/conferences/vehicles', 'ProfileController@conferenceVehicles');
+    Route::get('profiles/{pid}/events/vehicles', 'ProfileController@eventVehicles');
     Route::resource('users.profiles', 'ProfileController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
