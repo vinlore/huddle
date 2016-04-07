@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use Cartalyst\Sentinel\Roles\EloquentRole as Role;
 use Sentinel;
 
 use App\Http\Requests\RoleRequest;
+
+use Cartalyst\Sentinel\Roles\EloquentRole as Role;
 
 class RoleController extends Controller
 {

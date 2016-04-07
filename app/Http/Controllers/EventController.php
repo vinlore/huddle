@@ -9,7 +9,6 @@ use App\Http\Requests\EventRequest;
 
 use App\Models\Conference;
 use App\Models\Event;
-use App\Models\User;
 
 class EventController extends Controller
 {

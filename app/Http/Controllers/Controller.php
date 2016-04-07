@@ -20,7 +20,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     // -------------------------------------------------------------------------
-    // AUTHENTICATION HELPERS
+    // AUTHENTICATION
     // -------------------------------------------------------------------------
 
     /**
@@ -95,7 +95,7 @@ class Controller extends BaseController
     }
 
     // -------------------------------------------------------------------------
-    // ACTIVITY LOG HELPERS
+    // ACTIVITY LOG
     // -------------------------------------------------------------------------
 
     /**
@@ -126,7 +126,7 @@ class Controller extends BaseController
     }
 
     // -------------------------------------------------------------------------
-    // EMAIL HELPERS
+    // EMAIL
     // -------------------------------------------------------------------------
 
     /**

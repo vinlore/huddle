@@ -97,7 +97,8 @@ class RoomController extends Controller
                 return response()->error(404, 'Room Not Found');
             }
 
-            $room->fill($request->all())->save();
+            $room->fill($request->all());
+            $room->save();
 
             return response()->success();
         } catch (Exception $e) {
