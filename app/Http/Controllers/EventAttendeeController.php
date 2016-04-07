@@ -59,7 +59,7 @@ class EventAttendeeController extends Controller
 
             $event->attendees()->attach($profile, $request->except('profile_id'));
 
-            $this->addActivity($userId, $activityType, $eid, 'event application', $pid);
+            $this->addActivity($profile->user()->first()->id, 'requested', $eid, 'event application', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -136,7 +136,7 @@ class EventAttendeeController extends Controller
                             break;
                         }
                         $activityType = $newStatus;
-                        $conference->increment('attendee_count');
+                        $event->increment('attendee_count');
                         break;
                     case 'denied':
                         if ($oldStatus != 'pending') {

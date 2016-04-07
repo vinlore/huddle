@@ -61,7 +61,7 @@ class RoomGuestController extends Controller
             }
 
             // Add the Guest.
-            $room->guests()->attach($rid);
+            $room->guests()->attach($pid);
             $room->increment('guest_count');
 
             return response()->success();

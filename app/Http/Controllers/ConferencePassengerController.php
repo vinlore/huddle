@@ -70,7 +70,7 @@ class ConferencePassengerController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
-            $vehicle->passengers()->attach($profile);
+            $vehicle->passengers()->attach($pid);
 
             return response()->success();
         } catch (Exception $e) {

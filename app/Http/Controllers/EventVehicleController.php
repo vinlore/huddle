@@ -27,6 +27,10 @@ class EventVehicleController extends Controller
                 return response()->error(404, 'Event Not Found');
             }
 
+            if ($request->exists('type')) {
+                return $event->vehicles()->where('type', $request->type)->get();
+            }
+
             return $event->vehicles()->get();
         } catch (Exception $e) {
             return response()->error();

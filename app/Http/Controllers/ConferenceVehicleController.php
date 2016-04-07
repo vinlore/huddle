@@ -27,6 +27,10 @@ class ConferenceVehicleController extends Controller
                 return response()->error(404, 'Conference Not Found');
             }
 
+            if ($request->exists('type')) {
+                return $conference->vehicles()->where('type', $request->type)->get();
+            }
+            
             return $conference->vehicles()->get();
         } catch (Exception $e) {
             return response()->error();
