@@ -73,7 +73,6 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
                         }
                     }
                     $scope.members = profiles;
-                    console.log(profiles);
                 } else {
                 }
             })

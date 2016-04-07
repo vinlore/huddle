@@ -25,7 +25,6 @@ angular.module( 'userRegCtrl', [] )
 
     $scope.changeCountry = function (country) {
         $scope.citiesOnly.componentRestrictions = {country: country.code};
-        console.log($scope.citiesOnly)
     }
 
     $scope.calendar = {
@@ -91,13 +90,11 @@ angular.module( 'userRegCtrl', [] )
                         };
                         $rootScope.user = $localStorage.user;
                         $rootScope.auth = $auth.isAuthenticated();
-                        popup.alert("success", "Welcome to Huddle," + $scope.user.username + "!");
+                        popup.alert("success", "Welcome to Huddle, " + $scope.user.username + "!");
                         $location.path('/');
                     } else {
                         popup.error( 'Error', response.message );
                     }
-                }, function ( response ) {
-                    popup.connection();
                 })
         }
 

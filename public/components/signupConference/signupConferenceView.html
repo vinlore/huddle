@@ -178,7 +178,7 @@
                             <label for="arrival-date" class="col-sm-4 control-label">Arrival Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" id="arrival-date" name="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[1]" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req" future-date minDate="today">
+                                    <input type="text" id="arrival-date" name="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[1]" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req" future-date datepicker-options="{minDate: today}" ng-focus="calendar[1] = !calendar[1]">
                                     <span class="input-group-btn">
                                         <button class="btn btn-link" type="button" ng-click="calendar[1] = !calendar[1]">
                                             <i class="glyphicon glyphicon-calendar"></i>
@@ -230,7 +230,7 @@
                             <label for="depart-date" class="col-sm-4 control-label">Departure Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" name="departDate" class="form-control" ng-model="departure.dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[2]" placeholder="YYYY-MM-DD" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req" datepicker-options="{minDate:arrival.arrv_date}" future-date>
+                                    <input type="text" name="departDate" class="form-control" ng-model="departure.dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[2]" placeholder="YYYY-MM-DD" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req" datepicker-options="{minDate:arrival.arrv_date}" future-date ng-focus="calendar[2] = !calendar[2]">
                                     <span class="input-group-btn">
                                         <button class="btn btn-link" type="button" ng-click="calendar[2] = !calendar[2]">
                                             <i class="glyphicon glyphicon-calendar"></i>
@@ -297,7 +297,7 @@
                             <label for="arrivalDate" class="col-sm-4 control-label">Arrival Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" id="arrivalDate" class="form-control" ng-model="familyMembers[$index].arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[$index+3]" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req" future-date>
+                                    <input type="text" id="arrivalDate" class="form-control" ng-model="familyMembers[$index].arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[$index+3]" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].arrv_ride_req" ng-required="familyMembers[$index].arrv_ride_req" future-date ng-focus="calendar[$index+3] = !calendar[$index+3]" datepicker-options="{minDate: today}">
                                     <span class="input-group-btn">
                                         <button class="btn btn-link" type="button" ng-click="calendar[$index+3] = !calendar[$index+3]">
                                             <i class="glyphicon glyphicon-calendar"></i>
@@ -346,7 +346,7 @@
                             <label for="departureDate" class="col-sm-4 control-label">Departure Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" name="departDate" class="form-control" ng-model="familyMembers[$index].dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar2[$index]" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req" future-date>
+                                    <input type="text" name="departDate" class="form-control" ng-model="familyMembers[$index].dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar2[$index]" placeholder="YYYY-MM-DD" ng-disabled="!familyMembers[$index].dept_ride_req" ng-required="familyMembers[$index].dept_ride_req" future-date ng-focus="calendar2[$index] = !calendar2[$index]" datepicker-options="{minDate: familyMembers[$index].arrv_date}">
                                     <span class="input-group-btn">
                                         <button class="btn btn-link" type="button" ng-click="calendar2[$index] = !calendar2[$index]">
                                             <i class="glyphicon glyphicon-calendar"></i>
