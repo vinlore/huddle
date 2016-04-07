@@ -61,12 +61,14 @@ class MigrationCartalystSentinel extends Migration
             $table->string('name', 255)->unique();
             $table->text('permissions');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('role_users', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->nullableTimestamps();
+            $table->softDeletes();
 
             $table->primary(['user_id', 'role_id']);
         });
