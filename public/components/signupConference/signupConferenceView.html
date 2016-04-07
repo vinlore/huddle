@@ -261,7 +261,7 @@
     <uib-accordion close-others="false">
         <uib-accordion-group is-disabled="true" is-open="accordionIsOpen[$index]" ng-repeat="member in members track by $index">
             <uib-accordion-heading>
-                {{member.first_name}}, {{member.last_name}}<i class="glyphicon glyphicon-ok pull-right" ng-class="{'btn-success': familyMembers[$index]}" ng-click="signupMember(member, $index)"></i>
+                {{member.first_name}} {{member.last_name}}<i class="glyphicon glyphicon-ok pull-right" ng-class="{'btn-success': familyMembers[$index]}" ng-click="signupMember(member, $index)"></i>
             </uib-accordion-heading>
             <div class="row">
                 <div class="col-md-6">
