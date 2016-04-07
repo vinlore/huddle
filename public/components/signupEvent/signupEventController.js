@@ -64,7 +64,7 @@ angular.module('signupEventCtrl',[])
     $scope.loadEvent();
 
     $scope.submitRequest = function () {
-        if ( $scope.age >= $scope.event.age_limit){
+        if ( $scope.age >= $scope.event.age_limit ){
           $scope.submitRequestApplication();
         } else {
           var warningMessage = 'Unable to signup for '+ $scope.event.name +' Event. You do not meet the age limit of ' + $scope.event.age_limit + '+.'
