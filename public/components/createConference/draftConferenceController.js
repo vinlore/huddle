@@ -23,11 +23,22 @@ angular.module( 'draftConferenceCtrl', [])
         $scope.citiesOnly.componentRestrictions = {country: country.code};
     }
 
+    var createDate = function (date) {
+        if (date) {
+            var input = date.split('-');
+            return new Date(parseInt(input[0]), parseInt(input[1])-1, parseInt(input[2]));
+        } else {
+            return null;
+        }
+    }
+
     $scope.loadConference = function () {
         Conferences.fetch().get({cid: $stateParams.conference_id})
             .$promise.then( function( response ) {
                 if ( response ) {
                     $scope.conference = response;
+                    $scope.conference.start_date = createDate(response.start_date);
+                    $scope.conference.end_date = createDate(response.end_date);
                 } else {
                     popup.error( 'Error', response.message );
                 }
