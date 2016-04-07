@@ -1,0 +1,25 @@
+@media (max-width: 768px) {
+    #error h1 {
+        font-size: 200px !important;
+    }
+
+    #error h2 {
+        font-size: 30px !important;
+    }
+}
+
+#error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column wrap;
+    margin-top: 5em;
+}
+
+#error h1 {
+    font-size: 300px;
+}
+
+#error h2 {
+    font-size: 40px;
+}

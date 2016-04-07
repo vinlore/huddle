@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="components/activityLog/activityLog.css">
   <link rel="stylesheet" href="components/manageAttendees/manageAttendees.css">
   <link rel="stylesheet" href="components/createEvent/createEvent.css">
+  <link rel="stylesheet" href="assets/css/error.css">
 
   <!-- LIBRARIES -->
   <script src="assets/libs/angular/angular.min.js"></script>

@@ -508,6 +508,11 @@ angular.module('cms', [
         }
     })
 
+    .state( '500', {
+        url: '/500',
+        templateUrl: 'shared/500.html'
+    })
+
     $urlRouterProvider.otherwise( '/' );
 
     $locationProvider.html5Mode(true);
@@ -582,6 +587,7 @@ angular.module('cms', [
 .factory('errorInterceptor', function ($q, $injector) {
     return {
         'responseError': function(errorResponse) {
+            var $state = $injector.get('$state');
             var popup = $injector.get('popup');
             switch (errorResponse.status) {
                 case 401:
@@ -593,8 +599,7 @@ angular.module('cms', [
                     popup.error('Invalid Request', 'Check that all input fields are valid.');
                     break;
                 case 500:
-                    popup.alert('info', 'hi');
-                    // TODO 500 page
+                    $state.go('500');
                     break;
             }
             return $q.reject(errorResponse);
