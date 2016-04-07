@@ -75,7 +75,7 @@ angular.module('cms', [
                         'ID': user
                     }
                 }).success( function ( response ) {
-                    if ( response.status == 500 ) {
+                    if ( response.status == 401 ) {
                         popup.alert('danger', 'You have been logged out.');
                         $auth.removeToken();
                         $rootScope.auth = null;
