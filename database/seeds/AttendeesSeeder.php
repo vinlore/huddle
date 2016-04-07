@@ -84,7 +84,7 @@ class AttendeesSeeder extends Seeder
                 'accommodation_pref' => 1,
                 'arrv_ride_req'      => false,
                 'dept_ride_req'      => false,
-                'status'             => 'pending',
+                'status'             => 'approved',
             ];
             $profile->conferences()->attach($conference, $attendee);
             $conference->increment('attendee_count');

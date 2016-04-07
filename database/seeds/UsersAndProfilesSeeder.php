@@ -41,6 +41,7 @@ class UsersAndProfilesSeeder extends Seeder
             'last_name'  => 'Administrator',
             'city'       => 'Vancouver',
             'country'    => 'Canada',
+            'gender'     => 'male',
         ];
         $profile = new Profile($profile);
         $profile->user()->associate($user);
