@@ -110,7 +110,7 @@ class ProfileController extends Controller
             }
 
             if ($profile->is_owner) {
-                return response()->error(403);
+                return response()->error(403, 'Main profile cannot be deleted!');
             }
 
             $profile->delete();

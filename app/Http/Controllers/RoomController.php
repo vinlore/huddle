@@ -30,7 +30,7 @@ class RoomController extends Controller
             $cid = $accommodation->conference()->first()->getKey();
             $user = $this->isConferenceManager($request, $cid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this conference!');
             }
 
             return $accommodation->rooms()->get();
@@ -57,7 +57,7 @@ class RoomController extends Controller
             $cid = $accommodation->conference()->first()->getKey();
             $user = $this->isConferenceManager($request, $cid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this conference!');
             }
 
             $room = new Room($request->all());
@@ -89,7 +89,7 @@ class RoomController extends Controller
             $cid = $accommodation->conference()->first()->getKey();
             $user = $this->isConferenceManager($request, $cid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this conference!');
             }
 
             $room = Room::find($rid);
@@ -124,7 +124,7 @@ class RoomController extends Controller
             $cid = $accommodation->conference()->first()->getKey();
             $user = $this->isConferenceManager($request, $cid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this conference!');
             }
 
             $room = Room::find($rid);

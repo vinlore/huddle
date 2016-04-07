@@ -30,7 +30,7 @@ class ConferenceVehicleController extends Controller
             if ($request->exists('type')) {
                 return $conference->vehicles()->where('type', $request->type)->get();
             }
-            
+
             return $conference->vehicles()->get();
         } catch (Exception $e) {
             return response()->error();
@@ -49,7 +49,7 @@ class ConferenceVehicleController extends Controller
         try {
             $user = $this->isConferenceManager($request, $cid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this conference!');
             }
 
             $conference = Conference::find($cid);
@@ -107,7 +107,7 @@ class ConferenceVehicleController extends Controller
         try {
             $user = $this->isConferenceManager($request, $cid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this conference!');
             }
 
             $conference = Conference::find($cid);
@@ -142,7 +142,7 @@ class ConferenceVehicleController extends Controller
         try {
             $user = $this->isConferenceManager($request, $cid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this conference!');
             }
 
             $conference = Conference::find($cid);

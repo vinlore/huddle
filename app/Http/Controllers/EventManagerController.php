@@ -43,7 +43,7 @@ class EventManagerController extends Controller
         try {
             $user = $this->isEventManager($request, $eid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this event!');
             }
 
             $event = Event::find($eid);
@@ -78,7 +78,7 @@ class EventManagerController extends Controller
         try {
             $user = $this->isEventManager($request, $eid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this event!');
             }
 
             $event = Event::find($eid);

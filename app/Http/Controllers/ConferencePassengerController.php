@@ -24,7 +24,7 @@ class ConferencePassengerController extends Controller
         try {
             $user = $this->isConferenceManager($request, $cid);
             if (!$user) {
-                return response()->error(403);
+                return response()->error(403, 'You are not a manager of this conference!');
             }
 
             $conference = Conference::find($cid);

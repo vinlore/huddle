@@ -88,7 +88,7 @@ class RoleController extends Controller
     {
         try {
             if ($rid == 1) {
-                return response()->error(403);
+                return response()->error(403, 'System Administrator cannot be deleted!');
             }
 
             $role = Role::find($rid);
@@ -97,7 +97,7 @@ class RoleController extends Controller
             }
 
             if ($role->users()->count()) {
-                return response()->error(409, 'There are still users assigned to this role.');
+                return response()->error(409, 'There are still users assigned to this role!');
             }
 
             $role->delete();
