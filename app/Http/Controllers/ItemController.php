@@ -40,7 +40,7 @@ class ItemController extends Controller
      * @param  int  $cid
      * @return Response
      */
-    public function store(ItemRequest $request)
+    public function store(ItemRequest $request, $cid)
     {
         try {
             $user = $this->isConferenceManager($request, $cid);
