@@ -1,5 +1,5 @@
 angular.module( 'manageEventAttendeesCtrl', [] )
-.controller( 'manageEventAttendeesController', function ($scope, ngTableParams, $stateParams, $filter, Events, popup, $uibModal, Passengers) {
+.controller( 'manageEventAttendeesController', function ($scope, ngTableParams, $stateParams, $filter, Events, popup, $uibModal) {
 
 	// Event ID
 	$scope.eventId = $stateParams.eventId;
@@ -90,7 +90,7 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 	    .$promise.then( function( response ) {
 	      if ( response.status == 200 ) {
 	        console.log( 'Changes saved to profile_attends_events (approve)' );
-	        popup.alert( 'success', 'Approve success.' );
+	        popup.alert( 'success', 'User has been approved!' );
 	      } else {
 	        popup.error( 'Error', response.message );
 	      }
@@ -126,7 +126,7 @@ angular.module( 'manageEventAttendeesCtrl', [] )
                     console.log(result);
                     // TODO store to profile rides and profile stays table
                     if (result.arrivalVehicle) {
-                        Passengers.save({ vid: result.arrivalVehicle }, { profile_id: attendee.id })
+                        Events.passengers().save({eid: $scope.eventId, vid: result.arrivalVehicle }, { profile_id: attendee.id })
                             .$promise.then(function(response) {
                                 if (response.status != 200) {
                                     popup.error('Error', response.message);
@@ -135,7 +135,7 @@ angular.module( 'manageEventAttendeesCtrl', [] )
                             })
                     }
                     if (result.departureVehicle) {
-                        Passengers.save({ vid: result.departureVehicle }, { profile_id: attendee.id })
+                        Events.passengers().save({eid: $scope.eventId, vid: result.departureVehicle }, { profile_id: attendee.id })
                             .$promise.then(function(response) {
                                 if (response.status != 200) {
                                     popup.error('Error', response.message);

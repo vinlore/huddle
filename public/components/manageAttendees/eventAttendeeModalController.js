@@ -8,13 +8,17 @@ angular.module('eventAttendeeModalCtrl', [])
         room: null
     }
 
-    $scope.arrivalVehicles, $scope.departVehicles = [];
+    $scope.arrivalVehicles = []; $scope.departVehicles = [];
 
     $scope.loadArrivalVehicles = function () {
         Events.vehicles().query( {eid: eventId, type: 'arrival'} )
             .$promise.then( function( response ) {
                 if ( response ) {
-                    $scope.arrivalVehicles = response;
+                    for (var i=0; i<response.length; i++) {
+                        if (response[i].passenger_count < response[i].capacity) {
+                            $scope.arrivalVehicles.push(response[i]);
+                        }
+                    }
                 } else {
                 }
             })
@@ -26,7 +30,11 @@ angular.module('eventAttendeeModalCtrl', [])
         Events.vehicles().query( {eid: eventId, type: 'departure'} )
             .$promise.then( function( response ) {
                 if ( response ) {
-                    $scope.departVehicles = response;
+                    for (var i=0; i<response.length; i++) {
+                        if (response[i].passenger_count < response[i].capacity) {
+                            $scope.departVehicles.push(response[i]);
+                        }
+                    }
                 } else {
                 }
             })
@@ -35,9 +43,7 @@ angular.module('eventAttendeeModalCtrl', [])
     $scope.loadDepartVehicles();
 
     $scope.approve = function () {
-        if ($scope.attendeeForm.$valid) {
-            $uibModalInstance.close($scope.user);
-        }
+        $uibModalInstance.close($scope.user);
     }
 
     $scope.close = function () {

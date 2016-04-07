@@ -1,5 +1,5 @@
 angular.module('manageConferenceAttendeesCtrl', [])
-.controller('manageConferenceAttendeesController', function($scope, ngTableParams, $stateParams, $filter, Conferences, popup, $uibModal, Passengers, Guests) {
+.controller('manageConferenceAttendeesController', function($scope, ngTableParams, $stateParams, $filter, Conferences, popup, $uibModal, Guests) {
 
     // Conference ID
     $scope.conferenceId = $stateParams.conferenceId;
@@ -92,7 +92,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
             .$promise.then(function(response) {
                 if (response.status == 200) {
                     console.log('Changes saved to profile_attends_conferences (approve)');
-                    popup.alert('success', 'User has been approved.');
+                    popup.alert('success', 'User has been approved!');
                     $scope.tableParams.reload();
                 } else {
                     popup.error('Error', response.message);
@@ -126,10 +126,8 @@ angular.module('manageConferenceAttendeesCtrl', [])
 
             modalInstance.result.then(function(result) {
                 if (result) {
-                    console.log(result);
-                    // TODO store to profile rides and profile stays table
                     if (result.arrivalVehicle) {
-                        Passengers.save({ vid: result.arrivalVehicle }, { profile_id: attendee.id })
+                        Conferences.passengers().save({cid: $scope.conferenceId, vid: result.arrivalVehicle }, { profile_id: attendee.id })
                             .$promise.then(function(response) {
                                 if (response.status != 200) {
                                     popup.error('Error', response.message);
@@ -138,7 +136,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
                             })
                     }
                     if (result.departureVehicle) {
-                        Passengers.save({ vid: result.departureVehicle }, { profile_id: attendee.id })
+                        Conferences.passengers().save({cid: $scope.conferenceId, vid: result.departureVehicle }, { profile_id: attendee.id })
                             .$promise.then(function(response) {
                                 if (response.status != 200) {
                                     popup.error('Error', response.message);

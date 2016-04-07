@@ -6,14 +6,14 @@
         <div class="form-group" ng-if="preference.arrv_ride_req">
             <label for="modal-arrv-ride" class="control-label">Arrival Ride</label>
             <select name="modal-arrv-ride" class="form-control" id="modal-arrv-ride" ng-required="preference.arrv_ride_req" ng-model="user.arrivalVehicle">
+                <option value="">None</option>
                 <option value="{{vehicle.id}}" ng-repeat="vehicle in arrivalVehicles">{{vehicle.name}}</option>
-                <option value="" disabled ng-if="!arrivalVehicles">No registered vehicles found.</option>
             </select>
         </div>
         <div class="form-group" ng-if="preference.dept_ride_req">
-            <label for="modal-arrv-ride" class="control-label">Departure Ride</label>
+            <label for="modal-dept-ride" class="control-label">Departure Ride</label>
             <select name="modal-dept-ride" class="form-control" id="modal-dept-ride" ng-required="preference.dept_ride_req" ng-model="user.departureVehicle">
-                <option value="" disabled ng-if="!departVehicles">No registered vehicles found.</option>
+                <option value="">None</option>
                 <option value="{{vehicle.id}}" ng-repeat="vehicle in departVehicles">{{vehicle.name}}</option>
             </select>
         </div>

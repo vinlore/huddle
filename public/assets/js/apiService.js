@@ -115,6 +115,10 @@ angular.module( 'apiService', [] )
 
         rooms: function () {
             return $resource( '/api/accommodations/:aid/rooms/:rid', {aid: '@aid', rid: '@rid'}, {'update': { method: 'PUT' }} );
+        },
+
+        passengers: function () {
+            return $resource( '/api/conferences/:cid/vehicles/:vid/passengers/:pid', { cid: '@cid', vid: '@vid', pid: '@pid' } );
         }
     }
 })
@@ -136,12 +140,12 @@ angular.module( 'apiService', [] )
 
         vehicles: function () {
             return $resource( '/api/events/:eid/vehicles/:vid', { eid: '@eid', vid: '@vid' }, { 'update': { method: 'PUT' } } );
+        },
+
+        passengers: function () {
+            return $resource( '/api/events/:eid/vehicles/:vid/passengers/:pid', { eid: '@eid', vid: '@vid', pid: '@pid' } );
         }
     }
-})
-
-.factory( 'Passengers', function ( $resource ) {
-    return $resource( '/api/vehicles/:vid/passengers/:pid', { vid: '@vid', pid: '@pid' } );
 })
 
 .factory( 'Guests', function ( $resource ) {

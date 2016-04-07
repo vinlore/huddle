@@ -7,7 +7,7 @@ angular.module('conferenceAttendeeModalCtrl', [])
         departureVehicle: null,
         room: null
     }
-    $scope.accommodations, $scope.arrivalVehicles, $scope.departVehicles, $scope.rooms = [];
+    $scope.accommodations = []; $scope.arrivalVehicles = []; $scope.departVehicles = []; $scope.rooms = [];
 
     $scope.loadAccommodations = function () {
         Conferences.accommodations().query( {cid: conferenceId} )
@@ -25,7 +25,12 @@ angular.module('conferenceAttendeeModalCtrl', [])
         Conferences.vehicles().query( {cid: conferenceId, type: 'arrival'} )
             .$promise.then( function( response ) {
                 if ( response ) {
-                    $scope.arrivalVehicles = response;
+                    for (var i=0; i<response.length; i++) {
+                        console.log(response[i])
+                        if (response[i].passenger_count < response[i].capacity) {
+                            $scope.arrivalVehicles.push(response[i]);
+                        }
+                    }
                 } else {
                 }
             })
@@ -37,7 +42,11 @@ angular.module('conferenceAttendeeModalCtrl', [])
         Conferences.vehicles().query( {cid: conferenceId, type: 'departure'} )
             .$promise.then( function( response ) {
                 if ( response ) {
-                    $scope.departVehicles = response;
+                    for (var i=0; i<response.length; i++) {
+                        if (response[i].passenger_count < response[i].capacity) {
+                            $scope.departVehicles.push(response[i]);
+                        }
+                    }
                 } else {
                 }
             })
@@ -49,7 +58,11 @@ angular.module('conferenceAttendeeModalCtrl', [])
         Conferences.rooms().query({aid: id})
             .$promise.then( function (response) {
                 if (response) {
-                    $scope.rooms = response;
+                    for (var i=0; i<response.length; i++) {
+                        if (response[i].guest_count < response[i].capacity) {
+                            $scope.rooms.push(response[i]);
+                        }
+                    }
                 } else {
                     $scope.rooms = null;
                 }
@@ -59,9 +72,7 @@ angular.module('conferenceAttendeeModalCtrl', [])
     $scope.getRooms($scope.preference.accommodation_pref);
 
     $scope.approve = function () {
-        if ($scope.attendeeForm.$valid) {
-            $uibModalInstance.close($scope.user);
-        }
+        $uibModalInstance.close($scope.user);
     }
 
     $scope.close = function () {

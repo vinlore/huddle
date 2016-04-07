@@ -6,29 +6,28 @@
         <div class="form-group" ng-if="preference.arrv_ride_req">
             <label for="modal-arrv-ride" class="control-label">Arrival Ride</label>
             <select name="modal-arrv-ride" class="form-control" id="modal-arrv-ride" ng-required="preference.arrv_ride_req" ng-model="user.arrivalVehicle">
+                <option value="">None</option>
                 <option value="{{vehicle.id}}" ng-repeat="vehicle in arrivalVehicles">{{vehicle.name}}</option>
-                <option value="" disabled ng-if="!arrivalVehicles">No registered vehicles found.</option>
             </select>
         </div>
         <div class="form-group" ng-if="preference.dept_ride_req">
-            <label for="modal-arrv-ride" class="control-label">Departure Ride</label>
+            <label for="modal-dept-ride" class="control-label">Departure Ride</label>
             <select name="modal-dept-ride" class="form-control" id="modal-dept-ride" ng-required="preference.dept_ride_req" ng-model="user.departureVehicle">
-                <option value="" disabled ng-if="!departVehicles">No registered vehicles found.</option>
+                <option value="">None</option>
                 <option value="{{vehicle.id}}" ng-repeat="vehicle in departVehicles">{{vehicle.name}}</option>
             </select>
         </div>
         <div class="form-group" ng-if="preference.accommodation_req">
-        {{preference.accommodation_pref}}
             <label for="modal-arrv-ride" class="control-label">Accommodation</label>
-            <select name="modal-accommodation" class="form-control" id="modal-accommodation" ng-options="accomm.id as accomm.name for accomm in accommodations" ng-required="preference.accommodation_req" ng-model="preference.accommodation_pref" ng-change="getRooms(accomm.id)">
-                <option value="" disabled ng-if="!accommodations">No registered accommodation found.</option>
+            <select name="modal-accommodation" class="form-control" id="modal-accommodation" ng-options="accomm.id as accomm.name for accomm in accommodations" ng-required="preference.accommodation_req" ng-model="preference.accommodation_pref" ng-change="getRooms(preference.accommodation_pref)">
+                <option value="">None</option>
             </select>
         </div>
         <div class="form-group" ng-if="preference.accommodation_req">
             <label for="modal-arrv-ride" class="control-label">Room</label>
             <select name="modal-room" id="modal-room" class="form-control" ng-required="preference.accommodation_req" ng-model="user.room">
-                <option value="" disabled ng-if="!rooms">No registered rooms found.</option>
-                <option value="{{room.id}}" ng-repeat="room in rooms"><strong>{{room.room_no}}</strong> Capacity - {{room.guest_count}}/{{room.capacity}}</option>
+                <option value="">None</option>
+                <option value="{{room.id}}" ng-repeat="room in rooms"><strong>{{room.room_no}}</strong> - {{room.guest_count}}/{{room.capacity}}</option>
             </select>
         </div>
     </form>
