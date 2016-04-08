@@ -77,8 +77,8 @@ class AuthController extends Controller
                 return response()->error(401, 'Invalid Credentials');
             }
 
-            $apiToken = bcrypt($user);
-            $user->api_token = $apiToken;
+            $token = bcrypt($user);
+            $user->api_token = $token;
             $user->save();
 
             Log::info('[User] ' . $request->ip() . ' signed into User ' . $user->getKey());
@@ -86,7 +86,7 @@ class AuthController extends Controller
             return response()->json([
                 'status'        => 200,
                 'message'       => 'OK',
-                'token'         => $apiToken,
+                'token'         => $token,
                 'user_id'       => $user->getKey(),
                 'permissions'   => $user->permissions,
                 'profile_id'    => $user->profiles()->where('is_owner', true)->first()->getKey(),

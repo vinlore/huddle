@@ -31,10 +31,10 @@ class Controller extends BaseController
      */
     public function getUser($request)
     {
-        $userId = $request->header('ID');
-        $apiToken = $request->header('X-Auth-Token');
-        $user = Sentinel::findById($userId);
-        if ($user->api_token == $apiToken) {
+        $uid = $request->header('ID');
+        $token = $request->header('X-Auth-Token');
+        $user = Sentinel::findById($uid);
+        if ($user->api_token == $token) {
             return $user;
         }
         return false;
@@ -101,23 +101,23 @@ class Controller extends BaseController
     /**
      * Create an Activity.
      *
-     * @param  int  $userId
+     * @param  int  $uid
      * @param  string  $activityType
      * @param  int  $sourceId
      * @param  string  $sourceType
-     * @param  int  $profileId
+     * @param  int  $pid
      * @return void
      * @throws Exception
      */
-    public function addActivity($userId, $activityType, $sourceId, $sourceType, $profileId = NULL)
+    public function addActivity($uid, $activityType, $sourceId, $sourceType, $pid = NULL)
     {
         try {
             $activity = [
-                'user_id'       => $userId,
+                'user_id'       => $uid,
                 'activity_type' => $activityType,
                 'source_id'     => $sourceId,
                 'source_type'   => $sourceType,
-                'profile_id'    => $profileId,
+                'profile_id'    => $pid,
             ];
             Activity::create($activity);
         } catch (Exception $e) {

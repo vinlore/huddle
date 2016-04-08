@@ -35,11 +35,11 @@ abstract class Request extends FormRequest
      */
     public function authenticate()
     {
-        $userId = $this->header('ID');
-        $apiToken = $this->header('X-Auth-Token');
-        $user = Sentinel::findById($userId);
+        $uid = $this->header('ID');
+        $token = $this->header('X-Auth-Token');
+        $user = Sentinel::findById($uid);
         if ($user) {
-            return $user->api_token == $apiToken;
+            return $user->api_token == $token;
         }
         return false;
     }
@@ -52,8 +52,8 @@ abstract class Request extends FormRequest
     public function getUser()
     {
         if ($this->authenticate()) {
-            $userId = $this->header('ID');
-            return Sentinel::findById($userId);
+            $uid = $this->header('ID');
+            return Sentinel::findById($uid);
         }
         return false;
     }
