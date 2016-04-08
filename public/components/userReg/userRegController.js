@@ -37,6 +37,7 @@ angular.module( 'userRegCtrl', [] )
     ];
 
     $scope.passwordPopover = [
+        'AT LEAST 1 letter',
         'AT LEAST 8 characters',
         'AT LEAST 1 number',
         'NO consecutive whitespaces',
