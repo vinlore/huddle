@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 use Sentinel;
 
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserRequest;
 
 use App\Models\User;
@@ -26,8 +27,7 @@ class UserController extends Controller
             $query = preg_replace($NON_ALPHA_NUM, '', $request->username);
             return User::where('username', 'like', '%'.$query.'%')
                        ->with('roles')
-                       ->get();
-                       // ->paginate(10);
+                       ->paginate(10);
         } catch (Exception $e) {
             return response()->error();
         }
@@ -65,13 +65,48 @@ class UserController extends Controller
     }
 
     /**
-     * Reset the password of a User.
+     * Update the password of a User.
      *
      * @param  UserRequest  $request
+     * @param  int  $uid
      * @return Response
      */
-    public function resetPassword(UserRequest $request)
+    public function updatePassword(UpdatePasswordRequest $request, $uid)
     {
-        // TODO?
+        try {
+            // Make sure the user updating the password is the user themselves
+            // or a System Administrator.
+            $initiator = $request->header('ID');
+            if ($initiator != $uid) {
+                if (!$this->isSuperuser($request)) {
+                    return response()->error(403);
+                }
+            }
+
+            $user = Sentinel::findById($uid);
+            if (!$user) {
+                return response()->error(404, 'User Not Found');
+            }
+
+            // Verify that the old password matches their current password in
+            // the database.
+            $oldPassword = [
+                'password' => $request->old_password,
+            ];
+            $user = Sentinel::validateCredentials($user, $oldPassword);
+            if (!$user) {
+                return response()->error(422, 'Incorrect old password!');
+            }
+
+            // Change their password to the new password.
+            $newPassword = [
+                'password' => $request->new_password,
+            ];
+            Sentinel::update($user, $newPassword);
+
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
     }
 }
