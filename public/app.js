@@ -53,7 +53,8 @@ angular.module('cms', [
     'conferenceAttendeeModalCtrl',
     'eventAttendeeModalCtrl',
     'draftEventCtrl',
-    'draftConferenceCtrl'
+    'draftConferenceCtrl',
+    'memberCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup, $uibModalStack ) {
@@ -485,6 +486,15 @@ angular.module('cms', [
         url: '/draft-conference-:conference_id',
         templateUrl: 'components/createConference/createConferenceView.html',
         controller: 'draftConferenceController',
+        resolve: {
+            loginRequired: loginRequired
+        }
+    })
+
+    .state( 'member-profile', {
+        url: '/member-profile-:member_pid',
+        templateUrl: 'components/profile/memberView.html',
+        controller: 'memberController',
         resolve: {
             loginRequired: loginRequired
         }
