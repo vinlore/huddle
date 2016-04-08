@@ -56,6 +56,12 @@ class EventAttendeeController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
+            $userId = $request->header('ID');
+            $profileOwnerId = $profile->user()->first()->id;
+            if ($userId != $profileOwnerId) {
+                return response()->error(403);
+            }
+
             if ($event->attendee_count >= $event->capacity) {
                 return response()->error(422, 'Exceed Capacity Error');
             }
