@@ -183,6 +183,11 @@ angular.module( 'profileCtrl', [] )
             gender: null
         }
     }
+
+    $scope.memberPage = function(member){
+
+      $state.go('member-profile', {member_pid: member.id});
+    }
     $scope.cancelConferenceApplication = function (index) {
         var modalInstance = popup.prompt('Delete', 'Are you sure you want to delete your conference application?');
 

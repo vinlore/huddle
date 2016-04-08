@@ -53,7 +53,8 @@ angular.module('cms', [
     'conferenceAttendeeModalCtrl',
     'eventAttendeeModalCtrl',
     'draftEventCtrl',
-    'draftConferenceCtrl'
+    'draftConferenceCtrl',
+    'memberCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup, $uibModalStack ) {
@@ -505,6 +506,15 @@ angular.module('cms', [
                 }
                 return deferred.promise;
             }
+        }
+    })
+
+    .state( 'member-profile', {
+        url: '/member-profile-:member_pid',
+        templateUrl: 'components/profile/memberView.html',
+        controller: 'memberController',
+        resolve: {
+            loginRequired: loginRequired
         }
     })
 
