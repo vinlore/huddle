@@ -66,6 +66,12 @@ class EventAttendeeController extends Controller
                 return response()->error(422, 'Exceed Capacity Error');
             }
 
+            $age = date_diff(date_create($profile->birthdate), date_create('now'))->y;
+            $ageLimit = $event->age_limit;
+            if ($age < $ageLimit) {
+                return response()->error(403, 'You do not meet the age requirement of this event!');
+            }
+
             $activityType = 'requested';
 
             $event->attendees()->attach($profile, $request->except('profile_id'));
