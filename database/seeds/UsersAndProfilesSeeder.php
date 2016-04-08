@@ -25,7 +25,7 @@ class UsersAndProfilesSeeder extends Seeder
         $user = [
             'username' => 'admin',
             'email'    => 'admin@huddle.com',
-            'password' => 'password',
+            'password' => 'password1',
         ];
         $user = Sentinel::registerAndActivate($user);
         $role = $SYSTEM_ADMINISTRATOR;
@@ -54,7 +54,7 @@ class UsersAndProfilesSeeder extends Seeder
         $user = [
             'username' => 'haniel',
             'email'    => 'haniel@huddle.com',
-            'password' => 'password',
+            'password' => 'password1',
         ];
         $user = Sentinel::registerAndActivate($user);
         $role = $CONFERENCE_MANAGER;
@@ -83,7 +83,7 @@ class UsersAndProfilesSeeder extends Seeder
         $user = [
             'username' => 'viggy',
             'email'    => 'viggy@huddle.com',
-            'password' => 'password',
+            'password' => 'password1',
         ];
         $user = Sentinel::registerAndActivate($user);
         $role = $CONFERENCE_MANAGER;
@@ -113,7 +113,7 @@ class UsersAndProfilesSeeder extends Seeder
         $user = [
             'username'      => 'gabby',
             'email'         => 'gabby@huddle.com',
-            'password'      => 'password',
+            'password'      => 'password1',
         ];
         $user = Sentinel::registerAndActivate($user);
         $role = $CONFERENCE_MANAGER;
@@ -143,7 +143,7 @@ class UsersAndProfilesSeeder extends Seeder
         $user = [
             'username' => 'james',
             'email'    => 'james@huddle.com',
-            'password' => 'password',
+            'password' => 'password1',
         ];
         $user = Sentinel::registerAndActivate($user);
         $role = $CONFERENCE_MANAGER;
@@ -173,7 +173,7 @@ class UsersAndProfilesSeeder extends Seeder
         $user = [
             'username' => 'martin',
             'email'    => 'martin@huddle.com',
-            'password' => 'password',
+            'password' => 'password1',
         ];
         $user = Sentinel::registerAndActivate($user);
         $role = $CONFERENCE_MANAGER;
@@ -203,7 +203,7 @@ class UsersAndProfilesSeeder extends Seeder
         $user = [
             'username' => 'chris',
             'email'    => 'chris@huddle.com',
-            'password' => 'password',
+            'password' => 'password1',
         ];
         $user = Sentinel::registerAndActivate($user);
         $role = $CONFERENCE_MANAGER;
@@ -236,7 +236,7 @@ class UsersAndProfilesSeeder extends Seeder
         $user = [
             'username' => 'john',
             'email'    => 'john@example.org',
-            'password' => 'password',
+            'password' => 'password1',
         ];
         $user = Sentinel::registerAndActivate($user);
         $role = $REGULAR_USER;
