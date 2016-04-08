@@ -53,7 +53,7 @@ class ProfileRequest extends Request
     {
         return [
             'email'       => ['email', 'max:255'],
-            'phone'       => ['string', 'max:255'],
+            'phone'       => ['integer'],
             'first_name'  => ['string', 'max:255', self::NAME],
             'middle_name' => ['string', 'max:255', self::NAME],
             'last_name'   => ['string', 'max:255', self::NAME],
