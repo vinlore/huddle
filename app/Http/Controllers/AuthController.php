@@ -50,7 +50,7 @@ class AuthController extends Controller
             $profile->user()->associate($user);
             $profile->save();
 
-            Log::info('[User] ' . $request->ip() . ' registered User ' . $user->id);
+            Log::info('[User] ' . $request->ip() . ' registered User ' . $user->getKey());
 
             return $this->signin($request);
         } catch (Exception $e) {
@@ -81,15 +81,15 @@ class AuthController extends Controller
             $user->api_token = $apiToken;
             $user->save();
 
-            Log::info('[User] ' . $request->ip() . ' signed into User ' . $user->id);
+            Log::info('[User] ' . $request->ip() . ' signed into User ' . $user->getKey());
 
             return response()->json([
                 'status'        => 200,
                 'message'       => 'OK',
                 'token'         => $apiToken,
-                'user_id'       => $user->id,
+                'user_id'       => $user->getKey(),
                 'permissions'   => $user->permissions,
-                'profile_id'    => $user->profiles()->where('is_owner', true)->first()->id,
+                'profile_id'    => $user->profiles()->where('is_owner', true)->first()->getKey(),
                 'manages_conf'  => $user->conferences()->lists('conference_id'),
                 'manages_event' => $user->events()->lists('event_id'),
             ]);
@@ -115,7 +115,7 @@ class AuthController extends Controller
             $user->api_token = NULL;
             $user->save();
 
-            Log::info('[User] ' . $request->ip() . ' signed out of User ' . $user->id);
+            Log::info('[User] ' . $request->ip() . ' signed out of User ' . $user->getKey());
 
             return response()->success();
         } catch (Exception $e) {
@@ -141,7 +141,7 @@ class AuthController extends Controller
                 'status'        => 200,
                 'message'       => 'OK',
                 'permissions'   => $user->permissions,
-                'profile_id'    => $user->profiles()->where('is_owner', true)->first()->id,
+                'profile_id'    => $user->profiles()->where('is_owner', true)->first()->getKey(),
                 'manages_conf'  => $user->conferences()->lists('conference_id'),
                 'manages_event' => $user->events()->lists('event_id'),
             ]);

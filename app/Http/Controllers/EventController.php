@@ -55,7 +55,7 @@ class EventController extends Controller
             $event->save();
             $event->managers()->attach($user);
 
-            $this->addActivity($user->id, 'requested', $event->id, 'event');
+            $this->addActivity($user->getKey(), 'requested', $event->getKey(), 'event');
 
             return response()->success();
         } catch (Exception $e) {
@@ -146,7 +146,7 @@ class EventController extends Controller
             $event->fill($request->all());
             $event->save();
 
-            $this->addActivity($user->id, $activityType, $eid, 'event');
+            $this->addActivity($user->getKey(), $activityType, $eid, 'event');
 
             return response()->success();
         } catch (Exception $e) {

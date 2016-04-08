@@ -57,7 +57,7 @@ class EventAttendeeController extends Controller
             }
 
             $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->id;
+            $profileOwnerId = $profile->user()->first()->getKey();
             if ($userId != $profileOwnerId) {
                 return response()->error(403);
             }
@@ -70,7 +70,7 @@ class EventAttendeeController extends Controller
 
             $event->attendees()->attach($profile, $request->except('profile_id'));
 
-            $this->addActivity($profile->user()->first()->id, $activityType, $eid, 'event application', $pid);
+            $this->addActivity($profile->user()->first()->getKey(), $activityType, $eid, 'event application', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -127,7 +127,7 @@ class EventAttendeeController extends Controller
             }
 
             $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->id;
+            $profileOwnerId = $profile->user()->first()->getKey();
             if ($userId != $profileOwnerId) {
                 if (!$this->isEventManager($request, $eid)) {
                     return response()->error(403);

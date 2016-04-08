@@ -57,7 +57,7 @@ class ConferenceAttendeeController extends Controller
             }
 
             $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->id;
+            $profileOwnerId = $profile->user()->first()->getKey();
             if ($userId != $profileOwnerId) {
                 return response()->error(403);
             }
@@ -70,7 +70,7 @@ class ConferenceAttendeeController extends Controller
 
             $conference->attendees()->attach($profile, $request->except('profile_id'));
 
-            $this->addActivity($profile->user()->first()->id, $activityType, $cid, 'conference application', $pid);
+            $this->addActivity($profile->user()->first()->getKey(), $activityType, $cid, 'conference application', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -127,7 +127,7 @@ class ConferenceAttendeeController extends Controller
             }
 
             $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->id;
+            $profileOwnerId = $profile->user()->first()->getKey();
             if ($userId != $profileOwnerId) {
                 if (!$this->isConferenceManager($request, $cid)) {
                     return response()->error(403);

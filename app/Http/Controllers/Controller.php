@@ -66,7 +66,7 @@ class Controller extends BaseController
     {
         $user = $this->getUser($request);
         $conference = Conference::find($cid);
-        $isConferenceManager = $conference->managers()->where('user_id', $user->id)->exists();
+        $isConferenceManager = $conference->managers()->where('user_id', $user->getKey())->exists();
         if ($this->isSuperuser($request) || $isConferenceManager) {
             return $user;
         }
@@ -87,8 +87,8 @@ class Controller extends BaseController
     {
         $user = $this->getUser($request);
         $event = Event::find($eid);
-        $isEventManager = $event->managers()->where('user_id', $user->id)->exists();
-        if ($this->isSuperUser($request) || $this->isConferenceManager($request, $event->conference->id) || $isEventManager) {
+        $isEventManager = $event->managers()->where('user_id', $user->getKey())->exists();
+        if ($this->isSuperUser($request) || $this->isConferenceManager($request, $event->conference->getKey()) || $isEventManager) {
             return $user;
         }
         return false;
@@ -145,7 +145,7 @@ class Controller extends BaseController
             $managers = $conference->managers()->get();
 
             foreach ($managers as $manager) {
-                $user = Sentinel::findById($manager->id);
+                $user = Sentinel::findById($manager->getKey());
                 $email = $user->email;
                 $name =  $user->profiles()->where('is_owner', 1)->first()->first_name;
 
@@ -183,7 +183,7 @@ class Controller extends BaseController
             $managers = $event->managers()->get();
 
             foreach ($managers as $manager) {
-                $user = Sentinel::findById($manager->id);
+                $user = Sentinel::findById($manager->getKey());
                 $email = $user->email;
                 $name =  $user->profiles()->where('is_owner', 1)->first()->first_name;
 

@@ -40,7 +40,7 @@ class ConferenceController extends Controller
             $conference = Conference::create($request->all());
             $conference->managers()->attach($user);
 
-            $this->addActivity($user->id, 'requested', $conference->id, 'conference');
+            $this->addActivity($user->getKey(), 'requested', $conference->getKey(), 'conference');
 
             return response()->success();
         } catch (Exception $e) {
@@ -119,7 +119,7 @@ class ConferenceController extends Controller
             $conference->fill($request->all());
             $conference->save();
 
-            $this->addActivity($user->id, $activityType, $cid, 'conference');
+            $this->addActivity($user->getKey(), $activityType, $cid, 'conference');
 
             return response()->success();
         } catch (Exception $e) {
@@ -149,7 +149,7 @@ class ConferenceController extends Controller
 
             $conference->delete();
 
-            $this->addActivity($user->id, 'deleted', $cid, 'conference');
+            $this->addActivity($user->getKey(), 'deleted', $cid, 'conference');
 
             return response()->success();
         } catch (Exception $e) {
