@@ -212,8 +212,11 @@ class ConferenceAttendeeController extends Controller
             $events = $conference->events()->get();
             foreach ($events as $event) {
                 if ($event->attendees()->where('profile_id', $pid)->exists()) {
+                    $status = $event->attendees()->where('profile_id', $pid)->first()->pivot->status;
                     $event->attendees()->detach($profile);
-                    $event->decrement('attendee_count');
+                    if ($status == 'approved') {
+                        $event->decrement('attendee_count');
+                    }
                 }
             }
 
