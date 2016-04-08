@@ -10,31 +10,23 @@ abstract class Request extends FormRequest
 {
     /**
      * Regex that checks for non-consecutive hyphens and commas.
-     *
-     * @var string
      */
-    protected $NAME = 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/';
+    const NAME = 'regex:/^[A-Za-z,]+([?: |\-][A-Za-z,]+)*[^\,]$/';
 
     /**
      * Regex that checks for no space at either end and no consecutive spaces.
-     *
-     * @var string
      */
-    protected $SPACES = 'regex:/.*[0-9]+.*/';
+    const SPACES = 'regex:/.*[0-9]+.*/';
 
     /**
      * Regex that checks for at least one letter.
-     *
-     * @var string
      */
-    protected $LETTER = 'regex:/^\d*[a-zA-Z][a-zA-Z0-9]*$/';
+    const LETTER = 'regex:/^\d*[a-zA-Z][a-zA-Z0-9]*$/';
 
     /**
      * Regex that checks for at least one number.
-     *
-     * @var string
      */
-    protected $NUMBER = 'regex:/^\S+(?: \S+)*$/';
+    const NUMBER = 'regex:/^\S+(?: \S+)*$/';
 
     /**
      * Verify the legitimacy of the API token.

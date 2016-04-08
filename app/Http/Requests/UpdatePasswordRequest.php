@@ -14,8 +14,8 @@ class UpdatePasswordRequest extends Request
     public function commonRules()
     {
         return [
-            'old_password' => ['required', 'min:8', 'alpha_dash', $this->SPACES, $this->LETTER, $this->NUMBER],
-            'new_password' => ['required', 'confirmed', 'min:8', 'alpha_dash', $this->SPACES, $this->LETTER, $this->NUMBER],
+            'old_password' => ['required', 'min:8', 'alpha_dash', self::SPACES, self::LETTER, self::NUMBER],
+            'new_password' => ['required', 'confirmed', 'min:8', 'alpha_dash', self::SPACES, self::LETTER, self::NUMBER],
         ];
     }
 }
