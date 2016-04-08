@@ -27,6 +27,8 @@ app.directive( 'username', function () {
 var PASSWORD_REGEXP_SPACE = /^\S+(?: \S+)*$/;
 // At least 1 number
 var PASSWORD_REGEXP_NUM = /.*[0-9]+.*/;
+// At least 1 letter
+var PASSWORD_REGEXP_LETTER = /.*[A-Za-z]+.*/;
 app.directive( 'password', function () {
     return {
         require: 'ngModel',
@@ -37,7 +39,7 @@ app.directive( 'password', function () {
                     return true;
                 }
  
-                var PASSWORD_REGEXP = PASSWORD_REGEXP_SPACE.test( viewValue ) && PASSWORD_REGEXP_NUM.test( viewValue ) && viewValue.length >= 8;
+                var PASSWORD_REGEXP = PASSWORD_REGEXP_SPACE.test( viewValue ) && PASSWORD_REGEXP_NUM.test( viewValue ) && PASSWORD_REGEXP_LETTER.test( viewValue ) && viewValue.length >= 8;
                 if ( PASSWORD_REGEXP ) {
                     return true;
                 }

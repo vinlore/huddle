@@ -12,6 +12,10 @@ angular.module( 'apiService', [] )
     return $resource( '/api/auth/logout' );
 })
 
+.factory( 'Password', function ( $resource ) {
+    return $resource( '/api/users/:uid/password', { uid: '@uid' } );
+})
+
 .factory('ProfileAttendsConferences', function ( $resource ){
   return {
     fetch: function () {

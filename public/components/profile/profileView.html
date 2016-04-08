@@ -1,3 +1,10 @@
+<script type="text/ng-template" id="passwordPopoverTemplate.html">
+    <ul class="list-unstyled">
+        <li ng-repeat="require in passwordPopover">
+            {{require}}
+        </li>
+    </ul>
+</script>
 <div id="profile" class="container has-header">
   <h1 class="page-header">Profile</h1>
   <div class="panel panel-default">
@@ -92,31 +99,32 @@
             <div class="pull-right">Edit</div>
           </uib-accordion-heading>
           <!-- Password Change Form -->
-          <form class="form-horizontal">
+          <form class="form-horizontal" name="passwordForm" ng-submit="savePasswordChanges()">
             <!-- Old password -->
             <div class="form-group">
               <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">Current</label>
               <div class="col-sm-4">
-                <input type="password" class="form-control" id="inputUser" placeholder="Enter Old Password" ng-model="user.old_password">
+                <input type="password" class="form-control" id="inputUser" placeholder="Enter Old Password" ng-model="user.old_password" required>
               </div>
             </div>
             <!-- New Password -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': passwordForm.password.$error.password}">
               <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">New</label>
               <div class="col-sm-4">
-                <input type="password" class="form-control" id="inputUser" placeholder="Enter New Password" ng-model="user.password">
+                <input type="password" name="password" class="form-control" id="inputUser" placeholder="Enter New Password" ng-model="user.password" required password uib-popover-template="'passwordPopoverTemplate.html'" popover-trigger="focus" popover-placement="bottom" ng-model-options="{ debounce: 600}">
+                <uib-alert class="input-alert" type="danger">Invalid Password!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
               </div>
             </div>
             <!-- Confirm Password -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': passwordForm.confirm.$invalid && passwordForm.confirm.$dirty}">
               <label for="inputUser" class="col-sm-3 col-sm-offset-3 form-control-label">Confirm New</label>
               <div class="col-sm-4">
-                <input type="password" class="form-control" id="inputUser" placeholder="Confirm Password">
+                <input type="password" name="confirm" class="form-control" id="inputUser" placeholder="Confirm Password" ng-model="user.confirm" required ng-model-options="{debounce:600}">
               </div>
             </div>
           </form>
           <div class="col-sm-8 col-sm-offset-4">
-            <button type="button" class="btn btn-success btn-sm" ng-click="savePasswordChanges()">Save Changes</button>
+            <button type="button" class="btn btn-success btn-sm" type="submit" ng-click="savePasswordChanges()" ng-disabled="passwordForm.$invalid">Save Changes</button>
             <button type="button" class="btn btn-danger btn-sm" ng-click="password.open = !password.open">Cancel</button>
           </div>
         </uib-accordion-group>

@@ -1,11 +1,19 @@
 angular.module( 'profileCtrl', [] )
-.controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, ProfileRooms, ProfileConferenceVehicles, ProfileEventVehicles, Conferences, Events, $filter, popup, Users, $rootScope, $state, ngTableParams ) {
+.controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, ProfileRooms, ProfileConferenceVehicles, ProfileEventVehicles, Conferences, Events, $filter, popup, Users, $rootScope, $state, ngTableParams, Password ) {
 
     $scope.today = new Date();
 
     $scope.user = {};
     $scope.animationsEnabled = true;
     $scope.members = [];
+
+    $scope.passwordPopover = [
+        'AT LEAST 1 letter',
+        'AT LEAST 8 characters',
+        'AT LEAST 1 number',
+        'NO consecutive whitespaces',
+        'NO start or end with whitespace'
+    ];
 
     $scope.tableParams = new ngTableParams (
         {},
@@ -83,17 +91,25 @@ angular.module( 'profileCtrl', [] )
     };
 
     $scope.savePasswordChanges = function () {
-        var password = {
-            password: $scope.user.password
-        };
-        Users.update( { id: $rootScope.user.id }, password )
-            .$promise.then( function ( response ) {
-                if ( response.status == 200 ) {
-                    popup.alert( 'success', 'Password successfully changed.' );
-                } else {
-                    popup.error( 'Error', response.message );
-                }
-            })
+        if ($scope.user.confirm == $scope.user.password) {
+            var password = {
+                old_password: $scope.user.old_password,
+                new_password: $scope.user.password,
+                new_password_confirmation: $scope.user.confirm
+            };
+            Password.save( { uid: $rootScope.user.id }, password )
+                .$promise.then( function ( response ) {
+                    if ( response.status == 200 ) {
+                        popup.alert( 'success', 'Password successfully changed.' );
+                    } else {
+                        popup.error( 'Error', response.message );
+                    }
+                })
+        } else {
+            popup.error('Error', 'Passwords do not match!');
+            $scope.user.confirm = null;
+            $scope.user.password = null;
+        }
     };
 
     $scope.deleteAccount = function () {
