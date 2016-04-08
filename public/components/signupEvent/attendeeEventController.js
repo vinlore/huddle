@@ -6,7 +6,7 @@ angular.module('attendeeEventCtrl',[])
       event_id: $stateParams.event_id,
       name: $stateParams.event_name
   }
-  console.log($scope.event.event_id);
+
   $scope.attendee = {};
   $scope.loadAttendeeProfile = function() {
     Events.attendees().get({eid: $stateParams.event_id, pid: $stateParams.profile_id})
@@ -16,19 +16,16 @@ angular.module('attendeeEventCtrl',[])
       } else {
         popup.error( 'Error', response.message );
       }
-    }, function () {
-      popup.connection();
     })
   };
   $scope.loadAttendeeProfile();
 
   $scope.submitRequest = function(){
+    if ( $scope.seForm.$valid ) {
       var attendee = {
-        event_id: $stateParams.event_id,
         profile_id: $stateParams.profile_id,
         arrv_ride_req: $scope.attendee.arrv_ride_req,
-        dept_ride_req: $scope.attendee.dept_ride_req,
-        status:'pending'
+        dept_ride_req: $scope.attendee.dept_ride_req
       }
       Events.attendees().update({eid: $stateParams.event_id, pid: $stateParams.profile_id}, attendee)
       .$promise.then( function ( response ) {
@@ -38,9 +35,8 @@ angular.module('attendeeEventCtrl',[])
         } else {
             popup.error( 'Error', response.message );
         }
-    }, function () {
-        popup.connection();
-    })
+      })
+    }
   };
 
 })

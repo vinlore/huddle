@@ -115,8 +115,6 @@ angular.module('manageConferenceTransportationCtrl', [])
                             } else {
                                 popup.error('Error', response.message);
                             }
-                        }, function() {
-                            popup.connection();
                         })
 
                     $scope.loadVehicles();

@@ -42,39 +42,6 @@ angular.module( 'manageAccountsCtrl', [] )
 
     $scope.users = [];
 
-    $scope.conferences = [
-        {
-            "conferenceId": 123,
-            "name": "India Conference",
-            "events": [
-                {
-                    "eventId": 1,
-                    "name": "Event1"
-		    	},
-                {
-                    "eventId": 2,
-                    "name": "Event2"
-		    	},
-                {
-                    "eventId": 3,
-                    "name": "Event3"
-		    	}
-			]
-	    },
-	        {
-	            "conferenceId": 234,
-	            "name": "Canada Conference"
-	    	},
-	        {
-	            "conferenceId": 987,
-	            "name": "France Conference"
-	    	},
-	        {
-	            "conferenceId": 1,
-	            "name": "USA Conference"
-	    }
-	];
-
     $scope.newRole = {
         name: null,
         permissions: {
@@ -186,8 +153,6 @@ angular.module( 'manageAccountsCtrl', [] )
             			} else {
             				popup.error( 'Error', response.message );
             			}
-            		}, function () {
-            			popup.connection();
             		})
             }
         })
@@ -206,8 +171,6 @@ angular.module( 'manageAccountsCtrl', [] )
                     } else {
                         popup.error( 'Error', response.message );
                     }
-                }, function () {
-                    popup.connection();
                 })
            }
         })
@@ -229,8 +192,6 @@ angular.module( 'manageAccountsCtrl', [] )
                         } else {
                             popup.error( 'Error', response.message );
                         }
-                    }, function () {
-                        popup.connection();
                     })
             }
         } )
@@ -249,8 +210,6 @@ angular.module( 'manageAccountsCtrl', [] )
             			} else {
             				popup.error( 'Error', response.message );
             			}
-            		}, function () {
-            			popup.connection();
             		})
             }
         })

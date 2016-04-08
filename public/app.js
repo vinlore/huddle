@@ -202,7 +202,7 @@ angular.module('cms', [
     })
 
     .state( 'event-signup', {
-        url: '/event-:eventId/signup?name',
+        url: '/event-:conferenceId?eventId/signup?name',
         templateUrl: 'components/signupEvent/signupEventView.html',
         controller: 'signupEventController',
         resolve: {
@@ -459,34 +459,16 @@ angular.module('cms', [
         templateUrl: 'components/signupConference/attendeeSignupConferenceView.html',
         controller: 'attendeeConferenceController',
         resolve: {
-            loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
-                var deferred = $q.defer();
-                if ( checkPermissions('', 'profile', $stateParams.profile_id) ) {
-                    deferred.resolve();
-                } else {
-                    $location.path('/');
-                }
-                return deferred.promise;
-            }
+            loginRequired: loginRequired
         }
     })
 
     .state( 'attendee-event-profile', {
         url: '/attendee-event-profile-:event_name?:event_id?:profile_id',
-        templateUrl: 'components/signupEvent/signupEventView.html',
+        templateUrl: 'components/signupEvent/attendeeSignupEventView.html',
         controller: 'attendeeEventController',
         resolve: {
-            loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
-                var deferred = $q.defer();
-                if ( checkPermissions('', 'profile', $stateParams.profile_id) ) {
-                    deferred.resolve();
-                } else {
-                    $location.path('/');
-                }
-                return deferred.promise;
-            }
+            loginRequired: loginRequired
         }
     })
 
@@ -506,6 +488,11 @@ angular.module('cms', [
         resolve: {
             loginRequired: loginRequired
         }
+    })
+
+    .state( '500', {
+        url: '/500',
+        templateUrl: 'shared/500.html'
     })
 
     $urlRouterProvider.otherwise( '/' );
@@ -582,6 +569,7 @@ angular.module('cms', [
 .factory('errorInterceptor', function ($q, $injector) {
     return {
         'responseError': function(errorResponse) {
+            var $state = $injector.get('$state');
             var popup = $injector.get('popup');
             switch (errorResponse.status) {
                 case 401:
@@ -593,8 +581,7 @@ angular.module('cms', [
                     popup.error('Invalid Request', 'Check that all input fields are valid.');
                     break;
                 case 500:
-                    popup.alert('info', 'hi');
-                    // TODO 500 page
+                    $state.go('500');
                     break;
             }
             return $q.reject(errorResponse);

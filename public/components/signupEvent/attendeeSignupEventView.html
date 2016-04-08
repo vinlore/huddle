@@ -1,0 +1,46 @@
+<div id="signupEvent" class="container has-header">
+    <h1 class="page-header text-center">{{header}} for the {{event.name}}</h1>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <h3 class="text-center">Request Transportation</h3>
+                <hr>
+                <form class="form-horizontal" name="seForm">
+                    <div class="form-group">
+                        <label for="inputUser" class="col-sm-4 control-label">*Arrival Ride</label>
+                        <div class="radio-inline col-sm-2 control-label">
+                            <label>
+                                <input type="radio" ng-model="attendee.arrv_ride_req" ng-value="true" required>Yes
+                            </label>
+                        </div>
+                        <div class="radio-inline col-sm-2 control-label">
+                            <label>
+                                <input type="radio" ng-model="attendee.arrv_ride_req" ng-value="false" required>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUser" class="col-sm-4 control-label">*Departure Ride</label>
+                        <div class="radio-inline col-sm-2 control-label">
+                            <label>
+                                <input type="radio" ng-model="attendee.dept_ride_req" ng-value="true" required>Yes
+                            </label>
+                        </div>
+                        <div class="radio-inline col-sm-2 control-label">
+                            <label>
+                                <input type="radio" ng-model="attendee.dept_ride_req" ng-value="false" required>No
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-half-block btn-success center-block" ng-click="submitRequest()" ng-disabled="seForm.$invalid">Submit Request</button>
+            </div>
+        </div>
+    </div>
+</div>

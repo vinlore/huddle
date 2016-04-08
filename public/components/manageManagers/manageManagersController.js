@@ -55,8 +55,6 @@ angular.module('managersCtrl', [])
                         } else {
                             popup.error('Error', response.message);
                         }
-                    }, function () {
-                        popup.connection();
                     })
             }
         })
@@ -120,8 +118,6 @@ angular.module('managersCtrl', [])
                         } else {
                             popup.error('Error', response.message);
                         }
-                    }, function () {
-                        popup.connection();
                     })
             }
         })

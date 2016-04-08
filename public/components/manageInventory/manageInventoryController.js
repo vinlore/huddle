@@ -35,8 +35,6 @@ angular.module('manageInventoryCtrl',[])
         } else {
           popup.error( 'Error', response.message );
         }
-      }, function () {
-        popup.connection();
       })
 
     }
@@ -49,9 +47,7 @@ angular.module('manageInventoryCtrl',[])
         $scope.conference = response;
       } else {
         popup.error( 'Error', response.message );
-      }}, function () {
-        popup.connection();
-      })
+      }})
   };
   
   $scope.loadConferenceData();
@@ -72,8 +68,6 @@ angular.module('manageInventoryCtrl',[])
       } else {
         popup.error( 'Error', response.message );
       }
-    }, function () {
-      popup.connection();
     })
 
       // refresh tableParams to reflect changes
@@ -114,8 +108,6 @@ angular.module('manageInventoryCtrl',[])
       } else {
         popup.error( 'Error', response.message );
       }
-    }, function () {
-      popup.connection();
     })
 
     $scope.tableParams.reload();

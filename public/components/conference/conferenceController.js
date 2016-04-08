@@ -5,6 +5,31 @@ angular.module( 'conferenceCtrl', [] )
         types: ['(cities)']
     };
 
+    $scope.tomorrow = new Date(Date.now() + 86400000);
+
+    $scope.checkEndDate = function () {
+        var start = new Date($scope.conference.startDate);
+        var end = new Date($scope.conference.endDate);
+        if (end.getTime() <= start.getTime()) {
+            $scope.conForm.endDate.$invalid = true;
+        } else {
+            $scope.conForm.endDate.$invalid = false;
+        }
+    }
+
+    // check if conference start date has passed 
+    $scope.isPastConference = function () {
+        var start = $scope.conference.endDate;
+        var today = new Date();
+        return start.getTime() <= today.getTime();
+    }
+
+    // check if event start date has passed
+    $scope.isPastEvent = function (date) {
+        var today = new Date();
+        return date.getTime() <= today.getTime();
+    }
+
     $scope.checkPermission = function(permission, thing, id) {
         return checkPermission(permission, thing, id);
     }
@@ -289,7 +314,7 @@ angular.module( 'conferenceCtrl', [] )
             .$promise.then(function (response) {
                 if (response.status == 200) {
                     popup.alert('success', 'You are no longer attending this event.');
-                    $scope.checkConferenceAttendance();
+                    $scope.checkEventAttendance();
                 }
             })
     }

@@ -25,7 +25,8 @@ angular.module( 'customFilters', [] )
         };
         for (var i=0; i<input.length; i++) {
             var today = new Date();
-            var date = new Date(input[i].end_date);
+            var dateArr = input[i].end_date.split('-');
+            date = new Date(parseInt(dateArr[0]), parseInt(dateArr[1])-1, parseInt(dateArr[2]));
             if (date >= today) {
                 result.upcoming.push(input[i]);
             } else {

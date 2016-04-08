@@ -53,13 +53,13 @@
                                     </button>
                                 </span>
                             </div>
-                            <uib-alert class="input-alert" type="danger">Date must be start date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+                            <uib-alert class="input-alert" type="danger">Date must be after start date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                         </div>
                     </div>
                     <div class="form-group" ng-class="{'has-error': ccForm.capacity.$error.number}">
                         <label for="cc-capacity" class="col-sm-3 control-label">*Capacity</label>
                         <div class="col-sm-9">
-                            <input type="number" name="capacity" class="form-control" id="cc-capacity" ng-model="conference.capacity" g-places-autocomplete required min="0">
+                            <input type="number" name="capacity" class="form-control" id="cc-capacity" ng-model="conference.capacity" required min="0">
                             <uib-alert class="input-alert" type="danger">Numbers only!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                         </div>
                     </div>
@@ -74,8 +74,8 @@
             </div>
             <div class="col-sm-8 col-sm-offset-4">
                 <button ng-if="creation" class="btn btn-lg btn-success" type="submit" ng-click="submit()" ng-disabled="ccForm.$invalid">Create Request</button>
-                <button ng-if="draft" class="btn btn-md btn-info" type="submit" ng-click="submit()">Save Draft</button>
-                <button ng-if="draft" class="btn btn-md btn-success" type="submit" ng-click="publish()">Publish</button>
+                <button ng-if="draft" class="btn btn-md btn-info" type="submit" ng-click="submit()" ng-disabled="ccForm.$invalid">Save Draft</button>
+                <button ng-if="draft" class="btn btn-md btn-success" type="submit" ng-click="publish()" ng-disabled="ccForm.$invalid">Publish</button>
             </div>
         </div>
         <div>

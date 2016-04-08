@@ -7,7 +7,7 @@ app.factory( 'popup', function ( $uibModal, $rootScope ) {
             return $uibModal.open( {
                 templateUrl: 'shared/popup/popupPrompt.html',
                 controller: 'popupController',
-                size: 'sm',
+                size: 'md',
                 windowClass: 'center-modal',
                 animation: false,
                 resolve: {
@@ -25,7 +25,7 @@ app.factory( 'popup', function ( $uibModal, $rootScope ) {
             return $uibModal.open( {
                 templateUrl: 'shared/popup/popupWarning.html',
                 controller: 'popupController',
-                size: 'sm',
+                size: 'md',
                 windowClass: 'center-modal',
                 animation: false,
                 resolve: {

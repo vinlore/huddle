@@ -73,8 +73,6 @@ angular.module('adminCtrl', [])
                         } else {
                             popup.error('Error');
                         }
-                    }, function () {
-                        popup.connection();
                     })
             }
         })
@@ -95,8 +93,6 @@ angular.module('adminCtrl', [])
                         } else {
                             popup.error('Error');
                         }
-                    }, function () {
-                        popup.connection();
                     })
             }
         })

@@ -1,6 +1,7 @@
 angular.module( 'profileCtrl', [] )
 .controller( 'profileController', function ( $scope, Profile, ProfileAttendsConferences, ProfileAttendsEvents, ProfileRooms, ProfileConferenceVehicles, ProfileEventVehicles, Conferences, Events, $filter, popup, Users, $rootScope, $state, ngTableParams ) {
 
+    $scope.today = new Date();
 
     $scope.user = {};
     $scope.animationsEnabled = true;
@@ -19,6 +20,7 @@ angular.module( 'profileCtrl', [] )
                             for (var i=0; i < response.length; i++) {
                                 response[i].birthdate = new Date(response[i].birthdate+'T00:00:00');
                                 if (response[i]['is_owner']) {
+                                    response[i].phone = parseInt(response[i].phone);
                                     $scope.user = response[i];
                                     $scope.loadConferences();
                                     $scope.loadEvents();
@@ -30,8 +32,6 @@ angular.module( 'profileCtrl', [] )
                         } else {
                             popup.error('Error', response.error);
                         }
-                    }, function () {
-                        popup.connection();
                     })
             }
         })
@@ -133,7 +133,6 @@ angular.module( 'profileCtrl', [] )
                         response[i].vehicles = ProfileEventVehicles.fetch().query({pid: $scope.user.id});
                     }
                     $scope.events = response;
-                    console.log(response);
                 } else {
                     popup.error( 'Error', response.message );
                 }
@@ -151,7 +150,6 @@ angular.module( 'profileCtrl', [] )
     $scope.addMember = function () {
         var member = $scope.newMember;
         member.birthdate = $filter('date')(member.birthdate, 'yyyy-MM-dd');
-        console.log($scope.user.user_id);
         Profile.save({uid: $scope.user.user_id}, member)
             .$promise.then( function (response) {
                 if (response.status == 200) {
@@ -209,8 +207,6 @@ angular.module( 'profileCtrl', [] )
               } else {
                   popup.error( 'Error', response.message );
               }
-          }, function () {
-              popup.connection();
           })
     };
 
@@ -223,6 +219,7 @@ angular.module( 'profileCtrl', [] )
             }
         })
     };
+
   $scope.cancelEventApp = function(index){
       var _event = {
         id: $scope.events[index].id,
@@ -237,8 +234,6 @@ angular.module( 'profileCtrl', [] )
           } else {
               popup.error( 'Error', response.message );
           }
-      }, function () {
-          popup.connection();
       })
     };
 
@@ -260,7 +255,6 @@ angular.module( 'profileCtrl', [] )
         eid: $scope.events[index].pivot.event_id,
         name: $scope.events[index].name
       }
-      console.log(_event.eid);
       $state.go('attendee-event-profile', {event_name: _event.name,
                                             event_id: _event.eid,
                                             profile_id: _event.pid
