@@ -82,6 +82,11 @@ class ProfileController extends Controller
             $profile->fill($request->all());
             $profile->save();
 
+            if ($profile->is_owner && $request->exists('email')) {
+                $user->email = $request->email;
+                $user->save();
+            }
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
