@@ -153,6 +153,9 @@ class EventAttendeeController extends Controller
                             break;
                         }
                         $activityType = $newStatus;
+                        if ($event->attendee_count >= $event->capacity) {
+                            return response()->error(422, 'Exceed Capacity Error');
+                        }
                         $event->increment('attendee_count');
                         break;
                     case 'denied':
@@ -212,8 +215,11 @@ class EventAttendeeController extends Controller
                 }
             }
 
+            $status = $event->attendees()->where('profile_id', $pid)->first()->pivot->status;
             $event->attendees()->detach($profile);
-            $event->decrement('attendee_count');
+            if ($status == 'approved') {
+                $event->decrement('attendee_count');
+            }
 
             return response()->success();
         } catch (Exception $e) {
