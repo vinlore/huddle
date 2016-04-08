@@ -37,8 +37,6 @@ angular.module ( 'activityCtrl', [] )
               } else {
                   popup.error( 'Error', response.message );
               }
-          }, function () {
-              popup.connection();
           })
   }
   $scope.loadActivityLog();

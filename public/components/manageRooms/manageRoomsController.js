@@ -74,8 +74,6 @@ angular.module('manageRoomsCtrl',[])
             } else {
                 popup.error( 'Error', response.message );
             }
-        }, function () {
-            popup.connection();
         })
 
         // refresh tableParams to reflect changes
@@ -99,8 +97,6 @@ angular.module('manageRoomsCtrl',[])
                         } else {
                             popup.error( 'Error', response.message );
                         }
-                    }, function () {
-                        popup.connection();
                     })
 
                     $scope.tableParams.reload();

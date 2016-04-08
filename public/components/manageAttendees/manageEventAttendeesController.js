@@ -59,8 +59,6 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 			        } else {
 			          popup.error( 'Error', response.message );
 			        }
-			      }, function () {
-			        popup.connection();
 			      })
 
 		    }
@@ -94,8 +92,6 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 	      } else {
 	        popup.error( 'Error', response.message );
 	      }
-	    }, function () {
-	      popup.connection();
 	    })
 
 	    $scope.tableParams.reload();
@@ -123,7 +119,6 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 
             modalInstance.result.then(function(result) {
                 if (result) {
-                    console.log(result);
                     // TODO store to profile rides and profile stays table
                     if (result.arrivalVehicle) {
                         Events.passengers().save({eid: $scope.eventId, vid: result.arrivalVehicle }, { profile_id: attendee.id })
@@ -162,8 +157,6 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 	      } else {
 	        popup.error( 'Error', response.message );
 	      }
-	    }, function () {
-	      popup.connection();
 	    })
 
 	    $scope.tableParams.reload();

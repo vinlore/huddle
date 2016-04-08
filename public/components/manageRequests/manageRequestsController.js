@@ -33,8 +33,6 @@ angular.module( 'manageRequestsCtrl', [] )
       } else {
         popup.error( 'Error', response.message );
       }
-    }, function () {
-      popup.connection();
     })
   };
   $scope.loadPendingConferences();
@@ -51,8 +49,6 @@ angular.module( 'manageRequestsCtrl', [] )
       } else {
         popup.error( 'Error', response.message );
       }
-    }, function () {
-      popup.connection();
     })
   };
   $scope.loadPendingEvents();
@@ -67,8 +63,6 @@ angular.module( 'manageRequestsCtrl', [] )
         } else {
           popup.error ('Error', response.message);
         }
-      }, function () {
-        popup.connection();
       })
     }
   };
@@ -87,8 +81,6 @@ angular.module( 'manageRequestsCtrl', [] )
       } else {
         popup.error( 'Error', response.message );
       }
-    }, function () {
-      popup.connection();
     })
   };
 
@@ -115,8 +107,6 @@ angular.module( 'manageRequestsCtrl', [] )
       } else {
         popup.error( 'Error', response.message );
       }
-    }, function () {
-      popup.connection();
     })
   };
 
@@ -149,8 +139,6 @@ angular.module( 'manageRequestsCtrl', [] )
       } else {
         popup.error ('Error', response.message);
       }
-    }, function () {
-      popup.connection();
     })
   };
 
@@ -163,8 +151,6 @@ angular.module( 'manageRequestsCtrl', [] )
       } else {
         popup.error( 'Error', response.message );
       }
-    }, function () {
-      popup.connection();
     })
   }
   $scope.declineEvent = function (index) {
@@ -191,8 +177,6 @@ angular.module( 'manageRequestsCtrl', [] )
       } else {
         popup.error( 'Error', response.message );
       }
-    }, function () {
-      popup.connection();
     })
   };
 

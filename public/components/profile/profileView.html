@@ -8,28 +8,28 @@
             Name: {{user.first_name}} {{user.last_name}}
             <div class="pull-right">Edit</div>
           </uib-accordion-heading>
-          <form role="form" class="form-horizontal">
-            <div class="form-group">
+          <form name="profileForm" class="form-horizontal" ng-submit="saveNameChanges()">
+            <div class="form-group" ng-class="{'has-error': profileForm.firstName.$error.names}">
               <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">First</label>
               <div class="col-sm-4">
-                <input class="form-control" id="inputUser" ng-model="user.first_name">
+                <input class="form-control" name="firstName" id="inputUser" ng-model="user.first_name" names required>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': profileForm.middleName.$error.names}">
               <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">Middle</label>
               <div class="col-sm-4">
-                <input class="form-control" id="inputUser" placeholder="Optional" ng-model="user.middle_name">
+                <input class="form-control" name="middleName" id="inputUser" placeholder="Optional" ng-model="user.middle_name" names>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': profileForm.lastName.$error.names}">
               <label for="inputUser" class="col-sm-2 col-sm-offset-3 form-control-label">Last</label>
               <div class="col-sm-4">
-                <input class="form-control" id="inputUser" ng-model="user.last_name">
+                <input class="form-control" name="lastName" id="inputUser" ng-model="user.last_name" names required>
               </div>
             </div>
           </form>
           <div class="col-sm-8 col-sm-offset-4">
-            <button type="button" class="btn btn-success btn-sm" ng-click="saveNameChanges()">Save Changes</button>
+            <button type="button" class="btn btn-success btn-sm" ng-click="saveNameChanges()" ng-disabled="profileForm.$invalid">Save Changes</button>
             <button type="button" class="btn btn-danger btn-sm" ng-click="name.open = !name.open">Cancel</button>
           </div>
         </uib-accordion-group>
@@ -39,22 +39,24 @@
             Contact Information
             <div class="pull-right">Edit</div>
           </uib-accordion-heading>
-          <form role="form" class="form-horizontal">
-            <div class="form-group">
+          <form name="contactForm" class="form-horizontal" ng-submit="saveContactChanges()">
+            <div class="form-group" ng-class="{'has-error': contactForm.email.$error.email}">
               <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Email</label>
               <div class="col-sm-5">
-                <input class="form-control" id="inputUser" ng-model="user.email">
+                <input type="email" class="form-control" id="inputUser" ng-model="user.email" overwrite-email>
+                <uib-alert class="input-alert" type="danger">Invalid Email!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': contactForm.phone.$invalid}">
               <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Home Phone</label>
               <div class="col-sm-5">
-                <input class="form-control" id="inputUser" ng-model="user.phone">
+                <input class="form-control" name="phone" type="number" id="inputUser" ng-model="user.phone">
+                <uib-alert class="input-alert" type="danger">Numbers only!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
               </div>
             </div>
           </form>
           <div class="col-sm-8 col-sm-offset-4">
-            <button type="button" class="btn btn-success btn-sm" ng-click="saveContactChanges()">Save Changes</button>
+            <button type="button" class="btn btn-success btn-sm" ng-click="saveContactChanges()" ng-disabled="contactForm.$invalid">Save Changes</button>
             <button type="button" class="btn btn-danger btn-sm" ng-click="contact.open = !contact.open">Cancel</button>
           </div>
         </uib-accordion-group>
@@ -64,14 +66,14 @@
             Address: {{user.city}}<span ng-if="user.city">,&nbsp</span>{{user.country}}
             <div class="pull-right">Edit</div>
           </uib-accordion-heading>
-          <form role="form" class="form-horizontal">
-            <div class="form-group">
+          <form name="addressForm" class="form-horizontal" ng-submit="saveAddressChanges()">
+            <div class="form-group" ng-class="{'has-error': addressForm.city.$invalid && addressForm.city.$dirty}">
               <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">City</label>
               <div class="col-sm-5">
                 <input class="form-control" id="inputUser" ng-model="user.city">
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': addressForm.city.$invalid && addressForm.city.$dirty}">
               <label for="inputUser" class="col-sm-2 col-sm-offset-2 form-control-label">Country</label>
               <div class="col-sm-5">
                 <input class="form-control" id="inputUser" ng-model="user.country">
@@ -79,7 +81,7 @@
             </div>
           </form>
           <div class="col-sm-8 col-sm-offset-4">
-            <button type="button" class="btn btn-success btn-sm" ng-click="saveAddressChanges()">Save Changes</button>
+            <button type="button" class="btn btn-success btn-sm" ng-click="saveAddressChanges()" ng-disabled="addressForm.$invalid">Save Changes</button>
             <button type="button" class="btn btn-danger btn-sm" ng-click="address.open = !address.open">Cancel</button>
           </div>
         </uib-accordion-group>
@@ -152,19 +154,19 @@
                         <button class="btn btn-sm btn-danger" ng-click="removeMember(member)"><i class="glyphicon glyphicon-remove"></i></button>
                     </td>
                 </tr>
-                <tr ng-form="newMemberForm">
+                <tr ng-form="newMemberForm" ng-submit="addMember()">
                     <td>
-                        <input class="form-control" type="text" ng-model="newMember.first_name" required>
+                        <input class="form-control" name="firstName" type="text" ng-model="newMember.first_name" required>
                     </td>
                     <td>
-                        <input class="form-control" type="text" ng-model="newMember.middle_name" required>
+                        <input class="form-control" name="middleName" type="text" ng-model="newMember.middle_name" required>
                     </td>
                     <td>
-                        <input class="form-control" type="text" ng-model="newMember.last_name" required>
+                        <input class="form-control" name="lastName" type="text" ng-model="newMember.last_name" required>
                     </td>
                     <td>
-                        <div class="input-group">
-                            <input class="form-control" type="text" ng-model="newMember.birthdate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.open" required>
+                        <div class="input-group" ng-class="{'has-error': newMemberForm.birthdate.$error.birthdate}">
+                            <input class="form-control" type="text" name="birthdate" ng-model="newMember.birthdate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.open" required birthdate datepicker-options="{minDate:today}" ng-focus="calendar.open = !calendar.open">
                             <div class="input-group-btn">
                                 <button class="btn btn-sm btn-link" ng-click="calendar.open = !calendar.open"><i class="glyphicon glyphicon-calendar"></i></button>
                             </div>
@@ -180,7 +182,7 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            <button class="btn btn-sm btn-success" ng-click="addMember()"><i class="glyphicon glyphicon-plus"></i></button>
+                            <button class="btn btn-sm btn-success" ng-click="addMember()" ng-disabled="newMemberForm.$invalid"><i class="glyphicon glyphicon-plus"></i></button>
                             <button class="btn btn-sm btn-danger" ng-click="resetMember()"><i class="glyphicon glyphicon-trash"></i></button>
                         </div>
                     </td>

@@ -16,10 +16,9 @@ angular.module('manageConferenceAttendeesCtrl', [])
 
     $scope.load = function() {
         console.log($scope.flightRadio);
-        $scope.tableParams = new ngTableParams(
-        {
+        $scope.tableParams = new ngTableParams({
             filter: {
-                'pivot.status' : $scope.statusRadio
+                'pivot.status': $scope.statusRadio
             }
         }, {
             counts: [],
@@ -61,8 +60,6 @@ angular.module('manageConferenceAttendeesCtrl', [])
                             $defer.resolve(orderedDatas);
                             $scope.setCSVData(orderedDatas);
                         } else {}
-                    }, function() {
-                        popup.connection();
                     })
 
             }
@@ -70,16 +67,15 @@ angular.module('manageConferenceAttendeesCtrl', [])
     }
 
     $scope.loadConferenceData = function() {
-    Conferences.fetch().get({cid: $stateParams.conferenceId})
-    .$promise.then( function( response ) {
-      if ( response ) {
-        $scope.conference = response;
-        //console.log(response);
-      } else {
-        popup.error( 'Error', response.message );
-      }}, function () {
-        popup.connection();
-      })
+        Conferences.fetch().get({ cid: $stateParams.conferenceId })
+            .$promise.then(function(response) {
+                if (response) {
+                    $scope.conference = response;
+                    //console.log(response);
+                } else {
+                    popup.error('Error', response.message);
+                }
+            })
     };
 
     $scope.load();
@@ -97,8 +93,6 @@ angular.module('manageConferenceAttendeesCtrl', [])
                 } else {
                     popup.error('Error', response.message);
                 }
-            }, function() {
-                popup.connection();
             })
     }
 
@@ -127,7 +121,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
             modalInstance.result.then(function(result) {
                 if (result) {
                     if (result.arrivalVehicle) {
-                        Conferences.passengers().save({cid: $scope.conferenceId, vid: result.arrivalVehicle }, { profile_id: attendee.id })
+                        Conferences.passengers().save({ cid: $scope.conferenceId, vid: result.arrivalVehicle }, { profile_id: attendee.id })
                             .$promise.then(function(response) {
                                 if (response.status != 200) {
                                     popup.error('Error', response.message);
@@ -136,7 +130,7 @@ angular.module('manageConferenceAttendeesCtrl', [])
                             })
                     }
                     if (result.departureVehicle) {
-                        Conferences.passengers().save({cid: $scope.conferenceId, vid: result.departureVehicle }, { profile_id: attendee.id })
+                        Conferences.passengers().save({ cid: $scope.conferenceId, vid: result.departureVehicle }, { profile_id: attendee.id })
                             .$promise.then(function(response) {
                                 if (response.status != 200) {
                                     popup.error('Error', response.message);
@@ -172,8 +166,6 @@ angular.module('manageConferenceAttendeesCtrl', [])
                 } else {
                     popup.error('Error', response.message);
                 }
-            }, function() {
-                popup.connection();
             })
 
         $scope.tableParams.reload();
@@ -183,20 +175,19 @@ angular.module('manageConferenceAttendeesCtrl', [])
         //console.log(JSON.stringify(data));
         $scope.csvData = [];
         var temp = {};
-        angular.forEach(data, function(item) { 
-          angular.forEach(item, function(value, key) { 
-            if (key == "pivot") {
-                temp['status'] = value.status;
-            }
-            else if ( key == "first_name" || key == "middle_name" || key == "last_name" || 
-                key == "birthdate" || key == "gender" || key == "email" || key == "phone" ||
-                key == "phone2") {
-                temp[key] = value;
-            }
-          });
-          // console.log(JSON.stringify(temp));
-          $scope.csvData.push(temp);
-          temp = {}
-    });  
-  }
+        angular.forEach(data, function(item) {
+            angular.forEach(item, function(value, key) {
+                if (key == "pivot") {
+                    temp['status'] = value.status;
+                } else if (key == "first_name" || key == "middle_name" || key == "last_name" ||
+                    key == "birthdate" || key == "gender" || key == "email" || key == "phone" ||
+                    key == "phone2") {
+                    temp[key] = value;
+                }
+            });
+            // console.log(JSON.stringify(temp));
+            $scope.csvData.push(temp);
+            temp = {}
+        });
+    }
 });
