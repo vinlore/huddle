@@ -1,27 +1,27 @@
 <div id="conference">
     <div class="banner" back-img="{{background}}">
-        <div class="jumbo-container" ng-if="editConference">
-            <input type="text" class="input-xxlg" ng-model="conference.name" placeholder="Name">
+        <form name="conForm" class="jumbo-container" ng-if="editConference" ng-submit="update()">
+            <input type="text" name="name" class="input-xxlg" ng-model="conference.name" placeholder="Name" required>
             <div class="input-dates">
                 <div class="input-group">
-                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.startDate" is-open="calendar.isOpen1" placeholder="Start Date">
+                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.startDate" is-open="calendar.isOpen1" placeholder="Start Date" future-date datepicker-options="{minDate: tomorrow}" ng-focus="calendar.isOpen1 = !calendar.isOpen1" ng-change="checkEndDate()" required>
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-link" ng-click="calendar.isOpen1 = !calendar.isOpen1"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>&nbspto &nbsp
                 <div class="input-group">
-                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.endDate" is-open="calendar.isOpen2" placeholder="End Date">
+                    <input type="custom-date" class="form-control input-xlg" uib-datepicker-popup="MMM dd, yyyy" ng-model="conference.endDate" is-open="calendar.isOpen2" placeholder="End Date" future-date datepicker-options="{minDate: conference.startDate}" ng-focus="calendar.isOpen2 = !calendar.isOpen2" ng-change="checkEndDate()" required>
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-link" ng-click="calendar.isOpen2 = !calendar.isOpen2"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
             </div>
-            <input type="text" class="input-xlg" ng-model="conference.address" placeholder="Address" ng-model-options="{debounce: 800}">
-            <input type="text" class="input-xlg" ng-model="conference.city" placeholder="City" ng-model-options="{debounce: 800}">
-            <input type="text" class="input-xlg" ng-model="conference.country" placeholder="Country" ng-model-options="{debounce: 800}">
-            <input type="number" class="input-xlg" ng-model="conference.capacity" placeholder="Capacity">
-            <textarea type="text" class="textarea-xlg" ng-model="conference.description" placeholder="Description" rows="3" wrap="soft"></textarea>
-        </div>
+            <input type="text" class="input-xlg" name="address" ng-model="conference.address" placeholder="Address" ng-model-options="{debounce: 800}" required>
+            <input type="text" class="input-xlg" name="city" ng-model="conference.city" placeholder="City" ng-model-options="{debounce: 800}" required>
+            <input type="text" class="input-xlg" name="country" ng-model="conference.country" placeholder="Country" ng-model-options="{debounce: 800}" required>
+            <input type="number" class="input-xlg" name="capacity" ng-model="conference.capacity" placeholder="Capacity" required>
+            <textarea type="text" class="textarea-xlg" name="description"  ng-model="conference.description" placeholder="Description" rows="3" wrap="soft"></textarea>
+        </form>
         <div class="jumbo-container" ng-if="!editConference">
             <h6 class="input-xxlg">{{conference.name}}</h6>
             <h6 class="input-xlg">{{conference.startDate | date }} to {{conference.endDate | date}}</h6>
@@ -37,7 +37,7 @@
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </button>
                 <div ng-if="editConference && auth">
-                    <button type="button" class="btn btn-success" ng-click="update()">
+                    <button type="button" class="btn btn-success" type="submit" ng-click="update()">
                         <span class="glyphicon glyphicon-ok"></span> Save Changes
                     </button>
                     <button type="button" class="btn btn-danger" ng-click="reset()">
@@ -47,12 +47,12 @@
             </div>
             <div class="page-header">
                 <h1>Events</h1>
-                <a type="button" class="btn btn-primary attendance no-animate" ui-sref="conference-signup({conferenceId: conference.id, name: conference.name})" ng-if="auth && !conferenceAttendance && attendanceLoaded">
+                <a type="button" class="btn btn-primary attendance no-animate" ui-sref="conference-signup({conferenceId: conference.id, name: conference.name})" ng-if="auth && !conferenceAttendance && attendanceLoaded && !isPastConference()">
                     <span class="glyphicon glyphicon-edit"></span>
                     <label> Sign up</label>
                 </a>
                 <!-- TODO show attending if attendee profile status -->
-                <button type="button" class="btn btn-success attendance attend-leave" ng-if="conferenceAttendance" ng-click="leaveConference()">
+                <button type="button" class="btn btn-success attendance attend-leave" ng-if="conferenceAttendance && !isPastConference()" ng-click="leaveConference()">
                     <span class="attending" ng-switch="conferenceAttendance">
                         <span class="glyphicon glyphicon-ok"></span>
                         <label ng-switch-default> Pending</label>
@@ -105,7 +105,7 @@
                                 <uib-timepicker ng-model="event.start_time" show-spinners="false" pad-hours="false" required></uib-timepicker>
                                 <uib-timepicker ng-model="event.end_time" min="event.start_time" show-spinners="false" pad-hours="false" required></uib-timepicker>
                                 <div class="input-group">
-                                    <input type="custom-date" class="form-control input-lg" uib-datepicker-popup="yyyy-MM-dd" ng-model="event.date" is-open="eventCalendar[$index]" placeholder="Event Date" required>
+                                    <input type="custom-date" class="form-control input-lg" uib-datepicker-popup="yyyy-MM-dd" ng-model="event.date" is-open="eventCalendar[$index]" placeholder="Event Date" required future-date datepicker-options="{minDate: conference.startDate}" ng-focus="eventCalendar[$index] = !eventCalendar[$index]">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-link" ng-click="eventCalendar[$index] = !eventCalendar[$index]"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
@@ -130,11 +130,11 @@
                             <span ng-if="event.age_limit">Ages: <strong>{{event.age_limit}}+</strong></span>
                             <span ng-if="!event.age_limit && !event.gender_limit">No restrictions</span>
                             <span>&nbspSeats: <strong>{{event.attendee_count}}/{{event.capacity}}</strong></span>
-                            <a type="button" class="btn btn-primary" ui-sref="event-signup({conferenceId: conference.id, eventId: event.id, name: event.name})" ng-if="auth && !eventAttendance[$index] && conferenceAttendance == 'approved' && attendanceLoaded2">
+                            <a type="button" class="btn btn-primary" ui-sref="event-signup({conferenceId: conference.id, eventId: event.id, name: event.name})" ng-if="auth && !eventAttendance[$index] && conferenceAttendance == 'approved' && attendanceLoaded2 && !isPastEvent(event.date)">
                                 <span class="glyphicon glyphicon-edit"></span>
                                 <label> Sign Up</label>
                             </a>
-                            <button type="button" class="btn btn-success attend-leave no-animate" ng-if="eventAttendance[$index]" ng-click="leaveEvent(event.id)">
+                            <button type="button" class="btn btn-success attend-leave no-animate" ng-if="auth && eventAttendance[$index] && !isPastEvent(event.date)" ng-click="leaveEvent(event.id)">
                                 <span class="attending" ng-switch="eventAttendance[$index]">
                                     <span class="glyphicon glyphicon-ok"></span>
                                     <label ng-switch-default> Pending</label>
@@ -148,8 +148,7 @@
                         </div>
                     </uib-accordion>
                 </div>
-                <h4 class="upcoming" ng-if="events.length <= 0">No events have been registered yet. Sign up for notifications about events for this conference
-                    <a href="">here</a>.</h4>
+                <h4 class="upcoming" ng-if="events.length <= 0">No events have been registered yet.</h4>
             </div>
             <h1 ng-if="inventory.length || accommodations.length || arrivalVehicles.length || departVehicles.length">Services</h1>
             <hr>
@@ -169,7 +168,7 @@
                     </ul>
                 </div>
                 <div class="col-sm-3" ng-if="arrivalVehicles.length > 0">
-                    <h4>Arrival Transportation</h4>
+                    <h4>Arrival Ride</h4>
                     <ul class="list-group">
                         <li class="list-group-item" ng-repeat="vehicle in arrivalVehicles">
                             {{vehicle.name}} <span class="badge">{{vehicle.capacity}}</span>
@@ -177,7 +176,7 @@
                     </ul>
                 </div>
                 <div class="col-sm-3" ng-if="departVehicles.length > 0">
-                    <h4>Departure Transportation</h4>
+                    <h4>Departure Ride</h4>
                     <ul class="list-group">
                         <li class="list-group-item" ng-repeat="vehicle in departVehicles">
                             {{vehicle.name}} <span class="badge">{{vehicle.capacity}}</span>

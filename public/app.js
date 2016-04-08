@@ -478,7 +478,16 @@ angular.module('cms', [
         templateUrl: 'components/createEvent/createEventView.html',
         controller: 'draftEventController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('event', 'event', $stateParams.event_id) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -487,7 +496,16 @@ angular.module('cms', [
         templateUrl: 'components/createConference/createConferenceView.html',
         controller: 'draftConferenceController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('conference', 'conference', $stateParams.conference_id) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
