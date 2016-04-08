@@ -15,7 +15,7 @@ class RegisterUserRequest extends Request
     {
         return [
             'username'      => ['required', 'min:4', 'alpha_dash', 'unique:users'],
-            'password'      => ['required', 'confirmed', 'min:8', 'alpha_dash', $this->NUMBER, $this->SPACES],
+            'password'      => ['required', 'confirmed', 'min:8', 'alpha_dash', $this->SPACES, $this->LETTER, $this->NUMBER],
             'first_name'    => ['required', 'string', 'max:255', $this->NAME],
             'middle_name'   => ['string', 'max:255', $this->NAME],
             'last_name'     => ['required', 'string', 'max:255', $this->NAME],

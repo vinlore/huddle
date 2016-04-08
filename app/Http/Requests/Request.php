@@ -20,14 +20,21 @@ abstract class Request extends FormRequest
      *
      * @var string
      */
-    protected $NUMBER = 'regex:/.*[0-9]+.*/';
+    protected $SPACES = 'regex:/.*[0-9]+.*/';
+
+    /**
+     * Regex that checks for at least one letter.
+     *
+     * @var string
+     */
+    protected $LETTER = 'regex:/^\d*[a-zA-Z][a-zA-Z0-9]*$/';
 
     /**
      * Regex that checks for at least one number.
      *
      * @var string
      */
-    protected $SPACES = 'regex:/^\S+(?: \S+)*$/';
+    protected $NUMBER = 'regex:/^\S+(?: \S+)*$/';
 
     /**
      * Verify the legitimacy of the API token.
