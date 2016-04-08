@@ -89,6 +89,7 @@
   <script src="components/manageAttendees/eventAttendeeModalController.js"></script>
   <script src="components/createEvent/draftEventController.js"></script>
   <script src="components/createConference/draftConferenceController.js"></script>
+  <script src="components/profile/memberController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/mapService.js"></script>

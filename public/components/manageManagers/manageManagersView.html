@@ -18,12 +18,14 @@
                 </tr>
             </tbody>
         </table>
-        <div class="input-group">
-            <input type="text" class="form-control" uib-typeahead="user as user.username for user in loadUsers($viewValue)" ng-model="selectedUser" typeahead-no-results="noResults" typeahead-loading="loadingUsers" ng-model-options="{debounce:500}">
-            <div class="input-group-btn">
-                <button class="btn btn-success" ng-click="addManager(selectedUser)" ng-disabled="!selectedUser"><i class="glyphicon glyphicon-plus-sign"></i></button>
+        <form>
+            <div class="input-group">
+                <input type="text" class="form-control" uib-typeahead="user as user.username for user in loadUsers($viewValue)" ng-model="selectedUser" typeahead-no-results="noResults" typeahead-loading="loadingUsers" ng-model-options="{debounce:500}" placeholder="Enter a username ...">
+                <div class="input-group-btn">
+                    <button class="btn btn-success" ng-click="addManager(selectedUser)" type="submit" ng-disabled="!selectedUser"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                </div>
             </div>
-        </div>
+        </form>
         <div class="pull-right">
             <i ng-show="loadingUsers" class="glyphicon glyphicon-refresh"></i>
             <div ng-show="noResults">

@@ -26,14 +26,13 @@ angular.module( 'manageAccountsCtrl', [] )
             count: 10
         },
         {
+            counts: [],
             total: 0,
             getData: function($defer, params) {
-                console.log($scope.selectedUser)
-                Users.query({username: $scope.search.selectedUser}).$promise.then( function (response) {
+                Users.get({username: $scope.search.selectedUser, page: params.page()}).$promise.then( function (response) {
                     if (response) {
-                        $scope.users = response;
-                        params.total(response.length);
-                        $defer.resolve(response);
+                        params.total(response.total);
+                        $defer.resolve(response.data);
                     }
                 })
             }

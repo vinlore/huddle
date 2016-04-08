@@ -53,7 +53,8 @@ angular.module('cms', [
     'conferenceAttendeeModalCtrl',
     'eventAttendeeModalCtrl',
     'draftEventCtrl',
-    'draftConferenceCtrl'
+    'draftConferenceCtrl',
+    'memberCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup, $uibModalStack ) {
@@ -202,7 +203,7 @@ angular.module('cms', [
     })
 
     .state( 'event-signup', {
-        url: '/event-:conferenceId?eventId/signup?name',
+        url: '/event-:eventId?conferenceId/signup?name',
         templateUrl: 'components/signupEvent/signupEventView.html',
         controller: 'signupEventController',
         resolve: {
@@ -477,7 +478,16 @@ angular.module('cms', [
         templateUrl: 'components/createEvent/createEventView.html',
         controller: 'draftEventController',
         resolve: {
-            loginRequired: loginRequired
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('event', 'event', $stateParams.event_id) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
         }
     })
 
@@ -485,6 +495,24 @@ angular.module('cms', [
         url: '/draft-conference-:conference_id',
         templateUrl: 'components/createConference/createConferenceView.html',
         controller: 'draftConferenceController',
+        resolve: {
+            loginRequired: loginRequired,
+            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+                var deferred = $q.defer();
+                if ( checkPermissions('conference', 'conference', $stateParams.conference_id) ) {
+                    deferred.resolve();
+                } else {
+                    $location.path('/');
+                }
+                return deferred.promise;
+            }
+        }
+    })
+
+    .state( 'member-profile', {
+        url: '/member-profile-:member_pid',
+        templateUrl: 'components/profile/memberView.html',
+        controller: 'memberController',
         resolve: {
             loginRequired: loginRequired
         }
@@ -575,10 +603,10 @@ angular.module('cms', [
                 case 401:
                     popup.error('Unauthorized', 'Access denied. You do not have the required permissions.');
                 case 403:
-                    popup.error('Forbidden', 'Access denied. Please try again later.');
+                    popup.warning('Forbidden', 'Access denied. Please try again later.');
                     break;
                 case 422:
-                    popup.error('Invalid Request', 'Check that all input fields are valid.');
+                    popup.warning('Invalid Request', 'Check that all input fields are valid.');
                     break;
                 case 500:
                     $state.go('500');
