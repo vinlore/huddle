@@ -68,7 +68,7 @@ class EventAttendeeController extends Controller
 
             return response()->success();
         } catch (Exception $e) {
-            return response()->error($e);
+            return response()->error();
         }
     }
 

@@ -192,6 +192,7 @@ class EventController extends Controller
      * Retrieve all Events of a certain status.
      *
      * @param  Request  $request
+     * @param  string  $status
      * @return Collection|Response
      */
     public function indexWithStatus(Request $request, $status)
