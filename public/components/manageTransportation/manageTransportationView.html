@@ -56,14 +56,51 @@
 								</div>
 							</div>
 						</uib-accordion-heading>
+
 						<div ng-if="v.attendees.length">
-			                <ul class="list-group">
-			                	<li class="list-group-item" ng-repeat="a in v.attendees">
+							<div class="row" ng-repeat="a in v.attendees" ng-if="parent == 0">
+								<div class="col-md-2">
 									<label>{{a.first_name}} {{a.last_name}}</label>
-									<button class="btn btn-sm btn-danger pull-right" ng-click="removeAttendee(v.id, a.id)"><i class="glyphicon glyphicon-remove"></i></button>
-			                	</li>
-			                </ul>
+					            </div>
+					            <div class="col-md-2">
+									<label>{{a.arrv_airport}}</label>
+					            </div>
+					            <div class="col-md-2">
+									<label>{{a.arrv_flight}}</label>
+					            </div>
+					            <div class="col-md-2">
+									<label>{{a.arrv_date}}</label>
+					            </div>
+					            <div class="col-md-2">
+									<label>{{a.arrv_time}}</label>
+					            </div>
+					            <div class="col-md-2">
+					            	<button class="btn btn-sm btn-danger pull-right" ng-click="removeAttendee(v.id, a.id)"><i class="glyphicon glyphicon-remove"></i></button>
+					            </div>
+				             </div>
+
+				             <div class="row" ng-repeat="a in v.attendees" ng-if="parent == 1">
+								<div class="col-md-2">
+									<label>{{a.first_name}} {{a.last_name}}</label>
+					            </div>
+					            <div class="col-md-2">
+									<label>{{a.dept_airport}}</label>
+					            </div>
+					            <div class="col-md-2">
+									<label>{{a.dept_flight}}</label>
+					            </div>
+					            <div class="col-md-2">
+									<label>{{a.dept_date}}</label>
+					            </div>
+					            <div class="col-md-2">
+									<label>{{a.dept_time}}</label>
+					            </div>
+					            <div class="col-md-2">
+					            	<button class="btn btn-sm btn-danger pull-right" ng-click="removeAttendee(v.id, a.id)"><i class="glyphicon glyphicon-remove"></i></button>
+					            </div>
+				             </div>
 			            </div>
+
 			            <div ng-if="!v.attendees.length">
 			                <p class="attendees_text">No passengers yet!</p>
 			            </div>
