@@ -3,12 +3,12 @@ angular.module('managersCtrl', [])
 
     $scope.managers = [];
     $scope.users = [];
-    $scope.selectedUser = null;
+    $scope.selectedUser = '';
 
     $scope.loadUsers = function (val) {
-        return Users.query({username: val}).$promise.then(function(response) {
+        return Users.get({username: val}).$promise.then(function(response) {
             if (response) {
-                return response;
+                return response.data;
             }
         })
     }
@@ -69,9 +69,9 @@ angular.module('managersCtrl', [])
     $scope.selectedUser = null;
 
     $scope.loadUsers = function (val) {
-        return Users.query({username: val}).$promise.then(function(response) {
+        return Users.get({username: val}).$promise.then(function(response) {
             if (response) {
-                return response;
+                return response.data;
             }
         })
     }

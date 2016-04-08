@@ -26,8 +26,7 @@ class UserController extends Controller
             $query = preg_replace($NON_ALPHA_NUM, '', $request->username);
             return User::where('username', 'like', '%'.$query.'%')
                        ->with('roles')
-                       ->get();
-                       // ->paginate(10);
+                       ->paginate(10);
         } catch (Exception $e) {
             return response()->error();
         }
