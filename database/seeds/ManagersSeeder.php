@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use App\Models\Conference;
+use App\Models\Event;
 
 class ManagersSeeder extends Seeder
 {
@@ -15,6 +16,10 @@ class ManagersSeeder extends Seeder
     {
         foreach (Conference::all() as $conference) {
             $conference->managers()->attach(1);
+        }
+
+        foreach (Event::all() as $event) {
+            $event->managers()->attach(1);
         }
     }
 }

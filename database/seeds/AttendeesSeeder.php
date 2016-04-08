@@ -82,14 +82,17 @@ class AttendeesSeeder extends Seeder
                 'gender'             => $profile->gender,
                 'accommodation_req'  => true,
                 'accommodation_pref' => 1,
-                'arrv_ride_req'      => false,
+                'arrv_ride_req'      => true,
+                'arrv_date'          => '2015-04-08',
+                'arrv_time'          => '21:30',
+                'arrv_airport'       => 'DEL',
+                'arrv_flight'        => 'AC2273',
                 'dept_ride_req'      => false,
                 'status'             => 'approved',
             ];
             $profile->conferences()->attach($conference, $attendee);
             $conference->increment('attendee_count');
             $profile->events()->attach($event);
-            $event->increment('attendee_count');
             $profile->rooms()->attach($room);
             $room->increment('guest_count');
             $profile->conferenceVehicles()->attach($conferenceVehicle);
