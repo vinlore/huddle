@@ -134,7 +134,7 @@
                                 <span class="glyphicon glyphicon-edit"></span>
                                 <label> Sign Up</label>
                             </a>
-                            <button type="button" class="btn btn-success attend-leave" ng-if="eventAttendance[$index]" ng-click="leaveEvent(event.id)">
+                            <button type="button" class="btn btn-success attend-leave no-animate" ng-if="eventAttendance[$index]" ng-click="leaveEvent(event.id)">
                                 <span class="attending" ng-switch="eventAttendance[$index]">
                                     <span class="glyphicon glyphicon-ok"></span>
                                     <label ng-switch-default> Pending</label>

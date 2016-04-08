@@ -1,42 +1,84 @@
 <div id="signupEvent" class="container has-header">
-  <h1 class="page-header text-center">{{header}} for the {{event.name}}</h1>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <div class="col-sm-12">
-        <h3 class="text-center">Request Transportation</h3>
-        <hr>
-        <form class="form-horizontal">
-        <div class="form-group">
-          <label for="inputUser" class="col-sm-2 col-sm-offset-1 control-label">Arrival:</label>
-          <div class="radio-inline col-sm-2 col-sm-offset-3 control-label">
-            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="true" ng-required="attendee.arrv_ride_req">Yes</label>
-          </div>
-
-          <div class="radio-inline col-sm-2 col-sm-offset-3 control-label">
-            <label><input type="radio" ng-model="attendee.arrv_ride_req" ng-value="false" ng-required="attendee.arrv_ride_req">No</label>
-          </div>
+    <h1 class="page-header text-center">{{header}} for the {{event.name}}</h1>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <h3 class="text-center">Request Transportation</h3>
+                <hr>
+                <form class="form-horizontal" name="seForm">
+                    <div class="form-group">
+                        <label for="inputUser" class="col-sm-4 control-label">*Arrival Ride</label>
+                        <div class="radio-inline col-sm-2 control-label">
+                            <label>
+                                <input type="radio" ng-model="attendee.arrv_ride_req" ng-value="true" required>Yes
+                            </label>
+                        </div>
+                        <div class="radio-inline col-sm-2 control-label">
+                            <label>
+                                <input type="radio" ng-model="attendee.arrv_ride_req" ng-value="false" required>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUser" class="col-sm-4 control-label">*Departure Ride</label>
+                        <div class="radio-inline col-sm-2 control-label">
+                            <label>
+                                <input type="radio" ng-model="attendee.dept_ride_req" ng-value="true" required>Yes
+                            </label>
+                        </div>
+                        <div class="radio-inline col-sm-2 control-label">
+                            <label>
+                                <input type="radio" ng-model="attendee.dept_ride_req" ng-value="false" required>No
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <div class="form-group">
-          <label for="inputUser" class="col-sm-2 col-sm-offset-1 control-label">Departure:</label>
-
-          <div class="radio-inline col-sm-2 col-sm-offset-3 control-label">
-            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="true" ng-required="attendee.dept_ride_req">Yes</label>
-          </div>
-
-          <div class="radio-inline col-sm-2 col-sm-offset-3 control-label">
-            <label><input type="radio" ng-model="attendee.dept_ride_req" ng-value="false" ng-required="attendee.dept_ride_req">No</label>
-          </div>
+    </div>
+    <h3 class="page-header" ng-if="members.length">Additional Members</h3>
+    <uib-accordion close-others="false">
+        <uib-accordion-group is-disabled="true" is-open="accordionIsOpen[$index]" ng-repeat="member in members track by $index">
+            <uib-accordion-heading>
+                {{member.first_name}} {{member.last_name}}
+                <i class="glyphicon glyphicon-ok pull-right" ng-class="{'btn-success': familyMembers[$index]}" ng-click="signupMember(member, $index)" ng-if="event.age_limit <= member.age"></i>
+                <label class="pull-right" ng-if="event.age_limit > member.age">Underage <i class="glyphicon glyphicon-ban-circle"></i></label>
+            </uib-accordion-heading>
+            <h3 class="text-center">Request Transportation</h3>
+            <hr>
+            <form class="form-horizontal" name="memberForm[{{$index}}]">
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-4 control-label">*Arrival Ride</label>
+                    <div class="radio-inline col-sm-2 control-label">
+                        <label>
+                            <input type="radio" ng-model="familyMembers[$index].arrv_ride_req" ng-value="true" required>Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline col-sm-2 control-label">
+                        <label>
+                            <input type="radio" ng-model="familyMembers[$index].arrv_ride_req" ng-value="false" required>No
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-4 control-label">*Departure Ride</label>
+                    <div class="radio-inline col-sm-2 control-label">
+                        <label>
+                            <input type="radio" ng-model="familyMembers[$index].dept_ride_req" ng-value="true" required>Yes</label>
+                    </div>
+                    <div class="radio-inline col-sm-2 control-label">
+                        <label>
+                            <input type="radio" ng-model="familyMembers[$index].dept_ride_req" ng-value="false" required>No</label>
+                    </div>
+                </div>
+            </form>
+        </uib-accordion-group>
+    </uib-accordion>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-half-block btn-success center-block" ng-click="submitRequest()" ng-disabled="seForm.$invalid">Submit Request</button>
+            </div>
         </div>
-      </form>
-      </div>
     </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <div class="col-sm-12">
-        <button type="submit" class="btn btn-half-block btn-success center-block" ng-click="submitRequest()">Submit Request</button>
-      </div>
-    </div>
-  </div>
 </div>

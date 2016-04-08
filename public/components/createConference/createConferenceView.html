@@ -74,8 +74,8 @@
             </div>
             <div class="col-sm-8 col-sm-offset-4">
                 <button ng-if="creation" class="btn btn-lg btn-success" type="submit" ng-click="submit()" ng-disabled="ccForm.$invalid">Create Request</button>
-                <button ng-if="draft" class="btn btn-md btn-info" type="submit" ng-click="submit()">Save Draft</button>
-                <button ng-if="draft" class="btn btn-md btn-success" type="submit" ng-click="publish()">Publish</button>
+                <button ng-if="draft" class="btn btn-md btn-info" type="submit" ng-click="submit()" ng-disabled="ccForm.$invalid">Save Draft</button>
+                <button ng-if="draft" class="btn btn-md btn-success" type="submit" ng-click="publish()" ng-disabled="ccForm.$invalid">Publish</button>
             </div>
         </div>
         <div>

@@ -289,7 +289,7 @@ angular.module( 'conferenceCtrl', [] )
             .$promise.then(function (response) {
                 if (response.status == 200) {
                     popup.alert('success', 'You are no longer attending this event.');
-                    $scope.checkConferenceAttendance();
+                    $scope.checkEventAttendance();
                 }
             })
     }

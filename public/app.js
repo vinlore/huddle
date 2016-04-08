@@ -459,34 +459,16 @@ angular.module('cms', [
         templateUrl: 'components/signupConference/attendeeSignupConferenceView.html',
         controller: 'attendeeConferenceController',
         resolve: {
-            loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
-                var deferred = $q.defer();
-                if ( checkPermissions('', 'profile', $stateParams.profile_id) ) {
-                    deferred.resolve();
-                } else {
-                    $location.path('/');
-                }
-                return deferred.promise;
-            }
+            loginRequired: loginRequired
         }
     })
 
     .state( 'attendee-event-profile', {
         url: '/attendee-event-profile-:event_name?:event_id?:profile_id',
-        templateUrl: 'components/signupEvent/signupEventView.html',
+        templateUrl: 'components/signupEvent/attendeeSignupEventView.html',
         controller: 'attendeeEventController',
         resolve: {
-            loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
-                var deferred = $q.defer();
-                if ( checkPermissions('', 'profile', $stateParams.profile_id) ) {
-                    deferred.resolve();
-                } else {
-                    $location.path('/');
-                }
-                return deferred.promise;
-            }
+            loginRequired: loginRequired
         }
     })
 

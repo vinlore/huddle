@@ -1559,6 +1559,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.attend-leave {
   min-width: 130px;
 }
 
@@ -1573,11 +1576,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   display: none;
 }
 
-.attendance:hover .attending {
+.attend-leave:hover .attending {
   display: none;
 }
 
-.attendance:hover .leave {
+.attend-leave:hover .leave {
   display: inline;
 }
 
