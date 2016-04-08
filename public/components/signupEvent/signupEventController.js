@@ -50,7 +50,8 @@ angular.module('signupEventCtrl', [])
                         response[i].age = calcAge(createDate(response[i].birthdate));
                         if (response[i]['is_owner']) {
                             delete response[i]['is_owner'];
-                            $scope.attendee['profile_id'] = response[i]['id'];
+                            $scope.attendee['profile_id'] = response[i]['profile_id'];
+                            console.log($scope.attendee)
                         } else {
                             delete response[i]['is_owner'];
                             profiles.push(response[i]);
@@ -92,22 +93,28 @@ angular.module('signupEventCtrl', [])
     $scope.loadEvent();
 
     $scope.submitRequest = function() {
-        for (var i = 0; i < $scope.familyMembers.length; i++) {
-            console.log('hi')
-            if ($scope.familyMembers[i].age >= $scope.event.age_limit) {
+        if ($scope.event.age_limit > 0 && $scope.event.age_limit) {
+            for (var i = 0; i < $scope.familyMembers.length; i++) {
+                if ($scope.familyMembers[i].age >= $scope.event.age_limit) {
+                    submitRequestApplication2($scope.familyMembers[i]);
+                }
+            }
+            if ($scope.attendee.age >= $scope.event.age_limit) {
+                submitRequestApplication($scope.attendee);
+            } else {
+                var warningMessage = 'You were unable to signup for ' + $scope.event.name + ' Event. You do not meet the age limit of ' + $scope.event.age_limit + '+.'
+                var modalInstance = popup.warning('Event Signup', warningMessage);
+                modalInstance.result.then(function(result) {
+                    if (result) {
+                        $state.go('conference', { conferenceId: $scope.event.conference_id });
+                    }
+                })
+            }
+        } else {
+            for (var i = 0; i < $scope.familyMembers.length; i++) {
                 submitRequestApplication2($scope.familyMembers[i]);
             }
-        }
-        if ($scope.attendee.age >= $scope.event.age_limit) {
             submitRequestApplication($scope.attendee);
-        } else {
-            var warningMessage = 'You were unable to signup for ' + $scope.event.name + ' Event. You do not meet the age limit of ' + $scope.event.age_limit + '+.'
-            var modalInstance = popup.warning('Event Signup', warningMessage);
-            modalInstance.result.then(function(result) {
-                if (result) {
-                    $state.go('conference', { conferenceId: $scope.event.conference_id });
-                }
-            })
         }
     };
 

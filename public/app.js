@@ -202,7 +202,7 @@ angular.module('cms', [
     })
 
     .state( 'event-signup', {
-        url: '/event-:conferenceId?eventId/signup?name',
+        url: '/event-:eventId?conferenceId/signup?name',
         templateUrl: 'components/signupEvent/signupEventView.html',
         controller: 'signupEventController',
         resolve: {
@@ -593,10 +593,10 @@ angular.module('cms', [
                 case 401:
                     popup.error('Unauthorized', 'Access denied. You do not have the required permissions.');
                 case 403:
-                    popup.error('Forbidden', 'Access denied. Please try again later.');
+                    popup.warning('Forbidden', 'Access denied. Please try again later.');
                     break;
                 case 422:
-                    popup.error('Invalid Request', 'Check that all input fields are valid.');
+                    popup.warning('Invalid Request', 'Check that all input fields are valid.');
                     break;
                 case 500:
                     $state.go('500');
