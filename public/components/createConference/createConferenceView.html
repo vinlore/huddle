@@ -32,7 +32,7 @@
                         <label for="cc-start-date" class="col-sm-3 control-label">*Start Date</label>
                         <div class="col-sm-9">
                             <div class="input-group">
-                                <input type="text" name="startDate" class="form-control" id="cc-start-date" ng-model="conference.start_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen1" required datepicker-options="{minDate: tomorrow}" future-date ng-focus="calendar.isOpen1 = !calendar.isOpen1" ng-change="checkEndDate()">
+                                <input type="text" name="startDate" class="form-control" id="cc-start-date" ng-model="conference.startDate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen1" required datepicker-options="{minDate: tomorrow}" future-date ng-focus="calendar.isOpen1 = !calendar.isOpen1" ng-change="checkEndDate()">
                                 <span class="input-group-btn">
                                     <button class="btn btn-link" type="button" ng-click="calendar.isOpen1 = !calendar.isOpen1">
                                         <i class="glyphicon glyphicon-calendar"></i>
@@ -46,14 +46,14 @@
                         <label for="cc-end-date" class="col-sm-3 control-label">*End Date</label>
                         <div class="col-sm-9">
                             <div class="input-group">
-                                <input type="text" name="endDate" class="form-control" id="cc-end-date" ng-model="conference.end_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" required datepicker-options="{minDate: conference.startDate}" future-date ng-focus="calendar.isOpen2 = !calendar.isOpen2" ng-change="checkEndDate()">
+                                <input type="text" name="endDate" class="form-control" id="cc-end-date" ng-model="conference.endDate" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar.isOpen2" required datepicker-options="{minDate: conference.startDate}" future-date ng-focus="calendar.isOpen2 = !calendar.isOpen2" ng-change="checkEndDate()">
                                 <span class="input-group-btn">
                                     <button class="btn btn-link" type="button" ng-click="calendar.isOpen2 = !calendar.isOpen2">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
                                 </span>
                             </div>
-                            <uib-alert class="input-alert" type="danger">Date must be start date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+                            <uib-alert class="input-alert" type="danger">Date must be after start date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                         </div>
                     </div>
                     <div class="form-group" ng-class="{'has-error': ccForm.capacity.$error.number}">

@@ -28,14 +28,14 @@
                     <p>{{c.start_date | date}} - {{c.end_date | date}}</p>
                     <p>{{c.attendee_count}}/{{c.capacity}}</p>
                     <div class="btn-group">
-                        <button class="btn btn-sm btn-success margin-top-35" ng-click="goCreateEvent(c.id, $event)" ng-if="checkPermission('event.store', 'conference', c.id)">
+                        <button class="btn btn-sm btn-success margin-top-35 no-animate" ng-click="goCreateEvent(c.id, $event)" ng-if="checkPermission('event.store', 'conference', c.id) && c.status=='approved'">
                             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbspCreate Event
                         </button>
                         <button class="btn btn-sm btn-danger margin-top-35" ng-click="deleteConference(c.id, $event)" ng-if="checkPermission('conference.destroy', 'conference', c.id)">
                             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>&nbspDelete
                         </button>
                     </div>
-                    <div class="pull-right hidden-xs margin-top-35">
+                    <div class="pull-right visible-lg margin-top-35">
                         <button class="btn btn-sm btn-default" ng-if="checkPermissions('user', '', '')" ng-click="goConferenceManagers(c.id, $event)">
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Managers
                         </button>
@@ -55,7 +55,7 @@
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Attendees
                         </button>
                     </div>
-                    <div class="visible-xs btn-group pull-right margin-top-35">
+                    <div class="hidden-lg btn-group pull-right margin-top-35">
                         <button class="btn btn-sm btn-default" ng-if="checkPermissions('user', '', '')" ng-click="goConferenceManagers(c.id, $event)">
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                         </button>
