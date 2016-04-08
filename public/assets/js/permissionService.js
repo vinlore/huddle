@@ -60,6 +60,14 @@ app.service('checkPermissions', function ($rootScope) {
                 var permissions = p['user.update'] || p['user.show'] || p['user.destroy']
                 return permissions;
                 break;
+            case 'conference':
+                var permissions = p['conference.store'] || p['conference.update'] || p['conference.destroy']
+                return permissions;
+                break;
+            case 'event':
+                var permissions = p['event.store'] || p['event.update'] || p['event.destroy']
+                return permissions;
+                break;
             default:
                 return isManager; 
         }

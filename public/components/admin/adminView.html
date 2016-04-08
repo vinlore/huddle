@@ -117,7 +117,7 @@
                     <hr ng-show="!$last">
                 </div>
             </div>
-            <div ng-if="!events[$index]">
+            <div ng-if="events[$index] <= 0">
                 <p class="event-text">No events scheduled yet!</p>
             </div>
         </uib-accordion-group>
