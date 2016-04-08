@@ -56,9 +56,9 @@ class ConferenceAttendeeController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
-            $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->getKey();
-            if ($userId != $profileOwnerId) {
+            $uid = $request->header('ID');
+            $profileOwner = $profile->user()->first()->getKey();
+            if ($uid != $profileOwner) {
                 return response()->error(403);
             }
 
@@ -70,7 +70,7 @@ class ConferenceAttendeeController extends Controller
 
             $conference->attendees()->attach($profile, $request->except('profile_id'));
 
-            $this->addActivity($profile->user()->first()->getKey(), $activityType, $cid, 'conference application', $pid);
+            $this->addActivity($uid, $activityType, $cid, 'conference application', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -126,9 +126,9 @@ class ConferenceAttendeeController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
-            $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->getKey();
-            if ($userId != $profileOwnerId) {
+            $uid = $request->header('ID');
+            $profileOwner = $profile->user()->first()->getKey();
+            if ($uid != $profileOwner) {
                 if (!$this->isConferenceManager($request, $cid)) {
                     return response()->error(403);
                 }
@@ -169,7 +169,7 @@ class ConferenceAttendeeController extends Controller
 
             $conference->attendees()->updateExistingPivot($pid, $request->all());
 
-            $this->addActivity($userId, $activityType, $cid, 'conference application', $pid);
+            $this->addActivity($uid, $activityType, $cid, 'conference application', $pid);
 
             return response()->success();
         } catch (Exception $e) {

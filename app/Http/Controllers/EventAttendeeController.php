@@ -56,9 +56,9 @@ class EventAttendeeController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
-            $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->getKey();
-            if ($userId != $profileOwnerId) {
+            $uid = $request->header('ID');
+            $profileOwner = $profile->user()->first()->getKey();
+            if ($uid != $profileOwner) {
                 return response()->error(403);
             }
 
@@ -76,7 +76,7 @@ class EventAttendeeController extends Controller
 
             $event->attendees()->attach($profile, $request->except('profile_id'));
 
-            $this->addActivity($profile->user()->first()->getKey(), $activityType, $eid, 'event application', $pid);
+            $this->addActivity($uid, $activityType, $eid, 'event application', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -132,9 +132,9 @@ class EventAttendeeController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
-            $userId = $request->header('ID');
-            $profileOwnerId = $profile->user()->first()->getKey();
-            if ($userId != $profileOwnerId) {
+            $uid = $request->header('ID');
+            $profileOwner = $profile->user()->first()->getKey();
+            if ($uid != $profileOwner) {
                 if (!$this->isEventManager($request, $eid)) {
                     return response()->error(403);
                 }
@@ -175,7 +175,7 @@ class EventAttendeeController extends Controller
 
             $event->attendees()->updateExistingPivot($pid, $request->all());
 
-            $this->addActivity($request->header('ID'),'update', $eid, 'event application', $pid);
+            $this->addActivity($uid, $activityType, $eid, 'event application', $pid);
 
             return response()->success();
         } catch (Exception $e) {
