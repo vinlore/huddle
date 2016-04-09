@@ -19,7 +19,7 @@
         <div class="navbar-collapse" uib-collapse="isCollapsed" ng-hide="!auth">
             <ul class="nav navbar-nav navbar-right">
                 <li ng-if="auth && check('admin', '', '')"><a href="/admin">Admin</a></li>
-                <li ng-if="auth && isAdmin"><a href="/accounts">Manage Accounts</a></li>
+                <li ng-if="auth && check('administrator', '', '')"><a href="/accounts">Manage Accounts</a></li>
                 <li ng-if="auth && check('publisher', '', '')"><a href="/requests">Publisher</a></li>
                 <li ng-if="auth && check('user', '', '')"><a href="/logs">Activity Log</a></li>
                 <li><a href="/profile" ng-if="auth">{{user.name | uppercase}}</a></li>

@@ -1,8 +1,7 @@
 angular.module( 'headerCtrl', [] )
-.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout, $rootScope, $localStorage, popup, checkPermissions, isAdmin ) {
+.controller( 'headerController', function ( $scope, $rootScope, $uibModal, $auth, $location, $timeout, Logout, $rootScope, $localStorage, popup, checkPermissions ) {
 
     $scope.isCollapsed = true;
-    $scope.isAdmin = isAdmin();
 
     $scope.check = function(permission, thing, type) {
         return checkPermissions(permission, thing, type);

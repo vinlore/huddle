@@ -601,14 +601,24 @@ angular.module('cms', [
             var $state = $injector.get('$state');
             var popup = $injector.get('popup');
             switch (errorResponse.status) {
+                case 400:
+                    popup.warning('400 Bad Request', 'Request was not formed properly. Please try again later.')
                 case 401:
-                    popup.error('Unauthorized', 'Access denied. You do not have the required permissions.');
-                case 403:
-                    popup.warning('Forbidden', 'Access denied. Please try again later.');
+                    popup.warning('401 Unauthorized', 'Access denied. You do not have the required permissions.');
                     $state.go('login');
                     break;
+                case 403:
+                    popup.warning('403 Forbidden', 'Access denied. Please try again later.');
+                    break;
+                case 404:
+                    $state.go('404');
+                    break;
                 case 422:
-                    popup.warning('Invalid Request', 'Check that all input fields are valid.');
+                    if (errorResponse.message) {
+                        popup.warning('422 Invalid Request', errorResponse.message);
+                    } else {
+                        popup.warning('422 Invalid Request', 'Check that all input fields are valid.');
+                    }
                     break;
                 case 500:
                     $state.go('500');
