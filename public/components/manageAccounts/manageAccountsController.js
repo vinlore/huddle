@@ -1,5 +1,5 @@
 angular.module( 'manageAccountsCtrl', [] )
-.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, Users, ngTableParams ) {
+.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, Users, ngTableParams, $uibModal ) {
 
     $scope.search = {selectedUser: null};
 
@@ -215,5 +215,20 @@ angular.module( 'manageAccountsCtrl', [] )
     }
 
     $scope.events = null;
+
+    $scope.resetPassword = function (user) {
+        var modalInstance = $uibModal.open({
+            animation: false,
+            templateUrl: 'components/manageAccounts/resetPasswordModal.html',
+            controller: 'resetPasswordModalController',
+            size: 'lg'
+        })
+
+        modalInstance.result.then(function(result) {
+            if (result) {
+                // TODO communicate with backend
+            }
+        })
+    }
 
 } )

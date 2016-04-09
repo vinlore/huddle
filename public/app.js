@@ -54,7 +54,8 @@ angular.module('cms', [
     'eventAttendeeModalCtrl',
     'draftEventCtrl',
     'draftConferenceCtrl',
-    'memberCtrl'
+    'memberCtrl',
+    'resetPasswordModalCtrl'
 ])
 
 .run( function( $rootScope, $auth, $localStorage, $http, popup, $uibModalStack ) {

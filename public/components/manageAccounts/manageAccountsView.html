@@ -7,7 +7,7 @@
                     <div>Roles</div>
                 </uib-accordion-heading>
                 <uib-accordion>
-                    <uib-accordion-group ng-repeat="role in roles">
+                    <uib-accordion-group ng-repeat="role in roles" ng-if="role.id != 1">
                         <uib-accordion-heading>
                             <div>{{role.name}}</div>
                         </uib-accordion-heading>
@@ -259,6 +259,7 @@
                                 <select class="form-control" ng-options="role.id as role.name for role in roles" ng-model="user.roles['0'].pivot.role_id" ng-change="givePermissions(user)">
                                     <option value="" disabled>Role</option>
                                 </select>
+                                <a href="" ng-click="resetPassword(user.id)" ng-if="user.roles['0'].pivot.role_id != 1">Reset Password</a>
                             </td>
                             <td title="'Conference'">
                                 <div class="btn-group-vertical">
@@ -344,9 +345,9 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="btn-group">
-                                    <button class="btn btn-warning" ng-click="updateUserRole(user)"><i class="glyphicon glyphicon-edit"></i></button>
-                                    <button class="btn btn-danger" ng-click="deleteUser(user.id)"><i class="glyphicon glyphicon-minus"></i></button>
+                                <div class="btn-group-vertical">
+                                    <button class="btn btn-warning" ng-click="updateUserRole(user)" ng-if="user.roles['0'].pivot.role_id != 1"><i class="glyphicon glyphicon-edit"></i></button>
+                                    <!-- <button class="btn btn-danger" ng-click="deleteUser(user.id)"><i class="glyphicon glyphicon-minus"></i></button> -->
                                 </div>
                             </td>
                         </tr>

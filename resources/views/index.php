@@ -90,6 +90,7 @@
   <script src="components/createEvent/draftEventController.js"></script>
   <script src="components/createConference/draftConferenceController.js"></script>
   <script src="components/profile/memberController.js"></script>
+  <script src="components/manageAccounts/resetPasswordModalController.js"></script>
 
   <!-- SERVICES -->
   <script src="assets/js/mapService.js"></script>
