@@ -18,7 +18,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     protected $ADMIN = [
         'username' => 'admin',
-        'password' => 'password',
+        'password' => 'password1',
+    ];
+
+    /**
+     * User credentials
+     *
+     * @var array
+     */
+    protected $header = [
+        'HTTP_X-Auth-Token' => NULL,
+        'HTTP_ID'           => NULL,
     ];
 
     /**
@@ -45,13 +55,28 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * Login with a set of user credentials.
+     * Log in with a set of user credentials and retrieve information for header.
      *
      * @return void
      */
     protected function login($credentials)
     {
-        $this->json('POST', '/api/signin', $credentials);
+        $response = $this->call('POST', '/api/auth/login', $credentials);
+        $this->assertEquals(200, $response->status());
+
+        $content = json_decode($response->getContent());
+        $this->header['HTTP_X-Auth-Token'] = $content->token;
+        $this->header['HTTP_ID'] = $content->user_id;
+    }
+
+    /**
+     * Log out of the current user.
+     *
+     * @return void
+     */
+    protected function logout()
+    {
+        $response = $this->json('POST', '/api/auth/logout', [], $this->header);
         $this->assertResponseOk();
     }
 }
