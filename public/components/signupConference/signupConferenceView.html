@@ -139,7 +139,7 @@
                             </div>
                         </div>
                         <label ng-repeat="accom in accommodations" ng-if="accommodation.accommodation_req">
-                            <input type="radio" ng-model="accommodation.accommodation_pref" ng-value="accom.id" ng-disabled="!accommodation.accommodation_req" ng-required="accommodation.accommodation_req">&nbsp{{accom.name}} @ {{accom.address}}
+                            <input type="radio" ng-model="accommodation.accommodation_pref" ng-value="accom.id" ng-disabled="!accommodation.accommodation_req">&nbsp{{accom.name}} @ {{accom.address}}
                         </label>
                     </form>
                 </div>
@@ -178,7 +178,7 @@
                             <label for="arrival-date" class="col-sm-4 control-label">Arrival Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" id="arrival-date" name="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[1]" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req" future-date datepicker-options="{minDate: today}" ng-focus="calendar[1] = !calendar[1]">
+                                    <input type="text" id="arrival-date" name="arrivalDate" class="form-control" ng-model="arrival.arrv_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[1]" placeholder="YYYY-MM-DD" ng-disabled="!arrival.arrv_ride_req" ng-required="arrival.arrv_ride_req" future-date datepicker-options="{minDate: today}" ng-focus="calendar[1] = !calendar[1]" ng-change="isDateAfterForm(arrival.arrv_date, departure.dept_date)">
                                     <span class="input-group-btn">
                                         <button class="btn btn-link" type="button" ng-click="calendar[1] = !calendar[1]">
                                             <i class="glyphicon glyphicon-calendar"></i>
@@ -226,18 +226,18 @@
                             </div>
                         </div>
 
-                        <div class="form-group" ng-class="{'has-error': departureForm.departDate.$error.futureDate}">
+                        <div class="form-group" ng-class="{'has-error': departureForm.departDate.$invalid && departureForm.departDate.$dirty}">
                             <label for="depart-date" class="col-sm-4 control-label">Departure Date</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="text" name="departDate" class="form-control" ng-model="departure.dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[2]" placeholder="YYYY-MM-DD" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req" datepicker-options="{minDate:arrival.arrv_date}" future-date ng-focus="calendar[2] = !calendar[2]">
+                                    <input type="text" name="departDate" class="form-control" ng-model="departure.dept_date" uib-datepicker-popup="yyyy-MM-dd" is-open="calendar[2]" placeholder="YYYY-MM-DD" ng-disabled="!departure.dept_ride_req" ng-required="departure.dept_ride_req" datepicker-options="{minDate:arrival.arrv_date}" future-date ng-focus="calendar[2] = !calendar[2]" ng-change="isDateAfterForm(arrival.arrv_date, departure.dept_date)">
                                     <span class="input-group-btn">
                                         <button class="btn btn-link" type="button" ng-click="calendar[2] = !calendar[2]">
                                             <i class="glyphicon glyphicon-calendar"></i>
                                         </button>
                                     </span>
                                 </div>
-                                <uib-alert class="input-alert" type="danger">Date must be after today and Arrival Date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+                                <uib-alert class="input-alert" type="danger">Date must be after Arrival Date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
                         <div class="form-group" ng-class="{'has-error': departureForm.departTime.$invalid}">
@@ -305,7 +305,7 @@
                                         </button>
                                     </span>
                                 </div>
-                                <uib-alert class="input-alert" type="danger">Date must be after today and Arrival Date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+                                <uib-alert class="input-alert" type="danger">Date must be after Arrival Date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
                         <div class="form-group" ng-class="{'has-error': memberArrivalForm[{{$index}}].arrivalTime.$invalid}">
@@ -354,7 +354,7 @@
                                         </button>
                                     </span>
                                 </div>
-                                <uib-alert class="input-alert" type="danger">Date must be after today and Arrival Date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
+                                <uib-alert class="input-alert" type="danger">Date must be after Arrival Date!<i class="pull-right glyphicon glyphicon-exclamation-sign"></i></uib-alert>
                             </div>
                         </div>
 
@@ -380,7 +380,7 @@
                             </div>
                         </div>
                         <label ng-repeat="accom in accommodations track by accom.id" ng-if="familyMembers[$parent.$index].accommodation_req">
-                            <input type="radio" ng-model="familyMembers[$parent.$parent.$index].accommodation_pref" ng-value="accom.id" ng-required="familyMembers[$parent.$parent.$index].accommodation_req" ng-disabled="!familyMembers[$parent.$parent.$index].accommodation_req">&nbsp{{accom.name}} @ {{accom.address}}
+                            <input type="radio" ng-model="familyMembers[$parent.$parent.$index].accommodation_pref" ng-value="accom.id" ng-disabled="!familyMembers[$parent.$parent.$index].accommodation_req">&nbsp{{accom.name}} @ {{accom.address}}
                         </label>
                     </form>
                 </div>

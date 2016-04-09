@@ -138,41 +138,40 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
         var result = [];
         for (var i=0; i < family.length; i++) {
             if (family[i]) {
-                family[i].birthdate = $filter('date')(family[i].birthdate, 'yyyy-MM-dd');
-                family[i].arrv_time = $filter('date')(family[i].arrv_time, 'HH:mm');
-                family[i].arrv_date = $filter('date')(family[i].arrv_date, 'yyyy-MM-dd');
-                family[i].dept_time = $filter('date')(family[i].dept_time, 'HH:mm');
-                family[i].dept_date = $filter('date')(family[i].dept_date, 'yyyy-MM-dd');
-                family[i].phone = $scope.user.phone;
-                family[i].contact_first_name = $scope.emergencyContact.contact_first_name,
-                family[i].contact_last_name = $scope.emergencyContact.contact_last_name,
-                family[i].contact_phone = $scope.emergencyContact.contact_phone,
-                family[i].contact_email = $scope.emergencyContact.contact_email,
-                family[i].country = $scope.user.country;
-                family[i].city = $scope.user.city;
-                result.push(family[i]);
+                var member = angular.extend({}, family[i]);
+                member.birthdate = $filter('date')(member.birthdate, 'yyyy-MM-dd');
+                member.arrv_time = $filter('date')(member.arrv_time, 'HH:mm');
+                member.arrv_date = $filter('date')(member.arrv_date, 'yyyy-MM-dd');
+                member.dept_time = $filter('date')(member.dept_time, 'HH:mm');
+                member.dept_date = $filter('date')(member.dept_date, 'yyyy-MM-dd');
+                member.phone = $scope.user.phone;
+                member.contact_first_name = $scope.emergencyContact.contact_first_name,
+                member.contact_last_name = $scope.emergencyContact.contact_last_name,
+                member.contact_phone = $scope.emergencyContact.contact_phone,
+                member.contact_email = $scope.emergencyContact.contact_email,
+                member.country = $scope.user.country;
+                member.city = $scope.user.city;
+                result.push(member);
             }
         }
         return result;
     }
 
     var signup = function (profile) {
-        Conferences.attendees().save({ cid: $scope.conference.conferenceId }, profile)
-                .$promise.then(function(response) {
-                    if (response.status == 200) {
-                        popup.alert('success', 'You have been successfully signed up for approval to attend this conference.');
-                        $state.go('conference', { conferenceId: $scope.conference.conferenceId });
-                    } else {
-                        popup.error('Error', response.message);
-                    }
-                }, function() {
-                    popup.connection();
-                });
+		Conferences.attendees().save({ cid: $scope.conference.conferenceId }, profile)
+            .$promise.then(function(response) {
+                if (response.status == 200) {
+                    popup.alert('success', 'You have been successfully signed up for approval to attend this conference.');
+                    $state.go('conference', { conferenceId: $scope.conference.conferenceId });
+                } else {
+                    popup.error('Error', response.message);
+                }
+            });
     }
 
     $scope.submitRequest = function() {
-
-        if ($scope.profileForm.$valid && $scope.contactForm.$valid && $scope.arrivalForm.$valid && $scope.departureForm.$valid && $scope.accommForm.$valid) {
+    	var members = processMembers($scope.familyMembers);
+        if ($scope.profileForm.$valid && $scope.contactForm.$valid && $scope.arrivalForm.$valid && $scope.departureForm.$valid && $scope.accommForm.$valid && checkDates(members)) {
             var city, country = null;
             if ( $scope.user.city ) {
                 city = $scope.user.city;
@@ -189,7 +188,7 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
             }
             $scope.user.country = country;
             $scope.user.city = city;
-            var profile = $scope.user;
+            var profile = angular.extend({}, $scope.user);
             delete profile['updated_at'];
             angular.extend(profile, $scope.accommodation);
             angular.extend(profile, $scope.arrival);
@@ -200,7 +199,6 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
             profile.birthdate = $filter('date')(profile.birthdate, 'yyyy-MM-dd');
             profile.arrv_date = $filter('date')(profile.arrv_date, 'yyyy-MM-dd');
             profile.dept_date = $filter('date')(profile.dept_date, 'yyyy-MM-dd');
-            var members = processMembers($scope.familyMembers);
             for (var i=0; i<members.length; i++) {
                 signup(members[i]);
             }
@@ -216,6 +214,44 @@ app.controller('signupConferenceController', function($scope, $stateParams, Conf
                 object[key] = null;
             }
         })
+    }
+
+    var checkDates = function (members) {
+    	var isOkay = true;
+    	for (var i=0; i<members.length; i++) {
+    		if (members[i]) {
+    			var isDateAfter = $scope.isDateAfter(members[i].arrv_date, members[i].dept_date);
+    			if (!isDateAfter) {
+    				popup.error('Invalid Transportation Dates', 'Check members\' departure date is after arrival date');
+    			}
+    			isOkay = isOkay && $scope.isDateAfter(members[i].arrv_date, members[i].dept_date);
+    		}
+    	}
+    	return isOkay;
+    }
+
+    // returns if date 2 is after date1
+    $scope.isDateAfter = function (date1, date2) {
+    	if (!date1 || !date2) return true;
+        var start = new Date(date1);
+        var end = new Date(date2);
+        if (end.getTime() > start.getTime()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    $scope.isDateAfterForm = function (date1, date2) {
+    	if (date1 && date2) {
+	        var start = new Date(date1);
+	        var end = new Date(date2);
+	        if (end.getTime() > start.getTime()) {
+	            $scope.departureForm.departDate.$invalid = false;
+	        } else {
+	            $scope.departureForm.departDate.$invalid = true;
+	        }
+	    }
     }
 
 })
