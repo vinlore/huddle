@@ -107,4 +107,30 @@ class UserController extends Controller
             return response()->error();
         }
     }
+
+    /**
+     * Reset the password of a User.
+     *
+     * @param  UserRequest  $request
+     * @param  int  $uid
+     * @return Response
+     */
+    public function resetPassword(ResetPasswordRequest $request, $uid)
+    {
+        try {
+            $user = Sentinel::findById($uid);
+            if (!$user) {
+                return response()->error(404, 'User Not Found');
+            }
+
+            $newPassword = [
+                'password' => $request->new_password,
+            ];
+            Sentinel::update($user, $newPassword);
+
+            return response()->success();
+        } catch (Exception $e) {
+            return response()->error();
+        }
+    }
 }

@@ -33,6 +33,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // -------------------------------------------------------------------------
 
     Route::post('users/{uid}/updatePassword', 'UserController@updatePassword');
+    Route::post('users/{uid}/resetPassword', 'UserController@resetPassword');
     Route::resource('users', 'UserController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
