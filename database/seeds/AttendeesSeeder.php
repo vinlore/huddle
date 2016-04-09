@@ -83,7 +83,7 @@ class AttendeesSeeder extends Seeder
                 'accommodation_req'  => true,
                 'accommodation_pref' => 1,
                 'arrv_ride_req'      => true,
-                'arrv_date'          => '2015-04-08',
+                'arrv_date'          => '2016-04-08',
                 'arrv_time'          => '21:30',
                 'arrv_airport'       => 'DEL',
                 'arrv_flight'        => 'AC2273',
