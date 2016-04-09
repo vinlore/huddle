@@ -79,9 +79,7 @@ class UserController extends Controller
             // or a System Administrator.
             $initiator = $request->header('ID');
             if ($initiator != $uid) {
-                if (!$this->isSuperuser($request)) {
-                    return response()->error(403);
-                }
+                return response()->error(403);
             }
 
             $user = Sentinel::findById($uid);
