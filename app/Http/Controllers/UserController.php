@@ -26,6 +26,7 @@ class UserController extends Controller
             $NON_ALPHA_NUM = '/[^A-Za-z0-9]/';
             $query = preg_replace($NON_ALPHA_NUM, '', $request->username);
             return User::where('username', 'like', '%'.$query.'%')
+                       ->select(['id', 'username', 'permissions'])
                        ->with('roles')
                        ->paginate(10);
         } catch (Exception $e) {
