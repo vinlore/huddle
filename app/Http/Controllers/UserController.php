@@ -93,8 +93,7 @@ class UserController extends Controller
             $oldPassword = [
                 'password' => $request->old_password,
             ];
-            $validate = Sentinel::validateCredentials($user, $oldPassword);
-            if (!$validate) {
+            if (!Sentinel::validateCredentials($user, $oldPassword)) {
                 return response()->error(422, 'Incorrect old password!');
             }
 
