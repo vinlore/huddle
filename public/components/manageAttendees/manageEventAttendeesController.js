@@ -16,10 +16,13 @@ angular.module( 'manageEventAttendeesCtrl', [] )
 		  {
 		  	filter: {
                 'pivot.status' : $scope.statusRadio
-            }
+            },
+            page: 1,
+            count: 10
 		  },
 		  {
-		    counts: [],
+		    counts: [10, 20, 50],
+            total: 0,
 		    getData: function ($defer, params) {
 		      	// organize filter as $filter understand it (graph object)
                 var filters = {};
@@ -53,8 +56,10 @@ angular.module( 'manageEventAttendeesCtrl', [] )
                         var sorting = params.sorting();
                         var key = sorting ? Object.keys(sorting)[0] : null;
                         var orderedDatas = sorting ? $filter('orderBy')(filteredDatas, key, sorting[key] == 'desc') : filteredDatas;
+                        var datas = orderedDatas.slice((params.page()-1)*params.count(), params.page()*params.count());
 
-                        $defer.resolve(orderedDatas);
+                        params.total(orderedDatas.length);
+                        $defer.resolve(datas);
                         $scope.setCSVData(orderedDatas);
 			        } else {
 			          popup.error( 'Error', response.message );

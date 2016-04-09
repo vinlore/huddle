@@ -19,9 +19,12 @@ angular.module('manageConferenceAttendeesCtrl', [])
         $scope.tableParams = new ngTableParams({
             filter: {
                 'pivot.status': $scope.statusRadio
-            }
+            },
+            page: 1,
+            count: 10
         }, {
-            counts: [],
+            counts: [10, 20, 50],
+            total: 0,
             getData: function($defer, params) {
 
                 // organize filter as $filter understand it (graph object)
@@ -54,10 +57,11 @@ angular.module('manageConferenceAttendeesCtrl', [])
                             var sorting = params.sorting();
                             var key = sorting ? Object.keys(sorting)[0] : null;
                             var orderedDatas = sorting ? $filter('orderBy')(filteredDatas, key, sorting[key] == 'desc') : filteredDatas;
+                            var datas = orderedDatas.slice((params.page()-1)*params.count(), params.page()*params.count());
 
                             //console.log(JSON.stringify(orderedDatas));
-
-                            $defer.resolve(orderedDatas);
+                            params.total(orderedDatas.length);
+                            $defer.resolve(datas);
                             $scope.setCSVData(orderedDatas);
                         } else {}
                     })
