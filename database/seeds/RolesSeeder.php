@@ -89,9 +89,6 @@ class RolesSeeder extends Seeder
         $conferenceManager['role.show']    = false;
         $conferenceManager['role.update']  = false;
         $conferenceManager['role.destroy'] = false;
-        $conferenceManager['user.show']    = false;
-        $conferenceManager['user.update']  = false;
-        $conferenceManager['user.destroy'] = false;
 
         $eventManager = $conferenceManager;
         $eventManager['accommodation.store']         = false;
@@ -176,7 +173,6 @@ class RolesSeeder extends Seeder
             'room.update'                 => false,
             'room.destroy'                => false,
 
-            'user.store'                  => false,
             'user.show'                   => false,
             'user.update'                 => false,
             'user.destroy'                => false,
