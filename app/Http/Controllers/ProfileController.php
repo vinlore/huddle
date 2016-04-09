@@ -183,7 +183,13 @@ class ProfileController extends Controller
                 return response()->error(404, 'Profile Not Found');
             }
 
-            return $profile->rooms()->get();
+            $rooms = $profile->rooms()->get();
+            foreach ($rooms as $room) {
+                $room->setAttribute('conference_id', $room->conference->getKey());
+                $room->setAttribute('accommodation_name', $room->accommodation->name);
+            }
+
+            return $rooms->makeVisible('conference_id', 'accommodation_name');
         } catch (Exception $e) {
             return response()->error();
         }
