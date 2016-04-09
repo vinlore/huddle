@@ -182,6 +182,8 @@ class EventController extends Controller
 
             $event->delete();
 
+            $this->addActivity($user->getKey(), 'deleted', $eid, 'event');
+
             return response()->success();
         } catch (Exception $e) {
             return response()->error();
