@@ -13,3 +13,16 @@
 #profile .wide {
     min-width: 120px;
 }
+
+#profile .title-status h4 {
+	margin: 0px;
+}
+
+#profile .title-status .alert {
+	margin-bottom: 0px;
+	height: auto;
+}
+
+#profile .card-text {
+	margin-top: 0px;
+}

@@ -107,8 +107,6 @@ angular.module( 'profileCtrl', [] )
                 })
         } else {
             popup.error('Error', 'Passwords do not match!');
-            $scope.user.confirm = null;
-            $scope.user.password = null;
         }
     };
 
@@ -129,16 +127,52 @@ angular.module( 'profileCtrl', [] )
         ProfileAttendsConferences.fetch().query({pid: $scope.user.id})
             .$promise.then( function ( response ) {
                 if ( response ) {
-                    for (var i=0; i < response.length; i++) {
-                        response[i].room = ProfileRooms.fetch().query({pid: $scope.user.id});
-                        response[i].vehicles = ProfileConferenceVehicles.fetch().query({pid: $scope.user.id});
-                    }
+
+                    ProfileRooms.fetch().query({pid: $scope.user.id})
+                        .$promise.then( function (rooms) {
+                            for (var i=0; i<response.length; i++) {
+                                for (var j=0; j<rooms.length; j++) {
+                                    if (response[i].id == rooms[j].conference_id) {
+                                        response[i].room = {no: rooms[j].room_no, accomm: rooms[j].accommodation.name};
+                                    }
+                                }
+                            }
+                        })
+
+                    ProfileConferenceVehicles.fetch().query({pid: $scope.user.id})
+                        .$promise.then( function (vehicles) {
+                            for (var i=0; i<response.length; i++) {
+                                for (var k=0; k<vehicles.length; k++) {
+                                    if (response[i].id == vehicles[k].conference_id) {
+                                        if (vehicles[k].type == 'arrival') {
+                                            response[i].arrival = vehicles[k].name;
+                                        } else if (vehicles[k].type == 'departure') {
+                                            response[i].departure = vehicles[k].name;
+                                        }
+                                    }
+                                }
+                            }
+                        })
+
                     $scope.conferences = response;
+
                 } else {
                     popup.error( 'Error', response.message );
                 }
             })
     };
+
+    var createTime = function (time) {
+        if (time) {
+            var time1 = time.split(':');
+            var result = new Date();
+            result.setHours(time1[0]);
+            result.setMinutes(time1[1]);
+            return result;
+        } else {
+            return null;
+        }
+    }
 
     $scope.events = []
     $scope.loadEvents = function () {
@@ -146,7 +180,22 @@ angular.module( 'profileCtrl', [] )
             .$promise.then( function ( response ) {
                 if ( response ) {
                     for (var i=0; i < response.length; i++) {
-                        response[i].vehicles = ProfileEventVehicles.fetch().query({pid: $scope.user.id});
+                        response[i].start_time =  createTime(response[i].start_time);
+                        response[i].end_time = createTime(response[i].end_time);
+                        ProfileEventVehicles.fetch().query({pid: $scope.user.id})
+                            .$promise.then( function (vehicles) {
+                                for (var i=0; i<response.length; i++) {
+                                    for (var k=0; k<vehicles.length; k++) {
+                                        if (response[i].id == vehicles[k].event_id) {
+                                            if (vehicles[k].type == 'arrival') {
+                                                response[i].arrival = vehicles[k].name;
+                                            } else if (vehicles[k].type == 'departure') {
+                                                response[i].departure = vehicles[k].name;
+                                            }
+                                        }
+                                    }
+                                }
+                            })
                     }
                     $scope.events = response;
                 } else {
@@ -222,8 +271,7 @@ angular.module( 'profileCtrl', [] )
         Conferences.attendees().delete({cid: conference.id , pid: $scope.user.id})
           .$promise.then( function (response) {
               if ( response.status == 200 ) {
-                  $scope.loadConferences()
-                  $scope.loadEvents()
+                  $scope.loadConferences();
                   popup.alert( 'success', 'Conference application deleted' );
               } else {
                   popup.error( 'Error', response.message );
@@ -249,7 +297,6 @@ angular.module( 'profileCtrl', [] )
       Events.attendees().delete({eid: _event.id, pid: _event.profile_id})
       .$promise.then( function (response) {
           if ( response.status == 200 ) {
-              $scope.loadConferences()
               $scope.loadEvents()
               popup.alert( 'success', 'Events application deleted.' );
           } else {

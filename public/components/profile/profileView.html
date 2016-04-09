@@ -129,13 +129,13 @@
           </div>
         </uib-accordion-group>
 
-        <uib-accordion-group heading="Deactivate Account" panel-class="panel-danger" is-open="delete.open">
+        <!-- <uib-accordion-group heading="Deactivate Account" panel-class="panel-danger" is-open="delete.open">
           <h4 class="text-center">This option cannot be undone!</h4>
           <div class="col-sm-12 col-sm-offset-5">
             <button class="btn btn-default btn-sm" ng-click="deleteAccount(user.id)">Deactivate</button>
             <button type="button" class="btn btn-danger btn-sm" ng-click="delete.open = !delete.open">Cancel</button>
           </div>
-        </uib-accordion-group>
+        </uib-accordion-group> -->
       </uib-accordion>
     </div>
   </div>
@@ -213,42 +213,14 @@
                                 <label class="alert" is-approved status="con.pivot.status">{{con.pivot.status | uppercase}}</label>
                             </div>
                             <div class="card-block">
-                                <h4 class="card-text">Location: {{con.city}},{{con.country}}</h4>
-                                <h5 class="card-text">Start: {{con.start_date}}</h5>
-                                <h5 class="card-text">End: {{con.end_date}}</h5>
+                                <h5 class="card-text">Location: {{con.city}}, {{con.country}}</h5>
+                                <h5>Start: {{con.start_date | date}}</h5>
+                                <h5>End: {{con.end_date | date}}</h5>
+                                <h5 ng-if="con.room">Housing: <strong>{{con.room.accomm}} - {{con.room.no}}</strong></h5>
+                                <h5 ng-if="con.arrival">Arrival Ride: <strong>{{con.arrival}}</strong></h5>
+                                <h5 ng-if="con.departure">Departure Ride: <strong>{{con.departure}}</strong></h5>
 
-                                <div class="row">
-                                  <div class="col-sm-3" ng-if="con.room.length > 0">
-                                      <h4>Hotel</h4>
-                                      <ul class="list-group">
-                                          <li class="list-group-item" ng-repeat="room in con.room">{{room.name}}</li>
-                                      </ul>
-                                  </div>
-                                  <div class="col-sm-3" ng-if="con.room.length > 0">
-                                      <h4>Room</h4>
-                                      <ul class="list-group">
-                                          <li class="list-group-item" ng-repeat="room in con.room">{{room.room_no}}</li>
-                                      </ul>
-                                  </div>
-                                  <div class="col-sm-3" ng-if="con.vehicles.length > 0">
-                                      <h4>Arrival Vehicle</h4>
-                                      <ul class="list-group">
-                                          <li class="list-group-item" ng-repeat="vehicle in con.vehicles" ng-if="vehicle.type == 'arrival'">
-                                              {{vehicle.name}}
-                                          </li>
-                                      </ul>
-                                  </div>
-                                  <div class="col-sm-3" ng-if="con.vehicles.length > 0">
-                                      <h4>Departure Vehicle</h4>
-                                      <ul class="list-group">
-                                          <li class="list-group-item" ng-repeat="vehicle in con.vehicles" ng-if="vehicle.type == 'departure'">
-                                              {{vehicle.name}}
-                                          </li>
-                                      </ul>
-                                  </div>
-                                </div>
-
-                                <button class="btn btn-primary btn-sm" ng-click="viewConferenceApplication($index)">Edit Application</button>
+                                <button class="btn btn-primary btn-sm" ng-click="viewConferenceApplication($index)" ng-if="con.pivot.status != 'approved'">Edit Application</button>
                                 <button class="btn btn-danger btn-sm" ng-click="cancelConferenceApplication($index)">Delete Application</button>
                             </div>
                         </div>
@@ -271,31 +243,14 @@
                                 <label class="alert" is-approved status="eve.pivot.status">{{eve.pivot.status | uppercase}}</label>
                             </div>
                             <div class="card-block">
-                                <h4 class="card-text">Location: {{eve.city}},{{eve.country}}</h4>
-                                <h4 class="card-text">Facilitator: {{eve.facilitator}}</h4>
-                                <h5 class="card-text">From: {{eve.start_time}} to {{eve.end_time}}</h5>
-                                <h5 class="card-text">Date: {{eve.date}}</h5>
+                                <h5 class="card-text">Location: {{eve.city}}, {{eve.country}}</h5>
+                                <h5>Facilitator: {{eve.facilitator}}</h4>
+                                <h5>From: {{eve.start_time | date:'shortTime'}} to {{eve.end_time | date:'shortTime'}}</h5>
+                                <h5 class="card-text">Date: {{eve.date | date}}</h5>
+                                <h5 ng-if="eve.arrival">Arrival Ride: <strong>{{eve.arrival}}</strong></h5>
+                                <h5 ng-if="eve.departure">Departure Ride: <strong>{{eve.departure}}</strong></h5>
 
-                                <div class="row">
-                                  <div class="col-sm-6" ng-if="eve.vehicles.length > 0">
-                                      <h4>Arrival Vehicle</h4>
-                                      <ul class="list-group">
-                                          <li class="list-group-item" ng-repeat="vehicle in eve.vehicles" ng-if="vehicle.type == 'arrival'">
-                                              {{vehicle.name}}
-                                          </li>
-                                      </ul>
-                                  </div>
-                                  <div class="col-sm-6" ng-if="eve.vehicles.length > 0">
-                                      <h4>Departure Vehicle</h4>
-                                      <ul class="list-group">
-                                          <li class="list-group-item" ng-repeat="vehicle in eve.vehicles" ng-if="vehicle.type == 'departure'">
-                                              {{vehicle.name}}
-                                          </li>
-                                      </ul>
-                                  </div>
-                                </div>
-
-                                <!-- <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)">Edit Application</button> -->
+                                <button class="btn btn-primary btn-sm" ng-click="viewEventApplication($index)" ng-if="eve.pivot.status != 'approved'">Edit Application</button>
                                 <button class="btn btn-danger btn-sm" ng-click="cancelEventApplication($index)">Delete Application</button>
                             </div>
                         </div>
