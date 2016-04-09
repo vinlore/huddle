@@ -110,10 +110,6 @@ class Profile extends Model
         return $this->belongsToMany('App\Models\EventVehicle', 'event_vehicle_passengers', 'profile_id', 'vehicle_id')->withTimestamps();
     }
 
-    // -------------------------------------------------------------------------
-    // FLIGHT INFORMATION
-    // -------------------------------------------------------------------------
-
     public function getArrvDateAttribute()
     {
         return $this->attributes['arrv_date'];
