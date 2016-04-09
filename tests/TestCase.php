@@ -22,7 +22,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     ];
 
     /**
-     * User credentials
+     * User credentials.
      *
      * @var array
      */
@@ -78,5 +78,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         $response = $this->json('POST', '/api/auth/logout', [], $this->header);
         $this->assertResponseOk();
+
+        $this->header['HTTP_X-Auth-Token'] = NULL;
+        $this->header['HTTP_ID'] = NULL;
     }
 }

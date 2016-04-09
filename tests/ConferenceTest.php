@@ -11,7 +11,7 @@ class ConferenceTest extends TestCase
 {
     use DatabaseMigrations, WithoutMiddleware;
 
-    private $CONFERENCE_FIELDS = [
+    private $ATTRIBUTES = [
         'id',
         'name',
         'description',
@@ -28,7 +28,7 @@ class ConferenceTest extends TestCase
         'deleted_at',
     ];
 
-    private $TEST_CONFERENCE = [
+    private $TEST_DATA = [
         'name'        => 'Test Conference',
         'description' => 'For testing purposes.',
         'start_date'  => '3000-01-01',
@@ -36,36 +36,26 @@ class ConferenceTest extends TestCase
         'address'     => 'localhost',
         'city'        => 'Vancouver',
         'country'     => 'Canada',
-        'capacity'    => 1,
+        'capacity'    => 100,
     ];
 
-    /**
-     * Check that indexing conferences via URI is unavailable.
-     *
-     * @return void
-     */
     public function testIndex()
     {
-        $this->json('GET', '/api/conferences');
+        $this->get('/api/conferences');
         $this->assertResponseStatus(403);
     }
 
-    /**
-     * Check that creating a conference works.
-     *
-     * @return void
-     */
     public function testStore()
     {
         $this->login($this->ADMIN);
 
-        $this->post('/api/conferences', $this->TEST_CONFERENCE, $this->header);
+        $this->post('/api/conferences', $this->TEST_DATA, $this->header);
         $this->assertResponseOk();
-        $this->seeInDatabase('conferences', $this->TEST_CONFERENCE);
+        $this->seeInDatabase('conferences', $this->TEST_DATA);
 
-        $cid = Conference::where('name', $this->TEST_CONFERENCE['name'])->first()->getKey();
+        $cid = Conference::where('name', $this->TEST_DATA['name'])->first()->getKey();
         $this->get('/api/conferences/'.$cid);
-        $this->seeJson($this->TEST_CONFERENCE);
+        $this->seeJson($this->TEST_DATA);
 
         $this->get('/api/conferences/'.$cid.'/managers');
         $this->seeJson(['username' => 'admin']);
@@ -73,15 +63,11 @@ class ConferenceTest extends TestCase
         $this->logout();
     }
 
-    /**
-     * Check the structure of Conference objects.
-     *
-     * @return void
-     */
     public function testIndexWithStatus()
     {
-        $this->json('GET', '/api/conferences/status/approved');
-        $this->assertResponseOk();
-        $this->seeJsonStructure(['*' => $this->CONFERENCE_FIELDS]);
+        $this->get('/api/conferences/status/approved');
+        $this->seeJsonStructure([
+            '*' => $this->ATTRIBUTES
+        ]);
     }
 }
