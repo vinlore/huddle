@@ -193,7 +193,7 @@ angular.module('cms', [
             loginRequired: loginRequired,
             permissionsRequired: function ($q, $location, $stateParams, checkPermission, $rootScope) {
                 var deferred = $q.defer();
-                if ( $rootScope.user.permissions['event.store'] ) {
+                if ( checkPermission('event.store', 'conference', $stateParams.conferenceId) ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
@@ -227,9 +227,9 @@ angular.module('cms', [
         controller: 'activityLogController',
         resolve: {
             loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+            permissionsRequired: function ($q, $location, $stateParams, isAdmin) {
                 var deferred = $q.defer();
-                if ( checkPermissions('user', '', '') ) {
+                if ( isAdmin() ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
@@ -245,9 +245,9 @@ angular.module('cms', [
         controller: 'manageAccountsController',
         resolve: {
             loginRequired: loginRequired,
-            permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
+            permissionsRequired: function ($q, $location, $stateParams, isAdmin) {
                 var deferred = $q.defer();
-                if ( checkPermissions('accounts', '', '') ) {
+                if ( isAdmin() ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
@@ -302,7 +302,7 @@ angular.module('cms', [
             loginRequired: loginRequired,
             permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
                 var deferred = $q.defer();
-                if ( checkPermissions('acommodation', 'conference', $stateParams.conferenceId) ) {
+                if ( checkPermissions('accommodation', 'conference', $stateParams.conferenceId) ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
@@ -410,7 +410,7 @@ angular.module('cms', [
             loginRequired: loginRequired,
             permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
                 var deferred = $q.defer();
-                if ( checkPermissions('conference_attendee', 'conference', $stateParams.conferenceId) ) {
+                if ( checkPermissions('user', 'conference', $stateParams.conferenceId) ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
@@ -428,7 +428,7 @@ angular.module('cms', [
             loginRequired: loginRequired,
             permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
                 var deferred = $q.defer();
-                if ( checkPermissions('conference_attendee', 'conference', $stateParams.conferenceId) ) {
+                if ( checkPermissions('user', 'conference', $stateParams.conferenceId) ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
@@ -446,7 +446,7 @@ angular.module('cms', [
             loginRequired: loginRequired,
             permissionsRequired: function ($q, $location, $stateParams, checkPermissions) {
                 var deferred = $q.defer();
-                if ( checkPermissions('event_attendee', 'event', $stateParams.eventId) ) {
+                if ( checkPermissions('user', 'event', $stateParams.eventId) || checkPermissions('user', 'conference', $stateParams.conferenceId) ) {
                     deferred.resolve();
                 } else {
                     $location.path('/');
@@ -605,6 +605,7 @@ angular.module('cms', [
                     popup.error('Unauthorized', 'Access denied. You do not have the required permissions.');
                 case 403:
                     popup.warning('Forbidden', 'Access denied. Please try again later.');
+                    $state.go('login');
                     break;
                 case 422:
                     popup.warning('Invalid Request', 'Check that all input fields are valid.');
