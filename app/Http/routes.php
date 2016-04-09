@@ -5,7 +5,7 @@ Route::get('syslogs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')
 Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function () {
 
     // -------------------------------------------------------------------------
-    // AUTHORIZATION
+    // AUTHENTICATION
     // -------------------------------------------------------------------------
 
     Route::post('auth/register', 'AuthController@signup');
@@ -14,7 +14,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::post('auth/confirm', 'AuthController@confirm');
 
     // -------------------------------------------------------------------------
-    // ACTIVITIES
+    // ACTIVITY LOG
     // -------------------------------------------------------------------------
 
     Route::get('activities', 'ActivityController@index');
