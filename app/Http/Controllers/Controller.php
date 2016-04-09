@@ -50,7 +50,7 @@ class Controller extends BaseController
     {
         $user = $this->getUser($request);
         $role = $user->roles()->first();
-        return $role->name == 'System Administrator';
+        return $role->getKey() == 1;
     }
 
     /**

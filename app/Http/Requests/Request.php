@@ -67,7 +67,7 @@ abstract class Request extends FormRequest
     {
         if ($this->getUser()) {
             $role = $this->getUser()->roles()->first();
-            return $role->name == 'System Administrator';
+            return $role->getKey() == 1;
         }
         return false;
     }
