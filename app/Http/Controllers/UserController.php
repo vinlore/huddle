@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 use Sentinel;
 
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserRequest;
 
@@ -127,6 +128,10 @@ class UserController extends Controller
                 'password' => $request->new_password,
             ];
             Sentinel::update($user, $newPassword);
+
+            // Logout if signed in anywhere
+            $user->api_token = NULL;
+            $user->save();
 
             return response()->success();
         } catch (Exception $e) {

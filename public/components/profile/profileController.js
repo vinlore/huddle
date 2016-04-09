@@ -97,7 +97,7 @@ angular.module( 'profileCtrl', [] )
                 new_password: $scope.user.password,
                 new_password_confirmation: $scope.user.confirm
             };
-            Password.save( { uid: $rootScope.user.id }, password )
+            Password.update().save( { uid: $rootScope.user.id }, password )
                 .$promise.then( function ( response ) {
                     if ( response.status == 200 ) {
                         popup.alert( 'success', 'Password successfully changed.' );

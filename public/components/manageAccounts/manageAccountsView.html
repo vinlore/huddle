@@ -259,7 +259,7 @@
                                 <select class="form-control" ng-options="role.id as role.name for role in roles" ng-model="user.roles['0'].pivot.role_id" ng-change="givePermissions(user)">
                                     <option value="" disabled>Role</option>
                                 </select>
-                                <a href="" ng-click="resetPassword(user.id)" ng-if="user.roles['0'].pivot.role_id != 1">Reset Password</a>
+                                <a href="" ng-click="resetPassword(user.id)" ng-if="user.roles['0'].pivot.role_id != 1 && isAdmin">Reset Password</a>
                             </td>
                             <td title="'Conference'">
                                 <div class="btn-group-vertical">

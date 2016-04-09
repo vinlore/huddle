@@ -1,5 +1,5 @@
 angular.module('resetPasswordModalCtrl', [])
-.controller('resetPasswordModalController', function ($scope, $uibModalInstance, popup) {
+.controller('resetPasswordModalController', function ($scope, $uibModalInstance, popup, isAdmin) {
 	
 	$scope.password = null;
 	$scope.confirm = null;
@@ -18,12 +18,16 @@ angular.module('resetPasswordModalCtrl', [])
 
     $scope.save = function () {
     	if ($scope.resetPasswordForm.$valid) {
-			if ($scope.confirm == $scope.password) {
-		    	var modalInstance = popup.prompt('Are you sure you want to override this user\'s password?');
+			if (($scope.confirm == $scope.password) && isAdmin()) {
+		    	var modalInstance = popup.prompt('Reset Password', 'Are you sure you want to override this user\'s password?');
 
 		    	modalInstance.result.then(function(result) {
 		    		if (result) {
-				        $uibModalInstance.close($scope.password);
+		    			var password = {
+		    				new_password: $scope.password,
+		    				new_password_confirmation: $scope.confirm
+		    			}
+				        $uibModalInstance.close(password);
 		    		}
 		    	})
 			} else {

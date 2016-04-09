@@ -13,7 +13,15 @@ angular.module( 'apiService', [] )
 })
 
 .factory( 'Password', function ( $resource ) {
-    return $resource( '/api/users/:uid/updatePassword', { uid: '@uid' } );
+    return {
+        update: function () {
+            return $resource( '/api/users/:uid/updatePassword', { uid: '@uid' } );
+        }, 
+
+        reset: function () {
+            return $resource( '/api/users/:uid/resetPassword', { uid: '@uid' } );
+        }
+    }
 })
 
 .factory('ProfileAttendsConferences', function ( $resource ){

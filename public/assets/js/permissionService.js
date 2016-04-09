@@ -90,3 +90,11 @@ app.service('checkPermission', function ($rootScope) {
         return isManager && $rootScope.user.permissions[permission];
     }
 })
+
+app.service('isAdmin', function ($rootScope) {
+    return function () {
+        if (!$rootScope.user || !$rootScope.user.permissions) return false;
+        var p = $rootScope.user.permissions;
+        return p['conference.store'] && p['conference.update'] && p['conference.destroy'] && p['role.show'] && p['role.store'] && p['role.update'] && p['role.destroy'] && p['event.store'] && p['event.update'] && p['event.destroy'] && p['conference_attendee.show'] && p['conference_attendee.update'] && p['conference_attendee.destroy'] && p['event_attendee.show'] && p['event_attendee.update'] && p['event_attendee.destroy'] && p['item.store'] && p['item.show'] && p['item.update'] && p['item.destroy'] && p['conference_vehicle.store'] && p['conference_vehicle.show'] && p['conference_vehicle.update'] && p['conference_vehicle.destroy'] && p['event_vehicle.store'] && p['event_vehicle.show'] && p['event_vehicle.update'] && p['event_vehicle.destroy'] && p['accommodation.store'] && p['accommodation.show'] && p['accommodation.update'] && p['accommodation.destroy'] && p['room.show'] && p['room.store'] && p['room.update'] && p['room.destroy'] && p['user.show'] && p['user.update'] && p['user.destroy'];
+    }
+})

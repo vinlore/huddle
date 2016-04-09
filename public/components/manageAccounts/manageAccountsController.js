@@ -1,7 +1,8 @@
 angular.module( 'manageAccountsCtrl', [] )
-.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, Users, ngTableParams, $uibModal ) {
+.controller( 'manageAccountsController', function ( $scope, $filter, Roles, popup, Users, ngTableParams, $uibModal, Password, isAdmin ) {
 
     $scope.search = {selectedUser: null};
+    $scope.isAdmin = isAdmin();
 
     $scope.selectedRole = [];
 
@@ -226,7 +227,14 @@ angular.module( 'manageAccountsCtrl', [] )
 
         modalInstance.result.then(function(result) {
             if (result) {
-                // TODO communicate with backend
+                Password.reset().save({uid: user}, result)
+                    .$promise.then( function (response) {
+                        if (response.status == 200) {
+                            popup.alert( 'success', 'Password has been reset' );
+                        } else {
+                            popup.error( 'Error', response.message );
+                        }
+                    })
             }
         })
     }
