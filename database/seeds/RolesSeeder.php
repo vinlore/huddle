@@ -11,7 +11,7 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        $fullAccess = [
+        $superuser = [
             'accommodation.store'         => true,
             'accommodation.show'          => true,
             'accommodation.update'        => true,
@@ -84,7 +84,37 @@ class RolesSeeder extends Seeder
             'vehicle.destroy'             => true,
         ];
 
-        $limitedAccess = [
+        $conferenceManager = $superuser;
+        $conferenceManager['role.store']   = false;
+        $conferenceManager['role.show']    = false;
+        $conferenceManager['role.update']  = false;
+        $conferenceManager['role.destroy'] = false;
+        $conferenceManager['user.show']    = false;
+        $conferenceManager['user.update']  = false;
+        $conferenceManager['user.destroy'] = false;
+
+        $eventManager = $conferenceManager;
+        $eventManager['accommodation.store']         = false;
+        $eventManager['accommodation.update']        = false;
+        $eventManager['accommodation.destroy']       = false;
+        $eventManager['conference.store']            = false;
+        $eventManager['conference.update']           = false;
+        $eventManager['conference.destroy']          = false;
+        $eventManager['conference_manager.store']    = false;
+        $eventManager['conference_manager.destroy']  = false;
+        $eventManager['conference_attendee.update']  = false;
+        $eventManager['conference_attendee.destroy'] = false;
+        $eventManager['conference_vehicle.store']    = false;
+        $eventManager['conference_vehicle.update']   = false;
+        $eventManager['conference_vehicle.destroy']  = false;
+        $eventManager['item.store']                  = false;
+        $eventManager['item.update']                 = false;
+        $eventManager['item.destroy']                = false;
+        $eventManager['room.store']                  = false;
+        $eventManager['room.update']                 = false;
+        $eventManager['room.destroy']                = false;
+
+        $regularUser = [
             'accommodation.store'         => false,
             'accommodation.show'          => false,
             'accommodation.update'        => false,
@@ -160,25 +190,25 @@ class RolesSeeder extends Seeder
         Sentinel::getRoleRepository()->createModel()->create([
             'slug'        => 'system administrator',
             'name'        => 'System Administrator',
-            'permissions' => $fullAccess,
+            'permissions' => $superuser,
         ]);
 
         Sentinel::getRoleRepository()->createModel()->create([
             'slug'        => 'conference manager',
             'name'        => 'Conference Manager',
-            'permissions' => $fullAccess,
+            'permissions' => $conferenceManager,
         ]);
 
         Sentinel::getRoleRepository()->createModel()->create([
             'slug'        => 'event manager',
             'name'        => 'Event Manager',
-            'permissions' => $fullAccess,
+            'permissions' => $eventManager,
         ]);
 
         Sentinel::getRoleRepository()->createModel()->create([
             'slug'        => 'regular user',
             'name'        => 'Regular User',
-            'permissions' => $limitedAccess,
+            'permissions' => $regularUser,
         ]);
     }
 }
