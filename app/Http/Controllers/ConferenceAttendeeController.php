@@ -144,17 +144,19 @@ class ConferenceAttendeeController extends Controller
                         if ($oldStatus != 'pending') {
                             break;
                         }
-                        $activityType = $newStatus;
                         if ($conference->attendee_count >= $conference->capacity) {
                             return response()->error(422, 'Exceed Capacity Error');
                         }
                         $conference->increment('attendee_count');
+                        $activityType = $newStatus;
+                        $this->sendConferenceSignupEmail($cid, $pid, $newStatus);
                         break;
                     case 'denied':
                         if ($oldStatus != 'pending') {
                             break;
                         }
                         $activityType = $newStatus;
+                        $this->sendConferenceSignupEmail($cid, $pid, $newStatus);
                         break;
                     case 'pending':
                         if ($oldStatus != 'denied') {
