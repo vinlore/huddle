@@ -32,7 +32,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // USERS
     // -------------------------------------------------------------------------
 
-    Route::post('users/{uid}/password', 'UserController@updatePassword');
+    Route::post('users/{uid}/updatePassword', 'UserController@updatePassword');
     Route::resource('users', 'UserController', ['only' => [
         'index', 'store', 'show', 'update', 'destroy',
     ]]);
