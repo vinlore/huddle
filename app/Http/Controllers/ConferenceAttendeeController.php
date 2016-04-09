@@ -66,11 +66,9 @@ class ConferenceAttendeeController extends Controller
                 return response()->error(422, 'Exceed Capacity Error');
             }
 
-            $activityType = 'requested';
-
             $conference->attendees()->attach($profile, $request->except('profile_id'));
 
-            $this->addActivity($uid, $activityType, $cid, 'conference application', $pid);
+            $this->addActivity($uid, 'requested', $cid, 'conference attendance', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -172,7 +170,7 @@ class ConferenceAttendeeController extends Controller
 
             $conference->attendees()->updateExistingPivot($pid, $request->all());
 
-            $this->addActivity($uid, $activityType, $cid, 'conference application', $pid);
+            $this->addActivity($uid, $activityType, $cid, 'conference attendance', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -241,6 +239,9 @@ class ConferenceAttendeeController extends Controller
             if ($status == 'approved') {
                 $conference->decrement('attendee_count');
             }
+
+            $uid = $request->header('ID');
+            $this->addActivity($uid, 'cancelled', $cid, 'conference attendance', $pid);
 
             return response()->success();
         } catch (Exception $e) {

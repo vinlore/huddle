@@ -72,11 +72,9 @@ class EventAttendeeController extends Controller
                 return response()->error(403, 'You do not meet the age requirement of this event!');
             }
 
-            $activityType = 'requested';
-
             $event->attendees()->attach($profile, $request->except('profile_id'));
 
-            $this->addActivity($uid, $activityType, $eid, 'event application', $pid);
+            $this->addActivity($uid, 'requested', $eid, 'event attendance', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -178,7 +176,7 @@ class EventAttendeeController extends Controller
 
             $event->attendees()->updateExistingPivot($pid, $request->all());
 
-            $this->addActivity($uid, $activityType, $eid, 'event application', $pid);
+            $this->addActivity($uid, $activityType, $eid, 'event attendance', $pid);
 
             return response()->success();
         } catch (Exception $e) {
@@ -220,6 +218,9 @@ class EventAttendeeController extends Controller
             if ($status == 'approved') {
                 $event->decrement('attendee_count');
             }
+
+            $uid = $request->header('ID');
+            $this->addActivity($uid, 'cancelled', $eid, 'event attendance', $pid);
 
             return response()->success();
         } catch (Exception $e) {
