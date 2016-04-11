@@ -24,8 +24,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // ROLES
     // -------------------------------------------------------------------------
 
-    Route::resource('roles', 'RoleController', ['only' =>[
-        'index', 'store', 'show', 'update', 'destroy',
+    Route::resource('roles', 'RoleController', ['only' => [
+        'index', 'store', 'update', 'destroy',
     ]]);
 
     // -------------------------------------------------------------------------
@@ -35,7 +35,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::post('users/{uid}/updatePassword', 'UserController@updatePassword');
     Route::post('users/{uid}/resetPassword', 'UserController@resetPassword');
     Route::resource('users', 'UserController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+        'index', 'update',
     ]]);
 
     // -------------------------------------------------------------------------
@@ -48,7 +48,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     Route::get('profiles/{pid}/conferences/vehicles', 'ProfileController@conferenceVehicles');
     Route::get('profiles/{pid}/events/vehicles', 'ProfileController@eventVehicles');
     Route::resource('users.profiles', 'ProfileController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+        'index', 'store', 'update', 'destroy',
     ]]);
 
     // -------------------------------------------------------------------------
@@ -83,11 +83,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // -------------------------------------------------------------------------
 
     Route::resource('accommodations.rooms', 'RoomController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+        'index', 'store', 'update', 'destroy',
     ]]);
 
     Route::resource('rooms.guests', 'RoomGuestController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+        'index', 'store', 'destroy',
     ]]);
 
     // -------------------------------------------------------------------------
@@ -111,11 +111,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     ]]);
 
     Route::resource('conferences.vehicles.passengers', 'ConferencePassengerController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+        'index', 'store', 'destroy',
     ]]);
 
     Route::resource('events.vehicles.passengers', 'EventPassengerController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+        'index', 'store', 'destroy',
     ]]);
 
     // -------------------------------------------------------------------------
@@ -123,11 +123,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['throttle:50,1']], function ()
     // -------------------------------------------------------------------------
 
     Route::resource('conferences.managers', 'ConferenceManagerController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+        'index', 'store', 'destroy',
     ]]);
 
     Route::resource('events.managers', 'EventManagerController', ['only' => [
-        'index', 'store', 'show', 'update', 'destroy',
+        'index', 'store', 'destroy',
     ]]);
 
     // -------------------------------------------------------------------------
