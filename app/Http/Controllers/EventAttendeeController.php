@@ -155,14 +155,14 @@ class EventAttendeeController extends Controller
                         }
                         $event->increment('attendee_count');
                         $activityType = $newStatus;
-                        $this->sendEventSignupEmail($cid, $pid, $newStatus);
+                        $this->sendEventSignupEmail($eid, $pid, $newStatus);
                         break;
                     case 'denied':
                         if ($oldStatus != 'pending') {
                             break;
                         }
                         $activityType = $newStatus;
-                        $this->sendEventSignupEmail($cid, $pid, $newStatus);
+                        $this->sendEventSignupEmail($eid, $pid, $newStatus);
                         break;
                     case 'pending':
                         if ($oldStatus != 'denied') {
